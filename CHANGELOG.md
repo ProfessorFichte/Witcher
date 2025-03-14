@@ -1,3 +1,6 @@
+# 2.4.2 - 1.21.1
+- add new Bettercombat animations, created by Tenebris Mors, Thanks!
+
 # 2.4.1 - 1.21.1
 - Add TweaksConfig, so special Weapons can also be used without Better End & Nether and the Aether
 - Fix fabric.mod.json
