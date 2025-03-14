@@ -1,3 +1,6 @@
+1.2.2 - 1.20.1
+- add new Bettercombat animations, created by Tenebris Mors, Thanks!
+
 1.2.1 - 1.20.1
 - Fixed Kaer Morhen Armor Texture not working
 - Fix Kaer Morhen boots recipe
