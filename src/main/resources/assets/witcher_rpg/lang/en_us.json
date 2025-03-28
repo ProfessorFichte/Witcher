@@ -150,7 +150,7 @@
 
   "spell.witcher_rpg.quen.name": "Quen",
   "spell.witcher_rpg.quen.description": "Gives you a absorption effect for {effect_duration} seconds and clears all negative status effects.",
-  "spell.witcher_rpg.quen_active_shield.name": "Quen  Active-shield",
+  "spell.witcher_rpg.quen_active_shield.name": "Quen Active-shield",
   "spell.witcher_rpg.quen_active_shield.description": "Active shield that, clears negative effects, gives absorption and heals 50% of received damage.",
   "spell.witcher_rpg.yrden.name": "Yrden",
   "spell.witcher_rpg.yrden.description": "Slows enemies for {cloud_duration} seconds, trapping and damaging undead creatures.",

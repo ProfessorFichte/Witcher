@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.ItemStack;
@@ -72,6 +73,9 @@ public class WitcherClassMod implements ModInitializer {
 		itemConfig.refresh();
 		effectsConfig.refresh();
 		tweaksConfig.refresh();
+		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+			tweaksConfig.value.ignore_items_required_mods = true;
+		}
 		WitcherSpellSchools.initialize();
 		WitcherLootTableChestModifiers.modifyChestLootTables();
 		WitcherItems.registerModItems();

@@ -8,7 +8,7 @@
         "hitbox": "HORIZONTAL_PLANE",
         "damage_multiplier": 1,
         "angle": 120,
-        "upswing": 0.3,
+        "upswing": 0.56,
         "animation": "witcher_rpg:witcher_swipe",
         "swing_sound": {
           "id": "bettercombat:sword_slash",
@@ -19,7 +19,7 @@
         "hitbox": "HORIZONTAL_PLANE",
         "damage_multiplier": 0.8,
         "angle": 270,
-        "upswing": 0.3,
+        "upswing": 0.4,
         "animation": "witcher_rpg:witcher_swipe_back",
         "swing_sound": {
           "id": "bettercombat:sword_slash",
@@ -30,7 +30,7 @@
         "hitbox": "HORIZONTAL_PLANE",
         "damage_multiplier": 1.0,
         "angle": 270,
-        "upswing": 0.3,
+        "upswing": 0.6,
         "animation": "witcher_rpg:witcher_normal_spin",
         "swing_sound": {
           "id": "bettercombat:sword_slash",
@@ -41,7 +41,7 @@
         "hitbox": "HORIZONTAL_PLANE",
         "damage_multiplier": 0.8,
         "angle": 360,
-        "upswing": 0.3,
+        "upswing": 0.45,
         "animation": "witcher_rpg:witcher_overhead_spin",
         "swing_sound": {
           "id": "bettercombat:sword_slash",
@@ -52,7 +52,7 @@
         "hitbox": "HORIZONTAL_PLANE",
         "damage_multiplier": 1.3,
         "angle": 180,
-        "upswing": 0.3,
+        "upswing": 0.7,
         "animation": "witcher_rpg:witcher_jump_spin",
         "swing_sound": {
           "id": "bettercombat:sword_slash",

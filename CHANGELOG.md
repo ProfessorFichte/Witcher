@@ -1,3 +1,8 @@
+# 2.4.3 - 1.21.1
+- Spell Engine 1.6 Update
+- changed some tags
+- Update Better Combat Weapon Attribute
+
 # 2.4.2 - 1.21.1
 - add new Bettercombat animations, created by Tenebris Mors, Thanks!
 
