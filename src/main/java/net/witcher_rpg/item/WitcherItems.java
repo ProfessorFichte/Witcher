@@ -49,7 +49,7 @@ public class WitcherItems {
 
     public static void registerModItems(){
 
-        SpellBooks.createAndRegister(Identifier.of(MOD_ID,"signs"), WitcherGroup.WITCHER_KEY);
+        SpellBooks.createAndRegister(Identifier.of(MOD_ID,"base_signs"), WitcherGroup.WITCHER_KEY);
         SpellBooks.createAndRegister(Identifier.of(MOD_ID,"fencing"), WitcherGroup.WITCHER_KEY);
         Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "master_spell_book"), MASTER_BOOK);
 

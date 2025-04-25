@@ -1,7 +1,8 @@
 {
   "values": [
     "#witcher_rpg:fencing",
-    "#witcher_rpg:signs",
-    "#witcher_rpg:master"
+    "#witcher_rpg:base_signs",
+    "#witcher_rpg:enhanced_signs",
+    "#witcher_rpg:enhanced_fencing"
   ]
 }

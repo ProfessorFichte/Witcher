@@ -1,3 +1,7 @@
+# 2.4.4 - 1.21.1
+- Add Spell Scroll Textures
+- Renamed signs_spell_book to base_signs_spell_book
+
 # 2.4.3 - 1.21.1
 - Spell Engine 1.6 Update
 - changed some tags

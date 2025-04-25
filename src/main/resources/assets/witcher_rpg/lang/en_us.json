@@ -1,12 +1,14 @@
 {
   "itemGroup.witcher_rpg.general": "Witcher",
 
-  "item.witcher_rpg.signs_spell_book": "Witcher Sign Manual",
-  "item.witcher_rpg.signs.spell_scroll": "Witcher Skill",
+  "item.witcher_rpg.base_signs_spell_book": "Witcher Sign Manual",
+  "item.witcher_rpg.base_signs.spell_scroll": "Witcher Sign Scroll",
+  "item.witcher_rpg.enhanced_signs.spell_scroll": "Witcher Sign Scroll",
   "item.witcher_rpg.fencing_spell_book": "Witcher Techniques",
-  "item.witcher_rpg.fencing.spell_scroll": "Witcher Skill",
+  "item.witcher_rpg.fencing.spell_scroll": "Fencing Instruction",
+  "item.witcher_rpg.enhanced_fencing.spell_scroll": "Fencing Instruction",
   "item.witcher_rpg.master_spell_book": "Master Witcher Book",
-  "item.witcher_rpg.master.spell_scroll": "Witcher Skill",
+  "item.witcher_rpg.master.spell_scroll": "Witcher Spell Scroll",
 
   "item.witcher_rpg.iron_witcher_sword": "Iron Witcher Sword",
   "item.witcher_rpg.steel_witcher_sword": "Steel Witcher Sword",
