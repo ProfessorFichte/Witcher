@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "id": "witcher_rpg:signs_spell_book"
+      "id": "witcher_rpg:base_signs_spell_book"
     },
     "title": {
       "translate": "advancements.more_rpg_content.witcher_signs.title"
