@@ -3,6 +3,9 @@
     "witcher_rpg:silver_witcher_sword",
     "witcher_rpg:meteorite_witcher_sword",
     "witcher_rpg:meteorite_silver_witcher_sword",
-    "witcher_rpg:aerondight_sword"
+    {
+      "id": "witcher_rpg:aerondight_sword",
+      "required": false
+    }
   ]
 }
