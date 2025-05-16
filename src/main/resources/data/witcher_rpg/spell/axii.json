@@ -62,10 +62,6 @@
           "effect_id": "witcher_rpg:axii",
           "duration": 5,
           "apply_mode": "SET",
-          "apply_limit": {
-            "health_base": 50,
-            "spell_power_multiplier": 2
-          },
           "amplifier": 0,
           "amplifier_power_multiplier": 0.25,
           "show_particles": false

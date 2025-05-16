@@ -6,7 +6,7 @@
         {
           "type": "minecraft:item",
           "name": "spell_engine:scroll",
-          "weight": 2,
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -15,6 +15,8 @@
                   "spell_ids": ["witcher_rpg:axii"],
                   "max_spell_count": 1
                 },
+                "minecraft:custom_model_data": 108,
+                "minecraft:item_name": "{translate:item.witcher_rpg.base_signs.spell_scroll}",
                 "minecraft:rarity": "uncommon"
               }
             },
@@ -27,7 +29,7 @@
         {
           "type": "minecraft:item",
           "name": "spell_engine:scroll",
-          "weight": 2,
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -36,6 +38,8 @@
                   "spell_ids": ["witcher_rpg:quen"],
                   "max_spell_count": 1
                 },
+                "minecraft:custom_model_data": 108,
+                "minecraft:item_name": "{translate:item.witcher_rpg.base_signs.spell_scroll}",
                 "minecraft:rarity": "uncommon"
               }
             },
@@ -48,7 +52,7 @@
         {
           "type": "minecraft:item",
           "name": "spell_engine:scroll",
-          "weight": 2,
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -57,6 +61,8 @@
                   "spell_ids": ["witcher_rpg:yrden"],
                   "max_spell_count": 1
                 },
+                "minecraft:custom_model_data": 108,
+                "minecraft:item_name": "{translate:item.witcher_rpg.base_signs.spell_scroll}",
                 "minecraft:rarity": "uncommon"
               }
             },
@@ -69,7 +75,7 @@
         {
           "type": "minecraft:item",
           "name": "spell_engine:scroll",
-          "weight": 2,
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -78,6 +84,8 @@
                   "spell_ids": ["witcher_rpg:battle_trance"],
                   "max_spell_count": 1
                 },
+                "minecraft:custom_model_data": 110,
+                "minecraft:item_name": "{translate:item.witcher_rpg.fencing.spell_scroll}",
                 "minecraft:rarity": "uncommon"
               }
             },
@@ -99,6 +107,8 @@
                   "spell_ids": ["witcher_rpg:rend"],
                   "max_spell_count": 1
                 },
+                "minecraft:custom_model_data": 110,
+                "minecraft:item_name": "{translate:item.witcher_rpg.fencing.spell_scroll}",
                 "minecraft:rarity": "rare"
               }
             },
@@ -120,6 +130,8 @@
                   "spell_ids": ["witcher_rpg:aard_sweep"],
                   "max_spell_count": 1
                 },
+                "minecraft:custom_model_data": 109,
+                "minecraft:item_name": "{translate:item.witcher_rpg.enhanced_signs.spell_scroll}",
                 "minecraft:rarity": "rare"
               }
             },
@@ -141,6 +153,8 @@
                   "spell_ids": ["witcher_rpg:axii_puppet"],
                   "max_spell_count": 1
                 },
+                "minecraft:custom_model_data": 109,
+                "minecraft:item_name": "{translate:item.witcher_rpg.enhanced_signs.spell_scroll}",
                 "minecraft:rarity": "rare"
               }
             },
@@ -162,6 +176,8 @@
                   "spell_ids": ["witcher_rpg:igni_firestream"],
                   "max_spell_count": 1
                 },
+                "minecraft:custom_model_data": 109,
+                "minecraft:item_name": "{translate:item.witcher_rpg.enhanced_signs.spell_scroll}",
                 "minecraft:rarity": "rare"
               }
             },
@@ -183,6 +199,8 @@
                   "spell_ids": ["witcher_rpg:quen_active_shield"],
                   "max_spell_count": 1
                 },
+                "minecraft:custom_model_data": 109,
+                "minecraft:item_name": "{translate:item.witcher_rpg.enhanced_signs.spell_scroll}",
                 "minecraft:rarity": "rare"
               }
             },
@@ -204,6 +222,8 @@
                   "spell_ids": ["witcher_rpg:yrden_magic_trap"],
                   "max_spell_count": 1
                 },
+                "minecraft:custom_model_data": 109,
+                "minecraft:item_name": "{translate:item.witcher_rpg.enhanced_signs.spell_scroll}",
                 "minecraft:rarity": "rare"
               }
             },

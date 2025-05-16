@@ -111,7 +111,7 @@
       "action": {
         "type": "FIRE",
         "fire": {
-          "duration": 1
+          "duration": 2
         }
       },
       "sound": {

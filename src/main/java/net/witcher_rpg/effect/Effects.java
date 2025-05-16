@@ -42,7 +42,7 @@ public class Effects {
     }
 
     public static final Entry AERONDIGHT_CHARGE =  new Entry("aerondight_charge",
-            new AerondightChargeEffect(StatusEffectCategory.BENEFICIAL, 0xbce5fe));
+            new CustomEffect(StatusEffectCategory.BENEFICIAL, 0xbce5fe));
     public static final Entry AARD_INTENSITY =  new Entry("aard_intensity",
             new CustomEffect(StatusEffectCategory.BENEFICIAL, 0x3beeff));
     public static final Entry AXII = new  Entry("axii",

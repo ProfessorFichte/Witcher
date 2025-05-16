@@ -185,21 +185,6 @@
           "type": "minecraft:item",
           "name":  "witcher_rpg:dark_iron_witcher_sword",
           "weight": 5
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:ultimatum_sword",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:winters_blade_sword",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:aerondight_sword",
-          "weight": 1
         }
       ]
     }

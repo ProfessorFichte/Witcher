@@ -1,5 +1,11 @@
 # 2.4.5 - 1.21.1
 - fix advancement error
+- Update for newest Spell Engine API
+- add some biomes to the witcher grave list
+- The special Witcher Swords now use the new Spell Engine Passive System
+- The special Witcher Swords are only available if the "Arsenal - RPG Series" Mod is installed
+- this can be ignored with the tweaks config
+- fix lootable scrolls not having the witcher spell scroll texture and name
 
 # 2.4.4 - 1.21.1
 - Add Spell Scroll Textures

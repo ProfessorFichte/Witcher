@@ -82,12 +82,8 @@
         "status_effect": {
           "effect_id": "witcher_rpg:yrden_circle",
           "duration": 1,
-          "apply_mode": "ADD",
+          "apply_mode": "SET",
           "amplifier_power_multiplier": 0.3,
-          "apply_limit": {
-            "health_base": 50,
-            "spell_power_multiplier": 2
-          },
           "show_particles": false
         }
       },

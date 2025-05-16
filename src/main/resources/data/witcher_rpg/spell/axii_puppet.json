@@ -61,10 +61,6 @@
           "effect_id": "witcher_rpg:axii_puppet",
           "duration": 8,
           "apply_mode": "SET",
-          "apply_limit": {
-            "health_base": 50,
-            "spell_power_multiplier": 2
-          },
           "amplifier": 0,
           "show_particles": false
         }
