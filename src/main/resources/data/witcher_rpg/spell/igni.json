@@ -62,9 +62,13 @@
 
   "impacts": [
     {
-      "target_conditions": [
+      "target_modifiers": [
         {
-          "entity_type": "#witcher_rpg:igni_vulnerable",
+          "conditions": [
+            {
+              "entity_type": "#witcher_rpg:igni_vulnerable"
+            }
+          ],
           "modifier": {
             "power_multiplier": 0.3
           }

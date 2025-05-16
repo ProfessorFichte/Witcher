@@ -1,3 +1,9 @@
+# 2.4.6 - 1.21.1
+- fix some target modifiers in Passive Spell Impact
+- fix some passive spells
+- add some target modifiers to existing spells
+- The Yrden Circle now deals damage to undead and yrden vulnerable entities
+
 # 2.4.5 - 1.21.1
 - fix advancement error
 - Update for newest Spell Engine API

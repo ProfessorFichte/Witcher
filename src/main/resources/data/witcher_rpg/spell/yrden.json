@@ -89,14 +89,6 @@
       },
       "particles": [
         {
-          "particle_id": "spell_engine:arcane_spell",
-          "shape": "SPHERE",
-          "origin": "CENTER",
-          "count": 1,
-          "min_speed": 0.1,
-          "max_speed": 0.2
-        },
-        {
           "particle_id": "witcher_rpg:yrden_cloud",
           "shape": "SPHERE",
           "origin": "CENTER",
@@ -108,6 +100,37 @@
       "sound": {
         "id": "witcher_rpg:yrden_sign",
         "randomness": 0.1
+      }
+    },
+    {
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#witcher_rpg:yrden_vulnerable"
+            }
+          ],
+          "execute": "ALLOW"
+        }
+      ],
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_spell_ascend",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 2,
+          "min_speed": 0.1,
+          "max_speed": 0.2
+        }
+      ],
+      "sound": {
+        "id": "wizards:arcane_beam_impact"
       }
     }
   ],
