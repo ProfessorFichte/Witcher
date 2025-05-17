@@ -40,7 +40,7 @@ public class WitcherClassMod implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("witcher_rpg");
 
 	public static ConfigManager<ConfigFile.Equipment> itemConfig = new ConfigManager<>
-			("equipment", Default.itemConfig)
+			("equipment_v1", Default.itemConfig)
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)

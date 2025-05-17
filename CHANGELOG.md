@@ -1,3 +1,7 @@
+# 2.4.7 - 1.21.1
+- fix server crash because of two registered aerondight swords
+- nerf Aerondight Sword
+
 # 2.4.6 - 1.21.1
 - fix some target modifiers in Passive Spell Impact
 - fix some passive spells

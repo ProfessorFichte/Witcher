@@ -126,11 +126,6 @@ public class WeaponsRegister {
             .spell(silver_sword)
             .loot(Equipment.LootProperties.of(3));
 
-public static final Weapon.Entry aerondight = witcherswords("aerondight_sword",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherItems.METEORITE_SILVER_INGOT)), 10.5F)
-            .spell(aerondight_passive);
-
-
     private static final String BETTER_END = "betterend";
     private static final String BETTER_NETHER = "betternether";
     private static final String AETHER = "aether";
@@ -180,7 +175,8 @@ public static final Weapon.Entry aerondight = witcherswords("aerondight_sword",
                     .loot(Equipment.LootProperties.of(4))
                     .rarity = Rarity.RARE;
             witcherswords("aerondight_sword",
-                    Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherItems.METEORITE_SILVER_INGOT)), 10.0F)
+                    Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherItems.METEORITE_SILVER_INGOT)), 7.5F)
+                    .attribute(AttributeModifier.multiply(ADRENALINE,0.1F))
                     .spell(aerondight_passive)
                     .loot(Equipment.LootProperties.of(5))
                     .rarity = Rarity.EPIC;
