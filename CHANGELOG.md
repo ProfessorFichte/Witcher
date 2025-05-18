@@ -1,3 +1,6 @@
+# 2.4.8 - 1.21.1
+- fix witcher grave spawning in the sky
+
 # 2.4.7 - 1.21.1
 - fix server crash because of two registered aerondight swords
 - nerf Aerondight Sword
