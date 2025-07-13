@@ -1,10 +1,5 @@
 {
   "values": [
-    "witcher_rpg:sign_intensity",
-    "witcher_rpg:aard_intensity",
-    "witcher_rpg:axii_intensity",
-    "witcher_rpg:igni_intensity",
-    "witcher_rpg:quen_intensity",
-    "witcher_rpg:yrden_intensity"
+    "witcher_rpg:sign_intensity"
   ]
 }

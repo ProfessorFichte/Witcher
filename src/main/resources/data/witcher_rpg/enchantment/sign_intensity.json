@@ -8,8 +8,8 @@
       {
         "amount": {
           "type": "minecraft:linear",
-          "base": 0.05,
-          "per_level_above_first": 0.05
+          "base": 0.04,
+          "per_level_above_first": 0.04
         },
         "attribute": "witcher_rpg:sign_intensity",
         "id": "witcher_rpg:sign_intensity",
@@ -27,7 +27,8 @@
     "per_level_above_first": 11
   },
   "slots": [
-    "mainhand"
+    "mainhand",
+    "armor"
   ],
   "supported_items": "#witcher_rpg:enchantable/sign_intensity",
   "weight": 10
