@@ -40,7 +40,7 @@
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {
-          "effect_id": "witcher_rpg:stagger",
+          "effect_id": "more_rpg_classes:stagger",
           "duration": 3,
           "apply_mode": "SET",
           "amplifier": 0,
