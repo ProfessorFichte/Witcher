@@ -1,6 +1,6 @@
 {
   "school": "WITCHER_MELEE",
-  "range": 0.0,
+  "range": 3.0,
   "range_mechanic": "MELEE",
   "tier": 3,
   "learn": {},
@@ -16,10 +16,7 @@
 
   "target": {
     "type": "AIM",
-    "aim": {
-      "sticky": false,
-      "required": true
-    }
+    "aim": {}
   },
 
   "release": {
@@ -50,6 +47,32 @@
     }
   },
 
+  "deliver": {
+    "type": "PROJECTILE",
+    "projectile": {
+      "inherit_shooter_pitch": false,
+      "launch_properties": {
+        "velocity": 0.9
+      },
+      "projectile": {
+        "homing_angle": 0.0,
+        "perks": {
+          "pierce": 999
+        },
+        "hitbox": {
+          "width": 1.0
+        },
+        "client_data": {
+          "model": {
+            "model_id": "witcher_rpg:projectile/rend",
+            "scale": 4.0,
+            "rotate_degrees_per_tick": 0.0
+          }
+        }
+      }
+    }
+  },
+
   "impacts": [
     {
       "action": {
@@ -77,6 +100,39 @@
           "count": 1.0,
           "min_speed": 0.2,
           "max_speed": 1.0
+        }
+      ]
+    },
+    {
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#minecraft:undead"
+            }
+          ],
+          "execute": "DENY"
+        }
+      ],
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "more_rpg_classes:grievous_wounds",
+          "duration": 7,
+          "apply_mode": "SET",
+          "amplifier_power_multiplier": 0.15,
+          "show_particles": false
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:smoke_medium",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 25.0,
+          "min_speed": 0.2,
+          "max_speed": 0.2,
+          "color_rgba": 3208659199
         }
       ]
     }

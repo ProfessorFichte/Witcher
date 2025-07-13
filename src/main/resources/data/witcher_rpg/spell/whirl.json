@@ -1,6 +1,6 @@
 {
   "school": "WITCHER_MELEE",
-  "range": 0.0,
+  "range": 1.0,
   "range_mechanic": "MELEE",
   "tier": 4,
   "learn": {},
