@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.internals.casting.SpellCasterEntity;
-import net.witcher_rpg.effect.Effects;
+import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -61,7 +61,7 @@ public abstract class LivingEntityMixin {
     @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"))
     private void applyQuenHealBeforeDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity damagedTarget = ((LivingEntity) (Object) this);
-        if(damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(Effects.QUEN_ACTIVE.registryEntry) && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)){
+        if(damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry) && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)){
             damagedTarget.heal(amount/2);
         }
     }
@@ -69,20 +69,20 @@ public abstract class LivingEntityMixin {
     @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"))
     private void decreaseAdrenalineAmplifierOnDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity damagedTarget = ((LivingEntity) (Object) this);
-        if(damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(Effects.ADRENALINE_GAIN.registryEntry)){
-            int adrenaline_effect_amplifier = damagedTarget.getStatusEffect(Effects.ADRENALINE_GAIN.registryEntry).getAmplifier();
-            int adrenaline_effect_duration = damagedTarget.getStatusEffect(Effects.ADRENALINE_GAIN.registryEntry).getDuration();
+        if(damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry)){
+            int adrenaline_effect_amplifier = damagedTarget.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry).getAmplifier();
+            int adrenaline_effect_duration = damagedTarget.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry).getDuration();
             float adrenaline_attribute_player = (float) (damagedTarget.getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER)-100.0F);
             float random = new Random().nextFloat(100);
             if(adrenaline_effect_amplifier != 0){
                 if(random > adrenaline_attribute_player){
-                    damagedTarget.removeStatusEffect(Effects.ADRENALINE_GAIN.registryEntry);
-                    damagedTarget.addStatusEffect(new StatusEffectInstance(Effects.ADRENALINE_GAIN.registryEntry,
+                    damagedTarget.removeStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry);
+                    damagedTarget.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.ADRENALINE_GAIN.entry,
                             adrenaline_effect_duration,adrenaline_effect_amplifier-1,false,false,true));
                 }
 
             }else{
-                damagedTarget.removeStatusEffect(Effects.ADRENALINE_GAIN.registryEntry);
+                damagedTarget.removeStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry);
             }
         }
     }

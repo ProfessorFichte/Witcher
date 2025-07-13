@@ -1,0 +1,310 @@
+package net.witcher_rpg.effect;
+
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.util.Identifier;
+import net.spell_engine.api.config.AttributeModifier;
+import net.spell_engine.api.config.ConfigFile;
+import net.spell_engine.api.config.EffectConfig;
+import net.spell_engine.api.effect.*;
+import net.spell_engine.api.entity.SpellEngineAttributes;
+import net.spell_power.api.SpellPowerMechanics;
+import net.witcher_rpg.custom.WitcherSpellSchools;
+import net.witcher_rpg.entity.attribute.WitcherAttributes;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static net.witcher_rpg.WitcherClassMod.MOD_ID;
+
+public class WitcherStatusEffects {
+    public static final List<Effects.Entry> entries = new ArrayList<>();
+    private static Effects.Entry add(Effects.Entry entry) {
+        entries.add(entry);
+        return entry;
+    }
+
+    public static float sign_intensity_boost = 0.1F;
+    public static float specific_sign_intensity_boost = 1.0F;
+
+    public static Effects.Entry AARD_INTENSITY = add(new Effects.Entry(Identifier.of(MOD_ID,"aard_intensity"),
+            "Aard Sign Intensity",
+            "Increases the damage of the Aard Sign.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.AARD.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    WitcherAttributes.AARD_INTENSITY.getIdAsString(),
+                                    specific_sign_intensity_boost,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry AXII_INTENSITY = add(new Effects.Entry(Identifier.of(MOD_ID,"axii_intensity"),
+            "Axii Sign Intensity",
+            "Increases the damage of the Axii Sign.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.AXII.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    WitcherAttributes.AXII_INTENSITY.getIdAsString(),
+                                    specific_sign_intensity_boost,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry IGNI_INTENSITY = add(new Effects.Entry(Identifier.of(MOD_ID,"igni_intensity"),
+            "Igni Sign Intensity",
+            "Increases the damage of the Igni Sign.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.IGNI.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    WitcherAttributes.IGNI_INTENSITY.getIdAsString(),
+                                    specific_sign_intensity_boost,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry QUEN_INTENSITY = add(new Effects.Entry(Identifier.of(MOD_ID,"quen_intensity"),
+            "Quen Sign Intensity",
+            "Increases the damage of the Quen Sign.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.QUEN.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    WitcherAttributes.QUEN_INTENSITY.getIdAsString(),
+                                    specific_sign_intensity_boost,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry YRDEN_INTENSITY = add(new Effects.Entry(Identifier.of(MOD_ID,"yrden_intensity"),
+            "Yrden Sign Intensity",
+            "Increases the damage of the Yrden Sign.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.YRDEN.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    WitcherAttributes.YRDEN_INTENSITY.getIdAsString(),
+                                    specific_sign_intensity_boost,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry SIGN_INTENSITY = add(new Effects.Entry(Identifier.of(MOD_ID,"sign_intensity"),
+            "Sign Intensity",
+            "Increases the damage of all Witcher Signs.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.SIGN.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    WitcherAttributes.SIGN_INTENSITY.getIdAsString(),
+                                    specific_sign_intensity_boost,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry ADRENALINE_BURST = add(new Effects.Entry(Identifier.of(MOD_ID,"adrenaline_burst"),
+            "Adrenaline Burst",
+            "Increases your Adrenaline Attribute.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    WitcherAttributes.ADRENALINE_MODIFIER.getIdAsString(),
+                                    sign_intensity_boost,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry ADRENALINE_GAIN = add(new Effects.Entry(Identifier.of(MOD_ID,"adrenaline_gain"),
+            "Adrenaline",
+            "Increases attack damage and sign intensity per stack.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    0.025F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    WitcherAttributes.SIGN_INTENSITY.getIdAsString(),
+                                    0.025F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+
+                    )
+            )
+    ));
+    public static Effects.Entry AERONDIGHT_CHARGE = add(new Effects.Entry(Identifier.of(MOD_ID,"aerondight_charge"),
+            "Charged Sword",
+            "Increases attack damage, spell crit chance & spell crit damage per stack.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0xbce5fe),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    0.05F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    SpellPowerMechanics.CRITICAL_CHANCE.id,
+                                    0.025F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    SpellPowerMechanics.CRITICAL_DAMAGE.id,
+                                    0.05F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+
+                    )
+            )
+    ));
+    public static Effects.Entry AXII = add(new Effects.Entry(Identifier.of(MOD_ID,"axii"),
+            "Axii",
+            "Stuns the target and makes it more vulnerable to damage.",
+            new AxiiEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.AXII.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellEngineAttributes.DAMAGE_TAKEN.id,
+                                    0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry AXII_PUPPET = add(new Effects.Entry(Identifier.of(MOD_ID,"axii_puppet"),
+            "Axii Puppeteer",
+            "Makes a hostile monster your ally for a short time and buffs its attack damage.",
+            new AxiiPuppetEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.AXII.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry BATTLE_TRANCE = add(new Effects.Entry(Identifier.of(MOD_ID,"battle_trance"),
+            "Battle Trance",
+            "Gain Movement Speed and deal 10% more melee damage for each Adrenaline Effect Amplifier.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
+                                    0.3F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry BEAR_SCHOOL_MEDALLION = add(new Effects.Entry(Identifier.of(MOD_ID,"bear_school_medallion"),
+            "Bear School Endurance",
+            "Incoming damage is reduced.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellEngineAttributes.DAMAGE_TAKEN.id,
+                                    -0.5F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry QUEN_ACTIVE = add(new Effects.Entry(Identifier.of(MOD_ID,"quen_active"),
+            "Quen Active Shield",
+            "Gives absorption and clears negative status effects, will be removed when no absorption hearts are active.",
+            new QuenActiveEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.QUEN.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MAX_ABSORPTION.getIdAsString(),
+                                    8F,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry QUEN_SHIELD = add(new Effects.Entry(Identifier.of(MOD_ID,"quen_shield"),
+            "Quen Shield",
+            "Gives absorption and clears negative status effects.",
+            new QuenShieldEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.QUEN.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MAX_ABSORPTION.getIdAsString(),
+                                    4F,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry YRDEN_CIRCLE = add(new Effects.Entry(Identifier.of(MOD_ID,"yrden_circle"),
+            "Magical Trap",
+            "Reduces movement speed, damages and traps undead targets.",
+            new YrdenCircleEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.YRDEN.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
+                                    -0.1F,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry YRDEN_GLYPH = add(new Effects.Entry(Identifier.of(MOD_ID,"yrden_glyph"),
+            "Yrden Glyph",
+            "Reduces movement speed.",
+            new YrdenCircleEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.YRDEN.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
+                                    -0.1F,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry WOLF_SCHOOL_MEDALLION = add(new Effects.Entry(Identifier.of(MOD_ID,"wolf_school_medallion"),
+            "Wolf School Sign Blade",
+            "Deals magical damage per melee hit.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color)
+    ));
+
+    public static void register(ConfigFile.Effects config) {
+        ActionImpairing.configure(AXII.effect, EntityActionsAllowed.STUN);
+        RemoveOnHit.configure(AXII.effect, true);
+
+        OnRemoval.configure(QUEN_SHIELD.effect, (context) -> {
+            QuenShieldEffect.onRemove(context.entity());
+        });
+        OnRemoval.configure(QUEN_ACTIVE.effect, (context) -> {
+            QuenActiveEffect.onRemove(context.entity());
+        });
+
+        for (var entry: entries) {
+            Synchronized.configure(entry.effect, true);
+        }
+
+        Effects.register(entries, config.effects);
+    }
+
+}

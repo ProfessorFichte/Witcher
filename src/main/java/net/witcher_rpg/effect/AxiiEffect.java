@@ -16,7 +16,7 @@ public class AxiiEffect extends StatusEffect {
         super.onApplied(livingEntity, amplifier);
         EntityType<?> type = livingEntity.getType();
         if(type.isIn(WitcherEntityTags.AXII_EFFECT_IMMUNE)) {
-            livingEntity.removeStatusEffect(Effects.AXII.registryEntry);
+            livingEntity.removeStatusEffect(WitcherStatusEffects.AXII.entry);
 
         }
     }

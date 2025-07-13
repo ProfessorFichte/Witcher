@@ -14,12 +14,14 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.config.ConfigFile;
 import net.witcher_rpg.client.particle.Particles;
-import net.witcher_rpg.config.EffectsConfig;
+import net.witcher_rpg.config.TrinketConfig;
 import net.witcher_rpg.config.TweaksConfig;
 import net.witcher_rpg.custom.WitcherSpellSchools;
-import net.witcher_rpg.effect.Effects;
+import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.YrdenEntity;
 import net.witcher_rpg.entity.YrdenMagicTrapEntity;
+import net.witcher_rpg.item.TrinketCompat;
+import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.sounds.Sounds;
 import net.witcher_rpg.worldgen.OreGen;
 import net.witcher_rpg.blocks.WitcherBlocks;
@@ -46,14 +48,20 @@ public class WitcherClassMod implements ModInitializer {
 			.sanitize(true)
 			.build();
 
-	public static ConfigManager<EffectsConfig> effectsConfig = new ConfigManager<EffectsConfig>
-			("effects_v1", new EffectsConfig())
+	public static ConfigManager<ConfigFile.Effects> effectConfig = new ConfigManager<>
+			("effects", new ConfigFile.Effects())
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)
 			.build();
 	public static ConfigManager<TweaksConfig> tweaksConfig = new ConfigManager<TweaksConfig>
 			("tweaks", new TweaksConfig())
+			.builder()
+			.setDirectory(MOD_ID)
+			.sanitize(true)
+			.build();
+	public static ConfigManager<TrinketConfig> trinketConfig = new ConfigManager<>
+			("trinkets", new TrinketConfig())
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)
@@ -70,8 +78,9 @@ public class WitcherClassMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		trinketConfig.refresh();
 		itemConfig.refresh();
-		effectsConfig.refresh();
+		effectConfig.refresh();
 		tweaksConfig.refresh();
 		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			tweaksConfig.value.ignore_items_required_mods = true;
@@ -80,7 +89,7 @@ public class WitcherClassMod implements ModInitializer {
 		WitcherLootTableChestModifiers.modifyChestLootTables();
 		WitcherItems.registerModItems();
 		Particles.register();
-		Effects.register();
+		WitcherStatusEffects.register(effectConfig.value);
 		WitcherGroup.registerItemGroups();
 		OreGen.register();
 		WitcherBlocks.register();
@@ -88,8 +97,12 @@ public class WitcherClassMod implements ModInitializer {
 		Sounds.register();
 		WeaponsRegister.register(itemConfig.value.weapons);
 		Armors.register(itemConfig.value.armor_sets);
-		itemConfig.save();
+		WitcherTrinkets.register(trinketConfig.value.entries);
+		TrinketCompat.register();
 		registerItemGroup();
+		itemConfig.save();
+		trinketConfig.save();
+		effectConfig.save();
 	}
 	static{
 		YrdenEntity.ENTITY_TYPE = Registry.register(

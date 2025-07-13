@@ -34,7 +34,7 @@ public class QuenActiveEffect extends StatusEffect {
         if (!entity.getWorld().isClient) {
             float currentAbsorption = entity.getAbsorptionAmount();
             if(currentAbsorption == 0 ){
-                entity.removeStatusEffect(Effects.QUEN_ACTIVE.registryEntry);
+                entity.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry);
             }
         }
         return entity.getAbsorptionAmount() > 0.0F || entity.getWorld().isClient;

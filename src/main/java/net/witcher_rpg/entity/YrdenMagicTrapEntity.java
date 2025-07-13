@@ -23,7 +23,7 @@ import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.internals.target.EntityRelations;
 import net.spell_engine.fx.ParticleHelper;
 import net.witcher_rpg.custom.WitcherSpellSchools;
-import net.witcher_rpg.effect.Effects;
+import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
 import net.witcher_rpg.util.tags.WitcherEntityTags;
 
@@ -34,7 +34,7 @@ import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned {
     public static EntityType<YrdenMagicTrapEntity > ENTITY_TYPE;
     public static final ParticleBatch yrden_damage_circle = new ParticleBatch(
-            "witcher_rpg:yrden_cloud",
+            "witcher_rpg.json:yrden_cloud",
             ParticleBatch.Shape.CIRCLE,
             ParticleBatch.Origin.CENTER,
             null,
@@ -43,7 +43,7 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
             0.02F,
             0);
     public static final ParticleBatch yrden_damage_spehre = new ParticleBatch(
-            "witcher_rpg:yrden_cloud",
+            "witcher_rpg.json:yrden_cloud",
             ParticleBatch.Shape.SPHERE,
             ParticleBatch.Origin.CENTER,
             null,
@@ -212,7 +212,7 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
                                     yrden_rap_damage_multiplicator = 1.05F;
                                 }
                                 spellSchoolDamageCalculation(WitcherSpellSchools.YRDEN,yrden_rap_damage_multiplicator,livingEntity, (PlayerEntity) owner);
-                                livingEntity.addStatusEffect(new StatusEffectInstance(Effects.YRDEN_GLYPH.registryEntry,150, (int) (0 * (yrden_intensity +1 )),false,false,true));
+                                livingEntity.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.YRDEN_GLYPH.entry,150, (int) (0 * (yrden_intensity +1 )),false,false,true));
                                 livingEntity.playSound(yrdenSound,1F,1F);
                                 if(!entity.getWorld().isClient()){
                                     ParticleHelper.sendBatches(entity, new ParticleBatch[]{yrden_damage_circle});

@@ -8,7 +8,6 @@ import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.math.Box;
 import net.witcher_rpg.util.tags.WitcherEntityTags;
@@ -37,8 +36,8 @@ public class AxiiPuppetEffect extends StatusEffect {
 
                 }
             }else{
-                entity.addStatusEffect(new StatusEffectInstance(Effects.AXII.registryEntry,40,0,false,false,true));
-                entity.removeStatusEffect(Effects.AXII_PUPPET.registryEntry);
+                entity.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.AXII.entry,40,0,false,false,true));
+                entity.removeStatusEffect(WitcherStatusEffects.AXII_PUPPET.entry);
             }
         super.applyUpdateEffect(entity, amplifier);
         return true;
@@ -53,7 +52,7 @@ public class AxiiPuppetEffect extends StatusEffect {
         super.onApplied(livingEntity, amplifier);
         EntityType<?> type = livingEntity.getType();
         if(type.isIn(WitcherEntityTags.AXII_EFFECT_IMMUNE)) {
-            livingEntity.removeStatusEffect(Effects.AXII_PUPPET.registryEntry);
+            livingEntity.removeStatusEffect(WitcherStatusEffects.AXII_PUPPET.entry);
 
         }
     }
