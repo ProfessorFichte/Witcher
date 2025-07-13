@@ -67,7 +67,6 @@ public class WeaponsRegister {
     public static Identifier ultimatum_passive = Identifier.of(MOD_ID, "ultimatum_passive");
     public static Identifier winters_blade_passive = Identifier.of(MOD_ID, "winters_blade_passive");
     public static Identifier aerondight_passive = Identifier.of(MOD_ID, "aerondight_passive");
-    public static List<Identifier> aerondight_list = List.of(aerondight_passive,silver_sword);
 
     private static Weapon.Entry witcherswords(String name, Weapon.CustomMaterial material, float damage) {
         return entry(name, material, WitcherSword::new, new WeaponConfig(damage, -1.6F), Equipment.WeaponType.SWORD);

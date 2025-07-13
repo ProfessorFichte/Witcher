@@ -1,25 +1,5 @@
 package net.witcher_rpg.custom;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
-import net.more_rpg_classes.effect.MRPGCEffects;
-import net.spell_engine.api.spell.Spell;
-import net.spell_engine.api.spell.registry.SpellRegistry;
-import net.spell_engine.internals.SpellHelper;
-import net.spell_engine.utils.TargetHelper;
-import net.spell_power.api.SpellSchool;
-import net.witcher_rpg.effect.Effects;
-
-import java.util.List;
-import java.util.function.Predicate;
-
-import static net.more_rpg_classes.util.CustomMethods.spellSchoolDamageCalculation;
-import static net.witcher_rpg.WitcherClassMod.MOD_ID;
-
 public class CustomSpells {
     public static void register() {
         /*
