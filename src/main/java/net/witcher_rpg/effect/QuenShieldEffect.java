@@ -37,7 +37,7 @@ public class QuenShieldEffect extends StatusEffect {
 
     public void onApplied(LivingEntity entity, int amplifier) {
         super.onApplied(entity, amplifier);
-        clearNegativeEffects(entity,true);
+        clearNegativeEffects(entity,false);
         entity.setAbsorptionAmount(Math.max(entity.getAbsorptionAmount(), (float)(healthPerStack * (1 + amplifier))));
     }
 
