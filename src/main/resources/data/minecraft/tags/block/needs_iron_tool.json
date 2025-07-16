@@ -1,6 +1,11 @@
 {
   "values": [
     "witcher_rpg:silver_ore",
-    "witcher_rpg:deepslate_silver_ore"
+    "witcher_rpg:deepslate_silver_ore",
+    "witcher_rpg:silver_block",
+    "witcher_rpg:steel_block",
+    "witcher_rpg:meteorite_block",
+    "witcher_rpg:dark_iron_block",
+    "witcher_rpg:raw_silver_block"
   ]
 }

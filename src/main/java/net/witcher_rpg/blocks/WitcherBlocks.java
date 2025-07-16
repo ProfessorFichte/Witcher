@@ -3,6 +3,7 @@ package net.witcher_rpg.blocks;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ExperienceDroppingBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.enums.NoteBlockInstrument;
@@ -10,6 +11,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.witcher_rpg.WitcherClassMod;
@@ -73,6 +75,61 @@ public class WitcherBlocks {
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresTool()
                     .strength(3.0F, 3.0F)
+    ));
+    public static final Entry SILVER_BLOCK = entry("silver_block", new Block(
+            FabricBlockSettings.create()
+                    .mapColor(MapColor.LIGHT_BLUE_GRAY)
+                    .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                    .requiresTool()
+                    .strength(5.0F, 6.0F)
+                    .sounds(BlockSoundGroup.METAL)
+    ));
+    public static final Entry RAW_SILVER_BLOCK = entry("raw_silver_block", new Block(
+            FabricBlockSettings.create()
+                    .mapColor(MapColor.LIGHT_GRAY)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresTool()
+                    .strength(5.0F, 6.0F)
+    ));
+    public static final Entry STEEL_BLOCK = entry("steel_block", new Block(
+            FabricBlockSettings.create()
+                    .mapColor(MapColor.STONE_GRAY)
+                    .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                    .requiresTool()
+                    .strength(5.0F, 6.0F)
+                    .sounds(BlockSoundGroup.METAL)
+    ));
+    public static final Entry METEORITE_BLOCK = entry("meteorite_block", new Block(
+            FabricBlockSettings.create()
+                    .mapColor(MapColor.PALE_PURPLE)
+                    .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                    .requiresTool()
+                    .strength(5.0F, 6.0F)
+                    .sounds(BlockSoundGroup.METAL)
+    ));
+    public static final Entry DARK_IRON_BLOCK = entry("dark_iron_block", new Block(
+            FabricBlockSettings.create()
+                    .mapColor(MapColor.DARK_GREEN)
+                    .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                    .requiresTool()
+                    .strength(5.0F, 6.0F)
+                    .sounds(BlockSoundGroup.METAL)
+    ));
+    public static final Entry METEORITE_SILVER_BLOCK = entry("meteorite_silver_block", new Block(
+            FabricBlockSettings.create()
+                    .mapColor(MapColor.PALE_PURPLE)
+                    .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                    .requiresTool()
+                    .strength(50.0F, 1200.0F)
+                    .sounds(BlockSoundGroup.NETHERITE)
+    ));
+    public static final Entry DARK_STEEL_BLOCK = entry("dark_steel_block", new Block(
+            FabricBlockSettings.create()
+                    .mapColor(MapColor.PALE_GREEN)
+                    .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                    .requiresTool()
+                    .strength(50.0F, 1200.0F)
+                    .sounds(BlockSoundGroup.NETHERITE)
     ));
 
 
