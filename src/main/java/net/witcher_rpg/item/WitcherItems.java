@@ -33,9 +33,11 @@ public class WitcherItems {
     }
 
     public static final Item SILVER_INGOT  = registerItem("silver_ingot", new Item(new Item.Settings()));
+    public static final Item SILVER_NUGGET  = registerItem("silver_nugget", new Item(new Item.Settings()));
     public static final Item METEORITE_SILVER_INGOT = registerItem("meteorite_silver_ingot", new Item(new Item.Settings()));
     public static final Item DARK_STEEL_INGOT= registerItem("dark_steel_ingot", new Item(new Item.Settings()));
     public static final Item STEEL_INGOT= registerItem("steel_ingot", new Item(new Item.Settings()));
+    public static final Item STEEL_NUGGET= registerItem("steel_nugget", new Item(new Item.Settings()));
     public static final Item RAW_SILVER = registerItem("raw_silver", new Item(new Item.Settings()));
     public static final Item METEORITE = registerItem("meteorite", new Item(new Item.Settings()));
     public static final Item METEORITE_INGOT = registerItem("meteorite_ingot", new Item(new Item.Settings()));
@@ -59,8 +61,10 @@ public class WitcherItems {
             content.add(RAW_DARK_IRON);
             content.add(METEORITE);
             content.add(SILVER_INGOT);
+            content.add(SILVER_NUGGET);
             content.add(METEORITE_SILVER_INGOT);
             content.add(STEEL_INGOT);
+            content.add(STEEL_NUGGET);
             content.add(METEORITE_INGOT);
             content.add(DARK_IRON_INGOT);
             content.add(DARK_STEEL_INGOT);

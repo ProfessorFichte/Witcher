@@ -1,6 +1,7 @@
 # 2.5.0 - 1.21.1
 ### VISUAL CHANGES
 - Update Spell Book & Scrolls Textures
+- Update Witcher Metal & Ore Textures
 ### BALANCING CHANGES
 - Aard-, Axii-, Igni-, Yrden- & Quen Intensity got removed
 - Sign Intensity is now an enchantment for witcher swords and the armor
@@ -8,8 +9,12 @@
 - Increase Steel Sword Passive Chance
 - Rend now works like a short ranged projectile, that pierces through all targets
 - Rend now applies the Grievous Wounds Effect
+- increase Better Combat Attack Range
+- Fix wrong attack speed values for witcher swords
 ### NEW CONTENT
 - Add Witcher School Medallions (Necklace Trinket Slot)
+- Added Silver & Steel Nuggets
+- Added Blocks for the Witcher Metals
 ### TECHNICAL CHANGES
 - The Stagger Effect was moved to the More RPG Lib Mod
 - Change Effect registration to SpellEngine API register
