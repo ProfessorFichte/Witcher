@@ -1,7 +1,14 @@
-# 2.5.0 - 1.21.1
+# 2.4.9 - 1.21.1
+[DISCLAIMER]
+- This is also an early hotfix:
+- 1. fixing the crash with the Quen Sign.
+- 2. fixing false attack speed and range values
+- Some new added content is not available yet because of that
+- It will be added in the next update soon (2.5.0 - 1.21.1)
 ### VISUAL CHANGES
 - Update Spell Book & Scrolls Textures
 - Update Witcher Metal & Ore Textures
+- Update some Witcher Sword Color Palette
 ### BALANCING CHANGES
 - Aard-, Axii-, Igni-, Yrden- & Quen Intensity got removed
 - Sign Intensity is now an enchantment for witcher swords and the armor
@@ -12,9 +19,12 @@
 - increase Better Combat Attack Range
 - Fix wrong attack speed values for witcher swords
 ### NEW CONTENT
-- Add Witcher School Medallions (Necklace Trinket Slot)
 - Added Silver & Steel Nuggets
 - Added Blocks for the Witcher Metals
+- Added Raw Silver Block
+[AVAILABLE NEXT UPDATE]
+- Add Witcher School Medallions (Necklace Trinket Slot)
+- Added some Sign Glyphs
 ### TECHNICAL CHANGES
 - The Stagger Effect was moved to the More RPG Lib Mod
 - Change Effect registration to SpellEngine API register
