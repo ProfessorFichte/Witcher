@@ -1,0 +1,24 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:lesser_aard_glyph",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_axii_glyph",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_igni_glyph",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_quen_glyph",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_yrden_glyph",
+      "required": false
+    }
+  ]
+}
