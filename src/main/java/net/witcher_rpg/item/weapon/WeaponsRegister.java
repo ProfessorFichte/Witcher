@@ -19,7 +19,6 @@ import net.witcher_rpg.item.WitcherGroup;
 import net.witcher_rpg.item.WitcherItems;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -69,7 +68,7 @@ public class WeaponsRegister {
     public static Identifier aerondight_passive = Identifier.of(MOD_ID, "aerondight_passive");
 
     private static Weapon.Entry witcherswords(String name, Weapon.CustomMaterial material, float damage) {
-        return entry(name, material, WitcherSword::new, new WeaponConfig(damage, -1.6F), Equipment.WeaponType.SWORD);
+        return entry(name, material, WitcherSword::new, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SWORD);
     }
 
     public static final Weapon.Entry iron_witcher_sword = witcherswords("iron_witcher_sword",
