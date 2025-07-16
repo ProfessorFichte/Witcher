@@ -22,10 +22,7 @@
         "items": [
           {
             "items": [
-              "witcher_rpg:iron_witcher_sword",
-              "witcher_rpg:golden_witcher_sword",
-              "witcher_rpg:diamond_witcher_sword",
-              "witcher_rpg:netherite_witcher_sword"
+              "#witcher_rpg:witcher_swords"
             ]
           }
         ]

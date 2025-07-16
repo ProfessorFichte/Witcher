@@ -22,9 +22,7 @@
         "items": [
           {
             "items": [
-              "witcher_rpg:silver_witcher_sword",
-              "witcher_rpg:meteorite_witcher_sword",
-              "witcher_rpg:meteorite_silver_witcher_sword"
+              "#witcher_rpg:silver_swords"
             ]
           }
         ]
