@@ -26,12 +26,16 @@
   "item.witcher_rpg.ruby_witcher_sword": "Ruby Witcher Sword",
   "item.witcher_rpg.aeternium_witcher_sword": "Aeternium Witcher Sword",
   "item.witcher_rpg.aether_witcher_sword": "Heavenly Witcher Sword",
+  "item.witcher_rpg.azure_wrath_sword": "Azure Wrath",
+  "item.witcher_rpg.reach_of_the_damned_sword": "Reach of the Damned",
 
   "spell.witcher_rpg.silver_sword_passive.description": "Deals {damage} magic damage to silver vulnerable targets.",
   "spell.witcher_rpg.aerondight_passive.description": "The Aerondight charges up with every hit, getting stronger, dealing additional {damage} magic damage.",
   "spell.witcher_rpg.steel_sword_passive.description": "On melee hit: {trigger_chance} chance to make the non-undead targets bleed.",
   "spell.witcher_rpg.ultimatum_passive.description": "On melee hit: {trigger_chance} chance to stagger the target.",
   "spell.witcher_rpg.winters_blade_passive.description": "On melee hit: {trigger_chance} chance to frost the target.",
+  "spell.witcher_rpg.azure_wrath_passive.description": "On melee hit: {trigger_chance} to prevent healing of the target for {effect_duration} seconds.",
+  "spell.witcher_rpg.reach_of_the_damned_passive.description": "On melee hit: Dealing {damage} magic damage to targets below 50%% of their max health.",
 
   "item.witcher_rpg.witcher_head": "Kaer Morhen Band",
   "item.witcher_rpg.witcher_chest": "Kaer Morhen Suit",

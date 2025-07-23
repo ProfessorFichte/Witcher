@@ -75,6 +75,7 @@
   "cost": {
     "batching": true,
     "cooldown": {
+      "duration": 1,
       "hosting_item": false
     }
   }

@@ -1,3 +1,22 @@
+# 2.5.0 - 1.21.1
+### NEW CONTENT
+**New Relic Swords:**
+- [DISCLAIMER] The Swords are only registered if the Arsenal (RPG Series) Mod is installed
+- Azure Wrath (Silver Sword - Tier 4)
+- Chance to inflict Effect that Blocks Healing
+- Reach of the Damned (Silver Sword - Tier 4)
+- Deals extra magic damage, when the target is below 50% health
+**New Additional Equipment**
+- Add Witcher School Medallions (Necklace Trinket Slot)
+- Added some Sign Glyphs
+
+# 2.4.10 - 1.21.1
+### TECHNICAL CHANGES
+- reset config for equipment -> v2
+- Spell Engine 1.7
+### BALANCING CHANGES
+- Decrease Winter's Blade Passive Cooldown
+
 # 2.4.9 - 1.21.1
 [DISCLAIMER]
 - This is also an early hotfix:
@@ -22,9 +41,6 @@
 - Added Silver & Steel Nuggets
 - Added Blocks for the Witcher Metals
 - Added Raw Silver Block
-[AVAILABLE NEXT UPDATE]
-- Add Witcher School Medallions (Necklace Trinket Slot)
-- Added some Sign Glyphs
 ### TECHNICAL CHANGES
 - The Stagger Effect was moved to the More RPG Lib Mod
 - Change Effect registration to SpellEngine API register
