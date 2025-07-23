@@ -1,0 +1,66 @@
+{
+  "school": "ARCANE",
+  "range": 0.0,
+  "tier": 8,
+  "tooltip": {
+    "show_header": false,
+    "name": {
+      "show_in_compact": false,
+      "show_in_details": false
+    },
+    "description": {
+      "color": "dark_green"
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "MELEE_IMPACT",
+        "chance": 1.0,
+        "equipment_condition": "MAINHAND"
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#witcher_rpg:silver_vulnerable"
+            }
+          ],
+          "execute": "ALLOW"
+        }
+      ],
+      "attribute": "minecraft:generic.attack_damage",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "firework",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 20,
+          "min_speed": 0.05,
+          "max_speed": 0.2
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "batching": true,
+    "cooldown": {
+      "duration": 1.0,
+      "hosting_item": false
+    }
+  }
+}
