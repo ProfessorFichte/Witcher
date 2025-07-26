@@ -4,6 +4,10 @@
     {
       "id": "witcher_rpg:aerondight_sword",
       "required": false
+    },
+    {
+      "id": "witcher_rpg:iris_sword",
+      "required": false
     }
   ]
 }

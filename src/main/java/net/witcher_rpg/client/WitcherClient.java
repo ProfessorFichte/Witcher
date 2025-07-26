@@ -19,6 +19,7 @@ import net.witcher_rpg.client.effect.QuenActiveShieldRenderer;
 import net.witcher_rpg.client.entity.YrdenMagicTrapRenderer;
 import net.witcher_rpg.client.entity.YrdenRenderer;
 import net.witcher_rpg.client.particle.Particles;
+import net.witcher_rpg.client.predicate_models.WitcherModelPredicates;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.YrdenEntity;
 import net.witcher_rpg.entity.YrdenMagicTrapEntity;
@@ -34,6 +35,7 @@ import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 public class WitcherClient implements ClientModInitializer {
 
     public void  onInitializeClient(){
+        WitcherModelPredicates.registerModelPredicates();
         CustomModels.registerModelIds(List.of(
                 YrdenRenderer.modelId,
                 YrdenMagicTrapRenderer.modelId,

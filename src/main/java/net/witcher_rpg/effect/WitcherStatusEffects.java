@@ -4,6 +4,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.util.Identifier;
+import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.api.config.EffectConfig;
@@ -148,26 +149,25 @@ public class WitcherStatusEffects {
     ));
     public static Effects.Entry AERONDIGHT_CHARGE = add(new Effects.Entry(Identifier.of(MOD_ID,"aerondight_charge"),
             "Charged Sword",
-            "Increases attack damage, spell crit chance & spell crit damage per stack.",
+            "Increases sign intensity, spell crit chance & spell crit damage per stack.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0xbce5fe),
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
-                                    0.05F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
-                            ),
-                            new AttributeModifier(
                                     SpellPowerMechanics.CRITICAL_CHANCE.id,
-                                    0.025F,
+                                    0.01F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             ),
                             new AttributeModifier(
                                     SpellPowerMechanics.CRITICAL_DAMAGE.id,
-                                    0.05F,
+                                    0.02F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    WitcherAttributes.SIGN_INTENSITY.getIdAsString(),
+                                    0.01F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
-
                     )
             )
     ));
@@ -287,6 +287,40 @@ public class WitcherStatusEffects {
             "Wolf School Sign Blade",
             "Deals magical damage per melee hit.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color)
+    ));
+    public static Effects.Entry AZURE_WRATH = add(new Effects.Entry(Identifier.of(MOD_ID,"azure_wrath"),
+            "Azure Wrath",
+            "Stops healing and regeneration.",
+            new CustomStatusEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                List.of(
+                        new AttributeModifier(
+                        SpellEngineAttributes.HEALING_TAKEN.id,
+                                -1.0F,
+                        EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                        )
+                )
+            )
+    ));
+    public static Effects.Entry IRIS_CHARGE = add(new Effects.Entry(Identifier.of(MOD_ID,"iris_charge"),
+            "Charged Sword",
+            "Increases attack damage and lifesteal per stack.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0xbce5fe),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    0.025F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    MRPGCEntityAttributes.LIFESTEAL_MODIFIER.getIdAsString(),
+                                    0.01F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+
+                    )
+            )
     ));
 
     public static void register(ConfigFile.Effects config) {

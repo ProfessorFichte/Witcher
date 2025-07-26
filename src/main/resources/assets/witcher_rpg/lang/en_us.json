@@ -28,6 +28,7 @@
   "item.witcher_rpg.aether_witcher_sword": "Heavenly Witcher Sword",
   "item.witcher_rpg.azure_wrath_sword": "Azure Wrath",
   "item.witcher_rpg.reach_of_the_damned_sword": "Reach of the Damned",
+  "item.witcher_rpg.iris_sword": "Iris",
 
   "spell.witcher_rpg.silver_sword_passive.description": "Deals {damage} magic damage to silver vulnerable targets.",
   "spell.witcher_rpg.aerondight_passive.description": "The Aerondight charges up with every hit, getting stronger, dealing additional {damage} magic damage.",
@@ -36,6 +37,7 @@
   "spell.witcher_rpg.winters_blade_passive.description": "On melee hit: {trigger_chance} chance to frost the target.",
   "spell.witcher_rpg.azure_wrath_passive.description": "On melee hit: {trigger_chance} to prevent healing of the target for {effect_duration} seconds.",
   "spell.witcher_rpg.reach_of_the_damned_passive.description": "On melee hit: Dealing {damage} magic damage to targets below 50%% of their max health.",
+  "spell.witcher_rpg.iris_passive.description": "Iris charges up with every hit, getting stronger, also receiving lifesteal with every hit.",
 
   "item.witcher_rpg.witcher_head": "Kaer Morhen Band",
   "item.witcher_rpg.witcher_chest": "Kaer Morhen Suit",
@@ -157,6 +159,10 @@
   "effect.witcher_rpg.sign_intensity.description": "Increases the damage of all Signs.",
   "effect.witcher_rpg.adrenaline_burst": "Adrenaline Burst",
   "effect.witcher_rpg.adrenaline_burst.description": "Increases your Adrenaline Attribute.",
+  "effect.witcher_rpg.azure_wrath": "Azure Wrath",
+  "effect.witcher_rpg.azure_wrath.description": "Stops healing and regeneration.",
+  "effect.witcher_rpg.iris_charge": "Charged Sword",
+  "effect.witcher_rpg.iris_charge.description": "Increases attack damage stack.",
 
   "spell.witcher_rpg.quen.name": "Quen",
   "spell.witcher_rpg.quen.description": "Gives you a absorption effect for {effect_duration} seconds and clears all negative status effects.",
