@@ -21,9 +21,8 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "#witcher_rpg:steel_swords"
-            ]
+            "items": "#witcher_rpg:steel_swords"
+
           }
         ]
       }
