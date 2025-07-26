@@ -8,6 +8,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.more_rpg_classes.effect.MRPGCEffects;
+import net.spell_engine.api.effect.SpellEngineEffects;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.fx.ParticleHelper;
 
@@ -54,7 +55,7 @@ public class QuenActiveEffect extends StatusEffect {
     public static void onRemove(LivingEntity entity) {
         float currentAbsorption = entity.getAbsorptionAmount();
         if(currentAbsorption == 0 ){
-            entity.addStatusEffect(new StatusEffectInstance(MRPGCEffects.STUNNED.registryEntry,20,0,false,false,false));
+            entity.addStatusEffect(new StatusEffectInstance(SpellEngineEffects.STUN.entry,20,0,false,false,false));
         }
         if (!entity.getWorld().isClient()) {
             entity.getWorld().playSoundFromEntity(null, entity, QUEN_BREAK, SoundCategory.PLAYERS, 1F, 1F);

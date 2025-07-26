@@ -72,6 +72,15 @@
 
   "impacts": [
     {
+      "action": {
+        "type": "CUSTOM",
+        "custom": {
+          "handler": "more_rpg_classes:stop_arrows",
+          "intent": "HARMFUL"
+        }
+      }
+    },
+    {
       "target_modifiers": [
         {
           "conditions": [

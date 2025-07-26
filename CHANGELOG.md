@@ -10,6 +10,10 @@
 - Add Witcher School Medallions (Necklace Trinket Slot)
 - Added some Sign Glyphs
 
+# 2.4.11 - 1.21.1
+- MRPGLib 2.3 Update
+- Aard Signs now can deflect arrows, if timed perfectly
+
 # 2.4.10 - 1.21.1
 ### TECHNICAL CHANGES
 - reset config for equipment -> v2
