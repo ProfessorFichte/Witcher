@@ -27,40 +27,72 @@
         },
         {
           "type": "minecraft:item",
+          "weight": 10,
+          "name": "witcher_rpg:silver_nugget",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 3,
+                "max": 5
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "witcher_rpg:steel_nugget",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 3,
+                "max": 5
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 5,
+          "name": "witcher_rpg:silver_ingot",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "witcher_rpg:steel_nugget",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
           "weight": 7,
           "name": "more_rpg_classes:hardened_leather",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 2
-              },
-              "add": false
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "name": "witcher_rpg:meteorite_ingot",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 2
-              },
-              "add": false
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "name": "witcher_rpg:dark_iron_ingot",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -77,16 +109,6 @@
           "type": "minecraft:loot_table",
           "value": "witcher_rpg:spell_scrolls/beginner",
           "weight": 5
-        },
-        {
-          "type": "minecraft:loot_table",
-          "value": "witcher_rpg:spell_scrolls/expert",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:loot_table",
-          "value": "witcher_rpg:spell_scrolls/master",
-          "weight": 1
         }
       ]
     },
@@ -94,97 +116,93 @@
       "rolls": {
         "type": "minecraft:uniform",
         "min": 1,
-        "max": 1
+        "max": 2
       },
       "bonus_rolls": 1,
       "entries": [
         {
           "type": "minecraft:empty",
-          "weight": 5
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:enhanced_feline_diagram",
-          "weight": 5
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:enhanced_griffin_diagram",
-          "weight": 5
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:enhanced_ursine_diagram",
-          "weight": 5
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:enhanced_wolven_diagram",
-          "weight": 5
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:superior_feline_diagram",
           "weight": 1
         },
         {
           "type": "minecraft:item",
-          "name":  "witcher_rpg:superior_griffin_diagram",
+          "name":  "witcher_rpg:witcher_head",
           "weight": 1
         },
         {
           "type": "minecraft:item",
-          "name":  "witcher_rpg:superior_ursine_diagram",
+          "name":  "witcher_rpg:witcher_chest",
           "weight": 1
         },
         {
           "type": "minecraft:item",
-          "name":  "witcher_rpg:superior_wolven_diagram",
+          "name":  "witcher_rpg:witcher_legs",
           "weight": 1
-        }
-      ]
-    },
-    {
-      "rolls": {
-        "type": "minecraft:uniform",
-        "min": 1,
-        "max": 1
-      },
-      "bonus_rolls": 1,
-      "entries": [
+        },
         {
-          "type": "minecraft:empty",
-          "weight": 10
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:witcher_feet",
+          "weight": 1
         },
         {
           "type": "minecraft:item",
           "name":  "witcher_rpg:silver_witcher_sword",
-          "weight": 10
+          "weight": 1
         },
         {
           "type": "minecraft:item",
           "name":  "witcher_rpg:iron_witcher_sword",
-          "weight": 10
+          "weight": 1
         },
         {
           "type": "minecraft:item",
           "name":  "witcher_rpg:steel_witcher_sword",
-          "weight": 10
+          "weight": 1
         },
         {
           "type": "minecraft:item",
-          "name":  "witcher_rpg:diamond_witcher_sword",
-          "weight": 5
+          "name":  "witcher_rpg:enhanced_feline_diagram",
+          "weight": 1
         },
         {
           "type": "minecraft:item",
-          "name":  "witcher_rpg:meteorite_witcher_sword",
-          "weight": 5
+          "name":  "witcher_rpg:enhanced_griffin_diagram",
+          "weight": 1
         },
         {
           "type": "minecraft:item",
-          "name":  "witcher_rpg:dark_iron_witcher_sword",
-          "weight": 5
+          "name":  "witcher_rpg:enhanced_ursine_diagram",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:enhanced_wolven_diagram",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:lesser_aard_glyph",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:lesser_axii_glyph",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:lesser_igni_glyph",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:lesser_quen_glyph",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:lesser_yrden_glyph",
+          "weight": 1
         }
       ]
     }
