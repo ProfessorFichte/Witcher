@@ -1,0 +1,18 @@
+// 1.21.1	2025-07-27T23:12:35.1214676	Witcher Class Mod/Tags for minecraft:item
+c87618a291645f991afbb127be6ab789065bcfed data\rpg_series\tags\item\loot_tier\tier_1_weapons.json
+80cd864690ee1d9906519fae782ffd82b755fba0 data\rpg_series\tags\item\loot_tier\tier_2_weapons.json
+a5e793b460b1c60d0eb7ec3b4a5eb9465f6731fa data\rpg_series\tags\item\loot_tier\tier_3_weapons.json
+b5a7d292562eadf508da117f7af8fdc6a2f64a98 data\rpg_series\tags\item\armor_type\magic.json
+c56a718deec39d3535155772cdd14f9580311b34 data\rpg_series\tags\item\armor_type\melee.json
+860f3464700ec706b174feb3d468d7c0fcd3aa81 data\rpg_series\tags\item\loot_tier\tier_5_weapons.json
+c7cddc67f56276410fda38daaf5e78c371010180 data\rpg_series\tags\item\loot_theme\aether.json
+f7723951d11ae2e390c8252fbde8567064476b12 data\rpg_series\tags\item\loot_tier\tier_4_weapons.json
+6f5a27dfe9a5e97a8d79344577b155bc7b5974ed data\rpg_series\tags\item\loot_tier\tier_1_armors.json
+516458281b0bfc220729ee786111542ea2356f39 data\minecraft\tags\item\foot_armor.json
+181554749a891905bcb0442dec0b28b72591f3e8 data\rpg_series\tags\item\weapon_type\sword.json
+d85b7b61f576bd2268dc5418ef481cce4db771c5 data\rpg_series\tags\item\loot_theme\golden.json
+51fc500e0781bcec9c1ce0057006f32653491521 data\minecraft\tags\item\head_armor.json
+0e5ea63ad632c4ce28f6a4a0dd0db92ce72c60ec data\minecraft\tags\item\chest_armor.json
+b0a3ace4889824ea24d0ab79cbe31e8cfb6e1a97 data\minecraft\tags\item\leg_armor.json
+acbff80933de8fc953fd1a083b4b1125c88d3e0e data\rpg_series\tags\item\loot_tier\tier_3_armors.json
+f74e43c824d51d2d78a390bca1f58386226404a3 data\rpg_series\tags\item\loot_tier\tier_2_armors.json

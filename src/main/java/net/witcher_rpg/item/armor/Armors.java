@@ -14,6 +14,7 @@ import net.spell_engine.api.config.ArmorSetConfig;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.item.Equipment;
 import net.spell_power.api.SpellPowerMechanics;
+import net.witcher_rpg.WitcherClassMod;
 import net.witcher_rpg.item.WitcherGroup;
 import net.spell_engine.api.item.armor.Armor;
 import net.witcher_rpg.item.WitcherItems;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.logging.Logger;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
@@ -559,7 +561,6 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT3),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT3)
                                     ))),3).armorSet();
-
 
     public static void register(Map<String,  ArmorSetConfig> configs) {
         Armor.register(configs, entries, WitcherGroup.WITCHER_KEY);

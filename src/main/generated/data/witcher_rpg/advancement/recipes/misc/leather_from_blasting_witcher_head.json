@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:leather_from_blasting_witcher_head"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_witcher_head": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witcher_rpg:witcher_head"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_witcher_head"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:leather_from_blasting_witcher_head"
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:ruby_witcher_sword",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:aeternium_witcher_sword",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:winters_blade_sword",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:ultimatum_sword",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:azure_wrath_sword",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:reach_of_the_damned_sword",
+      "required": false
+    }
+  ]
+}
