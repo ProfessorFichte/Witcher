@@ -104,16 +104,6 @@
       ]
     },
     {
-      "target_modifiers": [
-        {
-          "conditions": [
-            {
-              "entity_type": "#minecraft:undead"
-            }
-          ],
-          "execute": "DENY"
-        }
-      ],
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {

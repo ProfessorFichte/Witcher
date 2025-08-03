@@ -322,6 +322,28 @@ public class WitcherStatusEffects {
                     )
             )
     ));
+    public static Effects.Entry ROSE_OF_REMEMBRANCE = add(new Effects.Entry(Identifier.of(MOD_ID,"rose_of_remembrance"),
+            "Rose of Remembrance",
+            "Heals 5% of your max health every 2 seconds.",
+            new RoseOfRemembranceEffect(StatusEffectCategory.BENEFICIAL, 0xbce5fe),
+            new EffectConfig(
+                    List.of()
+            )
+    ));
+    public static Effects.Entry SUNSTONE = add(new Effects.Entry(Identifier.of(MOD_ID,"sunstone"),
+            "Charged Sword",
+            "Boosts Sign Intensity.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.SIGN.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    WitcherAttributes.SIGN_INTENSITY.getIdAsString(),
+                                    0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
 
     public static void register(ConfigFile.Effects config) {
         ActionImpairing.configure(AXII.effect, EntityActionsAllowed.STUN);

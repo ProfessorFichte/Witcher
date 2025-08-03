@@ -6,9 +6,15 @@
 - Chance to inflict Effect that Blocks Healing
 - Reach of the Damned (Silver Sword - Tier 4)
 - Deals extra magic damage, when the target is below 50% health
+- Iris (Steel Sword - Tier 5)
+- The Sword Charges itself up every attack (Aerondight Steel Sword counterpart)
 **New Additional Equipment**
 - Add Witcher School Medallions (Necklace Trinket Slot)
 - Added some Sign Glyphs
+### TECHNICAL & INTERNAL CHANGES
+- Sign Intensity Enchantment now only goes on Witcher Armor
+- Swords also use Spell Power Enchantment, which now also boosts Witcher Signs
+- Add Spell Datagen
 
 # 2.4.11 - 1.21.1
 - MRPGLib 2.3 Update

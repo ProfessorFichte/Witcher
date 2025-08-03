@@ -1,0 +1,99 @@
+{
+  "school": "spell_power:aard",
+  "range": 7.5,
+  "tier": 1,
+  "learn": {},
+  "active": {},
+  "release": {
+    "animation": "witcher_rpg:sign_cast_short",
+    "particles": [
+      {
+        "particle_id": "witcher_rpg:aard_sign_cast",
+        "origin": "CENTER",
+        "shape": "PIPE",
+        "count": 4.0,
+        "min_speed": 0.01,
+        "max_speed": 0.1
+      },
+      {
+        "particle_id": "more_rpg_classes:wind_vacuum",
+        "origin": "LAUNCH_POINT",
+        "shape": "SPHERE",
+        "count": 1.0,
+        "min_speed": 0.1
+      },
+      {
+        "particle_id": "small_gust",
+        "origin": "CENTER",
+        "shape": "CIRCLE",
+        "count": 30.0,
+        "min_speed": 0.25,
+        "max_speed": 0.25
+      }
+    ],
+    "sound": {
+      "id": "witcher_rpg:aard_sign"
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "angle_degrees": 90.0
+    }
+  },
+  "impacts": [
+    {
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#witcher_rpg:aard_vulnerable"
+            }
+          ],
+          "modifier": {
+            "power_multiplier": 0.3
+          }
+        }
+      ],
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.75,
+          "knockback": 5.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "more_rpg_classes:wind_vacuum",
+          "origin": "LAUNCH_POINT",
+          "shape": "SPHERE",
+          "count": 1.0,
+          "min_speed": 0.1
+        },
+        {
+          "particle_id": "gust",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "count": 10.0,
+          "min_speed": 0.2,
+          "max_speed": 0.5
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "CUSTOM",
+        "custom": {
+          "intent": "HARMFUL",
+          "handler": "more_rpg_classes:stop_arrows"
+        }
+      }
+    }
+  ],
+  "cost": {
+    "exhaust": 0.4,
+    "cooldown": {
+      "duration": 16.0
+    }
+  }
+}

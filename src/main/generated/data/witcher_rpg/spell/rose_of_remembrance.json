@@ -1,0 +1,45 @@
+{
+  "school": "spell_power:witcher_melee",
+  "range": 0.0,
+  "tier": 7,
+  "tooltip": {
+    "show_header": false,
+    "name": {
+      "show_in_compact": false,
+      "show_in_details": false
+    },
+    "description": {
+      "color": "dark_green"
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "target_override": "CASTER",
+        "type": "DAMAGE_TAKEN",
+        "chance": 0.15
+      }
+    ]
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "witcher_rpg:rose_of_remembrance",
+          "amplifier": 1,
+          "refresh_duration": false
+        }
+      },
+      "sound": {
+        "id": "spell_engine:generic_healing_impact_3"
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 45.0
+    }
+  }
+}

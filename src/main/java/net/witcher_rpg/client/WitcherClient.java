@@ -12,7 +12,11 @@ import net.minecraft.util.Identifier;
 import net.spell_engine.api.effect.CustomModelStatusEffect;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.api.item.armor.Armor;
+import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.render.CustomModels;
+import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.client.util.Color;
+import net.spell_engine.fx.SpellEngineParticles;
 import net.witcher_rpg.client.armor.*;
 import net.witcher_rpg.client.effect.AxiiParticles;
 import net.witcher_rpg.client.effect.QuenActiveShieldRenderer;
@@ -24,6 +28,7 @@ import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.YrdenEntity;
 import net.witcher_rpg.entity.YrdenMagicTrapEntity;
 import net.witcher_rpg.item.armor.Armors;
+import net.witcher_rpg.spell.WitcherSpells;
 
 
 import java.util.List;
@@ -35,6 +40,12 @@ import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 public class WitcherClient implements ClientModInitializer {
 
     public void  onInitializeClient(){
+        for (var entry: WitcherSpells.entries) {
+            if (entry.mutator() != null) {
+                SpellTooltip.addDescriptionMutator(entry.id(), entry.mutator());
+            }
+        }
+
         WitcherModelPredicates.registerModelPredicates();
         CustomModels.registerModelIds(List.of(
                 YrdenRenderer.modelId,
@@ -53,6 +64,27 @@ public class WitcherClient implements ClientModInitializer {
 
         CustomParticleStatusEffect.register(WitcherStatusEffects.AXII.effect, new AxiiParticles(1));
         CustomParticleStatusEffect.register(WitcherStatusEffects.AXII_PUPPET.effect, new AxiiParticles(3));
+        CustomParticleStatusEffect.register(
+                WitcherStatusEffects.ROSE_OF_REMEMBRANCE.effect,
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                        SpellEngineParticles.MagicParticles.get(
+                                SpellEngineParticles.MagicParticles.Shape.SPELL,
+                                SpellEngineParticles.MagicParticles.Motion.ASCEND).id().toString(),
+                        0.5F,
+                        Color.RED.toRGBA()))
+        );
+        CustomParticleStatusEffect.register(
+                WitcherStatusEffects.SUNSTONE.effect,
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                SpellEngineParticles.MagicParticles.get(
+                                        SpellEngineParticles.MagicParticles.Shape.SPELL,
+                                        SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(),
+                                0.5F,
+                                Color.WHITE.toRGBA())
+                )
+        );
 
         CustomModelStatusEffect.register(WitcherStatusEffects.QUEN_ACTIVE.effect, new QuenActiveShieldRenderer());
 

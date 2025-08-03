@@ -59,6 +59,22 @@
         },
         {
           "type": "minecraft:item",
+          "weight": 10,
+          "name": "witcher_rpg:raw_silver",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
           "weight": 5,
           "name": "witcher_rpg:silver_ingot",
           "functions": [
@@ -116,9 +132,9 @@
       "rolls": {
         "type": "minecraft:uniform",
         "min": 1,
-        "max": 2
+        "max": 1
       },
-      "bonus_rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:empty",

@@ -3,6 +3,13 @@ plugins {
 	id 'maven-publish'
 }
 
+fabricApi {
+	configureDataGeneration(){
+		client = true
+		modId = "witcher_rpg"
+	}
+}
+
 version = project.mod_version
 group = project.maven_group
 
@@ -45,9 +52,6 @@ repositories {
     mavenCentral()
 }
 
-fabricApi {
-	configureDataGeneration()
-}
 
 dependencies {
 	// To change the versions see the gradle.properties file

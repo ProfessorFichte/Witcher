@@ -59,9 +59,16 @@ public class WitcherSpellSchools {
     public static void initialize() {
         int adrenaline_crit_damage_div = 3;
         int adrenaline_crit_chance_div = 10;
+        final Identifier SPELL_POWER = Identifier.of(SpellPowerMod.ID, "spell_power");
 
         SIGN.addSource(SpellSchool.Trait.POWER, SpellSchool.Apply.ADD, query -> {
             var power = query.entity().getAttributeValue(WitcherAttributes.SIGN_INTENSITY);
+            var world = query.entity().getWorld();
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            if (spellpower.isPresent()) {
+                var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
+                power *= 1 + (0.05 * level);
+            }
             return power;
         });
         SIGN.addSource(SpellSchool.Trait.HASTE, SpellSchool.Apply.ADD, query -> {
@@ -92,6 +99,12 @@ public class WitcherSpellSchools {
             var power = query.entity().getAttributeValue(WitcherSpellSchools.AARD.attributeEntry);
             var power2 = query.entity().getAttributeValue(SpellSchools.LIGHTNING.attributeEntry);
             power *= power2 + 1 ;
+            var world = query.entity().getWorld();
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            if (spellpower.isPresent()) {
+                var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
+                power *= 1 + (0.05 * level);
+            }
             return power;
         });
         AARD.addSource(SpellSchool.Trait.HASTE, SpellSchool.Apply.ADD, query -> {
@@ -122,6 +135,12 @@ public class WitcherSpellSchools {
             var power = query.entity().getAttributeValue(WitcherSpellSchools.AXII.attributeEntry);
             var power2 = query.entity().getAttributeValue(SpellSchools.SOUL.attributeEntry);
             power *= power2 + 1 ;
+            var world = query.entity().getWorld();
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            if (spellpower.isPresent()) {
+                var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
+                power *= 1 + (0.05 * level);
+            }
             return power;
         });
         AXII.addSource(SpellSchool.Trait.HASTE, SpellSchool.Apply.ADD, query -> {
@@ -152,6 +171,12 @@ public class WitcherSpellSchools {
             var power = query.entity().getAttributeValue(WitcherSpellSchools.IGNI.attributeEntry);
             var power2 = query.entity().getAttributeValue(SpellSchools.FIRE.attributeEntry);
             power *= power2 + 1 ;
+            var world = query.entity().getWorld();
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            if (spellpower.isPresent()) {
+                var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
+                power *= 1 + (0.05 * level);
+            }
             return power;
         });
         IGNI.addSource(SpellSchool.Trait.HASTE, SpellSchool.Apply.ADD, query -> {
@@ -182,6 +207,12 @@ public class WitcherSpellSchools {
             var power = query.entity().getAttributeValue(WitcherSpellSchools.QUEN.attributeEntry);
             var power2 = query.entity().getAttributeValue(SpellSchools.LIGHTNING.attributeEntry);
             power *= power2 + 1 ;
+            var world = query.entity().getWorld();
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            if (spellpower.isPresent()) {
+                var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
+                power *= 1 + (0.05 * level);
+            }
             return power;
         });
         QUEN.addSource(SpellSchool.Trait.HASTE, SpellSchool.Apply.ADD, query -> {
@@ -212,6 +243,12 @@ public class WitcherSpellSchools {
             var power = query.entity().getAttributeValue(WitcherSpellSchools.YRDEN.attributeEntry);
             var power2 = query.entity().getAttributeValue(SpellSchools.ARCANE.attributeEntry);
             power *= power2 + 1 ;
+            var world = query.entity().getWorld();
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            if (spellpower.isPresent()) {
+                var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
+                power *= 1 + (0.05 * level);
+            }
             return power;
         });
         YRDEN.addSource(SpellSchool.Trait.HASTE, SpellSchool.Apply.ADD, query -> {

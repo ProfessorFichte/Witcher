@@ -13,14 +13,11 @@ import net.spell_engine.api.config.WeaponConfig;
 import net.spell_engine.api.item.Equipment;
 import net.spell_engine.api.item.weapon.Weapon;
 import net.spell_power.api.SpellPowerMechanics;
-
 import net.witcher_rpg.WitcherClassMod;
 import net.witcher_rpg.item.WitcherGroup;
 import net.witcher_rpg.item.WitcherItems;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 

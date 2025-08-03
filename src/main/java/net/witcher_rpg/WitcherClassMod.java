@@ -33,6 +33,7 @@ import net.witcher_rpg.item.WitcherGroup;
 import net.witcher_rpg.item.WitcherItems;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
 import net.witcher_rpg.util.loot.WitcherLootTableChestModifiers;
+import net.witcher_rpg.worldgen.WitcherMapIcons;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,6 +101,7 @@ public class WitcherClassMod implements ModInitializer {
 		WitcherTrinkets.register(trinketConfig.value.entries);
 		TrinketCompat.register();
 		registerItemGroup();
+		WitcherMapIcons.register();
 		itemConfig.save();
 		trinketConfig.save();
 		effectConfig.save();
