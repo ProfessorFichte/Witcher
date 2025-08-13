@@ -1,0 +1,75 @@
+{
+  "school": "spell_power:witcher_melee",
+  "range": 16.0,
+  "tier": 7,
+  "tooltip": {
+    "show_header": false,
+    "name": {
+      "show_in_compact": false,
+      "show_in_details": false
+    },
+    "description": {
+      "color": "dark_green"
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "MELEE_IMPACT",
+        "chance": 0.2,
+        "melee": {}
+      }
+    ]
+  },
+  "target": {
+    "type": "AIM",
+    "aim": {}
+  },
+  "deliver": {
+    "type": "PROJECTILE",
+    "projectile": {
+      "inherit_shooter_pitch": false,
+      "launch_properties": {
+        "velocity": 1.25
+      },
+      "projectile": {
+        "homing_angle": 0.0,
+        "perks": {
+          "pierce": 999
+        },
+        "client_data": {
+          "model": {
+            "model_id": "witcher_rpg:projectile/crystal_skull"
+          }
+        }
+      }
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_burst",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 20.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3,
+          "color_rgba": 16711935
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 5.0
+    }
+  }
+}

@@ -7,7 +7,7 @@
     "item": "witcher_rpg:feline_feet"
   },
   "addition": {
-    "item": "witcher_rpg:dark_iron_ingot"
+    "tag": "witcher_rpg:steel_ingots"
   },
   "result": {
     "id": "witcher_rpg:enhanced_feline_feet"

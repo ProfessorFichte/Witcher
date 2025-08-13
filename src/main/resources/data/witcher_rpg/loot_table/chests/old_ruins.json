@@ -138,51 +138,6 @@
           "type": "minecraft:item",
           "name":  "witcher_rpg:steel_witcher_sword",
           "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:enhanced_feline_diagram",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:enhanced_griffin_diagram",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:enhanced_ursine_diagram",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:enhanced_wolven_diagram",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:lesser_aard_glyph",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:lesser_axii_glyph",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:lesser_igni_glyph",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:lesser_quen_glyph",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name":  "witcher_rpg:lesser_yrden_glyph",
-          "weight": 1
         }
       ]
     }

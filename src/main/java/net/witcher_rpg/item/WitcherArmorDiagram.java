@@ -18,6 +18,7 @@ import java.util.List;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class WitcherArmorDiagram {
+    /*
     public static final List<Identifier> BASE_ITEMS = Util.make(new ArrayList<>(),
             identifiers -> {
                 identifiers.add(Identifier.of("item/empty_slot_sword"));
@@ -136,5 +137,5 @@ public class WitcherArmorDiagram {
             content.add(SUPERIOR_URSINE_SCHOOL_DIAGRAM);
         });
     }
-
+*/
 }

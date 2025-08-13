@@ -2,7 +2,9 @@ package net.witcher_rpg;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.EntityDimensions;
@@ -13,6 +15,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.config.ConfigFile;
+import net.spell_engine.rpg_series.loot.LootConfig;
+import net.spell_engine.rpg_series.loot.LootHelper;
 import net.witcher_rpg.client.particle.Particles;
 import net.witcher_rpg.config.TrinketConfig;
 import net.witcher_rpg.config.TweaksConfig;
@@ -36,6 +40,9 @@ import net.witcher_rpg.util.loot.WitcherLootTableChestModifiers;
 import net.witcher_rpg.worldgen.WitcherMapIcons;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import net.witcher_rpg.util.loot.Defaults;
+
+import java.util.HashMap;
 
 
 public class WitcherClassMod implements ModInitializer {
@@ -67,6 +74,13 @@ public class WitcherClassMod implements ModInitializer {
 			.setDirectory(MOD_ID)
 			.sanitize(true)
 			.build();
+	public static ConfigManager<LootConfig> lootEquipmentConfig = new ConfigManager<>
+			("loot_equipment", Defaults.itemLootConfig)
+			.builder()
+			.setDirectory(MOD_ID)
+			.sanitize(true)
+			.constrain(LootConfig::constrainValues)
+			.build();
 
 	private void registerItemGroup() {
 		WitcherGroup.WITCHER = FabricItemGroup.builder()
@@ -79,6 +93,7 @@ public class WitcherClassMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		lootEquipmentConfig.refresh();
 		trinketConfig.refresh();
 		itemConfig.refresh();
 		effectConfig.refresh();
@@ -105,6 +120,16 @@ public class WitcherClassMod implements ModInitializer {
 		itemConfig.save();
 		trinketConfig.save();
 		effectConfig.save();
+		LootHelper.TAG_CACHE.refresh();
+		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+			LootHelper.configureV2(registries, key.getValue(), tableBuilder, lootEquipmentConfig.value, new HashMap<>());
+		});
+		ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
+			LootHelper.updateTagCache(lootEquipmentConfig.value);
+		});
+		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, serverResourceManager, success) -> {
+			LootHelper.updateTagCache(lootEquipmentConfig.value);
+		});
 	}
 	static{
 		YrdenEntity.ENTITY_TYPE = Registry.register(

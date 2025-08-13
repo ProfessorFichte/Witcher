@@ -10,8 +10,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import net.more_rpg_classes.custom.MoreSpellSchools;
-import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ConfigUtil;
 import net.spell_engine.api.spell.SpellDataComponents;
@@ -197,95 +195,95 @@ public class WitcherTrinkets {
                     ))
             );
     ///GLYPHS
-    public static final Entry LESSER_AARD_GLYPH = add(new Entry(1, "lesser_aard_glyph", "Lesser Aard Glyph"))
+    public static final Entry LESSER_AARD_GLYPH = add(new Entry(10, "lesser_aard_glyph", "Lesser Aard Glyph"))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.AARD_INTENSITY.getIdAsString(), lesser_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry LESSER_AXII_GLYPH = add(new Entry(1, "lesser_axii_glyph", "Lesser Axii Glyph"))
+    public static final Entry LESSER_AXII_GLYPH = add(new Entry(10, "lesser_axii_glyph", "Lesser Axii Glyph"))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.AXII_INTENSITY.getIdAsString(), lesser_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry LESSER_IGNI_GLYPH = add(new Entry(1, "lesser_igni_glyph", "Lesser Igni Glyph"))
+    public static final Entry LESSER_IGNI_GLYPH = add(new Entry(10, "lesser_igni_glyph", "Lesser Igni Glyph"))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.IGNI_INTENSITY.getIdAsString(), lesser_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry LESSER_QUEN_GLYPH = add(new Entry(1, "lesser_quen_glyph", "Lesser Quen Glyph"))
+    public static final Entry LESSER_QUEN_GLYPH = add(new Entry(10, "lesser_quen_glyph", "Lesser Quen Glyph"))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.QUEN_INTENSITY.getIdAsString(), lesser_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry LESSER_YRDEN_GLYPH = add(new Entry(1, "lesser_yrden_glyph", "Lesser Yrden Glyph"))
+    public static final Entry LESSER_YRDEN_GLYPH = add(new Entry(10, "lesser_yrden_glyph", "Lesser Yrden Glyph"))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.YRDEN_INTENSITY.getIdAsString(), lesser_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry AARD_GLYPH = add(new Entry(1, "aard_glyph", "Aard Glyph"))
+    public static final Entry AARD_GLYPH = add(new Entry(10, "aard_glyph", "Aard Glyph"))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.AARD_INTENSITY.getIdAsString(), glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry AXII_GLYPH = add(new Entry(1, "axii_glyph", "Axii Glyph"))
+    public static final Entry AXII_GLYPH = add(new Entry(10, "axii_glyph", "Axii Glyph"))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.AXII_INTENSITY.getIdAsString(), glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry IGNI_GLYPH = add(new Entry(1, "igni_glyph", "Igni Glyph"))
+    public static final Entry IGNI_GLYPH = add(new Entry(10, "igni_glyph", "Igni Glyph"))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.IGNI_INTENSITY.getIdAsString(), glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry QUEN_GLYPH = add(new Entry(1, "quen_glyph", "Quen Glyph"))
+    public static final Entry QUEN_GLYPH = add(new Entry(10, "quen_glyph", "Quen Glyph"))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.QUEN_INTENSITY.getIdAsString(), glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry YRDEN_GLYPH = add(new Entry(1, "yrden_glyph", "Yrden Glyph"))
+    public static final Entry YRDEN_GLYPH = add(new Entry(10, "yrden_glyph", "Yrden Glyph"))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.YRDEN_INTENSITY.getIdAsString(), glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry GREATER_AARD_GLYPH = add(new Entry(1, "greater_aard_glyph", "Greater Aard Glyph"))
+    public static final Entry GREATER_AARD_GLYPH = add(new Entry(10, "greater_aard_glyph", "Greater Aard Glyph"))
             .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:greater_aard_glyph")))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.AARD_INTENSITY.getIdAsString(), greater_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry GREATER_AXII_GLYPH = add(new Entry(1, "greater_axii_glyph", "Greater Axii Glyph"))
+    public static final Entry GREATER_AXII_GLYPH = add(new Entry(10, "greater_axii_glyph", "Greater Axii Glyph"))
             .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:greater_axii_glyph")))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.AXII_INTENSITY.getIdAsString(), greater_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry GREATER_IGNI_GLYPH = add(new Entry(1, "greater_igni_glyph", "Greater Igni Glyph"))
+    public static final Entry GREATER_IGNI_GLYPH = add(new Entry(10, "greater_igni_glyph", "Greater Igni Glyph"))
             .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:greater_igni_glyph")))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.IGNI_INTENSITY.getIdAsString(), greater_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry GREATER_QUEN_GLYPH = add(new Entry(1, "greater_quen_glyph", "Greater Quen Glyph"))
+    public static final Entry GREATER_QUEN_GLYPH = add(new Entry(10, "greater_quen_glyph", "Greater Quen Glyph"))
             .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:greater_quen_glyph")))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.QUEN_INTENSITY.getIdAsString(), greater_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry GREATER_YRDEN_GLYPH = add(new Entry(1, "greater_yrden_glyph", "Greater Yrden Glyph"))
+    public static final Entry GREATER_YRDEN_GLYPH = add(new Entry(10, "greater_yrden_glyph", "Greater Yrden Glyph"))
             .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:greater_yrden_glyph")))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
@@ -293,15 +291,19 @@ public class WitcherTrinkets {
                     ))
             );
     ///TRINKETS
-    public static final Entry ROSE_OF_REMEMBRANCE = add(new Entry(3, "rose_of_remembrance", "Rose of Remembrance"))
+    public static final Entry PURE_SILVER = add(new Entry(10, "pure_silver", "Pure Silver"))
+            .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:pure_silver")))
+            .config(new TrinketConfig.Entry()
+            );
+    public static final Entry ROSE_OF_REMEMBRANCE = add(new Entry(10, "rose_of_remembrance", "Rose of Remembrance"))
             .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:rose_of_remembrance")))
             .config(new TrinketConfig.Entry()
             );
-    public static final Entry CRYSTAL_SKULL = add(new Entry(3, "crystal_skull", "Crystal Skull"))
+    public static final Entry CRYSTAL_SKULL = add(new Entry(10, "crystal_skull", "Crystal Skull"))
             .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:crystal_skull")))
             .config(new TrinketConfig.Entry()
             );
-    public static final Entry SUNSTONE = add(new Entry(4, "sunstone", "Sunstone"))
+    public static final Entry SUNSTONE = add(new Entry(10, "sunstone", "Sunstone"))
             .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:sunstone")))
             .config(new TrinketConfig.Entry()
             );

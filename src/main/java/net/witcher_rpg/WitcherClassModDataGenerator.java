@@ -1,14 +1,13 @@
 package net.witcher_rpg;
 
-import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.*;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.data.client.*;
 import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentLevelBasedValue;
 import net.minecraft.enchantment.effect.AttributeEnchantmentEffect;
@@ -25,14 +24,18 @@ import net.spell_engine.api.item.armor.Armor;
 import net.spell_engine.api.item.weapon.Weapon;
 import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
 import net.spell_engine.rpg_series.tags.RPGSeriesItemTags;
+import net.witcher_rpg.datagen.WitcherModelProvider;
+import net.witcher_rpg.datagen.WitcherRecipeProvider;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
+import net.witcher_rpg.item.WitcherArmorDiagrams;
 import net.witcher_rpg.item.WitcherItems;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
 import net.witcher_rpg.item.armor.Armors;
 import net.witcher_rpg.spell.WitcherSpells;
 import net.witcher_rpg.util.tags.WitcherItemTags;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 
 import java.util.Iterator;
 import java.util.List;
@@ -46,10 +49,10 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 		var pack = fabricDataGenerator.createPack();
 		pack.addProvider(SpellGen::new);
 		pack.addProvider(ItemTagGenerator::new);
-		pack.addProvider(UnsmeltGenerator::new);
 		pack.addProvider(EnchantmentGenerator::new);
-		pack.addProvider(ModelProvider::new);
 		pack.addProvider(LangGenerator::new);
+		pack.addProvider(WitcherModelProvider::new);
+		pack.addProvider(WitcherRecipeProvider::new);
 	}
 
 	public static class SpellGen extends SpellGenerator {
@@ -94,14 +97,19 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			}
 		}
 
+		List<String> relicSwords1Keywords = List.of("azure_wrath","reach_of_the_damned","ultimatum","winters");
+		List<String> relicSwords2Keywords = List.of("aerondight","iris");
 		List<String> silverSwordsKeywords = List.of("silver", "meteorite","aerondight","azure_wrath","reach_of_the_damned");
 		List<String> steelSwordsKeywords = List.of("steel", "dark_iron","iris","ultimatum","winters");
 		List<String> meleeArmorKeywords = List.of("ursine", "feline");
 		List<String> magicArmorKeywords = List.of("witcher", "wolven","griffin");
 		TagKey relicsKey = TagKey.of(RegistryKeys.ITEM, Identifier.of("relics_rpgs", "all"));
+		List<String> trinkets0Keywords = List.of("crystal_skull","rose_of_remembrance","pure_silver");
+		List<String> trinkets1Keywords = List.of("sunstone");
 
 		@Override
 		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+			///WEAPONS
 			generateWeaponTags(WeaponsRegister.entries);
 			generateWitcherWeaponTags(
 					WeaponsRegister.entries,WitcherItemTags.WITCHER_SWORDS
@@ -118,6 +126,19 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 							.toList(),
 					WitcherItemTags.STEEL_SWORDS
 			);
+			generateWitcherWeaponTags(
+					WeaponsRegister.entries.stream()
+							.filter(entry -> relicSwords1Keywords.stream().anyMatch(entry.name()::contains))
+							.toList(),
+					WitcherItemTags.RELIC_SWORDS_1
+			);
+			generateWitcherWeaponTags(
+					WeaponsRegister.entries.stream()
+							.filter(entry -> relicSwords2Keywords.stream().anyMatch(entry.name()::contains))
+							.toList(),
+					WitcherItemTags.RELIC_SWORDS_2
+			);
+			///ARMOR
 			generateArmorTags(
 					Armors.entries.stream().filter(entry -> magicArmorKeywords.stream().anyMatch(entry.name()::contains)).toList(),
 					RPGSeriesItemTags.ArmorMetaType.MAGIC
@@ -129,101 +150,46 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			generateWitcherArmorTag(
 					Armors.entries,WitcherItemTags.WITCHER_ARMOR
 			);
+			///RELICS
 			var relicsAll = getOrCreateTagBuilder(relicsKey);
 			WitcherTrinkets.entries.stream()
 					.filter(entry -> !entry.name().toLowerCase().contains("medallion"))
 					.forEach(entry -> relicsAll.addOptional(entry.id()));
+			var glyphs0 = getOrCreateTagBuilder(WitcherItemTags.GLYPHS_0);
+			WitcherTrinkets.entries.stream()
+					.filter(entry -> entry.name().toLowerCase().contains("lesser"))
+					.forEach(entry -> glyphs0.addOptional(entry.id()));
+			var glyphs1 = getOrCreateTagBuilder(WitcherItemTags.GLYPHS_1);
+			WitcherTrinkets.entries.stream()
+					.filter(entry -> entry.name().toLowerCase().contains("glyph"))
+					.filter(entry -> !entry.name().toLowerCase().contains("greater"))
+					.filter(entry -> !entry.name().toLowerCase().contains("lesser"))
+					.forEach(entry -> glyphs1.addOptional(entry.id()));
+			var glyphs2 = getOrCreateTagBuilder(WitcherItemTags.GLYPHS_2);
+			WitcherTrinkets.entries.stream()
+					.filter(entry -> entry.name().toLowerCase().contains("greater"))
+					.forEach(entry -> glyphs2.addOptional(entry.id()));
+			var trinkets0 = getOrCreateTagBuilder(WitcherItemTags.TRINKETS_0);
+			WitcherTrinkets.entries.stream()
+					.filter(entry -> trinkets0Keywords.stream().anyMatch(entry.name()::contains)).toList()
+					.forEach(entry -> trinkets0.addOptional(entry.id()));
+			var trinkets1 = getOrCreateTagBuilder(WitcherItemTags.TRINKETS_1);
+			WitcherTrinkets.entries.stream()
+					.filter(entry -> trinkets1Keywords.stream().anyMatch(entry.name()::contains)).toList()
+					.forEach(entry -> trinkets1.addOptional(entry.id()));
+			///DIAGRAMS
+			var enhanced = getOrCreateTagBuilder(WitcherItemTags.ENHANCED_DIAGRAMS);
+			WitcherArmorDiagrams.ENTRIES.stream()
+					.filter(entry -> entry.id().toString().toLowerCase().contains("enhanced"))
+					.forEach(entry -> enhanced.addOptional(entry.id()));
+			var superior = getOrCreateTagBuilder(WitcherItemTags.SUPERIOR_DIAGRAMS);
+			WitcherArmorDiagrams.ENTRIES.stream()
+					.filter(entry -> entry.id().toString().toLowerCase().contains("superior"))
+					.forEach(entry -> superior.addOptional(entry.id()));
 		}
 	}
 
-	public static class UnsmeltGenerator extends FabricRecipeProvider {
-		public UnsmeltGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
-			super(output, registriesFuture);
-		}
 
-		public static int UNSMELT_TIME = 300;
-
-		@Override
-		public void generate(RecipeExporter exporter) {
-			disassembleArmor(exporter, Armors.witcherArmorSet, Items.LEATHER);
-			disassembleArmor(exporter, Armors.felineSchoolArmorSet, WitcherItems.STEEL_NUGGET);
-			disassembleArmor(exporter, Armors.enhancedFelineSchoolArmorSet, WitcherItems.STEEL_NUGGET);
-			disassembleArmor(exporter, Armors.superiorFelineSchoolArmorSet, WitcherItems.STEEL_NUGGET);
-			disassembleArmor(exporter, Armors.ursineArmorSet, WitcherItems.STEEL_NUGGET);
-			disassembleArmor(exporter, Armors.enhancedUrsineArmorSet, WitcherItems.STEEL_NUGGET);
-			disassembleArmor(exporter, Armors.superiorUrsineArmorSet, WitcherItems.STEEL_NUGGET);
-			disassembleArmor(exporter, Armors.griffinArmorSet, WitcherItems.SILVER_NUGGET);
-			disassembleArmor(exporter, Armors.enhancedGriffinArmorSet, WitcherItems.SILVER_NUGGET);
-			disassembleArmor(exporter, Armors.superiorGriffinArmorSet, WitcherItems.SILVER_NUGGET);
-			disassembleArmor(exporter, Armors.wolvenArmorSet, WitcherItems.SILVER_NUGGET);
-			disassembleArmor(exporter, Armors.enhancedWolvenArmorSet, WitcherItems.SILVER_NUGGET);
-			disassembleArmor(exporter, Armors.superiorWolvenArmorSet, WitcherItems.SILVER_NUGGET);
-
-			disassemble(exporter,
-					WeaponsRegister.entries.stream()
-							.filter(entry -> entry.id().getPath().contains("gold"))
-							.map(entry -> (ItemConvertible) entry.item()).toList(),
-					Items.GOLD_NUGGET);
-			disassemble(exporter,
-					WeaponsRegister.entries.stream()
-							.filter(entry -> entry.id().getPath().contains("iron"))
-							.map(entry -> (ItemConvertible) entry.item()).toList(),
-					Items.IRON_NUGGET);
-			disassemble(exporter,
-					WeaponsRegister.entries.stream()
-							.filter(entry -> entry.id().getPath().contains("netherite"))
-							.map(entry -> (ItemConvertible) entry.item()).toList(),
-					Items.NETHERITE_SCRAP);
-			disassemble(exporter,
-					WeaponsRegister.entries.stream()
-							.filter(entry -> entry.id().getPath().contains("steel"))
-							.map(entry -> (ItemConvertible) entry.item()).toList(),
-					WitcherItems.STEEL_NUGGET);
-			disassemble(exporter,
-					WeaponsRegister.entries.stream()
-							.filter(entry -> entry.id().getPath().contains("silver"))
-							.map(entry -> (ItemConvertible) entry.item()).toList(),
-					WitcherItems.SILVER_NUGGET);
-		}
-
-		private static void disassembleArmor(RecipeExporter exporter, Armor.Set armorSet, Item output) {
-			FabricRecipeProvider.offerSmelting(exporter,
-					armorSet.pieces(),
-					RecipeCategory.MISC,
-					output,
-					0.1f,
-					UNSMELT_TIME,
-					"disassemble"
-			);
-			FabricRecipeProvider.offerBlasting(exporter,
-					armorSet.pieces(),
-					RecipeCategory.MISC,
-					output,
-					0.1f,
-					UNSMELT_TIME / 2,
-					"disassemble"
-			);
-		}
-
-		private static void disassemble(RecipeExporter exporter, List<ItemConvertible> items, Item output) {
-			FabricRecipeProvider.offerSmelting(exporter,
-					items,
-					RecipeCategory.MISC,
-					output,
-					0.1f,
-					UNSMELT_TIME,
-					"disassemble"
-			);
-			FabricRecipeProvider.offerBlasting(exporter,
-					items,
-					RecipeCategory.MISC,
-					output,
-					0.1f,
-					UNSMELT_TIME / 2,
-					"disassemble"
-			);
-		}
-	}
 	private static class EnchantmentGenerator extends FabricDynamicRegistryProvider {
 		public EnchantmentGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
 			super(output, registriesFuture);
@@ -256,32 +222,6 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		public String getName() {
 			return "enchantments";
-		}
-	}
-
-	public static class ModelProvider extends FabricModelProvider {
-		public ModelProvider(FabricDataOutput output) {
-			super(output);
-		}
-		@Override
-		public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-
-		}
-
-
-		@Override
-		public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-			WitcherTrinkets.entries.forEach(entry -> {
-				Item item = entry.item().get();
-				Identifier itemId = Registries.ITEM.getId(item);
-				Identifier modelId = Identifier.of(itemId.getNamespace(), "item/" + itemId.getPath());
-				JsonObject json = new JsonObject();
-				json.addProperty("parent", "item/generated");
-				JsonObject textures = new JsonObject();
-				textures.addProperty("layer0", "witcher_rpg:item/trinkets/" + entry.name());
-				json.add("textures", textures);
-				itemModelGenerator.writer.accept(modelId, () -> json);
-			});
 		}
 	}
 

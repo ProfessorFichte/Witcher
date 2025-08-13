@@ -164,7 +164,6 @@ public class WeaponsRegister {
                     .attribute(AttributeModifier.bonus(AARD_INTENSITY,3.0F))
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.05F))
                     .attribute(AttributeModifier.multiply(SpellPowerMechanics.CRITICAL_DAMAGE.id, 0.15F))
-                    .loot(Equipment.LootProperties.of(4))
                     .spell(winters_blade_passive)
                     .rarity = Rarity.RARE;
             witcherswords("ultimatum_sword",
@@ -173,7 +172,6 @@ public class WeaponsRegister {
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.075F))
                     .attribute(AttributeModifier.bonus(IGNI_INTENSITY,3.0F))
                     .spell(ultimatum_passive)
-                    .loot(Equipment.LootProperties.of(4))
                     .rarity = Rarity.RARE;
             witcherswords("azure_wrath_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND,() -> Ingredient.ofItems(WitcherItems.SILVER_INGOT)), 6.0F)
@@ -181,7 +179,6 @@ public class WeaponsRegister {
                     .attribute(AttributeModifier.bonus(SIGN_INTENSITY,4.0F))
                     .attribute(AttributeModifier.bonus(YRDEN_INTENSITY,3.0F))
                     .spell(azure_wrath_passive)
-                    .loot(Equipment.LootProperties.of(4))
                     .rarity = Rarity.RARE;
             witcherswords("reach_of_the_damned_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND,() -> Ingredient.ofItems(WitcherItems.SILVER_INGOT)), 6.0F)
@@ -189,20 +186,17 @@ public class WeaponsRegister {
                     .attribute(AttributeModifier.bonus(SIGN_INTENSITY,4.0F))
                     .attribute(AttributeModifier.bonus(AXII_INTENSITY,3.0F))
                     .spell(reach_of_the_damned_passive)
-                    .loot(Equipment.LootProperties.of(4))
                     .rarity = Rarity.RARE;
             witcherswords("aerondight_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherItems.METEORITE_SILVER_INGOT)), 6.5F)
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.1F))
                     .attribute(AttributeModifier.bonus(SIGN_INTENSITY,5.0F))
                     .spell(aerondight_passive)
-                    .loot(Equipment.LootProperties.of(5))
                     .rarity = Rarity.EPIC;
             witcherswords("iris_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherItems.DARK_STEEL_INGOT)), 7.0F)
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.15F))
                     .spell(iris_passive)
-                    .loot(Equipment.LootProperties.of(5))
                     .rarity = Rarity.EPIC;
         }
         Weapon.register(configs, entries, WitcherGroup.WITCHER_KEY);

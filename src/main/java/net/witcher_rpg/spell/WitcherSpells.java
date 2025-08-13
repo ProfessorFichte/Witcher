@@ -1,8 +1,10 @@
 package net.witcher_rpg.spell;
 
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.more_rpg_classes.custom.MoreSpellSchools;
+import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.fx.Sound;
@@ -357,7 +359,16 @@ public class WitcherSpells {
             return args.description().replace("{bonus}", bonus);
         };
 
-        var spell = activeSpellBase();
+        var spell = new Spell();
+        spell.type = Spell.Type.ACTIVE;
+        spell.active = new Spell.Active();
+        spell.active.cast = new Spell.Active.Cast();
+        spell.tooltip = new Spell.Tooltip();
+        spell.tooltip.show_header = false;
+        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
+        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
+        spell.tooltip.description.show_in_compact = true;
+
         spell.school = WitcherSpellSchools.SIGN;
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
@@ -374,6 +385,90 @@ public class WitcherSpells {
         configureCooldown(spell, 90);
 
         return new Entry(id, spell, title, description, mutator);
+    }
+    public static Entry crystal_skull = add(crystal_skull());
+    private static Entry crystal_skull() {
+        var id = Identifier.of(MOD_ID, "crystal_skull");
+        var description = "On melee hit: {trigger_chance} to shoot crystal shards, dealing {damage} to enemies.";
+        var title = "Crystal Skull";
+
+        var spell = passiveSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        spell.range = 16;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.melee = new Spell.Trigger.MeleeCondition();
+        trigger.chance = 0.2F;
+
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+
+        spell.deliver.type = Spell.Delivery.Type.PROJECTILE;
+        spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
+        spell.deliver.projectile.inherit_shooter_pitch = false;
+        spell.deliver.projectile.launch_properties.velocity = 1.25F;
+        var projectile = new Spell.ProjectileData();
+        projectile.homing_angle = 0F;
+        projectile.client_data = new Spell.ProjectileData.Client();
+        projectile.client_data.model = new Spell.ProjectileModel();
+        projectile.client_data.model.model_id = "witcher_rpg:projectile/crystal_skull";
+        projectile.perks.pierce = 999;
+        spell.deliver.projectile.projectile = projectile;
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.2F;
+        damage.particles = new ParticleBatch[] {
+                new ParticleBatch(
+                        SpellEngineParticles.MagicParticles.get(
+                                SpellEngineParticles.MagicParticles.Shape.ARCANE,
+                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 20, 0.1F, 0.3F, 0.0F, 0F)
+                        .color(Color.GREEN.toRGBA())
+        };
+        spell.impacts = List.of(damage);
+
+        configureCooldown(spell, 5);
+        return new Entry(id, spell, title, description, null);
+    }
+    public static Entry pure_silver = add(pure_silver());
+    private static Entry pure_silver() {
+        var id = Identifier.of(MOD_ID, "pure_silver");
+        var description = "On melee hit: Sets silver vulnerable targets on fire.";
+        var title = "Pure Silver";
+
+        var spell = passiveSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.melee = new Spell.Trigger.MeleeCondition();
+        trigger.chance = 1.0F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var fire = SpellBuilder.Impacts.fire(3);
+        silverVulnerabilityAllow(fire);
+        fire.particles = new ParticleBatch[] {
+                new ParticleBatch(
+                        SpellEngineParticles.MagicParticles.get(
+                                SpellEngineParticles.MagicParticles.Shape.ARCANE,
+                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 20, 0.1F, 0.3F, 0.0F, 0F)
+                        .color(Color.WHITE.toRGBA())
+        };
+        spell.impacts = List.of(fire);
+
+        configureCooldown(spell, 1);
+        return new Entry(id, spell, title, description, null);
     }
 
 }

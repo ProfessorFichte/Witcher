@@ -331,7 +331,7 @@ public class WitcherStatusEffects {
             )
     ));
     public static Effects.Entry SUNSTONE = add(new Effects.Entry(Identifier.of(MOD_ID,"sunstone"),
-            "Charged Sword",
+            "Sunstone",
             "Boosts Sign Intensity.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.SIGN.color),
             new EffectConfig(

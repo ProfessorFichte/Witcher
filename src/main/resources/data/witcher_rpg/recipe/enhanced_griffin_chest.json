@@ -7,7 +7,7 @@
     "item": "witcher_rpg:griffin_chest"
   },
   "addition": {
-    "item": "witcher_rpg:meteorite_ingot"
+    "tag": "witcher_rpg:silver_ingots"
   },
   "result": {
     "id": "witcher_rpg:enhanced_griffin_chest"

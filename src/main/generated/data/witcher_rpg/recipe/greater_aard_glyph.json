@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:aard_glyph"
+    },
+    {
+      "item": "witcher_rpg:aard_glyph"
+    },
+    {
+      "item": "witcher_rpg:aard_glyph"
+    },
+    {
+      "item": "witcher_rpg:aard_glyph"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:greater_aard_glyph"
+  }
+}

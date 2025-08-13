@@ -10,7 +10,7 @@
       "item": "witcher_rpg:enhanced_feline_diagram"
     },
     "B": {
-      "item": "witcher_rpg:dark_iron_ingot"
+      "tag": "witcher_rpg:steel_ingots"
     },
     "C": {
       "item": "more_rpg_classes:hardened_leather"

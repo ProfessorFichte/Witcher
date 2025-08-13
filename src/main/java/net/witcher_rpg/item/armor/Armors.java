@@ -14,7 +14,6 @@ import net.spell_engine.api.config.ArmorSetConfig;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.item.Equipment;
 import net.spell_power.api.SpellPowerMechanics;
-import net.witcher_rpg.WitcherClassMod;
 import net.witcher_rpg.item.WitcherGroup;
 import net.spell_engine.api.item.armor.Armor;
 import net.witcher_rpg.item.WitcherItems;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import java.util.logging.Logger;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
@@ -247,7 +245,7 @@ public class Armors {
                                     .addAll(List.of(
                                             AttributeModifier.multiply(ADRENALINE,felineAdrenaline),
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeed)
-                                    ))),1).armorSet();
+                                    ))),10).armorSet();
 
     public static final Armor.Set enhancedFelineSchoolArmorSet =
             create(
@@ -276,7 +274,7 @@ public class Armors {
                                             AttributeModifier.multiply(ADRENALINE,felineAdrenalineT2),
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT2),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT2)
-                                    ))),2).armorSet();
+                                    ))),10).armorSet();
 
     public static final Armor.Set superiorFelineSchoolArmorSet =
             create(
@@ -309,7 +307,7 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT3),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT3)
-                                    ))),3).armorSet();
+                                    ))),10).armorSet();
     //GRIFFIN SCHOOL ARMOR
     public static final Armor.Set griffinArmorSet =
             create(
@@ -334,7 +332,7 @@ public class Armors {
                                     .addAll(List.of(
                                             AttributeModifier.multiply(SIGN_INTENSITY,griffinSign),
                                             AttributeModifier.multiply(ADRENALINE,griffinAdrenaline)
-                                    ))),1).armorSet();
+                                    ))),10).armorSet();
 
     public static final Armor.Set enhancedGriffinArmorSet =
             create(
@@ -363,7 +361,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,griffinSignT2),
                                             AttributeModifier.multiply(ADRENALINE,griffinAdrenalineT2),
                                             AttributeModifier.multiply(SpellPowerMechanics.HASTE.id,griffinHasteT2)
-                                    ))),2).armorSet();
+                                    ))),10).armorSet();
 
     public static final Armor.Set superiorGriffinArmorSet =
             create(
@@ -392,7 +390,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,griffinSignT3),
                                             AttributeModifier.multiply(ADRENALINE,griffinAdrenalineT3),
                                             AttributeModifier.multiply(SpellPowerMechanics.HASTE.id,griffinHasteT3)
-                                    ))),3).armorSet();
+                                    ))),10).armorSet();
 
     //WOLVEN SCHOOL ARMOR
     public static final Armor.Set wolvenArmorSet =
@@ -418,7 +416,7 @@ public class Armors {
                                     .addAll(List.of(
                                             AttributeModifier.multiply(SIGN_INTENSITY,wolvenSign),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,wolvenAttackDamage)
-                                    ))),1).armorSet();
+                                    ))),10).armorSet();
     public static final Armor.Set enhancedWolvenArmorSet =
             create(
                     material_enhanced_wolven, Identifier.of(MOD_ID, "enhanced_wolven"), 20, WolfSchoolArmor::new,
@@ -446,7 +444,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,wolvenSignT2),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,wolvenAttackDamageT2),
                                             AttributeModifier.multiply(ADRENALINE,wolvenAdrenalineT2)
-                                    ))),2).armorSet();
+                                    ))),10).armorSet();
     public static final Armor.Set superiorWolvenArmorSet =
             create(
                     material_superior_wolven, Identifier.of(MOD_ID, "superior_wolven"), 25, WolfSchoolArmor::new,
@@ -474,7 +472,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,wolvenSignT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,wolvenAttackDamageT3),
                                             AttributeModifier.multiply(ADRENALINE,wolvenAdrenalineT3)
-                                    ))),3).armorSet();
+                                    ))),10).armorSet();
 
     //URSINE SCHOOL ARMOR
     public static final Armor.Set ursineArmorSet =
@@ -500,7 +498,7 @@ public class Armors {
                                     .addAll(List.of(
                                             AttributeModifier.multiply(ADRENALINE,ursineAdrenaline),
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResi)
-                                    ))),1).armorSet();
+                                    ))),10).armorSet();
     public static final Armor.Set enhancedUrsineArmorSet =
             create(
                     material_enhanced_ursine, Identifier.of(MOD_ID, "enhanced_ursine"), 20, BearSchoolArmor::new,
@@ -528,7 +526,7 @@ public class Armors {
                                             AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT2),
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT2),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT2)
-                                    ))),2).armorSet();
+                                    ))),10).armorSet();
     public static final Armor.Set superiorUrsineArmorSet =
             create(
                     material_superior_ursine, Identifier.of(MOD_ID, "superior_ursine"), 25, BearSchoolArmor::new,
@@ -560,7 +558,7 @@ public class Armors {
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT3),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT3)
-                                    ))),3).armorSet();
+                                    ))),10).armorSet();
 
     public static void register(Map<String,  ArmorSetConfig> configs) {
         Armor.register(configs, entries, WitcherGroup.WITCHER_KEY);

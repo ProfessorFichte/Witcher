@@ -11,10 +11,13 @@
 **New Additional Equipment**
 - Add Witcher School Medallions (Necklace Trinket Slot)
 - Added some Sign Glyphs
+- Added new Relic Items
 ### TECHNICAL & INTERNAL CHANGES
 - Sign Intensity Enchantment now only goes on Witcher Armor
-- Swords also use Spell Power Enchantment, which now also boosts Witcher Signs
+- Swords also use Spell Power Enchantment, which now also boosts Witcher Signs Damage
 - Add Spell Datagen
+- Add Loot Injection via Tags
+- Removed specific Witcher Armor School Gear and Relic Swords from RPG Series Loot Tag
 
 # 2.4.11 - 1.21.1
 - MRPGLib 2.3 Update

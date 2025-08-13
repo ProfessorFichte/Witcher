@@ -10,7 +10,7 @@
       "item": "witcher_rpg:enhanced_wolven_diagram"
     },
     "B": {
-      "item": "witcher_rpg:meteorite_ingot"
+      "tag": "witcher_rpg:silver_ingots"
     },
     "C": {
       "item": "more_rpg_classes:hardened_leather"

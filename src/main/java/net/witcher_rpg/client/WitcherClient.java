@@ -51,7 +51,8 @@ public class WitcherClient implements ClientModInitializer {
                 YrdenRenderer.modelId,
                 YrdenMagicTrapRenderer.modelId,
                 QuenActiveShieldRenderer.modelId,
-                Identifier.of(MOD_ID, "projectile/rend")
+                Identifier.of(MOD_ID, "projectile/rend"),
+                Identifier.of(MOD_ID, "projectile/crystal_skull")
         ));
 
         ParticleFactoryRegistry.getInstance().register(Particles.IGNI_SIGN, SoulParticle.Factory::new);
