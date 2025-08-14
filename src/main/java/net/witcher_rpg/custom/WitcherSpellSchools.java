@@ -275,14 +275,7 @@ public class WitcherSpellSchools {
         SpellSchools.configureSpellCritChance(YRDEN);
         SpellSchools.register(YRDEN);
         WITCHER_MELEE.addSource(SpellSchool.Trait.POWER, SpellSchool.Apply.ADD, query -> {
-            var power = query.entity().getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
-            var world = query.entity().getWorld();
-            var sharpness = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.SHARPNESS);
-            if (sharpness.isPresent()) {
-                var level = EnchantmentHelper.getLevel(sharpness.get(), query.entity().getMainHandStack());
-                power *= 1 + (0.05 * level);
-            }
-            return power;
+            return query.entity().getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
         });
         WITCHER_MELEE.addSource(SpellSchool.Trait.CRIT_DAMAGE, SpellSchool.Apply.ADD, query -> {
             var value = SpellPowerMod.attributesConfig.value.base_spell_critical_damage_percentage

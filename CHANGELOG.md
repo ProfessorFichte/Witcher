@@ -18,6 +18,7 @@
 - Add Spell Datagen
 - Add Loot Injection via Tags
 - Removed specific Witcher Armor School Gear and Relic Swords from RPG Series Loot Tag
+- Fix Witcher Melee spell school double counting sharpness enchantment
 
 # 2.4.11 - 1.21.1
 - MRPGLib 2.3 Update

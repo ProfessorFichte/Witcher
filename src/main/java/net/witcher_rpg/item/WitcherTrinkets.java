@@ -79,22 +79,26 @@ public class WitcherTrinkets {
                 if (config().durability > 0) {
                     settings = settings.maxDamage(config().durability);
                 }
-
-                var rarity = rarityFrom(tier);
-                if (rarity != Rarity.COMMON) {
-                    settings = settings.rarity(rarity);
+                if(name.contains("medallion")){
+                    settings = settings.rarity(Rarity.EPIC);
+                }
+                if(name.contains("lesser")){
+                    settings = settings.rarity(Rarity.COMMON);
+                }
+                if(!name.contains("lesser") && !name.contains("greater") && name.contains("glyph")){
+                    settings = settings.rarity(Rarity.UNCOMMON);
+                }
+                if(name.contains("greater")){
+                    settings = settings.rarity(Rarity.RARE);
+                }
+                if(name.contains("pure_silver") && name.contains("rose_of_remembrance") && name.contains("crystal_skull")){
+                    settings = settings.rarity(Rarity.RARE);
+                }
+                if(name.contains("sunstone")){
+                    settings = settings.rarity(Rarity.EPIC);
                 }
                 return getFactory().apply(new ItemArgs(settings, attributes));
             });
-        }
-
-        private static Rarity rarityFrom(int tier) {
-            return switch (tier) {
-                case 0, 1 -> Rarity.COMMON;
-                case 2 -> Rarity.UNCOMMON;
-                case 3 -> Rarity.RARE;
-                default -> Rarity.EPIC;
-            };
         }
 
         public int tier() {

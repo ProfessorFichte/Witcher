@@ -70,7 +70,6 @@ public class WitcherItems {
             content.add(DARK_STEEL_INGOT);
         });
         WitcherArmorDiagrams.register();
-        //WitcherArmorDiagram.registerWitcherArmorDiagrams();
         WitcherClassMod.LOGGER.info("Registering Mod Items for " + MOD_ID);
     }
 }
