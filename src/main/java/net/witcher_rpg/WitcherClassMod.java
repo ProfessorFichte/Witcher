@@ -30,7 +30,7 @@ import net.witcher_rpg.sounds.Sounds;
 import net.witcher_rpg.worldgen.OreGen;
 import net.witcher_rpg.blocks.WitcherBlocks;
 import net.witcher_rpg.item.armor.Armors;
-import net.tinyconfig.ConfigManager;
+import net.tiny_config.ConfigManager;
 import net.witcher_rpg.config.Default;
 import net.witcher_rpg.custom.CustomSpells;
 import net.witcher_rpg.item.WitcherGroup;

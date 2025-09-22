@@ -1,3 +1,8 @@
+# 2.5.1 - 1.21.1
+- Spell Engine & other Dependency Update
+- Fix Iris Sword Passive
+- Fix Some Item Models
+
 # 2.5.0 - 1.21.1
 ### NEW CONTENT
 **New Relic Swords:**
