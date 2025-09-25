@@ -24,7 +24,7 @@ import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.YrdenEntity;
 import net.witcher_rpg.entity.YrdenMagicTrapEntity;
-import net.witcher_rpg.item.TrinketCompat;
+import net.witcher_rpg.compat.TrinketCompat;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.sounds.Sounds;
 import net.witcher_rpg.worldgen.OreGen;
@@ -114,7 +114,7 @@ public class WitcherClassMod implements ModInitializer {
 		WeaponsRegister.register(itemConfig.value.weapons);
 		Armors.register(itemConfig.value.armor_sets);
 		WitcherTrinkets.register(trinketConfig.value.entries);
-		TrinketCompat.register();
+		TrinketCompat.init();
 		registerItemGroup();
 		WitcherMapIcons.register();
 		itemConfig.save();

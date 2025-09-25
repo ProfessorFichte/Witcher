@@ -1,4 +1,4 @@
-package net.witcher_rpg.item;
+package net.witcher_rpg.compat;
 
 import com.google.common.collect.Multimap;
 import dev.emi.trinkets.api.SlotReference;

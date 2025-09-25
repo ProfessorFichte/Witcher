@@ -1,3 +1,8 @@
+# 2.5.2 - 1.21.1
+- Update Spell Textures
+- Update Mob Effect Textures
+- Fix Crash without Trinkets
+
 # 2.5.1 - 1.21.1
 - Spell Engine & other Dependency Update
 - Fix Iris Sword Passive
