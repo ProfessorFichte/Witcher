@@ -180,7 +180,7 @@ public class WitcherStatusEffects {
                             new AttributeModifier(
                                     SpellEngineAttributes.DAMAGE_TAKEN.id,
                                     0.1F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
@@ -221,8 +221,8 @@ public class WitcherStatusEffects {
                     List.of(
                             new AttributeModifier(
                                     SpellEngineAttributes.DAMAGE_TAKEN.id,
-                                    -0.5F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                                    -0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
@@ -338,6 +338,44 @@ public class WitcherStatusEffects {
                     List.of(
                             new AttributeModifier(
                                     WitcherAttributes.SIGN_INTENSITY.getIdAsString(),
+                                    0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry YRDEN_GRIFFIN_MASTER = add(new Effects.Entry(Identifier.of(MOD_ID,"yrden_griffin_master"),
+            "Yrden Griffin Boost",
+            "Boosts Sign Intensity & Reduces incoming Damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.SIGN.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    WitcherAttributes.SIGN_INTENSITY.getIdAsString(),
+                                    0.5F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    SpellEngineAttributes.DAMAGE_TAKEN.id,
+                                    -0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry FELINE_INJURY_MASTER = add(new Effects.Entry(Identifier.of(MOD_ID,"feline_injury_master"),
+            "Feline Injury Master",
+            "Boosts Sign Intensity & Reduces incoming Damage.",
+            new CustomStatusEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellEngineAttributes.DAMAGE_TAKEN.id,
+                                    0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
                                     0.2F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )

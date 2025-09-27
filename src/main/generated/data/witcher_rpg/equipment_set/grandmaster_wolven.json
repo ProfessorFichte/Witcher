@@ -1,0 +1,44 @@
+{
+  "bonuses": [
+    {
+      "attributes": {
+        "modifiers": [
+          {
+            "type": "minecraft:generic.attack_damage",
+            "amount": 0.05000000074505806,
+            "id": "witcher_rpg:grandmaster_wolven",
+            "operation": "add_multiplied_base",
+            "slot": "armor"
+          }
+        ]
+      },
+      "required_piece_count": 2
+    },
+    {
+      "required_piece_count": 4,
+      "spells": {
+        "content": "ANY",
+        "spell_ids": [
+          "witcher_rpg:improved_aard"
+        ]
+      }
+    },
+    {
+      "required_piece_count": 5,
+      "spells": {
+        "content": "ANY",
+        "spell_ids": [
+          "witcher_rpg:grandmaster_wolven"
+        ]
+      }
+    }
+  ],
+  "items": [
+    "witcher_rpg:grandmaster_wolven_head",
+    "witcher_rpg:grandmaster_wolven_chest",
+    "witcher_rpg:grandmaster_wolven_legs",
+    "witcher_rpg:grandmaster_wolven_feet",
+    "witcher_rpg:wolf_school_medallion"
+  ],
+  "name": "grandmaster_wolven"
+}

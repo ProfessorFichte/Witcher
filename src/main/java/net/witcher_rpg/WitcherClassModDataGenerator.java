@@ -12,10 +12,13 @@ import net.minecraft.enchantment.effect.AttributeEnchantmentEffect;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.item.Item;
 import net.minecraft.registry.*;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.datagen.SpellGenerator;
 import net.spell_engine.api.item.armor.Armor;
+import net.spell_engine.api.item.set.EquipmentSet;
+import net.spell_engine.api.item.set.EquipmentSetRegistry;
 import net.spell_engine.api.item.weapon.Weapon;
 import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
 import net.spell_engine.rpg_series.tags.RPGSeriesItemTags;
@@ -27,6 +30,7 @@ import net.witcher_rpg.item.WitcherArmorDiagrams;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
 import net.witcher_rpg.item.armor.Armors;
+import net.witcher_rpg.spell.SetBonuses;
 import net.witcher_rpg.spell.WitcherSpells;
 import net.witcher_rpg.util.tags.WitcherItemTags;
 
@@ -46,6 +50,7 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(LangGenerator::new);
 		pack.addProvider(WitcherModelProvider::new);
 		pack.addProvider(WitcherRecipeProvider::new);
+		pack.addProvider(EquipmentSetGenerator::new);
 	}
 
 	public static class SpellGen extends SpellGenerator {
@@ -237,10 +242,44 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 				translationBuilder.add(entry.effect.getTranslationKey(), entry.title);
 				translationBuilder.add(entry.effect.getTranslationKey() + ".description", entry.description);
 			});
+			SetBonuses.all.forEach(entry -> {
+				translationBuilder.add(EquipmentSet.translationKey(entry.id()), entry.title());
+			});
 			translationBuilder.add("filled_map.witcher_rpg.feline_hideouts", "Scavenger Hunt: Cat School Gear");
 			translationBuilder.add("filled_map.witcher_rpg.griffin_hideouts", "Scavenger Hunt: Griffin School Gear");
 			translationBuilder.add("filled_map.witcher_rpg.ursine_hideouts", "Scavenger Hunt: Bear School Gear");
 			translationBuilder.add("filled_map.witcher_rpg.wolven_hideouts", "Scavenger Hunt: Wolf School Gear");
 		}
 	}
+
+	public static class EquipmentSetGenerator extends FabricDynamicRegistryProvider {
+
+		public EquipmentSetGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+			super(output, registriesFuture);
+		}
+	@Override
+	protected void configure(RegistryWrapper.WrapperLookup registries, FabricDynamicRegistryProvider.Entries entries) {
+		RegistryEntryLookup<Item> itemLookup = registries.createRegistryLookup().getOrThrow(RegistryKeys.ITEM);
+		for (var set: SetBonuses.all) {
+			var items = RegistryEntryList.of(
+					set.itemSupplier().get().stream()
+							.map(id -> itemLookup.getOrThrow(RegistryKey.of(RegistryKeys.ITEM, id)))
+							.toList()
+			);
+			entries.add(
+					RegistryKey.of(EquipmentSetRegistry.KEY, set.id()),
+					new EquipmentSet.Definition(
+							set.id().getPath(),
+							items,
+							set.bonuses()
+					)
+			);
+		}
+	}
+		@Override
+		public String getName() {
+			return "Equipment Set Generator";
+		}
+	}
+
 }

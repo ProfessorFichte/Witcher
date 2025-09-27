@@ -14,6 +14,7 @@ import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.api.item.armor.Armor;
 import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.render.CustomModels;
+import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
@@ -86,10 +87,32 @@ public class WitcherClient implements ClientModInitializer {
                                 Color.WHITE.toRGBA())
                 )
         );
+        CustomParticleStatusEffect.register(
+                WitcherStatusEffects.QUEN_SHIELD.effect,
+                new BuffParticleSpawner(
+                        new ParticleBatch(
+                                SpellEngineParticles.aura_effect_622.id().toString(),
+                                ParticleBatch.Shape.LINE, ParticleBatch.Origin.CENTER,
+                                1, 0, 0)
+                                .scale(1.4F)
+                                .followEntity(true).copy().color(Color.ELECTRIC.alpha(0.5F).toRGBA())
+                ).withFrequency(20).scaleWithAmplifier(false)
+        );
+        CustomParticleStatusEffect.register(
+                WitcherStatusEffects.YRDEN_GRIFFIN_MASTER.effect,
+                new BuffParticleSpawner(
+                        new ParticleBatch(
+                                SpellEngineParticles.aura_effect_622.id().toString(),
+                                ParticleBatch.Shape.LINE, ParticleBatch.Origin.CENTER,
+                                1, 0, 0)
+                                .scale(1.4F)
+                                .followEntity(true).copy().color(Color.ARCANE.alpha(0.5F).toRGBA())
+                ).withFrequency(20).scaleWithAmplifier(false)
+        );
 
         CustomModelStatusEffect.register(WitcherStatusEffects.QUEN_ACTIVE.effect, new QuenActiveShieldRenderer());
 
-        registerArmorRenderer(Armors.witcherArmorSet, WitcherArmorRenderer::witcher);
+        registerArmorRenderer(Armors.witcherArmorSet, CustomArmorRenderer::kaer_morhen);
 
         registerArmorRenderer(Armors.ursineArmorSet, BearSchoolArmorRenderer::ursine);
         registerArmorRenderer(Armors.enhancedUrsineArmorSet, BearSchoolArmorRenderer::enhanced_ursine);

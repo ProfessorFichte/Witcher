@@ -65,6 +65,38 @@
       "required": false
     },
     {
+      "id": "witcher_rpg:mastercrafted_feline_head",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_feline_chest",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_feline_legs",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_feline_feet",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_feline_head",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_feline_chest",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_feline_legs",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_feline_feet",
+      "required": false
+    },
+    {
       "id": "witcher_rpg:griffin_head",
       "required": false
     },
@@ -110,6 +142,38 @@
     },
     {
       "id": "witcher_rpg:superior_griffin_feet",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_griffin_head",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_griffin_chest",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_griffin_legs",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_griffin_feet",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_griffin_head",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_griffin_chest",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_griffin_legs",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_griffin_feet",
       "required": false
     },
     {
@@ -161,6 +225,38 @@
       "required": false
     },
     {
+      "id": "witcher_rpg:mastercrafted_wolven_head",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_wolven_chest",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_wolven_legs",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_wolven_feet",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_wolven_head",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_wolven_chest",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_wolven_legs",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_wolven_feet",
+      "required": false
+    },
+    {
       "id": "witcher_rpg:ursine_head",
       "required": false
     },
@@ -206,6 +302,38 @@
     },
     {
       "id": "witcher_rpg:superior_ursine_feet",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_ursine_head",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_ursine_chest",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_ursine_legs",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:mastercrafted_ursine_feet",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_ursine_head",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_ursine_chest",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_ursine_legs",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:grandmaster_ursine_feet",
       "required": false
     }
   ]

@@ -84,7 +84,7 @@ public class WitcherClassMod implements ModInitializer {
 
 	private void registerItemGroup() {
 		WitcherGroup.WITCHER = FabricItemGroup.builder()
-				.icon(() -> new ItemStack(Armors.witcherArmorSet.chest.asItem()))
+				.icon(() -> new ItemStack(WitcherTrinkets.WOLF_SCHOOL_MEDALLION.item().get()))
 				.displayName(Text.translatable("itemGroup." + MOD_ID + ".general"))
 				.build();
 		Registry.register(Registries.ITEM_GROUP, WitcherGroup.WITCHER_KEY, WitcherGroup.WITCHER);

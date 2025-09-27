@@ -1,0 +1,44 @@
+{
+  "bonuses": [
+    {
+      "attributes": {
+        "modifiers": [
+          {
+            "type": "witcher_rpg:sign_intensity",
+            "amount": 0.10000000149011612,
+            "id": "witcher_rpg:grandmaster_griffin",
+            "operation": "add_multiplied_base",
+            "slot": "armor"
+          }
+        ]
+      },
+      "required_piece_count": 2
+    },
+    {
+      "required_piece_count": 4,
+      "spells": {
+        "content": "ANY",
+        "spell_ids": [
+          "witcher_rpg:improved_yrden"
+        ]
+      }
+    },
+    {
+      "required_piece_count": 5,
+      "spells": {
+        "content": "ANY",
+        "spell_ids": [
+          "witcher_rpg:grandmaster_griffin"
+        ]
+      }
+    }
+  ],
+  "items": [
+    "witcher_rpg:grandmaster_griffin_head",
+    "witcher_rpg:grandmaster_griffin_chest",
+    "witcher_rpg:grandmaster_griffin_legs",
+    "witcher_rpg:grandmaster_griffin_feet",
+    "witcher_rpg:griffin_school_medallion"
+  ],
+  "name": "grandmaster_griffin"
+}

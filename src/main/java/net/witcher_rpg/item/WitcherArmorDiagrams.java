@@ -49,7 +49,9 @@ public class WitcherArmorDiagrams {
 
     private static final String[] KEYS = {
             "enhanced_feline", "enhanced_griffin", "enhanced_wolven", "enhanced_ursine",
-            "superior_feline", "superior_griffin", "superior_wolven", "superior_ursine"
+            "superior_feline", "superior_griffin", "superior_wolven", "superior_ursine",
+            "mastercrafted_feline", "mastercrafted_griffin", "mastercrafted_wolven", "mastercrafted_ursine",
+            "grandmaster_feline", "grandmaster_griffin", "grandmaster_wolven", "grandmaster_ursine"
     };
 
     static {

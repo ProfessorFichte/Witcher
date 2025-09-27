@@ -1,0 +1,34 @@
+{
+  "bonuses": [
+    {
+      "attributes": {
+        "modifiers": [
+          {
+            "type": "witcher_rpg:sign_intensity",
+            "amount": 0.05000000074505806,
+            "id": "witcher_rpg:mastercrafted_griffin",
+            "operation": "add_multiplied_base",
+            "slot": "armor"
+          }
+        ]
+      },
+      "required_piece_count": 2
+    },
+    {
+      "required_piece_count": 4,
+      "spells": {
+        "content": "ANY",
+        "spell_ids": [
+          "witcher_rpg:improved_yrden"
+        ]
+      }
+    }
+  ],
+  "items": [
+    "witcher_rpg:mastercrafted_griffin_head",
+    "witcher_rpg:mastercrafted_griffin_chest",
+    "witcher_rpg:mastercrafted_griffin_legs",
+    "witcher_rpg:mastercrafted_griffin_feet"
+  ],
+  "name": "mastercrafted_griffin"
+}

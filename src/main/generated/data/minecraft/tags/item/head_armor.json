@@ -4,14 +4,22 @@
     "witcher_rpg:griffin_head",
     "witcher_rpg:enhanced_griffin_head",
     "witcher_rpg:superior_griffin_head",
+    "witcher_rpg:mastercrafted_griffin_head",
+    "witcher_rpg:grandmaster_griffin_head",
     "witcher_rpg:wolven_head",
     "witcher_rpg:enhanced_wolven_head",
     "witcher_rpg:superior_wolven_head",
+    "witcher_rpg:mastercrafted_wolven_head",
+    "witcher_rpg:grandmaster_wolven_head",
     "witcher_rpg:feline_head",
     "witcher_rpg:enhanced_feline_head",
     "witcher_rpg:superior_feline_head",
+    "witcher_rpg:mastercrafted_feline_head",
+    "witcher_rpg:grandmaster_feline_head",
     "witcher_rpg:ursine_head",
     "witcher_rpg:enhanced_ursine_head",
-    "witcher_rpg:superior_ursine_head"
+    "witcher_rpg:superior_ursine_head",
+    "witcher_rpg:mastercrafted_ursine_head",
+    "witcher_rpg:grandmaster_ursine_head"
   ]
 }
