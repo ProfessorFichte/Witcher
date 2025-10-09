@@ -1,3 +1,10 @@
+# 2.6.0 - 1.21.1
+**Content Update**
+- [New Witcher School Armor Tiers] T4 Mastercrafted & T5 Grandmaster
+- Each new Armor Tier comes with special equipment set bonuses
+- These armor sets can be upgraded with new Diagrams
+- New Mod Icon
+
 # 2.5.2 - 1.21.1
 - Update Spell Textures
 - Update Mob Effect Textures

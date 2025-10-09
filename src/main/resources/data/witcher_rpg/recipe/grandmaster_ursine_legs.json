@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "witcher_rpg:grandmaster_ursine_diagram"
+  },
+  "base": {
+    "item": "witcher_rpg:mastercrafted_ursine_legs"
+  },
+  "addition": {
+    "item": "witcher_rpg:dark_steel_ingot"
+  },
+  "result": {
+    "id": "witcher_rpg:grandmaster_ursine_legs"
+  }
+}

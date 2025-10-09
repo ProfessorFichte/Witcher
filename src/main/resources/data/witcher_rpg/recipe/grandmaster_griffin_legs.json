@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "witcher_rpg:grandmaster_griffin_diagram"
+  },
+  "base": {
+    "item": "witcher_rpg:mastercrafted_griffin_legs"
+  },
+  "addition": {
+    "item": "witcher_rpg:meteorite_silver_ingot"
+  },
+  "result": {
+    "id": "witcher_rpg:grandmaster_griffin_legs"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BAB",
+    "BCB",
+    "BBB"
+  ],
+  "key": {
+    "A": {
+      "item": "witcher_rpg:mastercrafted_ursine_diagram"
+    },
+    "B": {
+      "item": "witcher_rpg:dark_iron_ingot"
+    },
+    "C": {
+      "item": "more_rpg_classes:hardened_leather"
+    }
+  },
+  "result": {
+    "id": "witcher_rpg:mastercrafted_ursine_diagram",
+    "count": 2
+  }
+}

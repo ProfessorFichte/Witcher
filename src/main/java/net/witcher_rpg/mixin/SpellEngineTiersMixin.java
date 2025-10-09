@@ -13,10 +13,15 @@ public class SpellEngineTiersMixin {
     private static void witcher_tiers(String name, CallbackInfoReturnable<Integer> cir){
         if         (name.contains("aerondight")
                 || name.contains("dark_steel")
+                || name.contains("iris")
+                || name.contains("azure_wrath")
+                || name.contains("reach_of_the_damned")
                 || name.contains("meteorite_silver")
                 || name.contains("ultimatum")
                 || name.contains("winters_blade")
-                || name.contains("superior")) {
+                || name.contains("superior")
+                || name.contains("mastercrafted")
+                || name.contains("grandmaster")) {
             cir.setReturnValue(4);
         }
     }

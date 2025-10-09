@@ -114,25 +114,29 @@ public class WitcherClient implements ClientModInitializer {
 
         registerArmorRenderer(Armors.witcherArmorSet, CustomArmorRenderer::kaer_morhen);
 
-        registerArmorRenderer(Armors.ursineArmorSet, BearSchoolArmorRenderer::ursine);
-        registerArmorRenderer(Armors.enhancedUrsineArmorSet, BearSchoolArmorRenderer::enhanced_ursine);
-        registerArmorRenderer(Armors.superiorUrsineArmorSet, BearSchoolArmorRenderer::superior_ursine);
+        registerArmorRenderer(Armors.felineSchoolArmorSet, CustomArmorRenderer::feline);
+        registerArmorRenderer(Armors.enhancedFelineSchoolArmorSet, CustomArmorRenderer::enhanced_feline);
+        registerArmorRenderer(Armors.superiorFelineSchoolArmorSet, CustomArmorRenderer::superior_feline);
+        registerArmorRenderer(Armors.mastercraftedFelineSchoolArmorSet, CustomArmorRenderer::mastercrafted_feline);
+        registerArmorRenderer(Armors.grandmasterFelineSchoolArmorSet, CustomArmorRenderer::grandmaster_feline);
 
-        registerArmorRenderer(Armors.felineSchoolArmorSet, CatSchoolArmorRenderer::feline);
-        registerArmorRenderer(Armors.enhancedFelineSchoolArmorSet, CatSchoolArmorRenderer::enhanced_feline);
-        registerArmorRenderer(Armors.superiorFelineSchoolArmorSet, CatSchoolArmorRenderer::superior_feline);
+        registerArmorRenderer(Armors.griffinArmorSet, CustomArmorRenderer::griffin);
+        registerArmorRenderer(Armors.enhancedGriffinArmorSet, CustomArmorRenderer::enhanced_griffin);
+        registerArmorRenderer(Armors.superiorGriffinArmorSet, CustomArmorRenderer::superior_griffin);
+        registerArmorRenderer(Armors.mastercraftedGriffinArmorSet, CustomArmorRenderer::mastercrafted_griffin);
+        registerArmorRenderer(Armors.grandmasterGriffinArmorSet, CustomArmorRenderer::grandmaster_griffin);
 
-        registerArmorRenderer(Armors.felineSchoolArmorSet, CatSchoolArmorRenderer::feline);
-        registerArmorRenderer(Armors.enhancedFelineSchoolArmorSet, CatSchoolArmorRenderer::enhanced_feline);
-        registerArmorRenderer(Armors.superiorFelineSchoolArmorSet, CatSchoolArmorRenderer::superior_feline);
+        registerArmorRenderer(Armors.ursineArmorSet, CustomArmorRenderer::ursine);
+        registerArmorRenderer(Armors.enhancedUrsineArmorSet, CustomArmorRenderer::enhanced_ursine);
+        registerArmorRenderer(Armors.superiorUrsineArmorSet, CustomArmorRenderer::superior_ursine);
+        registerArmorRenderer(Armors.mastercraftedUrsineArmorSet, CustomArmorRenderer::mastercrafted_ursine);
+        registerArmorRenderer(Armors.grandmasterUrsineArmorSet, CustomArmorRenderer::grandmaster_ursine);
 
-        registerArmorRenderer(Armors.griffinArmorSet, GriffinSchoolArmorRenderer::griffin);
-        registerArmorRenderer(Armors.enhancedGriffinArmorSet, GriffinSchoolArmorRenderer::enhanced_griffin);
-        registerArmorRenderer(Armors.superiorGriffinArmorSet, GriffinSchoolArmorRenderer::superior_griffin);
-
-        registerArmorRenderer(Armors.wolvenArmorSet, WolfSchoolArmorRenderer::wolven);
-        registerArmorRenderer(Armors.enhancedWolvenArmorSet, WolfSchoolArmorRenderer::enhanced_wolven);
-        registerArmorRenderer(Armors.superiorWolvenArmorSet, WolfSchoolArmorRenderer::superior_wolven);
+        registerArmorRenderer(Armors.wolvenArmorSet, CustomArmorRenderer::wolven);
+        registerArmorRenderer(Armors.enhancedWolvenArmorSet, CustomArmorRenderer::enhanced_wolven);
+        registerArmorRenderer(Armors.superiorWolvenArmorSet, CustomArmorRenderer::superior_wolven);
+        registerArmorRenderer(Armors.mastercraftedWolvenArmorSet, CustomArmorRenderer::mastercrafted_wolven);
+        registerArmorRenderer(Armors.grandmasterWolvenArmorSet, CustomArmorRenderer::grandmaster_wolven);
 
         EntityRendererRegistry.register(YrdenEntity.ENTITY_TYPE,YrdenRenderer::new);
         EntityRendererRegistry.register(YrdenMagicTrapEntity.ENTITY_TYPE,YrdenMagicTrapRenderer::new);
