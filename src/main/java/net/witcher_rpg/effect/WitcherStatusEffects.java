@@ -382,6 +382,38 @@ public class WitcherStatusEffects {
                     )
             )
     ));
+    public static Effects.Entry AXII_LETHARGY = add(new Effects.Entry(Identifier.of(MOD_ID,"axii_lethargy"),
+            "Axii Lethargy",
+            "Slows the Target.",
+            new CustomStatusEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.AXII.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
+                                    -0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry QUEN_EXPLOSIVE = add(new Effects.Entry(Identifier.of(MOD_ID,"quen_explosive"),
+            "Exploding Shield",
+            "Deals damage and knocks surrounding entities back when quen breaks.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.QUEN.color),
+            new EffectConfig(
+                    List.of(
+                    )
+            )
+    ));
+    public static Effects.Entry QUEN_DISCHARGE= add(new Effects.Entry(Identifier.of(MOD_ID,"quen_discharge"),
+            "Quen Discharge",
+            "Deals damage to the attacker.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.QUEN.color),
+            new EffectConfig(
+                    List.of(
+                    )
+            )
+    ));
 
     public static void register(ConfigFile.Effects config) {
         ActionImpairing.configure(AXII.effect, EntityActionsAllowed.STUN);
