@@ -16,12 +16,15 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import net.more_rpg_classes.custom.MoreSpellSchools;
 import net.spell_engine.api.entity.SpellEntity;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.spell_engine.internals.SpellHelper;
 import net.spell_engine.internals.target.EntityRelations;
 import net.spell_engine.fx.ParticleHelper;
+import net.spell_power.api.SpellPower;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
@@ -206,13 +209,9 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
                     if (entity instanceof LivingEntity livingEntity) {
                         if (!isProtected(livingEntity)) {
                             if(this.age % checkDamageInterval == 0){
-                                float yrden_rap_damage_multiplicator = 0.75F;
-                                EntityType<?> type = ((Entity) livingEntity).getType();
-                                if(type.isIn(WitcherEntityTags.YRDEN_VULNERABLE)){
-                                    yrden_rap_damage_multiplicator = 1.05F;
-                                }
-                                spellSchoolDamageCalculation(WitcherSpellSchools.YRDEN,yrden_rap_damage_multiplicator,livingEntity, (PlayerEntity) owner);
-                                livingEntity.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.YRDEN_GLYPH.entry,150, (int) (0 * (yrden_intensity +1 )),false,false,true));
+                                RegistryEntry<Spell> yrdenGlyphSpellImpact = SpellRegistry.from(owner.getWorld()).getEntry(Identifier.of(MOD_ID, "yrden_glyph_impact")).get();
+                                SpellHelper.performImpacts(owner.getWorld(), owner, livingEntity, livingEntity, yrdenGlyphSpellImpact,
+                                        yrdenGlyphSpellImpact.value().impacts, new SpellHelper.ImpactContext().power(SpellPower.getSpellPower(WitcherSpellSchools.YRDEN, owner)).position(livingEntity.getPos()));
                                 livingEntity.playSound(yrdenSound,1F,1F);
                                 if(!entity.getWorld().isClient()){
                                     ParticleHelper.sendBatches(entity, new ParticleBatch[]{yrden_damage_circle});
