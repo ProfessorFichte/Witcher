@@ -1,0 +1,14 @@
+{
+  "parent": "witcher_rpg:item/witcher_sword_model",
+  "textures": {
+    "layer0": "witcher_rpg:item/weapons/aerondight_sword"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "witcher_rpg:aerondight_charged": 1
+      },
+      "model": "witcher_rpg:item/aerondight_sword_charged"
+    }
+  ]
+}

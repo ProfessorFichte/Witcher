@@ -1,0 +1,43 @@
+{
+  "school": "spell_power:axii",
+  "range": 0.0,
+  "tier": 1,
+  "tooltip": {
+    "show_activation": false
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "spell": {
+          "id": "witcher_rpg:axii"
+        },
+        "impact": {
+          "impact_type": "STATUS_EFFECT"
+        }
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "allow_on_center_target": false,
+        "status_effect": {
+          "effect_id": "witcher_rpg:axii",
+          "duration": 3.0,
+          "amplifier_power_multiplier": 0.15
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 5.0
+    }
+  }
+}

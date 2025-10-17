@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "W W",
+    "W W"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:leather"
+    },
+    "R": {
+      "tag": "witcher_rpg:silver_ingots"
+    }
+  },
+  "result": {
+    "id": "witcher_rpg:griffin_legs",
+    "count": 1
+  }
+}

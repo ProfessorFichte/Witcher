@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:witcher_head",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:witcher_chest",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:witcher_legs",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:witcher_feet",
+      "required": false
+    }
+  ]
+}

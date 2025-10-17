@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_igni_glyph": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witcher_rpg:igni_glyph"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "witcher_rpg:greater_igni_glyph"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_igni_glyph"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "witcher_rpg:greater_igni_glyph"
+    ]
+  }
+}

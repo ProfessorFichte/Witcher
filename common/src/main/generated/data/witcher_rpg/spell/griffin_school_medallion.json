@@ -1,0 +1,70 @@
+{
+  "school": "spell_power:sign",
+  "range": 0.0,
+  "tier": 1,
+  "tooltip": {
+    "show_header": false,
+    "name": {
+      "show_in_compact": false,
+      "show_in_details": false
+    },
+    "description": {
+      "color": "dark_green"
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "target_override": "CASTER",
+        "type": "SPELL_CAST",
+        "spell": {
+          "type": "ACTIVE"
+        }
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "COOLDOWN",
+        "cooldown": {
+          "actives": {
+            "school": "spell_power:aard",
+            "duration_multiplier": 0.5
+          }
+        }
+      }
+    },
+    {
+      "action": {
+        "type": "COOLDOWN",
+        "cooldown": {
+          "actives": {
+            "school": "spell_power:axii",
+            "duration_multiplier": 0.5
+          }
+        }
+      }
+    },
+    {
+      "action": {
+        "type": "COOLDOWN",
+        "cooldown": {
+          "actives": {
+            "school": "spell_power:igni",
+            "duration_multiplier": 0.5
+          }
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 60.0
+    }
+  }
+}

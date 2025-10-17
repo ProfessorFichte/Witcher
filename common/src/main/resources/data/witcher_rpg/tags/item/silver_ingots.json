@@ -1,0 +1,38 @@
+{
+  "replace": false,
+  "values": [
+    "witcher_rpg:silver_ingot",
+    {
+      "id": "bewitchment:silver_ingot",
+      "required": false
+    },
+    {
+      "id": "bno:silver_ingot",
+      "required": false
+    },
+    {
+      "id": "clutter:silver_ingot",
+      "required": false
+    },
+    {
+      "id": "galosphere:silver_ingot",
+      "required": false
+    },
+    {
+      "id": "magistuarmory:silver_ingot",
+      "required": false
+    },
+    {
+      "id": "mythicmetals:silver_ingot",
+      "required": false
+    },
+    {
+      "id": "iceandfire:silver_ingot",
+      "required": false
+    },
+    {
+      "id": "techreborn:silver_ingot",
+      "required": false
+    }
+  ]
+}

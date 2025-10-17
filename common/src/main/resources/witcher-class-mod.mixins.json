@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "net.witcher_rpg.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AttributeMixin",
+    "EntityAttributesMixin",
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
+    "SpellEngineTiersMixin",
+    "SpellHelperMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

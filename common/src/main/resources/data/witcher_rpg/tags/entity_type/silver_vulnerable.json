@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:undead",
+    {
+      "id": "#tcots-witcher:necrophages",
+      "required": false
+    },
+    {
+      "id": "#tcots-witcher:ogroids",
+      "required": false
+    }
+  ]
+}

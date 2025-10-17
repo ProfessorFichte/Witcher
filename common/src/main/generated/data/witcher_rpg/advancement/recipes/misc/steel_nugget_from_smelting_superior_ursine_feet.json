@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_superior_ursine_feet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witcher_rpg:superior_ursine_feet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:steel_nugget_from_smelting_superior_ursine_feet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_superior_ursine_feet"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:steel_nugget_from_smelting_superior_ursine_feet"
+    ]
+  }
+}

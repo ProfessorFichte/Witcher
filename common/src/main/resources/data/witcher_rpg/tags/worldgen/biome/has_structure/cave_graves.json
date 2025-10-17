@@ -1,0 +1,29 @@
+{
+  "values": [
+    "minecraft:stony_shore",
+    "minecraft:mushroom_fields",
+    "minecraft:ice_spikes",
+    "minecraft:windswept_savanna",
+    "minecraft:desert",
+    "minecraft:savanna",
+    "minecraft:snowy_plains",
+    "minecraft:plains",
+    "minecraft:sunflower_plains",
+    "minecraft:swamp",
+    "minecraft:mangrove_swamp",
+    "minecraft:savanna_plateau",
+    "minecraft:sunflower_plains",
+    "minecraft:forest",
+    "minecraft:dripstone_caves",
+    "minecraft:lush_caves",
+    "minecraft:deep_dark",
+    {
+      "id": "#c:caves",
+      "required": false
+    },
+    {
+      "id": "#c:is_underground",
+      "required": false
+    }
+  ]
+}

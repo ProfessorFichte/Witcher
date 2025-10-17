@@ -1,0 +1,5 @@
+{
+  "pool": "witcher_rpg:master",
+  "max_spell_count": 7,
+  "is_proxy": true
+}

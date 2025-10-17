@@ -1,0 +1,27 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "betterend"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "W": {
+      "item": "betterend:aeternium_ingot"
+    },
+    "R": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    " W ",
+    "WWW",
+    " R "
+  ],
+  "result": {
+    "id": "witcher_rpg:aeternium_witcher_sword"
+  }
+}

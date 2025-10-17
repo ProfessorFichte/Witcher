@@ -1,0 +1,23 @@
+{
+  "school": "spell_power:yrden",
+  "range": 0.0,
+  "tier": 1,
+  "type": "MODIFIER",
+  "modifiers": [
+    {
+      "spell_pattern": "witcher_rpg:yrden",
+      "mutate_impacts": "PREPEND",
+      "impacts": [
+        {
+          "action": {
+            "type": "DAMAGE",
+            "damage": {
+              "spell_power_coefficient": 0.2,
+              "knockback": 0.0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

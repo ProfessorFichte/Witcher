@@ -1,0 +1,15 @@
+{
+  "name": "witcher_rpg:hideouts/ursine",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "witcher_rpg:hideouts/ursine_0",
+        "projection": "rigid",
+        "processors": "minecraft:empty"
+      }
+    }
+  ]
+}

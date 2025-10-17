@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "witcher_rpg:fencing_spell_book",
+    "witcher_rpg:base_signs_spell_book",
+    "witcher_rpg:master_spell_book"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
+  },
+  "base": {
+    "item": "witcher_rpg:meteorite_witcher_sword"
+  },
+  "addition": {
+    "item": "witcher_rpg:meteorite_silver_ingot"
+  },
+  "result": {
+    "id": "witcher_rpg:meteorite_silver_witcher_sword"
+  }
+}

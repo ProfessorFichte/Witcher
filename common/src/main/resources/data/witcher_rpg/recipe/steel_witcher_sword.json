@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    " W ",
+    "WRW"
+  ],
+  "key": {
+    "W": {
+      "tag": "witcher_rpg:steel_ingots"
+    },
+    "R": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "id": "witcher_rpg:steel_witcher_sword",
+    "count": 1
+  }
+}

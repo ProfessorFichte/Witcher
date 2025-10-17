@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "id": "witcher_rpg:aerondight_sword"
+    },
+    "title": {
+      "translate": "advancements.more_rpg_content.aerondight.title"
+    },
+    "description": {
+      "translate": "advancements.more_rpg_content.aerondight.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "more_rpg_content:silver_sword",
+  "criteria": {
+    "items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "witcher_rpg:aerondight_sword"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "items"
+    ]
+  ]
+}

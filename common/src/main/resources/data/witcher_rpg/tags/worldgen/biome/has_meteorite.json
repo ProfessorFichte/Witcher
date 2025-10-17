@@ -1,0 +1,30 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:deep_ocean",
+    {
+      "id": "#c:mountain",
+      "required": false
+    },
+    {
+      "id": "#c:caves",
+      "required": false
+    },
+    {
+      "id": "#c:mountain_peak",
+      "required": false
+    },
+    {
+      "id": "#c:extreme_hills",
+      "required": false
+    },
+    {
+      "id": "#c:ocean",
+      "required": false
+    },
+    {
+      "id": "#c:desert",
+      "required": false
+    }
+  ]
+}

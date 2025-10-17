@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ZRZ",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "R": {
+      "item": "more_rpg_classes:hardened_leather"
+    },
+    "Z": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "id": "witcher_rpg:witcher_head",
+    "count": 1
+  }
+}

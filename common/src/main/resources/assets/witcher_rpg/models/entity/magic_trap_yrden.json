@@ -1,0 +1,36 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"2": "witcher_rpg:spell_effect/yrden"
+	},
+	"elements": [
+		{
+			"name": "base",
+			"from": [2.8, 0, 8.7],
+			"to": [14.8, 16, 8.71],
+			"rotation": {"angle": 0, "axis": "y", "origin": [2.8, 0, 26.7]},
+			"faces": {
+				"north": {"uv": [2, 0, 16, 16], "texture": "#2"},
+				"east": {"uv": [0, 0, 0, 0], "texture": "#2"},
+				"south": {"uv": [2, 0, 16, 16], "texture": "#2"},
+				"west": {"uv": [0, 0, 0, 0], "texture": "#2"},
+				"up": {"uv": [0, 0, 0, 0], "texture": "#2"},
+				"down": {"uv": [0, 0, 0, 0], "texture": "#2"}
+			}
+		},
+		{
+			"name": "base",
+			"from": [8.8, 0, 2.7],
+			"to": [8.81, 16, 14.7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [26.8, 0, 14.7]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 0], "texture": "#2"},
+				"east": {"uv": [2, 0, 16, 16], "texture": "#2"},
+				"south": {"uv": [0, 0, 0, 0], "texture": "#2"},
+				"west": {"uv": [2, 0, 16, 16], "texture": "#2"},
+				"up": {"uv": [0, 0, 0, 0], "rotation": 270, "texture": "#2"},
+				"down": {"uv": [0, 0, 0, 0], "rotation": 90, "texture": "#2"}
+			}
+		}
+	]
+}

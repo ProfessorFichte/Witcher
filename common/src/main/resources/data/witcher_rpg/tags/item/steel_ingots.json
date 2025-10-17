@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "witcher_rpg:steel_ingot",
+    {
+      "id": "magistuarmory:steel_ingot",
+      "required": false
+    },
+    {
+      "id": "mythicmetals:steel_ingot",
+      "required": false
+    },
+    {
+      "id": "techreborn:steel_ingot",
+      "required": false
+    }
+  ]
+}

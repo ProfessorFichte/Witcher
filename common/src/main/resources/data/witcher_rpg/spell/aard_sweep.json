@@ -1,0 +1,132 @@
+{
+  "school": "AARD",
+  "range": 4.0,
+  "tier": 3,
+
+  "active": {
+    "cast": {
+      "movement_speed": 0.1,
+      "duration": 0,
+      "particles": [
+        {
+          "particle_id": "witcher_rpg:aard_sign_cast",
+          "shape": "PIPE",
+          "origin": "LAUNCH_POINT",
+          "count": 0.2,
+          "min_speed": 0.01,
+          "max_speed": 0.1
+        }
+      ],
+      "start_sound": {
+        "id": "witcher_rpg:aard_sign"
+      }
+    },
+    "scroll": {}
+  },
+
+  "target": {
+    "type": "AREA",
+    "area": {
+      "angle_degrees": 360
+    }
+  },
+
+  "release": {
+    "animation": "witcher_rpg:sign_cast_ground",
+    "particles": [
+      {
+        "particle_id": "spell_engine:smoke_medium",
+        "angle": 360,
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 40.0,
+        "min_speed": 0.2,
+        "max_speed": 0.3,
+        "pre_spawn_travel": 6
+      },
+      {
+        "particle_id": "spell_engine:smoke_medium",
+        "angle": 360,
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 40.0,
+        "min_speed": 0.2,
+        "max_speed": 0.3,
+        "pre_spawn_travel": 3
+      },
+      {
+        "particle_id": "spell_engine:smoke_medium",
+        "angle": 360,
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 40.0,
+        "min_speed": 0.2,
+        "max_speed": 0.3,
+        "pre_spawn_travel": 1
+      }
+    ],
+    "sound": {
+      "id": "witcher_rpg:aard_sign"
+    }
+  },
+
+  "impacts": [
+    {
+      "action": {
+        "type": "CUSTOM",
+        "custom": {
+          "handler": "more_rpg_classes:stop_arrows",
+          "intent": "HARMFUL"
+        }
+      }
+    },
+    {
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#witcher_rpg:aard_vulnerable"
+            }
+          ],
+          "modifier": {
+            "power_multiplier": 0.3
+          }
+        }
+      ],
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.6,
+          "knockback": 4.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "more_rpg_classes:wind_vacuum",
+          "shape": "SPHERE",
+          "rotation": "LOOK",
+          "origin": "LAUNCH_POINT",
+          "count": 1.0,
+          "min_speed": 0.1,
+          "max_speed": 1.0
+        },
+        {
+          "particle_id": "gust",
+          "shape": "CIRCLE",
+          "origin": "CENTER",
+          "count": 1.0,
+          "min_speed": 0.2,
+          "max_speed": 0.3
+        }
+      ]
+    }
+  ],
+
+
+  "cost": {
+    "exhaust" : 0.5,
+    "cooldown":{
+      "duration": 26
+    }
+  }
+}

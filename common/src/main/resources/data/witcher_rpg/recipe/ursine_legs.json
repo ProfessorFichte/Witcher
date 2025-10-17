@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "W W",
+    "W W"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "tag": "witcher_rpg:steel_ingots"
+    }
+  },
+  "result": {
+    "id": "witcher_rpg:ursine_legs",
+    "count": 1
+  }
+}

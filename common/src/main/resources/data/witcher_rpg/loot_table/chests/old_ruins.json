@@ -1,0 +1,145 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 1.0,
+        "max": 1.0
+      },
+      "entries": [
+        {
+          "type": "minecraft:empty"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "witcher_rpg:maps/scavenger_hunts"
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 2,
+        "max": 4
+      },
+      "bonus_rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 5,
+          "name": "minecraft:chain",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "witcher_rpg:silver_ingot",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "witcher_rpg:steel_ingot",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 7,
+          "name": "more_rpg_classes:hardened_leather",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "witcher_rpg:spell_scrolls/beginner",
+          "weight": 7
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 1,
+        "max": 2
+      },
+      "bonus_rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:witcher_head",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:witcher_chest",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:witcher_legs",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:witcher_feet",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:silver_witcher_sword",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:iron_witcher_sword",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:steel_witcher_sword",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

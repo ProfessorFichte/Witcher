@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:igni_glyph"
+    },
+    {
+      "item": "witcher_rpg:igni_glyph"
+    },
+    {
+      "item": "witcher_rpg:igni_glyph"
+    },
+    {
+      "item": "witcher_rpg:igni_glyph"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:greater_igni_glyph"
+  }
+}

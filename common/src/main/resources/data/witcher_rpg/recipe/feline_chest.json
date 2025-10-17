@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "W W",
+    "ZXZ",
+    "WZW"
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:wool"
+    },
+    "Z": {
+      "tag": "witcher_rpg:steel_ingots"
+    },
+    "X": {
+      "tag": "witcher_rpg:silver_ingots"
+    }
+  },
+  "result": {
+    "id": "witcher_rpg:feline_chest",
+    "count": 1
+  }
+}

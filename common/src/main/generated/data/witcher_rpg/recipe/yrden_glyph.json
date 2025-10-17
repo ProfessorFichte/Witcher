@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:lesser_yrden_glyph"
+    },
+    {
+      "item": "witcher_rpg:lesser_yrden_glyph"
+    },
+    {
+      "item": "witcher_rpg:lesser_yrden_glyph"
+    },
+    {
+      "item": "witcher_rpg:lesser_yrden_glyph"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:yrden_glyph"
+  }
+}

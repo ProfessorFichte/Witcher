@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:freeze_immune_entity_types",
+    {
+      "id": "tcots-witcher:drowner",
+      "required": false
+    },
+    {
+      "id":"tcots-witcher:water_hag",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "witcher_rpg:block/dark_iron_ore"
+  }
+}

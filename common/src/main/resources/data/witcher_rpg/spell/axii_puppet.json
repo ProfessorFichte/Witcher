@@ -1,0 +1,82 @@
+{
+  "school": "AXII",
+  "range": 10,
+  "tier": 3,
+
+  "active": {
+    "cast": {
+      "animation": "witcher_rpg:sign_cast_long",
+      "movement_speed": 0.2,
+      "duration": 2.0,
+      "particles": [
+        {
+          "particle_id": "witcher_rpg:axii_sign_cast",
+          "shape": "PIPE",
+          "origin": "LAUNCH_POINT",
+          "count": 0.2,
+          "min_speed": 0.01,
+          "max_speed": 0.1
+        }
+      ]
+    },
+    "scroll": {}
+  },
+
+  "target": {
+    "type": "AIM",
+    "aim": {
+      "sticky": false,
+      "required": true
+    }
+  },
+
+  "release": {
+    "animation": "witcher_rpg:sign_cast_short",
+    "sound": {
+      "id": "witcher_rpg:axii_sign"
+    },
+    "particles": [
+      {
+        "particle_id": "witcher_rpg:axii_sign_cast",
+        "shape": "PIPE",
+        "origin": "LAUNCH_POINT",
+        "count": 1.0,
+        "min_speed": 0.01,
+        "max_speed": 0.1
+      }
+    ]
+  },
+
+  "impacts": [
+    {
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#witcher_rpg:axii_effect_immune"
+            }
+          ],
+          "execute": "DENY"
+        }
+      ],
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "witcher_rpg:axii_puppet",
+          "duration": 8,
+          "apply_mode": "SET",
+          "amplifier": 0,
+          "show_particles": false
+        }
+      }
+    }
+  ],
+
+  "cost": {
+    "exhaust" : 0.4,
+    "cooldown":{
+      "duration": 28,
+      "haste_affected": false
+    }
+  }
+}

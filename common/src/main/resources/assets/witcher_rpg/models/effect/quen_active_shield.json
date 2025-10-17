@@ -1,0 +1,38 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 64],
+	"textures": {
+		"1": "witcher_rpg:spell_effect/quen_active_shield",
+		"2": "witcher_rpg:spell_effect/quen",
+		"particle": "witcher_rpg:spell_effect/quen"
+	},
+	"elements": [
+		{
+			"name": "base",
+			"from": [-2, 0, -2],
+			"to": [18, 32, 18],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"up": {"uv": [16, 16, 0, 0], "texture": "#1"},
+				"down": {"uv": [16, 0, 0, 16], "texture": "#1"}
+			}
+		},
+		{
+			"name": "quen",
+			"from": [4, 12, -3.2],
+			"to": [12, 20, -3],
+			"rotation": {"angle": 0, "axis": "y", "origin": [4, 12, -3.2]},
+			"faces": {
+				"north": {"uv": [3, 3, 13, 13], "texture": "#2"},
+				"east": {"uv": [0, 0, 1.05, 1], "texture": "#2"},
+				"south": {"uv": [3, 3, 13, 13], "texture": "#2"},
+				"west": {"uv": [0, 0, 1.05, 1], "texture": "#2"},
+				"up": {"uv": [0, 0, 1, 1.05], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 1.05], "texture": "#2"}
+			}
+		}
+	]
+}

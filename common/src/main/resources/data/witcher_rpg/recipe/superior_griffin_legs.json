@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "witcher_rpg:superior_diagram"
+  },
+  "base": {
+    "item": "witcher_rpg:enhanced_griffin_legs"
+  },
+  "addition": {
+    "item": "witcher_rpg:meteorite_ingot"
+  },
+  "result": {
+    "id": "witcher_rpg:superior_griffin_legs"
+  }
+}

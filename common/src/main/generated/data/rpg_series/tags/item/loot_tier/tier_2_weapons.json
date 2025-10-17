@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:diamond_witcher_sword",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:dark_iron_witcher_sword",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:meteorite_witcher_sword",
+      "required": false
+    }
+  ]
+}

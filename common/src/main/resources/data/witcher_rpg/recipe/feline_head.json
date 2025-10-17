@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ZRZ",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "R": {
+      "tag": "witcher_rpg:steel_ingots"
+    },
+    "Z": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "result": {
+    "id": "witcher_rpg:feline_head",
+    "count": 1
+  }
+}

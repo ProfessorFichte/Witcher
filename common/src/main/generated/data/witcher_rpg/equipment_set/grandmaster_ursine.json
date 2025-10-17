@@ -1,0 +1,44 @@
+{
+  "bonuses": [
+    {
+      "attributes": {
+        "modifiers": [
+          {
+            "type": "minecraft:generic.max_health",
+            "amount": 8.0,
+            "id": "witcher_rpg:grandmaster_ursine",
+            "operation": "add_value",
+            "slot": "armor"
+          }
+        ]
+      },
+      "required_piece_count": 2
+    },
+    {
+      "required_piece_count": 4,
+      "spells": {
+        "content": "ANY",
+        "spell_ids": [
+          "witcher_rpg:improved_rend"
+        ]
+      }
+    },
+    {
+      "required_piece_count": 5,
+      "spells": {
+        "content": "ANY",
+        "spell_ids": [
+          "witcher_rpg:grandmaster_ursine"
+        ]
+      }
+    }
+  ],
+  "items": [
+    "witcher_rpg:grandmaster_ursine_head",
+    "witcher_rpg:grandmaster_ursine_chest",
+    "witcher_rpg:grandmaster_ursine_legs",
+    "witcher_rpg:grandmaster_ursine_feet",
+    "witcher_rpg:bear_school_medallion"
+  ],
+  "name": "grandmaster_ursine"
+}

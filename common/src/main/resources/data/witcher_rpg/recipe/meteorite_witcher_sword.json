@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    "WWW",
+    " R "
+  ],
+  "key": {
+    "W": {
+      "item": "witcher_rpg:meteorite_ingot"
+    },
+    "R": {
+      "item": "more_rpg_classes:hardened_leather"
+    }
+  },
+  "result": {
+    "id": "witcher_rpg:meteorite_witcher_sword",
+    "count": 1
+  }
+}

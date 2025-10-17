@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witcher_rpg:item/misc/master_spell_book"
+  }
+}

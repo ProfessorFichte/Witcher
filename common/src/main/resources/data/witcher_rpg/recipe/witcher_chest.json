@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "W W",
+    "WRW",
+    "ZZZ"
+  ],
+  "key": {
+    "W": {
+      "item": "more_rpg_classes:hardened_leather"
+    },
+    "R": {
+      "tag": "witcher_rpg:silver_ingots"
+    },
+    "Z": {
+      "item": "minecraft:chain"
+    }
+  },
+  "result": {
+    "id": "witcher_rpg:witcher_chest",
+    "count": 1
+  }
+}

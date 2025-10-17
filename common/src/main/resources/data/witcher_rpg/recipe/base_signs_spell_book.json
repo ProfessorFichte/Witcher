@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "more_rpg_classes:hardened_leather"
+    },
+    {
+      "tag": "witcher_rpg:silver_ingots"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    }
+  ],
+  "result": {
+    "id": "witcher_rpg:base_signs_spell_book"
+  }
+}

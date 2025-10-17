@@ -1,0 +1,34 @@
+{
+  "bonuses": [
+    {
+      "attributes": {
+        "modifiers": [
+          {
+            "type": "minecraft:generic.max_health",
+            "amount": 4.0,
+            "id": "witcher_rpg:mastercrafted_ursine",
+            "operation": "add_value",
+            "slot": "armor"
+          }
+        ]
+      },
+      "required_piece_count": 2
+    },
+    {
+      "required_piece_count": 4,
+      "spells": {
+        "content": "ANY",
+        "spell_ids": [
+          "witcher_rpg:improved_rend"
+        ]
+      }
+    }
+  ],
+  "items": [
+    "witcher_rpg:mastercrafted_ursine_head",
+    "witcher_rpg:mastercrafted_ursine_chest",
+    "witcher_rpg:mastercrafted_ursine_legs",
+    "witcher_rpg:mastercrafted_ursine_feet"
+  ],
+  "name": "mastercrafted_ursine"
+}

@@ -1,0 +1,34 @@
+{
+  "bonuses": [
+    {
+      "attributes": {
+        "modifiers": [
+          {
+            "type": "minecraft:generic.attack_damage",
+            "amount": 0.02500000037252903,
+            "id": "witcher_rpg:mastercrafted_wolven",
+            "operation": "add_multiplied_base",
+            "slot": "armor"
+          }
+        ]
+      },
+      "required_piece_count": 2
+    },
+    {
+      "required_piece_count": 4,
+      "spells": {
+        "content": "ANY",
+        "spell_ids": [
+          "witcher_rpg:improved_aard"
+        ]
+      }
+    }
+  ],
+  "items": [
+    "witcher_rpg:mastercrafted_wolven_head",
+    "witcher_rpg:mastercrafted_wolven_chest",
+    "witcher_rpg:mastercrafted_wolven_legs",
+    "witcher_rpg:mastercrafted_wolven_feet"
+  ],
+  "name": "mastercrafted_wolven"
+}

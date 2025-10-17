@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:pure_silver",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:rose_of_remembrance",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:crystal_skull",
+      "required": false
+    }
+  ]
+}

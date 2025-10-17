@@ -1,0 +1,82 @@
+{
+  "school": "ARCANE",
+  "range": 0.0,
+  "tier": 8,
+  "type": "PASSIVE",
+  "tooltip": {
+    "show_header": false,
+    "name": {
+      "show_in_compact": false,
+      "show_in_details": false
+    },
+    "description": {
+      "color": "dark_green"
+    }
+  },
+  "passive": {
+    "triggers": [
+      {
+        "type": "MELEE_IMPACT",
+        "chance": 1.0,
+        "equipment_condition": "MAINHAND"
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "attribute": "minecraft:generic.attack_damage",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.1
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "firework",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 20,
+          "min_speed": 0.05,
+          "max_speed": 0.2
+        }
+      ]
+    },
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "witcher_rpg:aerondight_charge",
+          "duration": 10,
+          "amplifier_cap": 10,
+          "apply_mode": "ADD",
+          "amplifier": 1,
+          "refresh_duration": true,
+          "show_particles": false
+        },
+        "apply_to_caster": true
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_spell_ascend",
+          "shape": "CIRCLE",
+          "rotation": "LOOK",
+          "origin": "CENTER",
+          "count": 2.0,
+          "min_speed": 0.05,
+          "max_speed": 0.1
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "batching": true,
+    "cooldown": {
+      "duration": 1,
+      "hosting_item": false
+    }
+  }
+}

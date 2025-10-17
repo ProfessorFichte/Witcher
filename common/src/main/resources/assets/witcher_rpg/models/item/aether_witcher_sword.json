@@ -1,0 +1,6 @@
+{
+  "parent": "witcher_rpg:item/witcher_sword_model",
+  "textures": {
+    "layer0": "witcher_rpg:item/weapons/aether_witcher_sword"
+  }
+}

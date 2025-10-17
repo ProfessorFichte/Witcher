@@ -1,0 +1,52 @@
+{
+  "display": {
+    "icon": {
+      "id": "witcher_rpg:witcher_chest"
+    },
+    "title": {
+      "translate": "advancements.rpg_classes.kaer_morhen_armor.title"
+    },
+    "description": {
+      "translate": "advancements.rpg_classes.kaer_morhen_armor.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "more_rpg_content:witcher_sword",
+  "criteria": {
+    "kaer_morhen": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "witcher_rpg:witcher_head"
+            ]
+          },
+          {
+            "items": [
+              "witcher_rpg:witcher_chest"
+            ]
+          },
+          {
+            "items": [
+              "witcher_rpg:witcher_legs"
+            ]
+          },
+          {
+            "items": [
+              "witcher_rpg:witcher_feet"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "kaer_morhen"
+    ]
+  ]
+}

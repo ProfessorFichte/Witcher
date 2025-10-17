@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "W W",
+    "W W"
+  ],
+  "key": {
+    "W": {
+      "item": "more_rpg_classes:hardened_leather"
+    },
+    "R": {
+      "item": "minecraft:chain"
+    }
+  },
+  "result": {
+    "id": "witcher_rpg:witcher_legs",
+    "count": 1
+  }
+}

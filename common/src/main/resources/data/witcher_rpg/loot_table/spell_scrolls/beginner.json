@@ -1,0 +1,170 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "spell_engine:scroll",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "spell_engine:spell_container": {
+                  "spell_ids": ["witcher_rpg:aard"],
+                  "max_spell_count": 1
+                },
+                "minecraft:custom_model_data": 108,
+                "minecraft:item_name": "{translate:item.witcher_rpg.base_signs.spell_scroll}",
+                "minecraft:rarity": "common"
+              }
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spell_engine:scroll",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "spell_engine:spell_container": {
+                  "spell_ids": ["witcher_rpg:axii"],
+                  "max_spell_count": 1
+                },
+                "minecraft:custom_model_data": 108,
+                "minecraft:item_name": "{translate:item.witcher_rpg.base_signs.spell_scroll}",
+                "minecraft:rarity": "uncommon"
+              }
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spell_engine:scroll",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "spell_engine:spell_container": {
+                  "spell_ids": ["witcher_rpg:igni"],
+                  "max_spell_count": 1
+                },
+                "minecraft:custom_model_data": 108,
+                "minecraft:item_name": "{translate:item.witcher_rpg.base_signs.spell_scroll}",
+                "minecraft:rarity": "common"
+              }
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spell_engine:scroll",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "spell_engine:spell_container": {
+                  "spell_ids": ["witcher_rpg:quen"],
+                  "max_spell_count": 1
+                },
+                "minecraft:custom_model_data": 108,
+                "minecraft:item_name": "{translate:item.witcher_rpg.base_signs.spell_scroll}",
+                "minecraft:rarity": "uncommon"
+              }
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spell_engine:scroll",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "spell_engine:spell_container": {
+                  "spell_ids": ["witcher_rpg:yrden"],
+                  "max_spell_count": 1
+                },
+                "minecraft:custom_model_data": 108,
+                "minecraft:item_name": "{translate:item.witcher_rpg.base_signs.spell_scroll}",
+                "minecraft:rarity": "uncommon"
+              }
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spell_engine:scroll",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "spell_engine:spell_container": {
+                  "spell_ids": ["witcher_rpg:defensive_witcher_mechanics"],
+                  "max_spell_count": 1
+                },
+                "minecraft:custom_model_data": 110,
+                "minecraft:item_name": "{translate:item.witcher_rpg.fencing.spell_scroll}",
+                "minecraft:rarity": "common"
+              }
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spell_engine:scroll",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "spell_engine:spell_container": {
+                  "spell_ids": ["witcher_rpg:battle_trance"],
+                  "max_spell_count": 1
+                },
+                "minecraft:custom_model_data": 110,
+                "minecraft:item_name": "{translate:item.witcher_rpg.fencing.spell_scroll}",
+                "minecraft:rarity": "uncommon"
+              }
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

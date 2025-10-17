@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "id": "witcher_rpg:steel_witcher_sword"
+    },
+    "title": {
+      "translate": "advancements.more_rpg_content.steel_sword.title"
+    },
+    "description": {
+      "translate": "advancements.more_rpg_content.steel_sword.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "more_rpg_content:witcher_sword",
+  "criteria": {
+    "items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#witcher_rpg:steel_swords"
+
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "items"
+    ]
+  ]
+}

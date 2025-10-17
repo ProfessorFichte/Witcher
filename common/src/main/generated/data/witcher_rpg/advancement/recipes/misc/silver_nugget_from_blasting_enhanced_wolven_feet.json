@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_enhanced_wolven_feet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witcher_rpg:enhanced_wolven_feet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:silver_nugget_from_blasting_enhanced_wolven_feet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_enhanced_wolven_feet"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:silver_nugget_from_blasting_enhanced_wolven_feet"
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "school": "spell_power:witcher_melee",
+  "range": 0.0,
+  "tier": 7,
+  "tooltip": {
+    "show_header": false,
+    "name": {
+      "show_in_compact": false,
+      "show_in_details": false
+    },
+    "description": {
+      "color": "dark_green"
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "MELEE_IMPACT",
+        "melee": {}
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
+    {
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#witcher_rpg:silver_vulnerable"
+            }
+          ],
+          "execute": "ALLOW"
+        }
+      ],
+      "action": {
+        "type": "FIRE",
+        "fire": {
+          "duration": 3.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_burst",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 20.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3,
+          "color_rgba": 4294967295
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 1.0
+    }
+  }
+}
