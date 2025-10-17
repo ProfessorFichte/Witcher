@@ -4,6 +4,9 @@
 - Each new Armor Tier comes with special equipment set bonuses
 - These armor sets can be upgraded with new Diagrams
 - New Mod Icon
+- Added many spell modifiers for the Witcher signs
+- Improve Sign Particle Visuals
+- 
 
 # 2.5.2 - 1.21.1
 - Update Spell Textures
