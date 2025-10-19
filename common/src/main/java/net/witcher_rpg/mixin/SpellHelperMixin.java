@@ -35,18 +35,8 @@ public abstract class SpellHelperMixin {
         if (!player.isSpectator()&& player instanceof SpellCasterEntity spellCasterEntity) {
             var spell = spellCasterEntity.getCurrentSpell();
             var spellEntryQuen = SpellRegistry.from(player.getWorld()).getEntry(Identifier.of(MOD_ID, "quen_active_shield")).orElse(null);
-            var spellQuen = spellEntryQuen.value();
-
             if (spell != null) {
-                if(action == SpellCast.Action.CHANNEL && Objects.equals(spell, spellQuen)){
-                    float absorb = player.getAbsorptionAmount();
-                    if(absorb == 0){
-                        player.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry);
-
-                    }
-                }
-
-                if(action == SpellCast.Action.RELEASE && Objects.equals(spell, spellQuen)){
+                if(action == SpellCast.Action.RELEASE && Objects.equals(spell, spellEntryQuen.value())){
                     player.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry);
                 }
             }

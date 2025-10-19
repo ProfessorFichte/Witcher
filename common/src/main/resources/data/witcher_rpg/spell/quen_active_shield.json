@@ -37,15 +37,9 @@
   "impacts": [
     {
       "action": {
-        "type": "STATUS_EFFECT",
-        "status_effect": {
-          "effect_id": "witcher_rpg:quen_active",
-          "duration": 1.0,
-          "apply_mode": "SET",
-          "amplifier": 0,
-          "amplifier_power_multiplier": 0.1,
-          "show_particles": false,
-          "refresh_duration": false
+        "type": "CUSTOM",
+        "custom": {
+          "handler": "witcher_rpg:quen_active"
         }
       }
     }

@@ -1,0 +1,18 @@
+{
+  "school": "spell_power:quen",
+  "tier": 0,
+  "learn": {},
+  "active": {},
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "witcher_rpg:quen_active",
+          "duration": 20.0,
+          "amplifier_power_multiplier": 0.2
+        }
+      }
+    }
+  ]
+}
