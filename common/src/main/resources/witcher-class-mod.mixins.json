@@ -6,6 +6,7 @@
     "AttributeMixin",
     "EntityAttributesMixin",
     "LivingEntityMixin",
+    "PersistentProjectileEntityMixin",
     "PlayerEntityMixin",
     "SpellEngineTiersMixin",
     "SpellHelperMixin"
