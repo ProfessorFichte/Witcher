@@ -157,7 +157,6 @@ public class WitcherTrinkets {
 
     //WITCHER MEDALLIONS
     public static final Entry BEAR_SCHOOL_MEDALLION = add(new Entry(10, "bear_school_medallion", "Bear School Medallion"))
-            .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:bear_school_medallion")))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString(), medallion_health, EntityAttributeModifier.Operation.ADD_VALUE),
@@ -167,7 +166,6 @@ public class WitcherTrinkets {
             )
             .component(SpellDataComponents.EQUIPMENT_SET, SetBonuses.grandmaster_ursine.id());
     public static final Entry CAT_SCHOOL_MEDALLION = add(new Entry(10, "cat_school_medallion", "Cat School Medallion"))
-            .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:cat_school_medallion")))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(), medallion_haste, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
@@ -177,7 +175,6 @@ public class WitcherTrinkets {
             )
             .component(SpellDataComponents.EQUIPMENT_SET, SetBonuses.grandmaster_feline.id());
     public static final Entry GRIFFIN_SCHOOL_MEDALLION = add(new Entry(10, "griffin_school_medallion", "Griffin School Medallion"))
-            .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:griffin_school_medallion")))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.SIGN_INTENSITY.getIdAsString(), medallion_sign_intensity, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
@@ -187,7 +184,6 @@ public class WitcherTrinkets {
             )
             .component(SpellDataComponents.EQUIPMENT_SET, SetBonuses.grandmaster_griffin.id());
     public static final Entry WOLF_SCHOOL_MEDALLION = add(new Entry(10, "wolf_school_medallion", "Wolf School Medallion"))
-            .spell(SpellContainerHelper.createForRelic(Identifier.of("witcher_rpg:wolf_school_medallion")))
             .config(new TrinketConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(WitcherAttributes.SIGN_INTENSITY.getIdAsString(), medallion_sign_intensity, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
