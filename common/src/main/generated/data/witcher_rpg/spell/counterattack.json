@@ -1,0 +1,19 @@
+{
+  "school": "spell_power:witcher_melee",
+  "range": 0.0,
+  "tier": 1,
+  "tooltip": {
+    "show_activation": false
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "SHIELD_BLOCK"
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  }
+}

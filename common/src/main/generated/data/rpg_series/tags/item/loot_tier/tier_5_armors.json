@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:grandmaster_diagram",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:dimeritium_ingot",
+      "required": false
+    }
+  ]
+}

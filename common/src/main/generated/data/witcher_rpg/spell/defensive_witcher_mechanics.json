@@ -9,6 +9,8 @@
         "type": "STATUS_EFFECT",
         "status_effect": {
           "effect_id": "witcher_rpg:witcher_reflexes",
+          "amplifier_power_multiplier": 0.15,
+          "amplifier_cap": 2,
           "refresh_duration": false
         }
       }
