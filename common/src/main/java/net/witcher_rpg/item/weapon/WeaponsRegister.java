@@ -15,7 +15,7 @@ import net.spell_engine.api.item.weapon.Weapon;
 import net.spell_power.api.SpellPowerMechanics;
 import net.witcher_rpg.WitcherClassMod;
 import net.witcher_rpg.item.WitcherGroup;
-import net.witcher_rpg.item.WitcherItems;
+import net.witcher_rpg.item.WitcherMaterials;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -95,33 +95,33 @@ public class WeaponsRegister {
             .attribute(AttributeModifier.multiply(ADRENALINE,0.06F))
             .loot(Equipment.LootProperties.of(3));
     public static final Weapon.Entry steel_witcher_sword = witcherswords("steel_witcher_sword",
-            Weapon.CustomMaterial.matching(ToolMaterials.IRON, () -> Ingredient.ofItems(WitcherItems.STEEL_INGOT)), 4.5F)
+            Weapon.CustomMaterial.matching(ToolMaterials.IRON, () -> Ingredient.ofItems(WitcherMaterials.STEEL_INGOT.item())), 4.5F)
             .attribute(AttributeModifier.multiply(ADRENALINE,0.035F))
             .spell(steel_sword)
             .loot(Equipment.LootProperties.of(1));
     public static final Weapon.Entry dark_iron_witcher_sword = witcherswords("dark_iron_witcher_sword",
-            Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(WitcherItems.DARK_IRON_INGOT)), 5.0F)
+            Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(WitcherMaterials.DARK_IRON_INGOT.item())), 5.0F)
             .attribute(AttributeModifier.multiply(ADRENALINE,0.065F))
             .spell(steel_sword)
             .loot(Equipment.LootProperties.of(2));
     public static final Weapon.Entry dark_steel_witcher_sword = witcherswords("dark_steel_witcher_sword",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(WitcherItems.DARK_STEEL_INGOT)), 6.0F)
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(WitcherMaterials.DARK_STEEL_INGOT.item())), 6.0F)
             .attribute(AttributeModifier.bonus(SIGN_INTENSITY,1.5F))
             .attribute(AttributeModifier.multiply(ADRENALINE,0.1F))
             .spell(steel_sword)
             .loot(Equipment.LootProperties.of(3));
     public static final Weapon.Entry witcher_silver_sword = witcherswords("silver_witcher_sword",
-            Weapon.CustomMaterial.matching(ToolMaterials.IRON, () -> Ingredient.ofItems(WitcherItems.SILVER_INGOT)), 4.5F)
+            Weapon.CustomMaterial.matching(ToolMaterials.IRON, () -> Ingredient.ofItems(WitcherMaterials.SILVER_INGOT.item())), 4.5F)
             .attribute(AttributeModifier.bonus(SIGN_INTENSITY,2.5F))
             .spell(silver_sword)
             .loot(Equipment.LootProperties.of(1));
     public static final Weapon.Entry witcher_meteorite_sword = witcherswords("meteorite_witcher_sword",
-            Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(WitcherItems.METEORITE_INGOT)), 4.5F)
+            Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(WitcherMaterials.METEORITE_INGOT.item())), 4.5F)
             .attribute(AttributeModifier.bonus(SIGN_INTENSITY,3.0F))
             .spell(silver_sword)
             .loot(Equipment.LootProperties.of(2));
     public static final Weapon.Entry witcher_meteorite_silver_sword = witcherswords("meteorite_silver_witcher_sword",
-            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(WitcherItems.METEORITE_SILVER_INGOT)), 5.0F)
+            Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(WitcherMaterials.METEORITE_SILVER_INGOT.item())), 5.0F)
             .attribute(AttributeModifier.bonus(SIGN_INTENSITY,4.0F))
             .attribute(AttributeModifier.multiply(ADRENALINE,0.05F))
             .spell(silver_sword)
@@ -160,41 +160,41 @@ public class WeaponsRegister {
         }
         if(FabricLoader.getInstance().isModLoaded(ARSENAL)|| WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
             witcherswords("winters_blade_sword",
-                    Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(WitcherItems.STEEL_INGOT)), 6.5F)
+                    Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(WitcherMaterials.STEEL_INGOT.item())), 6.5F)
                     .attribute(AttributeModifier.bonus(AARD_INTENSITY,3.0F))
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.05F))
                     .attribute(AttributeModifier.multiply(SpellPowerMechanics.CRITICAL_DAMAGE.id, 0.15F))
                     .spell(winters_blade_passive)
                     .rarity = Rarity.RARE;
             witcherswords("ultimatum_sword",
-                    Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(WitcherItems.STEEL_INGOT)), 6.5F)
+                    Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(WitcherMaterials.STEEL_INGOT.item())), 6.5F)
                     .attribute(AttributeModifier.multiply(SpellPowerMechanics.CRITICAL_DAMAGE.id, 0.1F))
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.075F))
                     .attribute(AttributeModifier.bonus(IGNI_INTENSITY,3.0F))
                     .spell(ultimatum_passive)
                     .rarity = Rarity.RARE;
             witcherswords("azure_wrath_sword",
-                    Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND,() -> Ingredient.ofItems(WitcherItems.SILVER_INGOT)), 6.0F)
+                    Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND,() -> Ingredient.ofItems(WitcherMaterials.SILVER_INGOT.item())), 6.0F)
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.05F))
                     .attribute(AttributeModifier.bonus(SIGN_INTENSITY,4.0F))
                     .attribute(AttributeModifier.bonus(YRDEN_INTENSITY,3.0F))
                     .spell(azure_wrath_passive)
                     .rarity = Rarity.RARE;
             witcherswords("reach_of_the_damned_sword",
-                    Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND,() -> Ingredient.ofItems(WitcherItems.SILVER_INGOT)), 6.0F)
+                    Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND,() -> Ingredient.ofItems(WitcherMaterials.SILVER_INGOT.item())), 6.0F)
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.05F))
                     .attribute(AttributeModifier.bonus(SIGN_INTENSITY,4.0F))
                     .attribute(AttributeModifier.bonus(AXII_INTENSITY,3.0F))
                     .spell(reach_of_the_damned_passive)
                     .rarity = Rarity.RARE;
             witcherswords("aerondight_sword",
-                    Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherItems.METEORITE_SILVER_INGOT)), 6.5F)
+                    Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherMaterials.METEORITE_SILVER_INGOT.item())), 6.5F)
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.1F))
                     .attribute(AttributeModifier.bonus(SIGN_INTENSITY,5.0F))
                     .spell(aerondight_passive)
                     .rarity = Rarity.EPIC;
             witcherswords("iris_sword",
-                    Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherItems.DARK_STEEL_INGOT)), 7.0F)
+                    Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherMaterials.DARK_STEEL_INGOT.item())), 7.0F)
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.15F))
                     .spell(iris_passive)
                     .rarity = Rarity.EPIC;

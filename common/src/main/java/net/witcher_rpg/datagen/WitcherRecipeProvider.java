@@ -11,7 +11,7 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 import net.spell_engine.api.item.armor.Armor;
-import net.witcher_rpg.item.WitcherItems;
+import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.armor.Armors;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
@@ -36,8 +36,8 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .pattern("DBD")
                 .input('A', WitcherTrinkets.PURE_SILVER.item().get())
                 .input('B', WitcherItemTags.SILVER_INGOTS)
-                .input('C', WitcherItems.DARK_STEEL_INGOT)
-                .input('D', WitcherItems.DARK_IRON_INGOT)
+                .input('C', WitcherMaterials.DARK_STEEL_INGOT.item())
+                .input('D', WitcherMaterials.DARK_IRON_INGOT.item())
                 .input('E', Items.CHAIN)
                 .criterion(FabricRecipeProvider.hasItem(WitcherTrinkets.PURE_SILVER.item().get()), FabricRecipeProvider.conditionsFromItem(WitcherTrinkets.PURE_SILVER.item().get()))
                 .offerTo(exporter);
@@ -47,8 +47,8 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .pattern("CBC")
                 .input('A', WitcherTrinkets.PURE_SILVER.item().get())
                 .input('B', WitcherItemTags.SILVER_INGOTS)
-                .input('C', WitcherItems.DARK_STEEL_INGOT)
-                .input('D', WitcherItems.DARK_IRON_INGOT)
+                .input('C', WitcherMaterials.DARK_STEEL_INGOT.item())
+                .input('D', WitcherMaterials.DARK_IRON_INGOT.item())
                 .input('E', Items.CHAIN)
                 .criterion(FabricRecipeProvider.hasItem(WitcherTrinkets.PURE_SILVER.item().get()), FabricRecipeProvider.conditionsFromItem(WitcherTrinkets.PURE_SILVER.item().get()))
                 .offerTo(exporter);
@@ -58,8 +58,8 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .pattern("CBC")
                 .input('A', WitcherTrinkets.PURE_SILVER.item().get())
                 .input('B', WitcherItemTags.SILVER_INGOTS)
-                .input('C', WitcherItems.METEORITE_SILVER_INGOT)
-                .input('D', WitcherItems.METEORITE_INGOT)
+                .input('C', WitcherMaterials.METEORITE_SILVER_INGOT.item())
+                .input('D', WitcherMaterials.METEORITE_INGOT.item())
                 .input('E', Items.CHAIN)
                 .criterion(FabricRecipeProvider.hasItem(WitcherTrinkets.PURE_SILVER.item().get()), FabricRecipeProvider.conditionsFromItem(WitcherTrinkets.PURE_SILVER.item().get()))
                 .offerTo(exporter);
@@ -69,7 +69,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .pattern("CBC")
                 .input('A', WitcherTrinkets.PURE_SILVER.item().get())
                 .input('B', WitcherItemTags.SILVER_INGOTS)
-                .input('C', WitcherItems.METEORITE_SILVER_INGOT)
+                .input('C', WitcherMaterials.METEORITE_SILVER_INGOT.item())
                 .input('D', WitcherItemTags.STEEL_INGOTS)
                 .input('E', Items.CHAIN)
                 .criterion(FabricRecipeProvider.hasItem(WitcherTrinkets.PURE_SILVER.item().get()), FabricRecipeProvider.conditionsFromItem(WitcherTrinkets.PURE_SILVER.item().get()))
@@ -149,18 +149,18 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
 
         //// SMELTING
         disassembleArmor(exporter, Armors.witcherArmorSet, Items.LEATHER);
-        disassembleArmor(exporter, Armors.felineSchoolArmorSet, WitcherItems.STEEL_NUGGET);
-        disassembleArmor(exporter, Armors.enhancedFelineSchoolArmorSet, WitcherItems.STEEL_NUGGET);
-        disassembleArmor(exporter, Armors.superiorFelineSchoolArmorSet, WitcherItems.STEEL_NUGGET);
-        disassembleArmor(exporter, Armors.ursineArmorSet, WitcherItems.STEEL_NUGGET);
-        disassembleArmor(exporter, Armors.enhancedUrsineArmorSet, WitcherItems.STEEL_NUGGET);
-        disassembleArmor(exporter, Armors.superiorUrsineArmorSet, WitcherItems.STEEL_NUGGET);
-        disassembleArmor(exporter, Armors.griffinArmorSet, WitcherItems.SILVER_NUGGET);
-        disassembleArmor(exporter, Armors.enhancedGriffinArmorSet, WitcherItems.SILVER_NUGGET);
-        disassembleArmor(exporter, Armors.superiorGriffinArmorSet, WitcherItems.SILVER_NUGGET);
-        disassembleArmor(exporter, Armors.wolvenArmorSet, WitcherItems.SILVER_NUGGET);
-        disassembleArmor(exporter, Armors.enhancedWolvenArmorSet, WitcherItems.SILVER_NUGGET);
-        disassembleArmor(exporter, Armors.superiorWolvenArmorSet, WitcherItems.SILVER_NUGGET);
+        disassembleArmor(exporter, Armors.felineSchoolArmorSet, WitcherMaterials.STEEL_NUGGET.item());
+        disassembleArmor(exporter, Armors.enhancedFelineSchoolArmorSet, WitcherMaterials.STEEL_NUGGET.item());
+        disassembleArmor(exporter, Armors.superiorFelineSchoolArmorSet, WitcherMaterials.STEEL_NUGGET.item());
+        disassembleArmor(exporter, Armors.ursineArmorSet, WitcherMaterials.STEEL_NUGGET.item());
+        disassembleArmor(exporter, Armors.enhancedUrsineArmorSet, WitcherMaterials.STEEL_NUGGET.item());
+        disassembleArmor(exporter, Armors.superiorUrsineArmorSet, WitcherMaterials.STEEL_NUGGET.item());
+        disassembleArmor(exporter, Armors.griffinArmorSet, WitcherMaterials.SILVER_NUGGET.item());
+        disassembleArmor(exporter, Armors.enhancedGriffinArmorSet, WitcherMaterials.SILVER_NUGGET.item());
+        disassembleArmor(exporter, Armors.superiorGriffinArmorSet, WitcherMaterials.SILVER_NUGGET.item());
+        disassembleArmor(exporter, Armors.wolvenArmorSet, WitcherMaterials.SILVER_NUGGET.item());
+        disassembleArmor(exporter, Armors.enhancedWolvenArmorSet, WitcherMaterials.SILVER_NUGGET.item());
+        disassembleArmor(exporter, Armors.superiorWolvenArmorSet, WitcherMaterials.SILVER_NUGGET.item());
 
         disassemble(exporter,
                 WeaponsRegister.entries.stream()
@@ -181,12 +181,12 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 WeaponsRegister.entries.stream()
                         .filter(entry -> entry.id().getPath().contains("steel"))
                         .map(entry -> (ItemConvertible) entry.item()).toList(),
-                WitcherItems.STEEL_NUGGET);
+                WitcherMaterials.STEEL_NUGGET.item());
         disassemble(exporter,
                 WeaponsRegister.entries.stream()
                         .filter(entry -> entry.id().getPath().contains("silver"))
                         .map(entry -> (ItemConvertible) entry.item()).toList(),
-                WitcherItems.SILVER_NUGGET);
+                WitcherMaterials.SILVER_NUGGET.item());
     }
 
     private static void disassembleArmor(RecipeExporter exporter, Armor.Set armorSet, Item output) {

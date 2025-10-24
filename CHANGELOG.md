@@ -1,12 +1,20 @@
 # 2.6.0 - 1.21.1
+- NeoForge Beta!
 **Content Update**
 - [New Witcher School Armor Tiers] T4 Mastercrafted & T5 Grandmaster
 - Each new Armor Tier comes with special equipment set bonuses
 - These armor sets can be upgraded with new Diagrams
+- Added Dimeritium Ingot as upgrade material for Grandmaster Armor Sets
+**Visual Changes**
 - New Mod Icon
-- Added many spell modifiers for the Witcher signs
 - Improve Sign Particle Visuals
-- 
+- Changed Spell Book Textures to be more in line with the RPG-Series Books
+**Internal Changes**
+- Added many spell modifiers & passives for the skill tree and future content (More will be added)
+- Improve how the Quen Active Shield works
+- Improve how Witcher Reflexes work, it's now an activated status effect that blocks the next incoming arrow or melee hit
+- Witcher Reflexes cannot be executed, if the player casts a spell, uses an item or does not have an item in the main hand in the #minecraft:sword tag
+- Removed Witcher Medallion Passives, would be too much with the new Set Equipment Bonuses
 
 # 2.5.2 - 1.21.1
 - Update Spell Textures

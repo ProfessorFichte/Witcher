@@ -19,7 +19,7 @@ import net.spell_engine.api.spell.SpellDataComponents;
 import net.spell_power.api.SpellPowerMechanics;
 import net.witcher_rpg.item.WitcherGroup;
 import net.spell_engine.api.item.armor.Armor;
-import net.witcher_rpg.item.WitcherItems;
+import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.spell.SetBonuses;
 
 import java.util.ArrayList;
@@ -31,19 +31,19 @@ import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class Armors {
     private static final Supplier<Ingredient> WITCHER_INGREDIENTS = () -> Ingredient.ofItems(
-            Items.LEATHER, WitcherItems.SILVER_INGOT
+            Items.LEATHER, WitcherMaterials.SILVER_INGOT.item()
     );
     private static final Supplier<Ingredient> FELINE_INGREDIENTS = () -> Ingredient.ofItems(
-            Items.LEATHER, WitcherItems.STEEL_INGOT, WitcherItems.DARK_IRON_INGOT, WitcherItems.DARK_STEEL_INGOT
+            Items.LEATHER, WitcherMaterials.STEEL_INGOT.item(), WitcherMaterials.DARK_IRON_INGOT.item(), WitcherMaterials.DARK_STEEL_INGOT.item()
     );
     private static final Supplier<Ingredient> GRIFFIN_INGREDIENTS = () -> Ingredient.ofItems(
-            Items.LEATHER, WitcherItems.SILVER_INGOT ,  WitcherItems.METEORITE_INGOT, WitcherItems.METEORITE_SILVER_INGOT
+            Items.LEATHER, WitcherMaterials.SILVER_INGOT.item() ,  WitcherMaterials.METEORITE_INGOT.item(), WitcherMaterials.METEORITE_SILVER_INGOT.item()
     );
     private static final Supplier<Ingredient> WOLVEN_INGREDIENTS = () -> Ingredient.ofItems(
-            Items.LEATHER, WitcherItems.SILVER_INGOT ,  WitcherItems.METEORITE_INGOT, WitcherItems.METEORITE_SILVER_INGOT
+            Items.LEATHER, WitcherMaterials.SILVER_INGOT.item() ,  WitcherMaterials.METEORITE_INGOT.item(), WitcherMaterials.METEORITE_SILVER_INGOT.item()
     );
     private static final Supplier<Ingredient> URSINE_INGREDIENTS = () -> Ingredient.ofItems(
-            Items.CHAIN, WitcherItems.STEEL_INGOT, WitcherItems.DARK_IRON_INGOT, WitcherItems.DARK_STEEL_INGOT
+            Items.CHAIN, WitcherMaterials.STEEL_INGOT.item(), WitcherMaterials.DARK_IRON_INGOT.item(), WitcherMaterials.DARK_STEEL_INGOT.item()
     );
 
     private static Armor.ItemSettingsTweaker commonSettings(Identifier equipmentSetId) {

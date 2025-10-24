@@ -1,12 +1,11 @@
 package net.witcher_rpg.spell;
 
-import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.more_rpg_classes.effect.MRPGCEffects;
 import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.effect.SpellEngineEffects;
-import net.spell_engine.api.effect.TickingStatusEffect;
 import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.render.LightEmission;
 import net.spell_engine.api.spell.Spell;
@@ -15,7 +14,6 @@ import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.api.util.TriState;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
-import net.spell_engine.fx.ParticleHelper;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_engine.internals.target.SpellTarget;
@@ -27,10 +25,8 @@ import net.witcher_rpg.sounds.Sounds;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
-import static net.spell_engine.client.util.Color.from;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class WitcherSpells {
@@ -337,7 +333,45 @@ public class WitcherSpells {
 
         return new Entry(id, spell, title, description, null);
     }
+    public static Entry quen_active_helper = add(quen_active_helper());
+    private static Entry quen_active_helper() {
+        var id = Identifier.of(MOD_ID, "quen_active_helper");
+        var description = "Quen Active Helper Impact";
+        var effect = WitcherStatusEffects.QUEN_ACTIVE;
+        var title = "Quen Active Helper Impact";
 
+        var spell = SpellBuilder.createSpellActive();
+        spell.tier = 0;
+        spell.school = WitcherSpellSchools.QUEN;
+
+        var buff = SpellBuilder.Impacts.effectSet(effect.id.toString(), 20,0);
+        buff.action.status_effect.amplifier_power_multiplier = 0.2F;
+        spell.impacts = List.of(buff);
+        configureCooldown(spell, 0);
+
+        return new Entry(id, spell, title, description, null);
+    }
+    public static final Entry defensive_witcher_mechanics = add(defensive_witcher_mechanics());
+    private static Entry defensive_witcher_mechanics() {
+        var id = Identifier.of(MOD_ID, "defensive_witcher_mechanics");
+        var effect = WitcherStatusEffects.WITCHER_REFLEXES;
+        var description = "Sharpens your reflexes for {effect_duration} sec, blocking {effect_amplifier} arrow or melee impacts.";
+        var spell = SpellBuilder.createSpellActive();
+        spell.tier = 1;
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        var title = effect.title;
+
+        spell.target.type = Spell.Target.Type.CASTER;
+
+        var buff = SpellBuilder.Impacts.effectSet(effect.id.toString(),10,0);
+        buff.action.status_effect.amplifier_cap = 2;
+        buff.action.status_effect.amplifier_power_multiplier = 0.15F;
+        buff.action.status_effect.refresh_duration = false;
+        spell.impacts = List.of(buff);
+        configureCooldown(spell, 15);
+
+        return new Entry(id, spell, title, description, null);
+    }
     ///GLYPH MODIFERS
     public static final Entry GREATER_AARD_GLYPH = add(greater_aard_glyph());
     private static Entry greater_aard_glyph() {
@@ -450,7 +484,7 @@ public class WitcherSpells {
     public static Entry improved_yrden = add(improved_yrden());
     private static Entry improved_yrden() {
         var id = Identifier.of(MOD_ID, "improved_yrden");
-        var title = "Improved Whirl";
+        var title = "Improved Yrden";
         var description = "Reduces cooldown of the Yrden Sign by {cooldown_duration_deduct} sec";
         var spell = modifierSpellBase();
         spell.school = WitcherSpellSchools.YRDEN;
@@ -864,7 +898,365 @@ public class WitcherSpells {
 
         return new Entry(id, spell, title, description, null);
     }
+    /// FAST ATTACK
+    public static final Entry muscle_memory = add(muscle_memory());
+    private static Entry muscle_memory() {
+        var id = Identifier.of(MOD_ID, "muscle_memory");
+        var effect = WitcherStatusEffects.MUSCLE_MEMORY;
+        var description = "Increasing melee attack speed by {bonus}, stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
+        var spell = SpellBuilder.createSpellPassive();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var passiveMeleeTrigger = new Spell.Trigger();
+        passiveMeleeTrigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        spell.passive.triggers = List.of(passiveMeleeTrigger);
+
+        spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
+        spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
+        spell.deliver.stash_effect.id = effect.id.toString();
+        spell.deliver.stash_effect.consume = 0;
+        var stashMeleeTrigger = new Spell.Trigger();
+        stashMeleeTrigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        stashMeleeTrigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.deliver.stash_effect.triggers = List.of(stashMeleeTrigger);
+
+        var buff = SpellBuilder.Impacts.effectAdd(effect.id.toString(),10,1,5);
+        buff.action.status_effect.refresh_duration = false;
+        spell.impacts = List.of(buff);
+        configureCooldown(spell, 20);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+    public static Entry whirl_boost_a = add(whirl_boost_a());
+    private static Entry whirl_boost_a() {
+        var id = Identifier.of(MOD_ID, "whirl_boost_a");
+        var title = "Slicing Whirl";
+        var description = "Increases the power of Whirl by {power_multiplier}";
+        var spell = modifierSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+
+        var modifier = new Spell.Modifier();
+        modifier.spell_pattern = "witcher_rpg:whirl";
+        modifier.power_modifier = new Spell.Impact.Modifier();
+        modifier.power_modifier.power_multiplier = 0.25F;
+        spell.modifiers = List.of(modifier);
+
+        return new Entry(id, spell, title, description, null);
+    }
+    /// STRONG ATTACK
+    public static final Entry strength_training = add(strength_training());
+    private static Entry strength_training() {
+        var id = Identifier.of(MOD_ID, "strength_training");
+        var effect = WitcherStatusEffects.STRENGTH_TRAINING;
+        var description = "Increasing melee attack damage by {bonus}, stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
+        var spell = SpellBuilder.createSpellPassive();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var passiveMeleeTrigger = new Spell.Trigger();
+        passiveMeleeTrigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        spell.passive.triggers = List.of(passiveMeleeTrigger);
+
+        spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
+        spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
+        spell.deliver.stash_effect.id = effect.id.toString();
+        spell.deliver.stash_effect.consume = 0;
+        var stashMeleeTrigger = new Spell.Trigger();
+        stashMeleeTrigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        stashMeleeTrigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.deliver.stash_effect.triggers = List.of(stashMeleeTrigger);
+
+        var buff = SpellBuilder.Impacts.effectAdd(effect.id.toString(),10,1,5);
+        buff.action.status_effect.refresh_duration = false;
+        spell.impacts = List.of(buff);
+        configureCooldown(spell, 20);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+    public static Entry rend_boost_a = add(rend_boost_a());
+    private static Entry rend_boost_a() {
+        var id = Identifier.of(MOD_ID, "rend_boost_a");
+        var title = "Slashing Rend";
+        var description = "Increases the power of Rend by {power_multiplier}";
+        var spell = modifierSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+
+        var modifier = new Spell.Modifier();
+        modifier.spell_pattern = "witcher_rpg:rend";
+        modifier.power_modifier = new Spell.Impact.Modifier();
+        modifier.power_modifier.power_multiplier = 0.3F;
+        spell.modifiers = List.of(modifier);
+
+        return new Entry(id, spell, title, description, null);
+    }
+    /// DEFENSE
+    public static Entry witcher_reflexes_boost_a = add(witcher_reflexes_boost_a());
+    private static Entry witcher_reflexes_boost_a() {
+        var id = Identifier.of(MOD_ID, "witcher_reflexes_boost_a");
+        var title = "Superhuman Reflexes";
+        var description = "Increases the amount of Blocks by {effect_amplifier_add} for Witcher Reflexes.";
+        var spell = modifierSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+
+        var modifier = new Spell.Modifier();
+        modifier.spell_pattern = "witcher_rpg:defensive_witcher_mechanics";
+        modifier.effect_amplifier_add = 2;
+        spell.modifiers = List.of(modifier);
+
+        return new Entry(id, spell, title, description, null);
+    }
+    public static Entry arrow_deflection = add(arrow_deflection());
+    private static Entry arrow_deflection() {
+        var id = Identifier.of(MOD_ID, "arrow_deflection");
+        var effect = WitcherStatusEffects.ARROW_DEFLECTION;
+        var title = "Arrow Deflection";
+        var description = "While blocking Arrows with Witcher Reflexes, you send the Arrow back to the shooter.";
+        var spell = modifierSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+
+        var modifier = new Spell.Modifier();
+        modifier.spell_pattern = "witcher_rpg:defensive_witcher_mechanics";
+        var impact = SpellBuilder.Impacts.effectSet(effect.id.toString(), 20, 0);
+        impact.action.status_effect.amplifier_power_multiplier = 0.15F;
+        modifier.mutate_impacts = Spell.Modifier.ImpactListModifier.APPEND;
+        modifier.impacts = List.of(impact);
+
+        spell.modifiers = List.of(modifier);
+
+        return new Entry(id, spell, title, description, null);
+    }
+    public static Entry counterattack = add(counterattack());
+    private static Entry counterattack() {
+        var id = Identifier.of(MOD_ID, "counterattack");
+        var effect = WitcherStatusEffects.COUNTERATTACK;
+        var title = effect.title;
+        var description = "After blocking, with your next melee attack you have {bonus} attack damage.";
+        var spell = createModifierAlikePassiveSpell();
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var bonus = SpellTooltip.percent(effect.config().firstModifier().value);
+            return args.description().replace("{bonus}", bonus);
+        };
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var trigger = SpellBuilder.Triggers.shieldBlock();
+        spell.passive.triggers = List.of(trigger);
+
+        var impact = SpellBuilder.Impacts.effectSet(effect.id.toString(), 15, 0);
+        impact.action.status_effect.amplifier_power_multiplier = 0.15F;
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+    /// BATTLE TRANCE
     /// PASSIVE SPELLS
+    /// GENERIC WITCHER TRAITS
+    public static final Entry griffin_school_technique = add(griffin_school_technique());
+    private static Entry griffin_school_technique() {
+        var id = Identifier.of(MOD_ID, "griffin_school_technique");
+        var title = "Griffin School Technique";
+        var description = "Casting Signs halves the active cooldowns of all signs.";
+        var spell = SpellBuilder.createSpellPassive();
+        spell.school = WitcherSpellSchools.SIGN;
+        spell.range = 0;
+        spell.tooltip = new Spell.Tooltip();
+        spell.tooltip.show_header = false;
+        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
+        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
+        spell.tooltip.description.show_in_compact = true;
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var trigger = SpellBuilder.Triggers.activeSpellCast();
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        Spell.Impact aard = new Spell.Impact();
+        aard.action = new Spell.Impact.Action();
+        aard.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
+        aard.action.cooldown = new Spell.Impact.Action.Cooldown();
+        aard.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
+        aard.action.cooldown.actives.school = WitcherSpellSchools.AARD.id.toString();
+        aard.action.cooldown.actives.duration_multiplier = 0.5F;
+        Spell.Impact axii = new Spell.Impact();
+        axii.action = new Spell.Impact.Action();
+        axii.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
+        axii.action.cooldown = new Spell.Impact.Action.Cooldown();
+        axii.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
+        axii.action.cooldown.actives.school = WitcherSpellSchools.AXII.id.toString();
+        axii.action.cooldown.actives.duration_multiplier = 0.5F;
+        Spell.Impact igni = new Spell.Impact();
+        igni.action = new Spell.Impact.Action();
+        igni.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
+        igni.action.cooldown = new Spell.Impact.Action.Cooldown();
+        igni.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
+        igni.action.cooldown.actives.school = WitcherSpellSchools.IGNI.id.toString();
+        igni.action.cooldown.actives.duration_multiplier = 0.5F;
+        Spell.Impact quen = new Spell.Impact();
+        quen.action = new Spell.Impact.Action();
+        quen.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
+        quen.action.cooldown = new Spell.Impact.Action.Cooldown();
+        quen.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
+        quen.action.cooldown.actives.school = WitcherSpellSchools.QUEN.id.toString();
+        quen.action.cooldown.actives.duration_multiplier = 0.5F;
+        Spell.Impact yrden = new Spell.Impact();
+        yrden.action = new Spell.Impact.Action();
+        yrden.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
+        yrden.action.cooldown = new Spell.Impact.Action.Cooldown();
+        yrden.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
+        yrden.action.cooldown.actives.school = WitcherSpellSchools.YRDEN.id.toString();
+        yrden.action.cooldown.actives.duration_multiplier = 0.5F;
+        Spell.Impact sign = new Spell.Impact();
+        sign.action = new Spell.Impact.Action();
+        sign.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
+        sign.action.cooldown = new Spell.Impact.Action.Cooldown();
+        sign.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
+        sign.action.cooldown.actives.school = WitcherSpellSchools.SIGN.id.toString();
+        sign.action.cooldown.actives.duration_multiplier = 0.5F;
+        spell.impacts = List.of(aard,axii,igni);
+
+        SpellBuilder.Cost.cooldown(spell, 45F);
+
+        return new Entry(id, spell, title, description, null);
+    }
+    public static final Entry cat_school_technique = add(cat_school_technique());
+    private static Entry cat_school_technique() {
+        var id = Identifier.of(MOD_ID, "cat_school_technique");
+        var title = "Cat School Technique";
+        var description = "Hitting targets with bad effects inflicts extra damage, dealing more damage the less health the target has.";
+        var spell = SpellBuilder.createSpellPassive();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        spell.range = 0;
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+        spell.tooltip = new Spell.Tooltip();
+        spell.tooltip.show_header = false;
+        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
+        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
+        spell.tooltip.description.show_in_compact = true;
+
+        var trigger = SpellBuilder.Triggers.meleeAttack(false);
+        var condition = new Spell.TargetCondition();
+        condition.entity_predicate_id = SpellEntityPredicates.HAS_BAD_EFFECT.id().toString();
+        trigger.target_conditions = List.of(condition);
+        spell.passive.triggers = List.of(trigger);
+
+        var custom = new Spell.Impact();
+        custom.action = new Spell.Impact.Action();
+        custom.action.custom = new Spell.Impact.Action.Custom();
+        custom.action.type = Spell.Impact.Action.Type.CUSTOM;
+        custom.action.custom.intent = SpellTarget.Intent.HARMFUL;
+        custom.action.custom.handler = "more_rpg_classes:damage_according_to_missing_health";
+        custom.particles = new ParticleBatch[]{
+                new ParticleBatch(
+                        SpellEngineParticles.dripping_blood.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        35, 0.4F, 1.0F),
+                new ParticleBatch(
+                        SpellEngineParticles.smoke_medium.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        10, 0.2F, 0.5F).color(Color.RED.toRGBA())
+        };
+
+        spell.impacts = List.of(custom);
+
+        SpellBuilder.Cost.cooldown(spell, 45F);
+
+        return new Entry(id, spell, title, description, null);
+    }
+    public static final Entry bear_school_technique = add(bear_school_technique());
+    private static Entry bear_school_technique() {
+        var id = Identifier.of(MOD_ID, "bear_school_technique");
+        var title = "Bear School Technique";
+        var effect = WitcherStatusEffects.BEAR_SCHOOL_MEDALLION;
+        var description = "Taking Damage reduces incoming damage by {bonus} for {effect_duration} secs.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().attributes().get(0);
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description()
+                    .replace("{bonus}", bonus);
+        };
+        var spell = SpellBuilder.createSpellPassive();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        spell.range = 0;
+        spell.tooltip = new Spell.Tooltip();
+        spell.tooltip.show_header = false;
+        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
+        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
+        spell.tooltip.description.show_in_compact = true;
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.DAMAGE_TAKEN;
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        var buff = SpellBuilder.Impacts.effectSet(effect.id.toString(),5,0);
+        spell.impacts = List.of(buff);
+
+        SpellBuilder.Cost.cooldown(spell, 45F);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+    public static final Entry wolf_school_technique = add(wolf_school_technique());
+    private static Entry wolf_school_technique() {
+        var id = Identifier.of(MOD_ID, "wolf_school_technique");
+        var title = "Wolf School Technique";
+        var effect = WitcherStatusEffects.WOLF_SCHOOL_MEDALLION;
+        var description = "After casting a sign, you deal {damage} magical damage per melee attack for {stash_duration} sec.";
+        var spell = SpellBuilder.createSpellPassive();
+        spell.school = WitcherSpellSchools.SIGN;
+        spell.range = 0;
+        spell.tooltip = new Spell.Tooltip();
+        spell.tooltip.show_header = false;
+        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
+        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
+        spell.tooltip.description.show_in_compact = true;
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var trigger = SpellBuilder.Triggers.activeSpellCast();
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        var trigger_stash_damage_taken = new Spell.Trigger();
+        trigger_stash_damage_taken.type = Spell.Trigger.Type.MELEE_IMPACT;
+        spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
+        spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
+        spell.deliver.stash_effect.duration = 8;
+        spell.deliver.stash_effect.amplifier = 0;
+        spell.deliver.stash_effect.id = effect.id.toString();
+        spell.deliver.stash_effect.consume = 0;
+        spell.deliver.stash_effect.triggers = List.of(trigger_stash_damage_taken);
+
+        var damage = SpellBuilder.Impacts.damage(0.15F,0.0F);
+        damage.attribute = "minecraft:generic.attack_damage";
+        damage.particles = new ParticleBatch[]{
+                new ParticleBatch(
+                        SpellEngineParticles.MagicParticles.get(
+                                SpellEngineParticles.MagicParticles.Shape.SPARK,
+                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        20, 0.1F, 0.2F).color(Color.ELECTRIC.toRGBA())
+        };
+        spell.impacts = List.of(damage);
+
+        SpellBuilder.Cost.cooldown(spell, 45F);
+
+        return new Entry(id, spell, title, description, null);
+    }
+
     public static final Entry ROSE_OF_REMEMBRANCE = add(rose_of_remembrance());
     private static Entry rose_of_remembrance() {
         var id = Identifier.of(MOD_ID, "rose_of_remembrance");
@@ -891,7 +1283,7 @@ public class WitcherSpells {
 
         return new Entry(id, spell, title, description, null);
     }
-    public static Entry SUNSTONE = add(sunstone());
+    public static Entry sunstone = add(sunstone());
     private static Entry sunstone() {
         var id = Identifier.of(MOD_ID, "sunstone");
         var description = "Use: Increases sign intensity by {bonus} for {effect_duration} seconds.";
@@ -1163,199 +1555,4 @@ public class WitcherSpells {
 
         return new Entry(id, spell, title, description, null);
     }
-    public static final Entry griffin_school_medallion = add(griffin_school_medallion());
-    private static Entry griffin_school_medallion() {
-        var id = Identifier.of(MOD_ID, "griffin_school_medallion");
-        var title = "Witcher Griffin Medallion";
-        var description = "Casting Signs halves the active cooldowns of all signs.";
-        var spell = SpellBuilder.createSpellPassive();
-        spell.school = WitcherSpellSchools.SIGN;
-        spell.range = 0;
-        spell.tooltip = new Spell.Tooltip();
-        spell.tooltip.show_header = false;
-        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
-        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
-        spell.tooltip.description.show_in_compact = true;
-
-        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
-
-        var trigger = SpellBuilder.Triggers.activeSpellCast();
-        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
-        spell.passive.triggers = List.of(trigger);
-
-        Spell.Impact aard = new Spell.Impact();
-        aard.action = new Spell.Impact.Action();
-        aard.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
-        aard.action.cooldown = new Spell.Impact.Action.Cooldown();
-        aard.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
-        aard.action.cooldown.actives.school = WitcherSpellSchools.AARD.id.toString();
-        aard.action.cooldown.actives.duration_multiplier = 0.5F;
-        Spell.Impact axii = new Spell.Impact();
-        axii.action = new Spell.Impact.Action();
-        axii.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
-        axii.action.cooldown = new Spell.Impact.Action.Cooldown();
-        axii.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
-        axii.action.cooldown.actives.school = WitcherSpellSchools.AXII.id.toString();
-        axii.action.cooldown.actives.duration_multiplier = 0.5F;
-        Spell.Impact igni = new Spell.Impact();
-        igni.action = new Spell.Impact.Action();
-        igni.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
-        igni.action.cooldown = new Spell.Impact.Action.Cooldown();
-        igni.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
-        igni.action.cooldown.actives.school = WitcherSpellSchools.IGNI.id.toString();
-        igni.action.cooldown.actives.duration_multiplier = 0.5F;
-        Spell.Impact quen = new Spell.Impact();
-        quen.action = new Spell.Impact.Action();
-        quen.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
-        quen.action.cooldown = new Spell.Impact.Action.Cooldown();
-        quen.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
-        quen.action.cooldown.actives.school = WitcherSpellSchools.QUEN.id.toString();
-        quen.action.cooldown.actives.duration_multiplier = 0.5F;
-        Spell.Impact yrden = new Spell.Impact();
-        yrden.action = new Spell.Impact.Action();
-        yrden.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
-        yrden.action.cooldown = new Spell.Impact.Action.Cooldown();
-        yrden.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
-        yrden.action.cooldown.actives.school = WitcherSpellSchools.YRDEN.id.toString();
-        yrden.action.cooldown.actives.duration_multiplier = 0.5F;
-        Spell.Impact sign = new Spell.Impact();
-        sign.action = new Spell.Impact.Action();
-        sign.action.type = net.spell_engine.api.spell.Spell.Impact.Action.Type.COOLDOWN;
-        sign.action.cooldown = new Spell.Impact.Action.Cooldown();
-        sign.action.cooldown.actives = new Spell.Impact.Action.Cooldown.Modify();
-        sign.action.cooldown.actives.school = WitcherSpellSchools.SIGN.id.toString();
-        sign.action.cooldown.actives.duration_multiplier = 0.5F;
-        spell.impacts = List.of(aard,axii,igni);
-
-        SpellBuilder.Cost.cooldown(spell, 60F);
-
-        return new Entry(id, spell, title, description, null);
-    }
-    public static final Entry cat_school_medallion = add(cat_school_medallion());
-    private static Entry cat_school_medallion() {
-        var id = Identifier.of(MOD_ID, "cat_school_medallion");
-        var title = "Witcher Cat Medallion";
-        var description = "Hitting targets with bad effects inflicts extra damage, dealing more damage the less health the target has.";
-        var spell = SpellBuilder.createSpellPassive();
-        spell.school = WitcherSpellSchools.WITCHER_MELEE;
-        spell.range = 0;
-        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
-        spell.tooltip = new Spell.Tooltip();
-        spell.tooltip.show_header = false;
-        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
-        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
-        spell.tooltip.description.show_in_compact = true;
-
-        var trigger = SpellBuilder.Triggers.meleeAttack(false);
-        var condition = new Spell.TargetCondition();
-        condition.entity_predicate_id = SpellEntityPredicates.HAS_BAD_EFFECT.id().toString();
-        trigger.target_conditions = List.of(condition);
-        spell.passive.triggers = List.of(trigger);
-
-        var custom = new Spell.Impact();
-        custom.action = new Spell.Impact.Action();
-        custom.action.custom = new Spell.Impact.Action.Custom();
-        custom.action.type = Spell.Impact.Action.Type.CUSTOM;
-        custom.action.custom.intent = SpellTarget.Intent.HARMFUL;
-        custom.action.custom.handler = "more_rpg_classes:damage_according_to_missing_health";
-        custom.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.dripping_blood.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        35, 0.4F, 1.0F),
-                new ParticleBatch(
-                        SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10, 0.2F, 0.5F).color(Color.RED.toRGBA())
-        };
-
-        spell.impacts = List.of(custom);
-
-        SpellBuilder.Cost.cooldown(spell, 60F);
-
-        return new Entry(id, spell, title, description, null);
-    }
-    public static final Entry bear_school_medallion = add(bear_school_medallion());
-    private static Entry bear_school_medallion() {
-        var id = Identifier.of(MOD_ID, "bear_school_medallion");
-        var title = "Witcher Bear Medallion";
-        var effect = WitcherStatusEffects.BEAR_SCHOOL_MEDALLION;
-        var description = "Taking Damage reduces incoming damage by {bonus} for {effect_duration} secs.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().attributes().get(0);
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description()
-                    .replace("{bonus}", bonus);
-        };
-        var spell = SpellBuilder.createSpellPassive();
-        spell.school = WitcherSpellSchools.WITCHER_MELEE;
-        spell.range = 0;
-        spell.tooltip = new Spell.Tooltip();
-        spell.tooltip.show_header = false;
-        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
-        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
-        spell.tooltip.description.show_in_compact = true;
-
-        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
-
-        var trigger = new Spell.Trigger();
-        trigger.type = Spell.Trigger.Type.DAMAGE_TAKEN;
-        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
-        spell.passive.triggers = List.of(trigger);
-
-        var buff = SpellBuilder.Impacts.effectSet(effect.id.toString(),5,0);
-        spell.impacts = List.of(buff);
-
-        SpellBuilder.Cost.cooldown(spell, 60F);
-
-        return new Entry(id, spell, title, description, mutator);
-    }
-    public static final Entry wolf_school_medallion = add(wolf_school_medallion());
-    private static Entry wolf_school_medallion() {
-        var id = Identifier.of(MOD_ID, "wolf_school_medallion");
-        var title = "Witcher Wolf Medallion";
-        var effect = WitcherStatusEffects.WOLF_SCHOOL_MEDALLION;
-        var description = "After casting a sign, you deal {damage} magical damage per melee attack for {stash_duration} sec.";
-        var spell = SpellBuilder.createSpellPassive();
-        spell.school = WitcherSpellSchools.SIGN;
-        spell.range = 0;
-        spell.tooltip = new Spell.Tooltip();
-        spell.tooltip.show_header = false;
-        spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
-        spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
-        spell.tooltip.description.show_in_compact = true;
-
-        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
-
-        var trigger = SpellBuilder.Triggers.activeSpellCast();
-        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
-        spell.passive.triggers = List.of(trigger);
-
-        var trigger_stash_damage_taken = new Spell.Trigger();
-        trigger_stash_damage_taken.type = Spell.Trigger.Type.MELEE_IMPACT;
-        spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
-        spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
-        spell.deliver.stash_effect.duration = 8;
-        spell.deliver.stash_effect.amplifier = 0;
-        spell.deliver.stash_effect.id = effect.id.toString();
-        spell.deliver.stash_effect.consume = 0;
-        spell.deliver.stash_effect.triggers = List.of(trigger_stash_damage_taken);
-
-        var damage = SpellBuilder.Impacts.damage(0.15F,0.0F);
-        damage.attribute = "minecraft:generic.attack_damage";
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPARK,
-                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        20, 0.1F, 0.2F).color(Color.ELECTRIC.toRGBA())
-        };
-        spell.impacts = List.of(damage);
-
-        SpellBuilder.Cost.cooldown(spell, 60F);
-
-        return new Entry(id, spell, title, description, null);
-    }
-
 }

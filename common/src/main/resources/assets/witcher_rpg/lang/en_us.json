@@ -216,31 +216,35 @@
 
   "item.witcher_rpg.enhanced_diagram": "Smithing Template",
   "smithing_template.witcher_rpg.enhanced.applies_to": "Witcher Gear",
-  "smithing_template.witcher_rpg.enhanced.ingredients": "Hardened Leather",
+  "smithing_template.witcher_rpg.enhanced.ingredients": "Steel Ingot / Silver Ingot",
   "smithing_template.witcher_rpg.enhanced.title": "Diagram: Enhanced Witcher Gear",
   "smithing_template.witcher_rpg.enhanced.base_slot_description": "Add Witcher Gear here.",
-  "smithing_template.witcher_rpg.enhanced.additions_slot_description": "Add Hardened Leather",
+  "smithing_template.witcher_rpg.enhanced.additions_slot_description": "Add Steel Ingot or Silver Ingot",
 
   "item.witcher_rpg.superior_diagram": "Smithing Template",
   "smithing_template.witcher_rpg.superior.applies_to": "Enhanced Witcher Gear",
-  "smithing_template.witcher_rpg.superior.ingredients": "Steel Ingot / Silver Ingot",
+  "smithing_template.witcher_rpg.superior.ingredients": "Dark Iron Ingot / Meteorite Ingot",
   "smithing_template.witcher_rpg.superior.title": "Diagram: Superior Witcher Gear",
   "smithing_template.witcher_rpg.superior.base_slot_description": "Add Enhanced Witcher Gear here.",
-  "smithing_template.witcher_rpg.superior.additions_slot_description": "Add Steel Ingot or Silver Ingot",
+  "smithing_template.witcher_rpg.superior.additions_slot_description": "Add Dark Iron Ingot or Meteorite Ingot",
 
   "item.witcher_rpg.mastercrafted_diagram": "Smithing Template",
   "smithing_template.witcher_rpg.mastercrafted.applies_to": "Superior Witcher Gear",
-  "smithing_template.witcher_rpg.mastercrafted.ingredients": "Dark Iron Ingot / Meteorite Ingot",
+  "smithing_template.witcher_rpg.mastercrafted.ingredients": "Dark Steel Ingot / Meteorite Silver Ingot",
   "smithing_template.witcher_rpg.mastercrafted.title": "Diagram: Mastercrafted Witcher Gear",
   "smithing_template.witcher_rpg.mastercrafted.base_slot_description": "Add Superior Witcher Gear here.",
-  "smithing_template.witcher_rpg.mastercrafted.additions_slot_description": "Add Dark Iron Ingot or Meteorite Ingot",
+  "smithing_template.witcher_rpg.mastercrafted.additions_slot_description": "Add Dark Steel Ingot or Meteorite Silver Ingot",
 
   "item.witcher_rpg.grandmaster_diagram": "Smithing Template",
   "smithing_template.witcher_rpg.grandmaster.applies_to": "Mastercrafted Witcher Gear",
-  "smithing_template.witcher_rpg.grandmaster.ingredients": "Dark Steel Ingot / Meteorite Silver Ingot",
+  "smithing_template.witcher_rpg.grandmaster.ingredients": "Dimeritium Ingot",
   "smithing_template.witcher_rpg.grandmaster.title": "Diagram: Grandmaster Witcher Gear",
   "smithing_template.witcher_rpg.grandmaster.base_slot_description": "Add Mastercrafted Witcher Gear here.",
-  "smithing_template.witcher_rpg.grandmaster.additions_slot_description": "Add Dark Steel Ingot or Meteorite Silver Ingot",
+  "smithing_template.witcher_rpg.grandmaster.additions_slot_description": "Add Dimeritium Ingot",
+
+  "item.witcher_rpg.dimeritium_ingot.applies_to": "Mastercrafted Witcher Gear",
+  "item.witcher_rpg.smithing_template.hint": "Witcher Gear upgrade Ingot",
+  "item.witcher_rpg.dimeritium_ingot": "Dimeritium Ingot",
 
 
   "effect.witcher_rpg.aard_intensity": "Aard Sign Intensity",

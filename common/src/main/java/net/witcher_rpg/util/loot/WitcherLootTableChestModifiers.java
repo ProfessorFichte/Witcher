@@ -11,7 +11,7 @@ import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
-import net.witcher_rpg.item.WitcherItems;
+import net.witcher_rpg.item.WitcherMaterials;
 
 public class WitcherLootTableChestModifiers {
     private static final Identifier WEAPON_SMITH_CHEST =
@@ -30,22 +30,22 @@ public class WitcherLootTableChestModifiers {
                     LootPool.Builder poolBuilder = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
                             .conditionally(RandomChanceLootCondition.builder(silver_ingot_chance))
-                            .with(ItemEntry.builder(WitcherItems.SILVER_INGOT))
+                            .with(ItemEntry.builder(WitcherMaterials.SILVER_INGOT.item()))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 2.0f)).build());
                     LootPool.Builder poolBuilder2 = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
                             .conditionally(RandomChanceLootCondition.builder(dark_iron_ingot_chance))
-                            .with(ItemEntry.builder(WitcherItems.DARK_IRON_INGOT))
+                            .with(ItemEntry.builder(WitcherMaterials.DARK_IRON_INGOT.item()))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     LootPool.Builder poolBuilder3 = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
                             .conditionally(RandomChanceLootCondition.builder(steel_ingot_chance))
-                            .with(ItemEntry.builder(WitcherItems.STEEL_INGOT))
+                            .with(ItemEntry.builder(WitcherMaterials.STEEL_INGOT.item()))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     LootPool.Builder poolBuilder4 = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
                             .conditionally(RandomChanceLootCondition.builder(meteorite_ingot_chance))
-                            .with(ItemEntry.builder(WitcherItems.METEORITE))
+                            .with(ItemEntry.builder(WitcherMaterials.METEORITE.item()))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilder.build());
                     tableBuilder.pool(poolBuilder2.build());

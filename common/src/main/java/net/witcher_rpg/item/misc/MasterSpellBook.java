@@ -1,4 +1,4 @@
-package net.witcher_rpg.item;
+package net.witcher_rpg.item.misc;
 
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.item.trinket.SpellBookItem;

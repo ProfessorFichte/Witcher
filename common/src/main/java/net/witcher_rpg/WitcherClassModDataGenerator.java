@@ -148,6 +148,8 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			generateWitcherArmorTag(
 					Armors.entries,WitcherItemTags.WITCHER_ARMOR
 			);
+			///MISC
+			var tierTag = RPGSeriesItemTags.LootTiers.get(5, RPGSeriesItemTags.LootCategory.ARMORS);
 			///RELICS
 			var relicsAll = getOrCreateTagBuilder(relicsKey);
 			WitcherTrinkets.entries.stream()

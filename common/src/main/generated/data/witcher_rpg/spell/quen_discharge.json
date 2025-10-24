@@ -29,7 +29,8 @@
         {
           "type": "DAMAGE_TAKEN"
         }
-      ]
+      ],
+      "consume": 0
     }
   },
   "impacts": [

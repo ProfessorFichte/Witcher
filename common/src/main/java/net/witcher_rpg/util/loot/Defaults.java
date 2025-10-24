@@ -32,7 +32,7 @@ public class Defaults {
         List.of("witcher_rpg:chests/witcher_grave").
                 forEach(id ->
                         items.put(id, new LootConfig.Pool()
-                                .rolls(0.6)
+                                .rolls(0.8)
                                 .add(WG0).weight(2)
                                 .add(WRS0).weight(1)
                                 .add(WED).weight(1)
@@ -40,7 +40,7 @@ public class Defaults {
         List.of("witcher_rpg:chests/old_ruins").
                 forEach(id ->
                         items.put(id, new LootConfig.Pool()
-                                .rolls(0.75)
+                                .rolls(1.0)
                                 .add(WG0).weight(2)
                                 .add(WRS1).weight(1)
                                 .add(WED).weight(1)
@@ -101,8 +101,7 @@ public class Defaults {
                         ));
 
         /// VANILLA MINECRAFT LOOT TABLES
-        List.of("minecraft:chests/end_city_treasure",
-                        "minecraft:chests/bastion_treasure")
+        List.of("minecraft:chests/bastion_treasure")
                 .forEach(id -> items.put(id, new LootConfig.Pool()
                         .rolls(0.75)
                         .add(WMD)

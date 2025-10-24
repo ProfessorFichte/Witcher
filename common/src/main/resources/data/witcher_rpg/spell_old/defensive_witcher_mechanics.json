@@ -6,19 +6,13 @@
 
   "active": {
     "cast": {
-      "animation": "witcher_rpg:witcher_reflexes",
-      "movement_speed": 0.8,
-      "duration": 0.5
+      "duration": 0
     },
     "scroll": {}
   },
 
   "target": {
-    "type": "AREA",
-    "area": {
-      "distance_dropoff": "SQUARED",
-      "angle_degrees": 360.0
-    }
+    "type": "CASTER"
   },
 
   "release": {
@@ -29,10 +23,10 @@
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {
-          "effect_id": "witcher_rpg:adrenaline_gain",
+          "effect_id": "witcher_rpg:witcher_reflexes",
           "duration": 10,
           "apply_mode": "SET",
-          "amplifier": 0,
+          "amplifier": 1,
           "show_particles": false
         }
       }

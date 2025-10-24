@@ -1,4 +1,4 @@
-package net.witcher_rpg.item;
+package net.witcher_rpg.item.misc;
 
 public class OldWitcherArmorDiagram {
     /*

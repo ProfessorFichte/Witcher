@@ -1,7 +1,5 @@
 package net.witcher_rpg;
 
-import net.fabricmc.api.ModInitializer;
-
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
@@ -16,9 +14,11 @@ import net.spell_engine.rpg_series.loot.LootConfig;
 import net.spell_engine.rpg_series.loot.LootHelper;
 import net.witcher_rpg.config.TrinketConfig;
 import net.witcher_rpg.config.TweaksConfig;
+import net.witcher_rpg.custom.CustomSpellImpacts;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.WitcherEntities;
+import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.sounds.Sounds;
 import net.witcher_rpg.worldgen.OreGen;
@@ -28,10 +28,8 @@ import net.tiny_config.ConfigManager;
 import net.witcher_rpg.config.Default;
 import net.witcher_rpg.custom.CustomSpells;
 import net.witcher_rpg.item.WitcherGroup;
-import net.witcher_rpg.item.WitcherItems;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
 import net.witcher_rpg.util.loot.WitcherLootTableChestModifiers;
-import net.witcher_rpg.worldgen.WitcherMapIcons;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.witcher_rpg.util.loot.Defaults;
@@ -87,6 +85,7 @@ public class WitcherClassMod {
 			tweaksConfig.value.ignore_items_required_mods = true;
 		}
 		WitcherSpellSchools.initialize();
+		CustomSpellImpacts.registerCustomImpacts();
 		WitcherLootTableChestModifiers.modifyChestLootTables();
 		CustomSpells.register();
 		LootHelper.TAG_CACHE.refresh();
@@ -120,7 +119,7 @@ public class WitcherClassMod {
 				.build();
 		Registry.register(Registries.ITEM_GROUP, WitcherGroup.WITCHER_KEY, WitcherGroup.WITCHER);
 		WitcherGroup.registerItemGroups();
-		WitcherItems.registerModItems();
+		WitcherMaterials.registerModItems();
 		WeaponsRegister.register(itemConfig.value.weapons);
 		Armors.register(itemConfig.value.armor_sets);
 		WitcherTrinkets.register(trinketConfig.value.entries);
