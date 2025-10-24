@@ -92,6 +92,7 @@ public class Defaults {
                                 .add(WT0)
                                 .add(WSD)
                                 .add(WMD)
+                                .add(WGD)
                         ));
         List.of("tcots_witcher:entities/ice_giant").
                 forEach(id ->
@@ -106,6 +107,25 @@ public class Defaults {
                         .rolls(0.75)
                         .add(WMD)
                         .add(WGD)
+                ));
+        List.of("minecraft:chests/village/village_armorer",
+                        "minecraft:chests/village/village_weaponsmith")
+                .forEach(id -> items.put(id, new LootConfig.Pool()
+                        .rolls(0.5)
+                        .add(WED).weight(2)
+                        .add(WSD).weight(1)
+                ));
+        List.of("minecraft:chests/stronghold_library",
+                        "minecraft:chests/woodland_mansion")
+                .forEach(id -> items.put(id, new LootConfig.Pool()
+                        .rolls(0.75)
+                        .add(WMD).weight(1)
+                        .add(WSD).weight(2)
+                ));
+        List.of("minecraft:chests/pillager_outpost")
+                .forEach(id -> items.put(id, new LootConfig.Pool()
+                        .rolls(0.75)
+                        .add(WED)
                 ));
     }
 }

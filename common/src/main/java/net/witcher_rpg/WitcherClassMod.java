@@ -67,7 +67,7 @@ public class WitcherClassMod {
 			.sanitize(true)
 			.build();
 	public static ConfigManager<LootConfig> lootEquipmentConfig = new ConfigManager<>
-			("loot_equipment", Defaults.itemLootConfig)
+			("loot_equipment_v0", Defaults.itemLootConfig)
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)

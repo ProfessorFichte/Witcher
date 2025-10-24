@@ -27,6 +27,7 @@ import net.witcher_rpg.datagen.WitcherRecipeProvider;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
 import net.witcher_rpg.item.WitcherArmorDiagrams;
+import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
 import net.witcher_rpg.item.armor.Armors;
@@ -148,8 +149,6 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			generateWitcherArmorTag(
 					Armors.entries,WitcherItemTags.WITCHER_ARMOR
 			);
-			///MISC
-			var tierTag = RPGSeriesItemTags.LootTiers.get(5, RPGSeriesItemTags.LootCategory.ARMORS);
 			///RELICS
 			var relicsAll = getOrCreateTagBuilder(relicsKey);
 			WitcherTrinkets.entries.stream()
@@ -178,6 +177,7 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 					.filter(entry -> trinkets1Keywords.stream().anyMatch(entry.name()::contains)).toList()
 					.forEach(entry -> trinkets1.addOptional(entry.id()));
 			///DIAGRAMS
+			var tier5ArmorTag = getOrCreateTagBuilder(RPGSeriesItemTags.LootTiers.get(5, RPGSeriesItemTags.LootCategory.ARMORS));
 			var enhanced = getOrCreateTagBuilder(WitcherItemTags.ENHANCED_DIAGRAMS);
 			WitcherArmorDiagrams.ENTRIES.stream()
 					.filter(entry -> entry.id().toString().toLowerCase().contains("enhanced"))
@@ -194,6 +194,14 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			WitcherArmorDiagrams.ENTRIES.stream()
 					.filter(entry -> entry.id().toString().toLowerCase().contains("grandmaster"))
 					.forEach(entry -> grandmaster.addOptional(entry.id()));
+			WitcherArmorDiagrams.ENTRIES.stream()
+					.filter(entry -> entry.id().toString().toLowerCase().contains("grandmaster"))
+					.forEach(entry -> tier5ArmorTag.addOptional(entry.id()));
+			///MISC
+			WitcherMaterials.ENTRIES.stream()
+					.filter(entry -> entry.id().toString().toLowerCase().contains("dimeritium_ingot"))
+					.forEach(entry -> tier5ArmorTag.addOptional(entry.id()));
+
 		}
 	}
 

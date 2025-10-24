@@ -15,6 +15,7 @@
 - Improve how Witcher Reflexes work, it's now an activated status effect that blocks the next incoming arrow or melee hit
 - Witcher Reflexes cannot be executed, if the player casts a spell, uses an item or does not have an item in the main hand in the #minecraft:sword tag
 - Removed Witcher Medallion Passives, would be too much with the new Set Equipment Bonuses
+- Inject Witcher Upgrade Diagrams in more Vanilla Structures
 
 # 2.5.2 - 1.21.1
 - Update Spell Textures

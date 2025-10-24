@@ -92,6 +92,11 @@
           "type": "minecraft:item",
           "name":  "witcher_rpg:dark_iron_witcher_sword",
           "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name":  "witcher_rpg:dimeritium_ingot",
+          "weight": 2
         }
       ]
     }

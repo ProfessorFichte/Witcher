@@ -28,8 +28,8 @@ public class WitcherMaterials {
         public Item item() { return container.item; }
     }
 
-    private static final ArrayList<Entry> ENTRIES = new ArrayList<>();
-    private static Entry add(Entry entry) {
+    public static final ArrayList<Entry> ENTRIES = new ArrayList<>();
+    public static Entry add(Entry entry) {
         ENTRIES.add(entry);
         return entry;
     }
