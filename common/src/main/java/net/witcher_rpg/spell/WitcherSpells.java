@@ -1,6 +1,5 @@
 package net.witcher_rpg.spell;
 
-import net.minecraft.item.ShieldItem;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.more_rpg_classes.effect.MRPGCEffects;
@@ -439,7 +438,7 @@ public class WitcherSpells {
 
         var modifier = new Spell.Modifier();
         modifier.power_modifier = new Spell.Impact.Modifier();
-        modifier.power_modifier.power_multiplier = 0.25F;
+        modifier.power_modifier.power_multiplier = 0.15F;
         var impactfilter = new Spell.Modifier.ImpactFilter();
         impactfilter.type = Spell.Impact.Action.Type.STATUS_EFFECT;
         impactfilter.school = WitcherSpellSchools.QUEN;
