@@ -1,15 +1,15 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
 #issueTrackerURL = ""
-license = "Insert License Here"
+license = "ARR"
 
 [[mods]]
 modId = "witcher_rpg"
 version = "${version}"
 displayName = "Witcher"
-authors = "Me!"
+authors = "Fichte"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Slay monsters like a Witcher! Spell Engine Add-On
 '''
 #logoFile = ""
 
@@ -24,6 +24,27 @@ side = "BOTH"
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "spell_engine"
+type = "required"
+versionRange = "[${spell_engine_version},)"
+ordering = "BEFORE"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "azurelibarmor"
+type = "required"
+versionRange = "[${azure_lib_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "more_rpg_classes"
+type = "required"
+versionRange = "[${more_rpg_library_version},)"
 ordering = "NONE"
 side = "BOTH"
 

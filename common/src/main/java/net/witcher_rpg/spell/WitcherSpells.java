@@ -614,7 +614,7 @@ public class WitcherSpells {
         trigger.spell.school = WitcherSpellSchools.AXII.id.toString();
         spell.passive.triggers = List.of(trigger);
 
-        var debuff = SpellBuilder.Impacts.effectSet(WitcherStatusEffects.AXII_LETHARGY.toString(), 4, 0);
+        var debuff = SpellBuilder.Impacts.effectSet(WitcherStatusEffects.AXII_LETHARGY.id.toString(), 10, 0);
         debuff.action.status_effect.amplifier_cap = 5;
         debuff.action.status_effect.amplifier_power_multiplier = 0.15F;
         spell.impacts = List.of(debuff);

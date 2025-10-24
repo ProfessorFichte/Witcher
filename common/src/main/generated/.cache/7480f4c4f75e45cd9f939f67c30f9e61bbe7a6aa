@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-24T12:30:11.0567807	Witcher Class Mod/Spell Generator
+// 1.21.1	2025-10-24T22:38:29.9783544	Witcher Class Mod/Spell Generator
 9cd91cedfc25e8b6ccecd22eb7d9563111935379 data\witcher_rpg\spell\greater_yrden_glyph.json
 5d96af717488256f179dc178548ea254e1359da1 data\witcher_rpg\spell\strength_training.json
 2992758bb4b95789d339bdbdb5e300aa0e3aa8b4 data\witcher_rpg\spell\grandmaster_feline.json
@@ -16,7 +16,7 @@ efee2e6cc1c24ee4eb59817f0c6a865f2a7ac8d6 data\witcher_rpg\spell\rose_of_remembra
 6b7fafc72e108c47e01e961eb36ac1d7a923a5a3 data\witcher_rpg\spell\pure_silver.json
 7362c7fcd834aa8872eb6579b478aafd4c38dad7 data\witcher_rpg\spell\igni_melt_armor.json
 69387d3cd5495d8f03ae3afbeea0ba55f4477254 data\witcher_rpg\spell\counterattack.json
-cecd1e8a10f7d64f4b72628b066de423a2a7b8d0 data\witcher_rpg\spell\axii_lethargy.json
+b0ad7999864eeb8532e1d8d272d4c940a2aab3c2 data\witcher_rpg\spell\axii_lethargy.json
 439640681400b7aff199a4cc88958a4d6e8caa97 data\witcher_rpg\spell\cat_school_technique.json
 9360e20f1694db988033b00ad6390bf3a2c56ffc data\witcher_rpg\spell\igni_pyromaniac.json
 6f1b2d4bcffd88a73eab502dbb5b55b9ea3324ff data\witcher_rpg\spell\axii_domination.json
