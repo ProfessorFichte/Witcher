@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "witcher_rpg:item/feline_feet"
+    "layer0": "witcher_rpg:item/superior_feline_feet"
   }
 }

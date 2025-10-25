@@ -41,7 +41,7 @@ repositories {
 		url = 'https://maven.ladysnake.org/releases'
 	}
 	// The Maven with the mods source
-	maven {url 'https://libs.azuredoom.com:4443/mods'}
+	maven { url 'https://maven.azuredoom.com/mods' }
     mavenCentral()
 }
 
@@ -74,7 +74,7 @@ dependencies {
 	modImplementation("maven.modrinth:spell-power:${project.spell_power_version}-fabric")
 	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.2.0-rc.4")))
 	modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}")
-	modImplementation("maven.modrinth:more-rpg-classes:${project.more_rpg_classes_version}")
+	modImplementation("maven.modrinth:more-rpg-library:${project.more_rpg_classes_version}")
 	modImplementation("mod.azure.azurelibarmor:azurelibarmor-fabric-${project.azure_mc_version}:${project.azure_lib_version}")
 }
 

@@ -1,3 +1,6 @@
+1.2.3 - 1.20.1
+- backport visual changes and improvements
+
 1.2.2 - 1.20.1
 - add new Bettercombat animations, created by Tenebris Mors, Thanks!
 

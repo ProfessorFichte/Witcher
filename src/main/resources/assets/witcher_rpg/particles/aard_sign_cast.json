@@ -1,8 +1,5 @@
 {
   "textures": [
-  "witcher_rpg:aard_particle_1",
-  "witcher_rpg:aard_particle_2",
-  "witcher_rpg:aard_particle_3",
-  "witcher_rpg:aard_particle_4"
+  "witcher_rpg:aard_particle_1"
   ]
 }
