@@ -1,3 +1,6 @@
+# 2.6.1 - 1.21.1
+- fix lang files
+
 # 2.6.0 - 1.21.1
 - NeoForge Beta!
 **Content Update**
