@@ -13,6 +13,7 @@ import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.render.CustomModels;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.client.particle.SpellFlameParticle;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.witcher_rpg.client.armor.*;
@@ -20,7 +21,7 @@ import net.witcher_rpg.client.effect.AxiiParticles;
 import net.witcher_rpg.client.effect.QuenActiveShieldRenderer;
 import net.witcher_rpg.client.entity.YrdenMagicTrapRenderer;
 import net.witcher_rpg.client.entity.YrdenRenderer;
-import net.witcher_rpg.client.particle.Particles;
+import net.witcher_rpg.client.particle.WitcherParticles;
 import net.witcher_rpg.client.predicate_models.WitcherModelPredicates;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.YrdenEntity;
@@ -51,14 +52,6 @@ public class WitcherClient{
                 Identifier.of(MOD_ID, "projectile/rend"),
                 Identifier.of(MOD_ID, "projectile/crystal_skull")
         ));
-
-        ParticleFactoryRegistry.getInstance().register(Particles.IGNI_SIGN, SoulParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(Particles.YRDEN_SIGN, SoulParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(Particles.AARD_SIGN, SoulParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(Particles.QUEN_SIGN, SoulParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(Particles.AXII_SIGN, FireworksSparkParticle.ExplosionFactory::new);
-        ParticleFactoryRegistry.getInstance().register(Particles.YRDEN_IMPACT, DamageParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(Particles.YRDEN_CLOUD, DragonBreathParticle.Factory::new);
 
         CustomParticleStatusEffect.register(WitcherStatusEffects.AXII.effect, new AxiiParticles(1));
         CustomParticleStatusEffect.register(WitcherStatusEffects.AXII_PUPPET.effect, new AxiiParticles(3));
@@ -136,6 +129,17 @@ public class WitcherClient{
 
         EntityRendererRegistry.register(YrdenEntity.ENTITY_TYPE,YrdenRenderer::new);
         EntityRendererRegistry.register(YrdenMagicTrapEntity.ENTITY_TYPE,YrdenMagicTrapRenderer::new);
+    }
+    public static void registerParticleAppearances() {
+        ParticleFactoryRegistry registry = ParticleFactoryRegistry.getInstance();
+
+        registry.register(WitcherParticles.IGNI_SIGN, SoulParticle.Factory::new);
+        registry.register(WitcherParticles.YRDEN_SIGN, SoulParticle.Factory::new);
+        registry.register(WitcherParticles.AARD_SIGN, SoulParticle.Factory::new);
+        registry.register(WitcherParticles.QUEN_SIGN, SoulParticle.Factory::new);
+        registry.register(WitcherParticles.AXII_SIGN, SpellFlameParticle.FlameFactory::new);
+        registry.register(WitcherParticles.YRDEN_IMPACT, DamageParticle.Factory::new);
+        registry.register(WitcherParticles.YRDEN_CLOUD, DragonBreathParticle.Factory::new);
     }
 
     private static void registerArmorRenderer(Armor.Set set, Supplier<AzArmorRenderer> armorRendererSupplier) {

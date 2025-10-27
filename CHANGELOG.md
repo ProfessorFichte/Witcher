@@ -1,3 +1,6 @@
+# 2.6.2 - 1.21.1
+- forgot to register Witcher Particles in neo environment
+
 # 2.6.1 - 1.21.1
 - fix lang files
 

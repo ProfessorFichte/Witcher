@@ -8,6 +8,7 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.witcher_rpg.WitcherClassMod;
+import net.witcher_rpg.client.particle.WitcherParticles;
 
 @Mod(WitcherClassMod.MOD_ID)
 public final class NeoForgeMod {
@@ -21,6 +22,9 @@ public final class NeoForgeMod {
     public static void register(RegisterEvent event) {
         event.register(RegistryKeys.SOUND_EVENT, reg -> {
             WitcherClassMod.registerSounds();
+        });
+        event.register(RegistryKeys.PARTICLE_TYPE, reg -> {
+            WitcherParticles.register();
         });
         event.register(RegistryKeys.ITEM, reg -> {
             WitcherClassMod.registerItems();

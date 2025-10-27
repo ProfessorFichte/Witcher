@@ -6,8 +6,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
+
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
-public class Particles {
+public class WitcherParticles {
     public static final SimpleParticleType IGNI_SIGN = FabricParticleTypes.simple();
     public static final SimpleParticleType YRDEN_SIGN = FabricParticleTypes.simple();
     public static final SimpleParticleType AARD_SIGN = FabricParticleTypes.simple();
