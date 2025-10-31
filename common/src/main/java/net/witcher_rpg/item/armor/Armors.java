@@ -201,7 +201,7 @@ public class Armors {
             SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, WITCHER_INGREDIENTS);
     //FELINE MATERIAL
     public static RegistryEntry<ArmorMaterial> material_feline = material(
-            "feline",1, 3, 3, 1, 9,
+            "feline",2, 3, 3, 1, 9,
             SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, FELINE_INGREDIENTS);
     public static RegistryEntry<ArmorMaterial> material_enhanced_feline = material(
             "enhanced_feline",2, 4, 4, 2, 10,
@@ -252,16 +252,16 @@ public class Armors {
             "ursine", 2, 6, 5, 2, 9,
             SoundEvents.ITEM_ARMOR_EQUIP_IRON, URSINE_INGREDIENTS);
     public static RegistryEntry<ArmorMaterial> material_enhanced_ursine = material(
-            "enhanced_ursine", 3, 8, 6, 3, 10,
+            "enhanced_ursine", 2, 8, 6, 3, 10,
             SoundEvents.ITEM_ARMOR_EQUIP_IRON, URSINE_INGREDIENTS);
     public static RegistryEntry<ArmorMaterial> material_superior_ursine = material(
-            "superior_ursine", 3, 8, 6, 3, 15,
+            "superior_ursine", 2, 8, 6, 3, 15,
             SoundEvents.ITEM_ARMOR_EQUIP_IRON, URSINE_INGREDIENTS);
     public static RegistryEntry<ArmorMaterial> material_mastercrafted_ursine = material(
-            "mastercrafted_ursine", 2, 5, 4, 3, 18,
+            "mastercrafted_ursine", 2, 8, 6, 3, 18,
             SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, GRIFFIN_INGREDIENTS);
     public static RegistryEntry<ArmorMaterial> material_grandmaster_ursine = material(
-            "grandmaster_ursine", 2, 5, 4, 3, 20,
+            "grandmaster_ursine", 2, 8, 6, 3, 20,
             SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, GRIFFIN_INGREDIENTS);
 
     ////ARMOR SETS

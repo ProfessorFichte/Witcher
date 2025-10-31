@@ -42,7 +42,7 @@ public class WitcherClassMod {
     public static final Logger LOGGER = LoggerFactory.getLogger("witcher_rpg");
 
 	public static ConfigManager<ConfigFile.Equipment> itemConfig = new ConfigManager<>
-			("equipment_v2", Default.itemConfig)
+			("equipment_v3", Default.itemConfig)
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)
