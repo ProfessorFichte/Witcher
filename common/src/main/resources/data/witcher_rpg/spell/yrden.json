@@ -1,0 +1,129 @@
+{
+  "school": "spell_power:yrden",
+  "range": 0.0,
+  "tier": 2,
+  "learn": {},
+  "active": {},
+  "release": {
+    "animation": "witcher_rpg:sign_cast_ground",
+    "particles": [
+      {
+        "particle_id": "witcher_rpg:yrden_sign_cast",
+        "origin": "CENTER",
+        "shape": "CIRCLE",
+        "count": 1.0,
+        "min_speed": 0.001,
+        "max_speed": 0.006
+      },
+      {
+        "particle_id": "witcher_rpg:yrden_sign_cast",
+        "origin": "CENTER",
+        "shape": "PILLAR",
+        "count": 1.0,
+        "min_speed": 0.001,
+        "max_speed": 0.006
+      }
+    ],
+    "sound": {
+      "id": "witcher_rpg:yrden_sign"
+    }
+  },
+  "deliver": {
+    "type": "CLOUD",
+    "clouds": [
+      {
+        "volume": {
+          "radius": 3.0,
+          "area": {
+            "vertical_range_multiplier": 1.5
+          }
+        },
+        "time_to_live_seconds": 10.0,
+        "impact_tick_interval": 10,
+        "client_data": {
+          "light_level": 14,
+          "particles": [
+            {
+              "particle_id": "spell_engine:ground_glow",
+              "origin": "GROUND",
+              "shape": "CIRCLE",
+              "count": 1.0,
+              "max_speed": 0.0,
+              "color_rgba": 4284940095,
+              "scale": 3.25
+            }
+          ],
+          "model": {
+            "model_id": "witcher_rpg:effect/yrden_circle",
+            "light_emission": "RADIATE",
+            "scale": 3.0,
+            "rotate_degrees_per_tick": 0.0
+          }
+        }
+      }
+    ]
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "witcher_rpg:yrden_circle",
+          "duration": 1.0,
+          "amplifier_power_multiplier": 0.3
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "witcher_rpg:yrden_cloud",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 2.0,
+          "min_speed": 0.05,
+          "max_speed": 0.2
+        }
+      ],
+      "sound": {
+        "id": "witcher_rpg:yrden_sign",
+        "randomness": 0.2
+      }
+    },
+    {
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#witcher_rpg:yrden_vulnerable"
+            }
+          ],
+          "execute": "ALLOW"
+        }
+      ],
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.1,
+          "knockback": 0.0
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:magic_arcane_burst",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 15.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3,
+          "extent": 0.5,
+          "color_rgba": 4284940287
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "exhaust": 0.4,
+    "cooldown": {
+      "duration": 18.0
+    }
+  }
+}
