@@ -156,6 +156,7 @@ if (System.getenv("CURSEFORGE_API_KEY")) {
                 // Required dependencies
                 requiredDependency 'spell-engine'
                 requiredDependency 'more-rpg-library'
+                requiredDependency 'azurelib-armor'
             }
 
             mainArtifact(remapJar)
@@ -183,8 +184,8 @@ if (System.getenv("MODRINTH_API_KEY")) {
         dependencies {
             // Required dependencies
             required.project 'spell-engine'
-            required.project 'spell-power'
             required.project 'more-rpg-library'
+            required.project 'azurelib-armor'
         }
     }
 }
