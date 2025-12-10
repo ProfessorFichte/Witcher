@@ -1,3 +1,6 @@
+# 2.6.3 - 1.21.1
+- Update to newest MRPG-Lib Version
+
 # 2.6.2 - 1.21.1
 - forgot to register Witcher Particles in neo environment
 - update azurelib
