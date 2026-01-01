@@ -1,5 +1,7 @@
 package net.witcher_rpg.custom;
 
+import net.critical_strike.api.CriticalStrikeAttributes;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -275,19 +277,20 @@ public class WitcherSpellSchools {
         SpellSchools.configureSpellCritChance(YRDEN);
         SpellSchools.register(YRDEN);
         WITCHER_MELEE.addSource(SpellSchool.Trait.POWER, SpellSchool.Apply.ADD, query -> {
-            return query.entity().getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+            var value1 = query.entity().getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+            var value2 = (query.entity().getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER) - 100) / 10;
+            return value1 + value2;
         });
-        WITCHER_MELEE.addSource(SpellSchool.Trait.CRIT_DAMAGE, SpellSchool.Apply.ADD, query -> {
-            var value = SpellPowerMod.attributesConfig.value.base_spell_critical_damage_percentage
-                    + query.entity().getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER )- 100/ adrenaline_crit_damage_div;
-            return (value/ PERCENT_ATTRIBUTE_BASELINE) -1;
-        });
-        WITCHER_MELEE.addSource(SpellSchool.Trait.CRIT_CHANCE, SpellSchool.Apply.ADD, query -> {
-            var value = SpellPowerMod.attributesConfig.value.base_spell_critical_chance_percentage
-                    + query.entity().getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER )- 100/ adrenaline_crit_damage_div;
-            return (value/ PERCENT_ATTRIBUTE_BASELINE)-1;
-
-        });
+        if (FabricLoader.getInstance().isModLoaded("critical_strike")) {
+            WITCHER_MELEE.addSource(SpellSchool.Trait.CRIT_CHANCE, SpellSchool.Apply.ADD, query ->  {
+                var value = query.entity().getAttributeValue(CriticalStrikeAttributes.CHANCE.attributeEntry);
+                return (double) CriticalStrikeAttributes.CHANCE.asChance(value); // 0.2
+            });
+            WITCHER_MELEE.addSource(SpellSchool.Trait.CRIT_DAMAGE, SpellSchool.Apply.ADD, query -> {
+                var value = query.entity().getAttributeValue(CriticalStrikeAttributes.DAMAGE.attributeEntry);
+                return CriticalStrikeAttributes.DAMAGE.asMultiplier(value) - 1;
+            });
+        }
         SpellSchools.configureSpellCritDamage(WITCHER_MELEE);
         SpellSchools.configureSpellHaste(WITCHER_MELEE);
         SpellSchools.configureSpellCritChance(WITCHER_MELEE);
