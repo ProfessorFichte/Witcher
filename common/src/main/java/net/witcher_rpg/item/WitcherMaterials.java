@@ -105,8 +105,11 @@ public class WitcherMaterials {
             new Item.Settings()
     ));
 
-    public static final MasterSpellBook MASTER_BOOK =
-            new MasterSpellBook(Identifier.of(MOD_ID, "master_spell_book"), new Item.Settings().maxCount(1));
+    // Container for MASTER_BOOK - initialized during registration
+    private static final Container MASTER_BOOK_CONTAINER = new Container();
+    public static MasterSpellBook MASTER_BOOK() {
+        return (MasterSpellBook) MASTER_BOOK_CONTAINER.item;
+    }
 
     public static void registerModItems() {
         for (Entry e : ENTRIES) {
@@ -118,12 +121,14 @@ public class WitcherMaterials {
         for (var name : books) {
             SpellBooks.createAndRegister(Identifier.of(MOD_ID, name), WitcherGroup.WITCHER_KEY);
         }
-        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "master_spell_book"), MASTER_BOOK);
+        // Create and register MASTER_BOOK during registration phase
+        MASTER_BOOK_CONTAINER.item = new MasterSpellBook(Identifier.of(MOD_ID, "master_spell_book"), new Item.Settings().maxCount(1));
+        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "master_spell_book"), MASTER_BOOK());
         ItemGroupEvents.modifyEntriesEvent(WitcherGroup.WITCHER_KEY).register(content -> {
             for (Entry e : ENTRIES) {
                 content.add(e.item());
             }
-            content.add(MASTER_BOOK);
+            content.add(MASTER_BOOK());
         });
 
         WitcherArmorDiagrams.register();

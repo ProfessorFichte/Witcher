@@ -49,6 +49,9 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         // DISASSEMBLY RECIPES (Smelting armor/weapons back into materials)
         generateDisassemblyRecipes(exporter);
 
+        // UNCRAFTING RECIPES (Glyphs and Runestones back to stone)
+        generateUncraftingRecipes(exporter);
+
         // MODDED SWORD RECIPES - With mod load conditions
         generateModdedSwordRecipes(exporter);
     }
@@ -180,7 +183,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter);
 
         // Master Spell Book - combines base signs and fencing
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.COMBAT, WitcherMaterials.MASTER_BOOK)
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.COMBAT, WitcherMaterials.MASTER_BOOK())
                 .input(baseSignsBook)
                 .input(fencingBook)
                 .input(Items.DIAMOND)
@@ -624,6 +627,44 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 UNSMELT_TIME / 2,
                 "disassemble"
         );
+    }
+
+    private void generateUncraftingRecipes(RecipeExporter exporter) {
+        // Uncraft Lesser Glyphs (glyphs_0) back to stone
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
+                .input(Ingredient.fromTag(WitcherItemTags.GLYPHS_0))
+                .criterion("has_lesser_glyph", conditionsFromTag(WitcherItemTags.GLYPHS_0))
+                .offerTo(exporter, "uncraft_lesser_glyph");
+
+        // Uncraft Glyphs (glyphs_1) back to stone
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
+                .input(Ingredient.fromTag(WitcherItemTags.GLYPHS_1))
+                .criterion("has_glyph", conditionsFromTag(WitcherItemTags.GLYPHS_1))
+                .offerTo(exporter, "uncraft_glyph");
+
+        // Uncraft Greater Glyphs (glyphs_2) back to stone
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
+                .input(Ingredient.fromTag(WitcherItemTags.GLYPHS_2))
+                .criterion("has_greater_glyph", conditionsFromTag(WitcherItemTags.GLYPHS_2))
+                .offerTo(exporter, "uncraft_greater_glyph");
+
+        // Uncraft Lesser Runestones (runestones_0) back to stone
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
+                .input(Ingredient.fromTag(WitcherItemTags.RUNESTONES_0))
+                .criterion("has_lesser_runestone", conditionsFromTag(WitcherItemTags.RUNESTONES_0))
+                .offerTo(exporter, "uncraft_lesser_runestone");
+
+        // Uncraft Runestones (runestones_1) back to stone
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
+                .input(Ingredient.fromTag(WitcherItemTags.RUNESTONES_1))
+                .criterion("has_runestone", conditionsFromTag(WitcherItemTags.RUNESTONES_1))
+                .offerTo(exporter, "uncraft_runestone");
+
+        // Uncraft Greater Runestones (runestones_2) back to stone
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
+                .input(Ingredient.fromTag(WitcherItemTags.RUNESTONES_2))
+                .criterion("has_greater_runestone", conditionsFromTag(WitcherItemTags.RUNESTONES_2))
+                .offerTo(exporter, "uncraft_greater_runestone");
     }
 
     // Helper class for block item references

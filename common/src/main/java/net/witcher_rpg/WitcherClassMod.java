@@ -66,7 +66,7 @@ public class WitcherClassMod {
 			.sanitize(true)
 			.build();
 	public static ConfigManager<LootConfig> lootEquipmentConfig = new ConfigManager<>
-			("loot_equipment_v0", Defaults.itemLootConfig)
+			("loot_equipment_v1", Defaults.itemLootConfig)
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)
@@ -120,6 +120,9 @@ public class WitcherClassMod {
 		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, serverResourceManager, success) -> {
 			LootHelper.updateTagCache(lootEquipmentConfig.value);
 		});
+	}
+
+	public static void registerMapDecorations() {
 		ModMapDecorations.register();
 	}
 

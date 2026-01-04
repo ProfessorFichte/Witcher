@@ -23,6 +23,9 @@ public final class NeoForgeMod {
         event.register(RegistryKeys.DATA_COMPONENT_TYPE, reg -> {
             net.witcher_rpg.item.component.WitcherDataComponents.register();
         });
+        event.register(RegistryKeys.MAP_DECORATION_TYPE, reg -> {
+            WitcherClassMod.registerMapDecorations();
+        });
         event.register(RegistryKeys.SOUND_EVENT, reg -> {
             WitcherClassMod.registerSounds();
         });
