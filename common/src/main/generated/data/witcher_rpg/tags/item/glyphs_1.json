@@ -1,3 +1,24 @@
 {
-  "values": []
+  "values": [
+    {
+      "id": "witcher_rpg:aard_glyph",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:axii_glyph",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:igni_glyph",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:quen_glyph",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:yrden_glyph",
+      "required": false
+    }
+  ]
 }
