@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "P": {
+      "item": "witcher_rpg:steel_ingot"
+    },
+    "S": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "S S",
+    "P P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:feline_legs"
+  }
+}

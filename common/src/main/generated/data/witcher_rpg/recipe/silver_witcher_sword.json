@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "R": {
+      "item": "more_rpg_classes:hardened_leather"
+    },
+    "W": {
+      "tag": "witcher_rpg:silver_ingots"
+    }
+  },
+  "pattern": [
+    " W ",
+    "WWW",
+    " R "
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:silver_witcher_sword"
+  }
+}

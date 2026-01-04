@@ -32,6 +32,21 @@ bin/
 
 run/
 
+# runtime folders that shouldn't be in source
+common/src/main/java/**/crash-reports/
+common/src/main/java/**/logs/
+common/src/main/java/**/Downloads/
+common/src/main/java/**/.architectury-transformer/
+common/src/main/java/**/mods/
+common/src/main/java/**/data/*.dat
+common/src/main/java/**/config/fabric/
+common/src/main/java/**/config/more_rpg_classes/
+common/src/main/java/**/config/rpg_series/
+common/src/main/java/**/config/spell_engine/
+common/src/main/java/**/config/spell_power/
+common/src/main/java/**/config/witcher_rpg/
+common/src/main/java/**/config/*.properties
+
 # java
 
 hs_err_*.log

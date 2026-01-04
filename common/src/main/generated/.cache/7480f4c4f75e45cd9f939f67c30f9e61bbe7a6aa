@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-24T22:38:29.9783544	Witcher Class Mod/Spell Generator
+// 1.21.1	2026-01-04T12:32:04.8762309	Witcher Class Mod/Spell Generator
 9cd91cedfc25e8b6ccecd22eb7d9563111935379 data\witcher_rpg\spell\greater_yrden_glyph.json
 5d96af717488256f179dc178548ea254e1359da1 data\witcher_rpg\spell\strength_training.json
 2992758bb4b95789d339bdbdb5e300aa0e3aa8b4 data\witcher_rpg\spell\grandmaster_feline.json
@@ -36,7 +36,7 @@ ff16eb246b47a025931bfe9e94566161b1086617 data\witcher_rpg\spell\grandmaster_ursi
 6f6224a57f4ecd71a698e169f44b5bf4a6f38d60 data\witcher_rpg\spell\yrden_binding_glyphs.json
 b8c1e21ac780707b877529fc0f6996411190115d data\witcher_rpg\spell\wolf_school_technique.json
 dc37b1449783269a92ee23dea723a6b7f05ec3b9 data\witcher_rpg\spell\greater_igni_glyph.json
-6afca3bef01f2845fd2c0ea1c793029cac77bfb2 data\witcher_rpg\spell\aard.json
+98009bf100d6cd7f8d15a609ff15d39b1d82f029 data\witcher_rpg\spell\aard.json
 7c1d0ccc120bdefce31905af7d71c195eb7821df data\witcher_rpg\spell\griffin_school_technique.json
 22fe8fcb247226a76c520b8aec140a7f9779eca7 data\witcher_rpg\spell\improved_whirl.json
 c0fa487df7aab647dea786894d61b945964c2fbd data\witcher_rpg\spell\improved_aard.json

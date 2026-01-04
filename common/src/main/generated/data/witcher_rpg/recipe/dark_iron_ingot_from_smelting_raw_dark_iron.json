@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "group": "dark_iron",
+  "ingredient": {
+    "item": "witcher_rpg:raw_dark_iron"
+  },
+  "result": {
+    "id": "witcher_rpg:dark_iron_ingot"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "P": {
+      "item": "witcher_rpg:steel_ingot"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "P P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:ursine_head"
+  }
+}

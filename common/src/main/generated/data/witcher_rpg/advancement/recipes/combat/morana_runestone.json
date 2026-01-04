@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_lesser_morana_runestone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witcher_rpg:lesser_morana_runestone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "witcher_rpg:morana_runestone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_lesser_morana_runestone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "witcher_rpg:morana_runestone"
+    ]
+  }
+}

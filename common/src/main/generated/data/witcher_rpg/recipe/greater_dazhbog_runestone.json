@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:dazhbog_runestone"
+    },
+    {
+      "item": "witcher_rpg:dazhbog_runestone"
+    },
+    {
+      "item": "witcher_rpg:dazhbog_runestone"
+    },
+    {
+      "item": "witcher_rpg:dazhbog_runestone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:greater_dazhbog_runestone"
+  }
+}

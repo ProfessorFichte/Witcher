@@ -9,12 +9,13 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.witcher_rpg.util.loot.WitcherLootInjector;
 import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.rpg_series.loot.LootConfig;
 import net.spell_engine.rpg_series.loot.LootHelper;
-import net.witcher_rpg.config.TrinketConfig;
-import net.witcher_rpg.config.TweaksConfig;
+import net.witcher_rpg.config.*;
 import net.witcher_rpg.custom.CustomSpellImpacts;
+import net.witcher_rpg.custom.WitcherSchoolWeakness;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.WitcherEntities;
@@ -25,11 +26,10 @@ import net.witcher_rpg.worldgen.OreGen;
 import net.witcher_rpg.blocks.WitcherBlocks;
 import net.witcher_rpg.item.armor.Armors;
 import net.tiny_config.ConfigManager;
-import net.witcher_rpg.config.Default;
 import net.witcher_rpg.custom.CustomSpells;
 import net.witcher_rpg.item.WitcherGroup;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
-import net.witcher_rpg.util.loot.WitcherLootTableChestModifiers;
+import net.witcher_rpg.worldgen.map.ModMapDecorations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.witcher_rpg.util.loot.Defaults;
@@ -42,12 +42,11 @@ public class WitcherClassMod {
     public static final Logger LOGGER = LoggerFactory.getLogger("witcher_rpg");
 
 	public static ConfigManager<ConfigFile.Equipment> itemConfig = new ConfigManager<>
-			("equipment_v3", Default.itemConfig)
+			("equipment_v4", Default.itemConfig)
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)
 			.build();
-
 	public static ConfigManager<ConfigFile.Effects> effectConfig = new ConfigManager<>
 			("effects", new ConfigFile.Effects())
 			.builder()
@@ -61,7 +60,7 @@ public class WitcherClassMod {
 			.sanitize(true)
 			.build();
 	public static ConfigManager<TrinketConfig> trinketConfig = new ConfigManager<>
-			("trinkets", new TrinketConfig())
+			("trinkets_v0", new TrinketConfig())
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)
@@ -73,6 +72,19 @@ public class WitcherClassMod {
 			.sanitize(true)
 			.constrain(LootConfig::constrainValues)
 			.build();
+	public static ConfigManager<WeaknessConfig> weaknessConfig = new ConfigManager<>
+			("elemental_weaknesses", WitcherSchoolWeakness.createDefault())
+			.builder()
+			.setDirectory(MOD_ID)
+			.sanitize(true)
+			.validate(WeaknessConfig::isValid)
+			.build();
+	public static final ConfigManager<LootInjectionConfig> lootInjectionConfig = new ConfigManager<>
+			("loot_injection", LootInjectionConfig.init())
+			.builder()
+			.setDirectory(MOD_ID)
+			.sanitize(true)
+			.build();
 
 
 	public static void init() {
@@ -80,14 +92,24 @@ public class WitcherClassMod {
 		trinketConfig.refresh();
 		itemConfig.refresh();
 		effectConfig.refresh();
+		weaknessConfig.refresh();
 		tweaksConfig.refresh();
+		lootInjectionConfig.refresh();
 		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			tweaksConfig.value.ignore_items_required_mods = true;
 		}
 		WitcherSpellSchools.initialize();
 		CustomSpellImpacts.registerCustomImpacts();
-		WitcherLootTableChestModifiers.modifyChestLootTables();
 		CustomSpells.register();
+		/// SPECIFIC LOOT INJECTIONS
+		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+			var tableId = key.getValue().toString();
+			if (!lootInjectionConfig.value.entries.containsKey(tableId)) {
+				return;
+			}
+			WitcherLootInjector.configure(registries, key.getValue(), tableBuilder);
+		});
+		/// TAG BASED LOOT INJECTION
 		LootHelper.TAG_CACHE.refresh();
 		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
 			LootHelper.configureV2(registries, key.getValue(), tableBuilder, lootEquipmentConfig.value, new HashMap<>());
@@ -98,6 +120,7 @@ public class WitcherClassMod {
 		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, serverResourceManager, success) -> {
 			LootHelper.updateTagCache(lootEquipmentConfig.value);
 		});
+		ModMapDecorations.register();
 	}
 
 	public static void registerBlocks() {

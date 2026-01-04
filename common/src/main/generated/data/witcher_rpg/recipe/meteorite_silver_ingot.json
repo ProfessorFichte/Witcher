@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "M": {
+      "item": "witcher_rpg:meteorite_ingot"
+    },
+    "S": {
+      "tag": "witcher_rpg:silver_ingots"
+    }
+  },
+  "pattern": [
+    "MSM",
+    "SMS",
+    "MSM"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:meteorite_silver_ingot"
+  }
+}

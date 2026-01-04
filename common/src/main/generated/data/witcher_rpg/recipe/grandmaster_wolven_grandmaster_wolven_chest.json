@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "witcher_rpg:silver_ingot"
+  },
+  "base": {
+    "item": "witcher_rpg:mastercrafted_wolven_chest"
+  },
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:grandmaster_wolven_chest"
+  },
+  "template": {
+    "item": "witcher_rpg:grandmaster_diagram"
+  }
+}

@@ -3,13 +3,20 @@
   "package": "net.witcher_rpg.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AnvilScreenHandlerMixin",
     "AttributeMixin",
     "EntityAttributesMixin",
     "LivingEntityMixin",
     "PersistentProjectileEntityMixin",
     "PlayerEntityMixin",
+    "SmithingRecipeMixin",
+    "SmithingScreenHandlerMixin",
     "SpellEngineTiersMixin",
     "SpellHelperMixin"
+  ],
+  "client": [
+    "ItemStackTooltipMixin",
+    "ItemTooltipAttributeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

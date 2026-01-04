@@ -14,7 +14,7 @@
           "functions": [
             {
               "function": "minecraft:exploration_map",
-              "decoration": "red_x",
+              "decoration": "witcher_rpg:witcher_hideout",
               "destination": "witcher_rpg:ursine_hideouts",
               "zoom": 2,
               "skip_existing_chunks": false

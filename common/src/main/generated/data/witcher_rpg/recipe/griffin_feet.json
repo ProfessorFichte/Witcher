@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "P": {
+      "item": "witcher_rpg:silver_ingot"
+    },
+    "S": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    "S S",
+    "P P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:griffin_feet"
+  }
+}

@@ -9,6 +9,7 @@ public final class FabricMod implements ModInitializer {
     @Override
     public void onInitialize() {
         CompatFeatures.init();
+        net.witcher_rpg.item.component.WitcherDataComponents.register();
         WitcherClassMod.init();
 
         WitcherClassMod.registerEffects();

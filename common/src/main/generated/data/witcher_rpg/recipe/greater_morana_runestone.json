@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:morana_runestone"
+    },
+    {
+      "item": "witcher_rpg:morana_runestone"
+    },
+    {
+      "item": "witcher_rpg:morana_runestone"
+    },
+    {
+      "item": "witcher_rpg:morana_runestone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:greater_morana_runestone"
+  }
+}

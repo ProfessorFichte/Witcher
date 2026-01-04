@@ -81,18 +81,6 @@
       }
     },
     {
-      "target_modifiers": [
-        {
-          "conditions": [
-            {
-              "entity_type": "#witcher_rpg:aard_vulnerable"
-            }
-          ],
-          "modifier": {
-            "power_multiplier": 0.3
-          }
-        }
-      ],
       "action": {
         "type": "DAMAGE",
         "damage": {

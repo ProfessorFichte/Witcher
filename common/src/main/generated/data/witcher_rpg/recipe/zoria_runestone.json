@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:lesser_zoria_runestone"
+    },
+    {
+      "item": "witcher_rpg:lesser_zoria_runestone"
+    },
+    {
+      "item": "witcher_rpg:lesser_zoria_runestone"
+    },
+    {
+      "item": "witcher_rpg:lesser_zoria_runestone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:zoria_runestone"
+  }
+}

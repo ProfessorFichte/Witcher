@@ -20,6 +20,9 @@ public final class NeoForgeMod {
     }
 
     public static void register(RegisterEvent event) {
+        event.register(RegistryKeys.DATA_COMPONENT_TYPE, reg -> {
+            net.witcher_rpg.item.component.WitcherDataComponents.register();
+        });
         event.register(RegistryKeys.SOUND_EVENT, reg -> {
             WitcherClassMod.registerSounds();
         });

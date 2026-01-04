@@ -3,9 +3,11 @@ package net.witcher_rpg.compat;
 import io.wispforest.accessories.api.components.AccessoriesDataComponents;
 import io.wispforest.accessories.api.components.AccessoryItemAttributeModifiers;
 import net.witcher_rpg.item.WitcherFactory;
+import net.witcher_rpg.item.WitcherTrinkets;
 
 public class AccessoriesHelper {
     public static void registerFactory() {
+        // Register factory for WitcherFactory (used by some items)
         WitcherFactory.factory = args -> {
             var settings = args.settings();
             var attributes = args.attributes();
@@ -18,6 +20,29 @@ public class AccessoriesHelper {
                 }
                 settings = settings.component(AccessoriesDataComponents.ATTRIBUTES, builder.build());
             }
+            return new WitcherAccessoriesItem(settings);
+        };
+
+        // Also register factory for WitcherTrinkets (glyphs, runestones, medallions)
+        WitcherTrinkets.factory = trinketArgs -> {
+            var settings = trinketArgs.settings();
+            var attributes = trinketArgs.attributes();
+
+            if (attributes != null) {
+                var builder = AccessoryItemAttributeModifiers.builder();
+                for (var bonus : attributes.modifiers()) {
+                    builder = builder.addForSlot(bonus.attribute(), bonus.modifier(), "spell_trinket", true);
+                }
+                settings = settings.component(AccessoriesDataComponents.ATTRIBUTES, builder.build());
+            }
+
+            // Use custom item classes for glyphs and runestones
+            if (trinketArgs.name().contains("glyph")) {
+                return new WitcherAccessoriesGlyphItem(settings);
+            } else if (trinketArgs.name().contains("runestone")) {
+                return new WitcherAccessoriesRunestoneItem(settings);
+            }
+
             return new WitcherAccessoriesItem(settings);
         };
     }

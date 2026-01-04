@@ -20,6 +20,8 @@ import net.spell_power.api.SpellPowerMechanics;
 import net.witcher_rpg.item.WitcherGroup;
 import net.spell_engine.api.item.armor.Armor;
 import net.witcher_rpg.item.WitcherMaterials;
+import net.witcher_rpg.item.component.GlyphSlots;
+import net.witcher_rpg.item.component.WitcherDataComponents;
 import net.witcher_rpg.spell.SetBonuses;
 
 import java.util.ArrayList;
@@ -30,6 +32,11 @@ import java.util.function.Supplier;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class Armors {
+    public static final int TIER1_GLYPH_SLOTS = 1;
+    public static final int TIER2_GLYPH_SLOTS = 1;
+    public static final int TIER3_GLYPH_SLOTS = 2;
+    public static final int TIER4_GLYPH_SLOTS = 2;
+    public static final int TIER5_GLYPH_SLOTS = 3;
     private static final Supplier<Ingredient> WITCHER_INGREDIENTS = () -> Ingredient.ofItems(
             Items.LEATHER, WitcherMaterials.SILVER_INGOT.item()
     );
@@ -47,10 +54,18 @@ public class Armors {
     );
 
     private static Armor.ItemSettingsTweaker commonSettings(Identifier equipmentSetId) {
+        return commonSettings(equipmentSetId, 0);
+    }
+
+    private static Armor.ItemSettingsTweaker commonSettings(Identifier equipmentSetId, int glyphSlots) {
         return Armor.ItemSettingsTweaker.standard(itemSettings -> {
             itemSettings
                     .component(SpellDataComponents.EQUIPMENT_SET, equipmentSetId)
                     .component(DataComponentTypes.RARITY, Rarity.RARE);
+            if (glyphSlots > 0) {
+                itemSettings.component(WitcherDataComponents.GLYPH_SLOTS,
+                    new GlyphSlots(glyphSlots, List.of()));
+            }
         });
     }
 
@@ -100,6 +115,9 @@ public class Armors {
     private static final Identifier QUEN_INTENSITY = Identifier.of("witcher_rpg:quen_intensity");
     private static final Identifier YRDEN_INTENSITY = Identifier.of("witcher_rpg:yrden_intensity");
     private static final Identifier SIGN_INTENSITY = Identifier.of("witcher_rpg:sign_intensity");
+    private static final String CRIT_MOD_ID = "critical_strike";
+    private static final Identifier CRIT_CHANCE_ID = Identifier.of(CRIT_MOD_ID, "chance");
+    private static final Identifier CRIT_DAMAGE_ID = Identifier.of(CRIT_MOD_ID, "damage");
 
     ////MODIFIERS
     //TIER1 MODIFIERS
@@ -119,16 +137,19 @@ public class Armors {
     private static final float felineAdrenalineT3 = 0.075F;
     private static final float felineAttackDamageT3 = 0.03F;
     private static final float felineRollRechargeT3 = 0.05F;
+    private static final float felineCritChanceT3 = 0.02F;
 
     private static final float felineAttackSpeedT4 = 0.05F;
     private static final float felineAdrenalineT4 = 0.075F;
     private static final float felineAttackDamageT4 = 0.04F;
     private static final float felineRollRechargeT4 = 0.05F;
+    private static final float felineCritChanceT4 = 0.025F;
 
     private static final float felineAttackSpeedT5 = 0.05F;
     private static final float felineAdrenalineT5 = 0.075F;
     private static final float felineAttackDamageT5 = 0.06F;
     private static final float felineRollRechargeT5 = 0.05F;
+    private static final float felineCritChanceT5 = 0.03F;
 
     //GRIFFIN MODIFIERS
     private static final float griffinSign = 0.20F;
@@ -183,16 +204,19 @@ public class Armors {
     private static final float ursineAdrenalineT3 = 0.10F;
     private static final float ursineAttackDamageT3 = 0.04F;
     private static final float ursineArmorToughnessT3 = 1.0F;
+    public static final float ursineArmorCritDmgT3 = 0.04F;
 
     private static final float ursineKnockBackResiT4 = 0.15F;
     private static final float ursineAdrenalineT4 = 0.10F;
     private static final float ursineAttackDamageT4 = 0.05F;
     private static final float ursineArmorToughnessT4 = 1.0F;
+    public static final float ursineArmorCritDmgT4 = 0.05F;
 
     private static final float ursineKnockBackResiT5 = 0.2F;
     private static final float ursineAdrenalineT5 = 0.10F;
     private static final float ursineAttackDamageT5 = 0.06F;
     private static final float ursineArmorToughnessT5 = 1.0F;
+    public static final float ursineArmorCritDmgT5 = 0.06F;
 
     ////MATERIALS
     //TIER 1 MATERIAL
@@ -360,12 +384,24 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT3),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT3)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT3),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT3),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT3),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT3)
                                     )),
                             new  ArmorSetConfig.Piece(material_superior_feline.value().getProtection(ArmorItem.Type.CHESTPLATE))
                                     .addAll(List.of(
                                             AttributeModifier.multiply(ADRENALINE,felineAdrenalineT3),
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT3),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT3)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT3),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT3),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT3),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT3)
                                     )),
                             new  ArmorSetConfig.Piece(material_superior_feline.value().getProtection(ArmorItem.Type.LEGGINGS))
@@ -374,12 +410,24 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT3),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT3)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT3),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT3),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT3),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT3)
                                     )),
                             new  ArmorSetConfig.Piece(material_superior_feline.value().getProtection(ArmorItem.Type.BOOTS))
                                     .addAll(List.of(
                                             AttributeModifier.multiply(ADRENALINE,felineAdrenalineT3),
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT3),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT3)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT3),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT3),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT3),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT3)
                                     ))),10,null).armorSet();
     public static final Armor.Set mastercraftedFelineSchoolArmorSet =
@@ -392,12 +440,24 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT4),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT4)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT4),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT4),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT4),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT4)
                                     )),
                             new  ArmorSetConfig.Piece(material_mastercrafted_feline.value().getProtection(ArmorItem.Type.CHESTPLATE))
                                     .addAll(List.of(
                                             AttributeModifier.multiply(ADRENALINE,felineAdrenalineT4),
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT4),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT4)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT4),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT4),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT4),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT4)
                                     )),
                             new  ArmorSetConfig.Piece(material_mastercrafted_feline.value().getProtection(ArmorItem.Type.LEGGINGS))
@@ -406,6 +466,12 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT4),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT4)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT4),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT4),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT4),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT4)
                                     )),
                             new  ArmorSetConfig.Piece(material_mastercrafted_feline.value().getProtection(ArmorItem.Type.BOOTS))
                                     .addAll(List.of(
@@ -413,7 +479,13 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT4),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT4)
-                                    ))),10,commonSettings(SetBonuses.mastercrafted_feline.id())).armorSet();
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT4),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT4),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT4),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT4)
+                                    ))),10,commonSettings(SetBonuses.mastercrafted_feline.id(), TIER4_GLYPH_SLOTS)).armorSet();
     public static final Armor.Set grandmasterFelineSchoolArmorSet =
             create(
                     material_grandmaster_feline, Identifier.of(MOD_ID, "grandmaster_feline"), 40, CatSchoolArmor::new,
@@ -424,12 +496,24 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT5),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT5)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT5),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT5),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT5),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT5)
                                     )),
                             new  ArmorSetConfig.Piece(material_grandmaster_feline.value().getProtection(ArmorItem.Type.CHESTPLATE))
                                     .addAll(List.of(
                                             AttributeModifier.multiply(ADRENALINE,felineAdrenalineT5),
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT5),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT5)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT5),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT5),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT5),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT5)
                                     )),
                             new  ArmorSetConfig.Piece(material_grandmaster_feline.value().getProtection(ArmorItem.Type.LEGGINGS))
@@ -438,6 +522,12 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT5),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT5)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT5),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT5),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT5),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT5)
                                     )),
                             new  ArmorSetConfig.Piece(material_grandmaster_feline.value().getProtection(ArmorItem.Type.BOOTS))
                                     .addAll(List.of(
@@ -445,7 +535,13 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,felineAttackDamageT5),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT5)
-                                    ))),10,commonSettings(SetBonuses.grandmaster_feline.id())).armorSet();
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,felineAdrenalineT5),
+                                            AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT5),
+                                            AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT5),
+                                            AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT5)
+                                    ))),10,commonSettings(SetBonuses.grandmaster_feline.id(), TIER5_GLYPH_SLOTS)).armorSet();
     //GRIFFIN SCHOOL ARMOR
     public static final Armor.Set griffinArmorSet =
             create(
@@ -556,7 +652,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,griffinSignT4),
                                             AttributeModifier.multiply(ADRENALINE,griffinAdrenalineT4),
                                             AttributeModifier.multiply(SpellPowerMechanics.HASTE.id,griffinHasteT4)
-                                    ))),10,commonSettings(SetBonuses.mastercrafted_griffin.id())).armorSet();
+                                    ))),10,commonSettings(SetBonuses.mastercrafted_griffin.id(), TIER4_GLYPH_SLOTS)).armorSet();
     public static final Armor.Set grandmasterGriffinArmorSet =
             create(
                     material_grandmaster_griffin, Identifier.of(MOD_ID, "grandmaster_griffin"), 40, GriffinSchoolArmor::new,
@@ -584,7 +680,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,griffinSignT5),
                                             AttributeModifier.multiply(ADRENALINE,griffinAdrenalineT5),
                                             AttributeModifier.multiply(SpellPowerMechanics.HASTE.id,griffinHasteT5)
-                                    ))),10,commonSettings(SetBonuses.grandmaster_griffin.id())).armorSet();
+                                    ))),10,commonSettings(SetBonuses.grandmaster_griffin.id(), TIER5_GLYPH_SLOTS)).armorSet();
 
     //WOLVEN SCHOOL ARMOR
     public static final Armor.Set wolvenArmorSet =
@@ -694,7 +790,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,wolvenSignT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,wolvenAttackDamageT4),
                                             AttributeModifier.multiply(ADRENALINE,wolvenAdrenalineT4)
-                                    ))),10,commonSettings(SetBonuses.mastercrafted_wolven.id())).armorSet();
+                                    ))),10,commonSettings(SetBonuses.mastercrafted_wolven.id(), TIER4_GLYPH_SLOTS)).armorSet();
     public static final Armor.Set grandmasterWolvenArmorSet =
             create(
                     material_grandmaster_wolven, Identifier.of(MOD_ID, "grandmaster_wolven"), 40, WolfSchoolArmor::new,
@@ -722,7 +818,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,wolvenSignT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,wolvenAttackDamageT5),
                                             AttributeModifier.multiply(ADRENALINE,wolvenAdrenalineT5)
-                                    ))),10,commonSettings(SetBonuses.grandmaster_wolven.id())).armorSet();
+                                    ))),10,commonSettings(SetBonuses.grandmaster_wolven.id(), TIER5_GLYPH_SLOTS)).armorSet();
 
     //URSINE SCHOOL ARMOR
     public static final Armor.Set ursineArmorSet =
@@ -787,11 +883,23 @@ public class Armors {
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT3),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT3)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                             AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT3),
+                             AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT3),
+                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT3),
+                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT3)
                                     )),
                             new  ArmorSetConfig.Piece(material_superior_ursine.value().getProtection(ArmorItem.Type.CHESTPLATE))
                                     .addAll(List.of(
                                             AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT3),
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT3),
+                                            AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT3),
+                                            AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT3)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT3),
+                                            AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT3),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT3)
                                     )),
@@ -801,11 +909,23 @@ public class Armors {
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT3),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT3)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT3),
+                                            AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT3),
+                                            AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT3),
+                                            AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT3)
                                     )),
                             new  ArmorSetConfig.Piece(material_superior_ursine.value().getProtection(ArmorItem.Type.BOOTS))
                                     .addAll(List.of(
                                             AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT3),
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT3),
+                                            AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT3),
+                                            AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT3)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT3),
+                                            AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT3),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT3),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT3)
                                     ))),10,null).armorSet();
@@ -819,11 +939,23 @@ public class Armors {
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT4),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT4)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT4),
+                                            AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT4),
+                                            AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT4),
+                                            AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT4)
                                     )),
                             new  ArmorSetConfig.Piece(material_mastercrafted_ursine.value().getProtection(ArmorItem.Type.CHESTPLATE))
                                     .addAll(List.of(
                                             AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT4),
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT4),
+                                            AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT4),
+                                            AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT4)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT4),
+                                            AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT4),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT4)
                                     )),
@@ -833,6 +965,12 @@ public class Armors {
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT4),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT4)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT4),
+                                            AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT4),
+                                            AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT4),
+                                            AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT4)
                                     )),
                             new  ArmorSetConfig.Piece(material_mastercrafted_ursine.value().getProtection(ArmorItem.Type.BOOTS))
                                     .addAll(List.of(
@@ -840,7 +978,13 @@ public class Armors {
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT4),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT4)
-                                    ))),10,commonSettings(SetBonuses.mastercrafted_ursine.id())).armorSet();
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT4),
+                                            AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT4),
+                                            AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT4),
+                                            AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT4)
+                                    ))),10,commonSettings(SetBonuses.mastercrafted_ursine.id(), TIER4_GLYPH_SLOTS)).armorSet();
     public static final Armor.Set grandmasterUrsineArmorSet =
             create(
                     material_grandmaster_ursine, Identifier.of(MOD_ID, "grandmaster_ursine"), 40, BearSchoolArmor::new,
@@ -851,6 +995,12 @@ public class Armors {
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT5),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT5)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT5),
+                                            AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT5),
+                                            AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT5),
+                                            AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT5)
                                     )),
                             new  ArmorSetConfig.Piece(material_grandmaster_ursine.value().getProtection(ArmorItem.Type.CHESTPLATE))
                                     .addAll(List.of(
@@ -858,11 +1008,23 @@ public class Armors {
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT5),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT5)
-                                    )),
+                                    ))
+                            .addConditional(CRIT_MOD_ID, List.of(
+                                    AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT5),
+                                    AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT5),
+                                    AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT5),
+                                    AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT5)
+                            )),
                             new  ArmorSetConfig.Piece(material_grandmaster_ursine.value().getProtection(ArmorItem.Type.LEGGINGS))
                                     .addAll(List.of(
                                             AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT5),
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT5),
+                                            AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT5),
+                                            AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT5)
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT5),
+                                            AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT5),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT5)
                                     )),
@@ -872,7 +1034,14 @@ public class Armors {
                                             AttributeModifier.multiply(KNOCKBACK_RESISTANCE,ursineKnockBackResiT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT5),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT5)
-                                    ))),10,commonSettings(SetBonuses.grandmaster_ursine.id())).armorSet();
+
+                                    ))
+                                    .addConditional(CRIT_MOD_ID, List.of(
+                                            AttributeModifier.multiply(ADRENALINE,ursineAdrenalineT5),
+                                            AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT5),
+                                            AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT5),
+                                            AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT5)
+                                    ))),10,commonSettings(SetBonuses.grandmaster_ursine.id(), TIER5_GLYPH_SLOTS)).armorSet();
 
     public static void register(Map<String,  ArmorSetConfig> configs) {
         Armor.register(configs, entries, WitcherGroup.WITCHER_KEY);

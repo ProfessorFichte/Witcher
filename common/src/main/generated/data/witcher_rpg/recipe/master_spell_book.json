@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:base_signs_spell_book"
+    },
+    {
+      "item": "witcher_rpg:fencing_spell_book"
+    },
+    {
+      "item": "minecraft:diamond"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:master_spell_book"
+  }
+}

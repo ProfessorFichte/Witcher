@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "witcher_rpg:steel_ingot"
+  },
+  "base": {
+    "item": "witcher_rpg:mastercrafted_ursine_head"
+  },
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:grandmaster_ursine_head"
+  },
+  "template": {
+    "item": "witcher_rpg:grandmaster_diagram"
+  }
+}

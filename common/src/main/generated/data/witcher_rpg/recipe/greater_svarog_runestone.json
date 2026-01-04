@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:svarog_runestone"
+    },
+    {
+      "item": "witcher_rpg:svarog_runestone"
+    },
+    {
+      "item": "witcher_rpg:svarog_runestone"
+    },
+    {
+      "item": "witcher_rpg:svarog_runestone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:greater_svarog_runestone"
+  }
+}

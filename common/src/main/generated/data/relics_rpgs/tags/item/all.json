@@ -61,6 +61,126 @@
       "required": false
     },
     {
+      "id": "witcher_rpg:lesser_dazhbog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:dazhbog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_dazhbog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_chernobog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:chernobog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_chernobog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_stribog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:stribog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_stribog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_svarog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:svarog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_svarog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_triglav_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:triglav_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_triglav_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_perun_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:perun_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_perun_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_veles_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:veles_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_veles_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_morana_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:morana_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_morana_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_zoria_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:zoria_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_zoria_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_devana_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:devana_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_devana_runestone",
+      "required": false
+    },
+    {
       "id": "witcher_rpg:pure_silver",
       "required": false
     },

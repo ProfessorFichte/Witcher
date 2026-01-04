@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:devana_runestone"
+    },
+    {
+      "item": "witcher_rpg:devana_runestone"
+    },
+    {
+      "item": "witcher_rpg:devana_runestone"
+    },
+    {
+      "item": "witcher_rpg:devana_runestone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:greater_devana_runestone"
+  }
+}

@@ -1,3 +1,21 @@
+# 2.7.0 - 1.21.1
+## New Content! Runestone & Glyph Attachement
+- Glyphs can now be added on Witcher Armor Chestplates (Amount of Glyph Slots Increases with every Armor-Tier)
+- New Runestones can now be added on Witcher Swords (Amount of Runestone Slots Increases with every Weapon-Tier, Relic Swords have the highest Slot Amount)
+- Compatibility for other items can be added via Item Tags
+- Slot Amounts can be set via Data Components
+- Glyphs and Runestones can be removed in the Anvil with a Minecraft Vanilla Stone Block
+## Internal Changes and Fixes
+- Remove Passive Spells from Greater Glyphs (would be to op)
+- Add Critical Strike Compat for the Melee Witcher School
+- Add Conditional Crit Damage Mod Attributes to Feline & Ursine Armor
+- Nerfed Specific Sign Glyph Attributes
+- Re-Balance some Sword Attributes!
+- Fix some Armor Model Clipping
+- add global elemental weaknesses for WitcherSpellSchools
+- Scavenger Hunt Maps to Underground Witcher Hideouts can now be found in Old Ruins & Witcher Graves
+- There is a small chance that Silver Ore drops the "Pure Silver" item
+
 # 2.6.3 - 1.21.1
 - Update to newest MRPG-Lib Version
 - fix mismatched Kaer Morhen Model (Boots and Pants were switched)

@@ -103,25 +103,6 @@ public class WitcherSpells {
         return buff;
     }
 
-    private static Spell.Impact createHeal(float coefficient) {
-        var buff = new Spell.Impact();
-        buff.action = new Spell.Impact.Action();
-        buff.action.type = Spell.Impact.Action.Type.HEAL;
-        buff.action.heal = new Spell.Impact.Action.Heal();
-        buff.action.heal.spell_power_coefficient = coefficient;
-        return buff;
-    }
-
-    private static Spell.Impact createDamage(float coefficient, float knockback) {
-        var buff = new Spell.Impact();
-        buff.action = new Spell.Impact.Action();
-        buff.action.type = Spell.Impact.Action.Type.DAMAGE;
-        buff.action.damage = new Spell.Impact.Action.Damage();
-        buff.action.damage.spell_power_coefficient = coefficient;
-        buff.action.damage.knockback = knockback;
-        return buff;
-    }
-
     private static Spell.Impact.TargetModifier createImpactModifier(String entityType) {
         var condition = new Spell.TargetCondition();
         condition.entity_type = entityType;
@@ -138,26 +119,6 @@ public class WitcherSpells {
         spell.cost.cooldown.duration = duration;
     }
 
-    public static float sign_vulnerability = 0.3F;
-    private static Spell.Impact.TargetModifier extraDamageAard() {
-        var modifier = createImpactModifier("#witcher_rpg:aard_vulnerable");
-        var powerModifier = new Spell.Impact.Modifier();
-        powerModifier.power_multiplier = sign_vulnerability;
-        modifier.modifier = powerModifier;
-        return modifier;
-    }
-    private static Spell.Impact.TargetModifier extraDamageIgni() {
-        var modifier = createImpactModifier("#witcher_rpg:igni_vulnerable");
-        var powerModifier = new Spell.Impact.Modifier();
-        powerModifier.power_multiplier = sign_vulnerability;
-        modifier.modifier = powerModifier;
-        return modifier;
-    }
-    private static void axiiDeny(Spell.Impact impact) {
-        var modifier = createImpactModifier("#witcher_rpg:axii_effect_immune");
-        modifier.execute = TriState.DENY;
-        impact.target_modifiers = List.of(modifier);
-    }
     private static void undeadDeny(Spell.Impact impact) {
         var modifier = createImpactModifier("#minecraft:undead");
         modifier.execute = TriState.DENY;
@@ -218,7 +179,6 @@ public class WitcherSpells {
         custom.action.custom.handler = "more_rpg_classes:stop_arrows";
 
         var damage = new Spell.Impact();
-        damage.target_modifiers = List.of(extraDamageAard());
         damage.action = new Spell.Impact.Action();
         damage.action.type = Spell.Impact.Action.Type.DAMAGE;
         damage.action.damage = new Spell.Impact.Action.Damage();
@@ -239,6 +199,63 @@ public class WitcherSpells {
 
         return new Entry(id, spell, title, description, null);
     }
+    /*
+    public static Entry igni = add(igni());
+    private static Entry igni() {
+        var id = Identifier.of(MOD_ID, "igni");
+        var description = "";
+        var title = "Igni";
+
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.IGNI;
+        spell.range = 6;
+        spell.tier = 1;
+
+        spell.target.type = Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+
+        spell.deliver.type = Spell.Delivery.Type.PROJECTILE;
+        spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
+        spell.deliver.projectile.inherit_shooter_pitch = false;
+        spell.deliver.projectile.launch_properties.velocity = 1.25F;
+        var projectile = new Spell.ProjectileData();
+        projectile.homing_angle = 0F;
+        projectile.client_data = new Spell.ProjectileData.Client();
+        projectile.client_data.travel_particles = new ParticleBatch[] {
+                new ParticleBatch(
+                        SpellEngineParticles.flame_spark.id().toString(),
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        ParticleBatch.Rotation.LOOK, 30, 0.05F, 0.1F, 0.0F, 0F)
+        };
+        projectile.client_data.model = new Spell.ProjectileModel();
+        projectile.client_data.model.model_id = "witcher_rpg:projectile/igni_dummy";
+        projectile.perks.pierce = 999;
+        projectile.hitbox = new Spell.ProjectileData.HitBox(4.0F, 0.5F);
+        spell.deliver.projectile.projectile = projectile;
+
+        var damage = SpellBuilder.Impacts.damage(0.8F,0.2F);
+        damage.sound = new Sound("block.blastfurnace.fire_crackle");
+        damage.particles = new ParticleBatch[] {
+                new ParticleBatch(
+                        SpellEngineParticles.flame_medium_a.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 10, 0.5F, 1.3F, 0.0F, 0F),
+                new ParticleBatch(
+                        "large_smoke",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 4, 0.1F, 0.3F, 0.0F, 0F),
+                new ParticleBatch(
+                        SpellEngineParticles.flame_spark.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 4, 0.2F, 0.3F, 0.0F, 0F)
+        };
+        var fire = SpellBuilder.Impacts.fire(2);
+        spell.impacts = List.of(damage, fire);
+
+        configureCooldown(spell, 16);
+        return new Entry(id, spell, title, description, null);
+    }
+     */
     public static final Entry yrden = add(yrden());
     private static Entry yrden() {
         var id = Identifier.of(MOD_ID, "yrden");

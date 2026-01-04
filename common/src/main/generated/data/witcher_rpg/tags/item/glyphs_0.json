@@ -19,6 +19,46 @@
     {
       "id": "witcher_rpg:lesser_yrden_glyph",
       "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_dazhbog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_chernobog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_stribog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_svarog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_triglav_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_perun_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_veles_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_morana_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_zoria_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:lesser_devana_runestone",
+      "required": false
     }
   ]
 }

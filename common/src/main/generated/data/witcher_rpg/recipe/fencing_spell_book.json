@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "more_rpg_classes:hardened_leather"
+    },
+    {
+      "tag": "witcher_rpg:steel_ingots"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:redstone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:fencing_spell_book"
+  }
+}

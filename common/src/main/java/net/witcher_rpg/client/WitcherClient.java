@@ -23,10 +23,14 @@ import net.witcher_rpg.client.entity.YrdenMagicTrapRenderer;
 import net.witcher_rpg.client.entity.YrdenRenderer;
 import net.witcher_rpg.client.particle.WitcherParticles;
 import net.witcher_rpg.client.predicate_models.WitcherModelPredicates;
+import net.witcher_rpg.client.render.GlyphTooltipRenderer;
+import net.witcher_rpg.client.render.RunestoneTooltipRenderer;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.YrdenEntity;
 import net.witcher_rpg.entity.YrdenMagicTrapEntity;
 import net.witcher_rpg.item.armor.Armors;
+import net.witcher_rpg.item.component.GlyphTooltipComponent;
+import net.witcher_rpg.item.component.RunestoneTooltipComponent;
 import net.witcher_rpg.spell.WitcherSpells;
 
 
@@ -38,6 +42,16 @@ import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 public class WitcherClient{
 
     public static void  init(){
+        net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback.EVENT.register(data -> {
+            if (data instanceof GlyphTooltipComponent component) {
+                return new GlyphTooltipRenderer(component);
+            }
+            if (data instanceof RunestoneTooltipComponent component) {
+                return new RunestoneTooltipRenderer(component);
+            }
+            return null;
+        });
+
         for (var entry: WitcherSpells.entries) {
             if (entry.mutator() != null) {
                 SpellTooltip.addDescriptionMutator(entry.id(), entry.mutator());
@@ -50,7 +64,8 @@ public class WitcherClient{
                 YrdenMagicTrapRenderer.modelId,
                 QuenActiveShieldRenderer.modelId,
                 Identifier.of(MOD_ID, "projectile/rend"),
-                Identifier.of(MOD_ID, "projectile/crystal_skull")
+                Identifier.of(MOD_ID, "projectile/crystal_skull"),
+                Identifier.of(MOD_ID, "projectile/igni_dummy")
         ));
 
         CustomParticleStatusEffect.register(WitcherStatusEffects.AXII.effect, new AxiiParticles(1));

@@ -1,0 +1,44 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:greater_dazhbog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_chernobog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_stribog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_svarog_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_triglav_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_perun_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_veles_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_morana_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_zoria_runestone",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:greater_devana_runestone",
+      "required": false
+    }
+  ]
+}

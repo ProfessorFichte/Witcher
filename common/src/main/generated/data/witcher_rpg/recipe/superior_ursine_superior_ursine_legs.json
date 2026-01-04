@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "witcher_rpg:steel_ingot"
+  },
+  "base": {
+    "item": "witcher_rpg:enhanced_ursine_legs"
+  },
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:superior_ursine_legs"
+  },
+  "template": {
+    "item": "witcher_rpg:superior_diagram"
+  }
+}

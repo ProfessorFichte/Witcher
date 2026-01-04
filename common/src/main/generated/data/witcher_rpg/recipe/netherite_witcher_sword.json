@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "base": {
+    "item": "witcher_rpg:diamond_witcher_sword"
+  },
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:netherite_witcher_sword"
+  },
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
+  }
+}
