@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_lesser_glyph": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#witcher_rpg:glyphs_0"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:uncraft_lesser_glyph"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_lesser_glyph"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:uncraft_lesser_glyph"
+    ]
+  }
+}

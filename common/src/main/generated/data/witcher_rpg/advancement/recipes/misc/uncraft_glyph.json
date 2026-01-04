@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_glyph": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#witcher_rpg:glyphs_1"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:uncraft_glyph"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_glyph"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:uncraft_glyph"
+    ]
+  }
+}

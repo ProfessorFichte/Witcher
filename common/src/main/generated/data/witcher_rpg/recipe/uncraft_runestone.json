@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "witcher_rpg:runestones_1"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:stone"
+  }
+}
