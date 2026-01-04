@@ -107,11 +107,11 @@ public class WeaponsRegister {
     private static Weapon.Entry witcherswords(String name, Weapon.CustomMaterial material, float damage) {
         int slots = determineRunestoneSlots(name);
         Weapon.Factory factory = slots == 2 ? WitcherSword.with2Slots() : WitcherSword.with1Slot();
-        return entry(name, material, factory, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SWORD);
+        return entry(name, material, factory, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SPELL_BLADE);
     }
 
     private static Weapon.Entry witcherrelicswords(String name, Weapon.CustomMaterial material, float damage) {
-        return entry(name, material, WitcherRelicSword::new, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SWORD);
+        return entry(name, material, WitcherRelicSword::new, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SPELL_BLADE);
     }
 
     public static final Weapon.Entry iron_witcher_sword = witcherswords("iron_witcher_sword",
