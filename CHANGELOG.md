@@ -1,3 +1,10 @@
+# 2.7.1 - 1.21.1
+- Trying to fix crucial crash on Neoforge
+- Add Witcher Swords to Spell Blade Weapon Type so they can use Spell Crit Damage Enchantments
+- Fix runestones getting added to glyph tags
+- Fix some Loot Table Injections
+- Add missing sunstone spell icon
+
 # 2.7.0 - 1.21.1
 ## New Content! Runestone & Glyph Attachement
 - Glyphs can now be added on Witcher Armor Chestplates (Amount of Glyph Slots Increases with every Armor-Tier)

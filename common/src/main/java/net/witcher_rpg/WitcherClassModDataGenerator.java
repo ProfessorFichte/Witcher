@@ -121,7 +121,6 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 		List<String> steelSwordsKeywords = List.of("steel", "dark_iron","iris","ultimatum","winters");
 		List<String> meleeArmorKeywords = List.of("ursine", "feline");
 		List<String> magicArmorKeywords = List.of("witcher", "wolven","griffin");
-		TagKey relicsKey = TagKey.of(RegistryKeys.ITEM, Identifier.of("relics_rpgs", "all"));
 		List<String> trinkets0Keywords = List.of("crystal_skull","rose_of_remembrance","pure_silver");
 		List<String> trinkets1Keywords = List.of("sunstone");
 
@@ -169,24 +168,21 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 					Armors.entries,WitcherItemTags.WITCHER_ARMOR
 			);
 			///RELICS
-			var relicsAll = getOrCreateTagBuilder(relicsKey);
-			WitcherTrinkets.entries.stream()
-					.filter(entry -> !entry.name().toLowerCase().contains("medallion"))
-					.forEach(entry -> relicsAll.addOptional(entry.id()));
 			var glyphs0 = getOrCreateTagBuilder(WitcherItemTags.GLYPHS_0);
 			WitcherTrinkets.entries.stream()
 					.filter(entry -> entry.name().toLowerCase().contains("lesser"))
+					.filter(entry -> entry.name().toLowerCase().contains("glyph"))
 					.forEach(entry -> glyphs0.addOptional(entry.id()));
 			var glyphs1 = getOrCreateTagBuilder(WitcherItemTags.GLYPHS_1);
 			WitcherTrinkets.entries.stream()
 					.filter(entry -> entry.name().toLowerCase().contains("glyph"))
-					.filter(entry -> entry.name().toLowerCase().contains("runestone"))
 					.filter(entry -> !entry.name().toLowerCase().contains("greater"))
 					.filter(entry -> !entry.name().toLowerCase().contains("lesser"))
 					.forEach(entry -> glyphs1.addOptional(entry.id()));
 			var glyphs2 = getOrCreateTagBuilder(WitcherItemTags.GLYPHS_2);
 			WitcherTrinkets.entries.stream()
 					.filter(entry -> entry.name().toLowerCase().contains("greater"))
+					.filter(entry -> entry.name().toLowerCase().contains("glyph"))
 					.forEach(entry -> glyphs2.addOptional(entry.id()));
 			var runestones0 = getOrCreateTagBuilder(WitcherItemTags.RUNESTONES_0);
 			WitcherTrinkets.entries.stream()

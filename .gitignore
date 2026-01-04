@@ -47,6 +47,9 @@ common/src/main/java/**/config/spell_power/
 common/src/main/java/**/config/witcher_rpg/
 common/src/main/java/**/config/*.properties
 
+# datagen cache
+common/src/main/generated/.cache/
+
 # java
 
 hs_err_*.log
