@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#witcher_rpg:glyphs_0",
+    "#witcher_rpg:glyphs_1",
+    "#witcher_rpg:glyphs_2",
+    "#witcher_rpg:runestones_0",
+    "#witcher_rpg:runestones_1",
+    "#witcher_rpg:runestones_2",
+    "#witcher_rpg:trinkets_0",
+    "#witcher_rpg:trinkets_1",
+    "#witcher_rpg:witcher_medallions"
+  ]
+}
