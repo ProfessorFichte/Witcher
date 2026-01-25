@@ -48,7 +48,7 @@ public class WitcherClassMod {
 			.sanitize(true)
 			.build();
 	public static ConfigManager<ConfigFile.Effects> effectConfig = new ConfigManager<>
-			("effects", new ConfigFile.Effects())
+			("effects_v0", new ConfigFile.Effects())
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)

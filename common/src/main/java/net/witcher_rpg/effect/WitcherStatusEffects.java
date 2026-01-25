@@ -375,7 +375,7 @@ public class WitcherStatusEffects {
     ));
     public static Effects.Entry FELINE_INJURY_MASTER = add(new Effects.Entry(Identifier.of(MOD_ID,"feline_injury_master"),
             "Feline Injury Master",
-            "Boosts Sign Intensity & Reduces incoming Damage.",
+            "Increases Incoming Damage and reduces Movement Speed.",
             new CustomStatusEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.WITCHER_MELEE.color),
             new EffectConfig(
                     List.of(
@@ -386,7 +386,7 @@ public class WitcherStatusEffects {
                             ),
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
-                                    0.2F,
+                                    -0.2F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )

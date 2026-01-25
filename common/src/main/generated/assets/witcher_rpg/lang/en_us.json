@@ -68,7 +68,7 @@
   "effect.witcher_rpg.counterattack": "Counterattack",
   "effect.witcher_rpg.counterattack.description": "After a successful block, your next melee attack deals increased damage.",
   "effect.witcher_rpg.feline_injury_master": "Feline Injury Master",
-  "effect.witcher_rpg.feline_injury_master.description": "Boosts Sign Intensity & Reduces incoming Damage.",
+  "effect.witcher_rpg.feline_injury_master.description": "Increases Incoming Damage and reduces Movement Speed.",
   "effect.witcher_rpg.igni_intensity": "Igni Sign Intensity",
   "effect.witcher_rpg.igni_intensity.description": "Increases the damage of the Igni Sign.",
   "effect.witcher_rpg.iris_charge": "Charged Sword",
