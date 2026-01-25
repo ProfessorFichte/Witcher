@@ -1,9 +1,9 @@
-// 1.21.1	2026-01-24T23:50:00.517907	Witcher Class Mod/Spell Generator
+// 1.21.1	2026-01-25T11:53:46.924866	Witcher Class Mod/Spell Generator
 63140a703e3c606acd616439257605609d6f74c8 data\witcher_rpg\spell\igni_firestream.json
 9cd91cedfc25e8b6ccecd22eb7d9563111935379 data\witcher_rpg\spell\greater_yrden_glyph.json
 29066aefa293dd9f97612811514ed5404e5ca7f9 data\witcher_rpg\spell\silver_sword_passive.json
 5d96af717488256f179dc178548ea254e1359da1 data\witcher_rpg\spell\strength_training.json
-e79da802966f660cd26bb52f8b9b83d554c94a91 data\witcher_rpg\spell\grandmaster_feline.json
+240b72bf1f3fc4e593181a2b8e5b5e6affed6cc2 data\witcher_rpg\spell\grandmaster_feline.json
 2f32c1f3b0b4639a44f49e1a6e96e60df9ca95b0 data\witcher_rpg\spell\aard_sweep.json
 c33320eb8fea5e69fa79074550b9ec7fca7cb607 data\witcher_rpg\spell\battle_trance.json
 229ab7c4c74cc55c30b9a078a5502d00a735f9e4 data\witcher_rpg\spell\aard_far_reach.json
@@ -23,7 +23,7 @@ efee2e6cc1c24ee4eb59817f0c6a865f2a7ac8d6 data\witcher_rpg\spell\rose_of_remembra
 abb42935113596f7ffc0209c1852fa55b061ad6e data\witcher_rpg\spell\whirl.json
 b0ad7999864eeb8532e1d8d272d4c940a2aab3c2 data\witcher_rpg\spell\axii_lethargy.json
 c1f97a15acdfc47cda52d315ad4af4b1a456ade8 data\witcher_rpg\spell\reach_of_the_damned_passive.json
-5a9abd76afc7da938f78d5a9c7754265e5bec587 data\witcher_rpg\spell\igni.json
+d183cf5e8c6b8ca1c60ce996bbfc6e48b5099b60 data\witcher_rpg\spell\igni.json
 55a71927ef5b0f61ccd9dbb9dfdcf39274224c34 data\witcher_rpg\spell\cat_school_technique.json
 883a1a7c6a2b303aac16d9faa1ab4358e3154dd2 data\witcher_rpg\spell\aerondight_passive.json
 9360e20f1694db988033b00ad6390bf3a2c56ffc data\witcher_rpg\spell\igni_pyromaniac.json
@@ -43,9 +43,9 @@ f39294a37cd2ab4c6b2895a147089406088a433b data\witcher_rpg\spell\rend_boost_a.jso
 53a14483a553be67136304da1968973b867781bc data\witcher_rpg\spell\quen_active_shield.json
 7832428e0d8922f143f7d4b0d05cc64650cdaaaa data\witcher_rpg\spell\quen_exploding_shield.json
 ac433002fe283607238b049bbb599cc39a5b7594 data\witcher_rpg\spell\sunstone.json
-c22afe887e922b8f04b9b1451b4887300ca14890 data\witcher_rpg\spell\grandmaster_wolven.json
+d665249305851bcc3d82b8b36d3853301b1a3230 data\witcher_rpg\spell\grandmaster_wolven.json
 b12d8aa6c46e9584d72d6db064935144319b6cb0 data\witcher_rpg\spell\yrden.json
-ff16eb246b47a025931bfe9e94566161b1086617 data\witcher_rpg\spell\grandmaster_ursine.json
+0fc1a51a8b0fc47fdf242f5962f4017fa333690c data\witcher_rpg\spell\grandmaster_ursine.json
 6f6224a57f4ecd71a698e169f44b5bf4a6f38d60 data\witcher_rpg\spell\yrden_binding_glyphs.json
 b8c1e21ac780707b877529fc0f6996411190115d data\witcher_rpg\spell\wolf_school_technique.json
 dc37b1449783269a92ee23dea723a6b7f05ec3b9 data\witcher_rpg\spell\greater_igni_glyph.json

@@ -33,7 +33,18 @@
           "effect_id": "witcher_rpg:quen_shield",
           "amplifier_power_multiplier": 0.3
         }
-      }
+      },
+      "particles": [
+        {
+          "particle_id": "witcher_rpg:quen_sign_cast",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 3.0,
+          "min_speed": 0.3,
+          "max_speed": 0.5,
+          "extent": 2.0
+        }
+      ]
     }
   ],
   "cost": {

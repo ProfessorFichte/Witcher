@@ -143,7 +143,7 @@ public class WitcherSpells {
         impact.target_modifiers = List.of(modifier);
     }
     private static final SpellEntityPredicates.Entry HAS_YRDEN =
-            SpellEntityPredicates.hasEffectOptimized(Identifier.of("witcher_rpg", "yrden"));
+            SpellEntityPredicates.hasEffectOptimized(Identifier.of("witcher_rpg", "yrden_circle"));
 
     public static class TargetConditions {
         public TargetConditions() {
@@ -1483,12 +1483,15 @@ public class WitcherSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        spell.passive.triggers = SpellBuilder.Triggers.withConditionMustWield(
-                badEffectMeleeHit()
-        );
+        spell.passive.triggers = badEffectMeleeHit();
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
         var debuff = SpellBuilder.Impacts.effectSet(effect.id.toString(),5,0);
+        debuff.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        3F, 0.1F, 0.3F).color(Color.RED.toRGBA())
+        };
         spell.impacts = List.of(debuff);
 
         SpellBuilder.Cost.cooldown(spell, 20F);
@@ -1554,13 +1557,21 @@ public class WitcherSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var trigger = SpellBuilder.Triggers.activeSpellHit(1.0F, "aard");
+        var trigger = SpellBuilder.Triggers.activeSpellHit(1.0F, "spell_power:aard");
         var condition = new Spell.TargetCondition();
         condition.entity_predicate_id = HAS_YRDEN.id().toString();
         trigger.target_conditions = List.of(condition);
         spell.passive.triggers = List.of(trigger);
 
-        var damage = SpellBuilder.Impacts.damage(1.0F, 0F);
+        var damage = SpellBuilder.Impacts.damage(1.25F, 0F);
+        damage.particles = new ParticleBatch[]{
+                new ParticleBatch("witcher_rpg:yrden_sign_cast",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        3F, 0.1F, 0.3F),
+                new ParticleBatch("witcher_rpg:aard_sign_cast",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        3F, 0.3F, 0.5F).extent(2)
+        };
         spell.impacts = List.of(damage);
 
         SpellBuilder.Cost.cooldown(spell, 1F);
@@ -1591,6 +1602,11 @@ public class WitcherSpells {
 
         var effect = SpellBuilder.Impacts.effectSet(WitcherStatusEffects.QUEN_SHIELD.id.toString(),10,0);
         effect.action.status_effect.amplifier_power_multiplier = 0.3F;
+        effect.particles = new ParticleBatch[]{
+                new ParticleBatch("witcher_rpg:quen_sign_cast",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        3F, 0.3F, 0.5F).extent(2)
+        };
         spell.impacts = List.of(effect);
 
         SpellBuilder.Cost.cooldown(spell, 60F);
@@ -1713,7 +1729,7 @@ public class WitcherSpells {
         var description = "Unleashes a stream of fire dealing {damage} damage and setting enemies ablaze.";
         var spell = activeSpellBase();
         spell.school = WitcherSpellSchools.IGNI;
-        spell.range = 4.0F;
+        spell.range = 5.0F;
         spell.tier = 1;
 
         spell.active.cast.animation = "witcher_rpg:sign_cast_long";
