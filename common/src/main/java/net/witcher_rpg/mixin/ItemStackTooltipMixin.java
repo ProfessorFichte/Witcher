@@ -3,6 +3,7 @@ package net.witcher_rpg.mixin;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.registry.Registries;
+import net.witcher_rpg.item.armor.Armors;
 import net.witcher_rpg.item.component.GlyphSlots;
 import net.witcher_rpg.item.component.GlyphTooltipComponent;
 import net.witcher_rpg.item.component.RunestoneSlots;
@@ -57,12 +58,21 @@ public abstract class ItemStackTooltipMixin {
     private static int getDefaultGlyphSlots(ItemStack item) {
         String itemId = Registries.ITEM.getId(item.getItem()).toString();
         if (itemId.contains("netherite")) return 2;
+        if (itemId.contains("_grandmaster")) return Armors.TIER5_GLYPH_SLOTS;
+        if (itemId.contains("_mastercrafted")) return Armors.TIER4_GLYPH_SLOTS;
+        if (itemId.contains("_superior")) return Armors.TIER3_GLYPH_SLOTS;
+        if (itemId.contains("_enhanced")) return Armors.TIER2_GLYPH_SLOTS;
         return 1;
     }
 
     private static int getDefaultRunestoneSlots(ItemStack item) {
         String itemId = Registries.ITEM.getId(item.getItem()).toString();
         if (itemId.contains("netherite")) return 2;
+        if (itemId.contains("gvalchir")) return 3;
+        if (itemId.contains("ardaenye")) return 3;
+        if (itemId.contains("moonblade")) return 3;
+        if (itemId.contains("dyaebl")) return 3;
+        if (itemId.contains("winters_blade")) return 3;
         return 1;
     }
 }
