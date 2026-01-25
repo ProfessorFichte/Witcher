@@ -1,0 +1,95 @@
+{
+  "school": "spell_power:igni",
+  "range": 6.0,
+  "tier": 3,
+  "learn": {},
+  "active": {
+    "cast": {
+      "duration": 7.5,
+      "channel_ticks": 4,
+      "animation": "witcher_rpg:sign_cast_long",
+      "movement_speed": 0.5,
+      "sound": {
+        "id": "witcher_rpg:igni_sign",
+        "randomness": 0.4
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:flame_medium_a",
+          "origin": "LAUNCH_POINT",
+          "shape": "CONE",
+          "rotation": "LOOK",
+          "count": 5.0,
+          "min_speed": 0.8,
+          "max_speed": 6.0,
+          "angle": 20.0
+        },
+        {
+          "particle_id": "witcher_rpg:igni_sign_cast",
+          "origin": "LAUNCH_POINT",
+          "shape": "PIPE",
+          "count": 0.2,
+          "min_speed": 0.01,
+          "max_speed": 0.2
+        }
+      ]
+    }
+  },
+  "release": {
+    "sound": {
+      "id": "block.blastfurnace.fire_crackle"
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "angle_degrees": 20.0
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.9,
+          "knockback": 0.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "lava",
+          "origin": "CENTER",
+          "shape": "CIRCLE",
+          "count": 1.0,
+          "min_speed": 0.5,
+          "max_speed": 3.0
+        },
+        {
+          "particle_id": "spell_engine:flame_spark",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 10.0,
+          "min_speed": 0.08,
+          "max_speed": 0.2
+        }
+      ],
+      "sound": {
+        "id": "block.blastfurnace.fire_crackle"
+      }
+    },
+    {
+      "action": {
+        "type": "FIRE",
+        "fire": {
+          "duration": 3.0
+        }
+      }
+    }
+  ],
+  "cost": {
+    "exhaust": 0.5,
+    "cooldown": {
+      "duration": 24.0
+    }
+  }
+}

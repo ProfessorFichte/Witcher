@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "M": {
+      "item": "witcher_rpg:dark_iron_ingot"
+    },
+    "N": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "S": {
+      "tag": "witcher_rpg:steel_ingots"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "SNN",
+    "MMM"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:dark_steel_ingot"
+  }
+}

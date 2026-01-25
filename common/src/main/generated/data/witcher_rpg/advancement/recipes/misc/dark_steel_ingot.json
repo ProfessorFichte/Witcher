@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dark_iron_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witcher_rpg:dark_iron_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "witcher_rpg:dark_steel_ingot"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dark_iron_ingot"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "witcher_rpg:dark_steel_ingot"
+    ]
+  }
+}

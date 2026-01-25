@@ -10,9 +10,11 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.item.armor.Armor;
 import net.witcher_rpg.blocks.WitcherBlocks;
+import net.witcher_rpg.item.WitcherArmorDiagrams;
 import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.armor.Armors;
@@ -21,6 +23,8 @@ import net.witcher_rpg.util.tags.WitcherItemTags;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class WitcherRecipeProvider extends FabricRecipeProvider {
     public WitcherRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
@@ -39,6 +43,9 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
 
         // WITCHER ARMOR - Shaped Crafting (base tier only, upgrades handled by SmithingRecipeGenerator)
         generateArmorRecipes(exporter);
+
+        // WITCHER DIAGRAMS
+        generateDiagramRecipes(exporter);
 
         // MATERIALS - Smelting, Blasting, and Crafting
         generateMaterialRecipes(exporter);
@@ -106,13 +113,12 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
 
         // Dark Steel Witcher Sword - crafted using netherite scrap
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, WeaponsRegister.dark_steel_witcher_sword.item())
-                .pattern("RRR")
-                .pattern("RWW")
-                .pattern("XX ")
-                .input('W', Items.NETHERITE_SCRAP)
-                .input('R', WitcherItemTags.STEEL_INGOTS)
-                .input('X', WitcherMaterials.DARK_IRON_INGOT.item())
-                .criterion(hasItem(Items.NETHERITE_SCRAP), conditionsFromItem(Items.NETHERITE_SCRAP))
+                .pattern(" W ")
+                .pattern("WWW")
+                .pattern(" R ")
+                .input('W', WitcherMaterials.DARK_STEEL_INGOT.item())
+                .input('R', hardenedLeather)
+                .criterion(hasItem(WitcherMaterials.DARK_STEEL_INGOT.item()), conditionsFromItem(WitcherMaterials.DARK_STEEL_INGOT.item()))
                 .offerTo(exporter);
 
         // Meteorite Witcher Sword
@@ -178,29 +184,34 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .input(hardenedLeather)
                 .input(WitcherItemTags.STEEL_INGOTS)
                 .input(Items.BOOK)
-                .input(Items.REDSTONE)
+                .input(Items.LAPIS_LAZULI)
                 .criterion(hasItem(Items.BOOK), conditionsFromItem(Items.BOOK))
                 .offerTo(exporter);
 
         // Master Spell Book - combines base signs and fencing
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.COMBAT, WitcherMaterials.MASTER_BOOK())
-                .input(baseSignsBook)
-                .input(fencingBook)
-                .input(Items.DIAMOND)
-                .criterion(hasItem(Items.DIAMOND), conditionsFromItem(Items.DIAMOND))
+        ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, WitcherMaterials.MASTER_BOOK())
+                .pattern("RRR")
+                .pattern("BCB")
+                .pattern("WWW")
+                .input('R', WitcherMaterials.METEORITE_SILVER_INGOT.item())
+                .input('B', Items.LAPIS_LAZULI)
+                .input('C', Items.BOOK)
+                .input('W', WitcherMaterials.DARK_STEEL_INGOT.item())
+                .criterion(hasItem(WitcherMaterials.RAW_SILVER.item()), conditionsFromItem(WitcherMaterials.RAW_SILVER.item()))
                 .offerTo(exporter);
     }
 
     private void generateArmorRecipes(RecipeExporter exporter) {
+        var hardenedLeather = getOrFallback(Identifier.of("more_rpg_classes", "hardened_leather"), Items.LEATHER);
         // Base Witcher Armor - Tier 1
-        createArmorSet(exporter, "witcher", Items.LEATHER, Items.IRON_INGOT,
+        createArmorSet(exporter, "witcher", Items.LEATHER, hardenedLeather,
                 Armors.witcherArmorSet);
 
-        // Feline School Armor - Tier 1 (Light/Agility)
-        createArmorSet(exporter, "feline", WitcherMaterials.STEEL_INGOT.item(), Items.LEATHER,
+        // Feline School Armor - Tier 1 (Light/Agility Melee)
+        createArmorSet(exporter, "feline", WitcherMaterials.STEEL_INGOT.item(), Items.WHITE_WOOL,
                 Armors.felineSchoolArmorSet);
 
-        // Griffin School Armor - Tier 1 (Magic)
+        // Griffin School Armor - Tier 1 (Signs)
         createArmorSet(exporter, "griffin", WitcherMaterials.SILVER_INGOT.item(), Items.LEATHER,
                 Armors.griffinArmorSet);
 
@@ -209,26 +220,29 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 Armors.ursineArmorSet);
 
         // Wolven School Armor - Tier 1 (Hybrid)
-        createArmorSet(exporter, "wolven", WitcherMaterials.SILVER_INGOT.item(), Items.LEATHER,
+        createArmorSet(exporter, "wolven", WitcherMaterials.SILVER_INGOT.item(), hardenedLeather,
                 Armors.wolvenArmorSet);
     }
 
     private void createArmorSet(RecipeExporter exporter, String name, Item primary, Item secondary, Armor.Set armorSet) {
         // Helmet
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, (Item) armorSet.head)
-                .pattern("PPP")
-                .pattern("P P")
+                .pattern("PSP")
+                .pattern("X X")
                 .input('P', primary)
+                .input('S', secondary)
+                .input('X', Items.STRING)
                 .criterion(hasItem(primary), conditionsFromItem(primary))
                 .offerTo(exporter, name + "_head");
 
         // Chestplate
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, (Item) armorSet.chest)
                 .pattern("P P")
-                .pattern("PPP")
+                .pattern("PXP")
                 .pattern("SSS")
                 .input('P', primary)
                 .input('S', secondary)
+                .input('X', WitcherItemTags.SILVER_INGOTS)
                 .criterion(hasItem(primary), conditionsFromItem(primary))
                 .offerTo(exporter, name + "_chest");
 
@@ -250,6 +264,33 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .input('S', secondary)
                 .criterion(hasItem(primary), conditionsFromItem(primary))
                 .offerTo(exporter, name + "_feet");
+    }
+    private void generateDiagramRecipes(RecipeExporter exporter) {
+        var enhancedDiagram = getOrFallback(Identifier.of(MOD_ID, "enhanced_diagram"), Items.LEATHER);
+        var superiorDiagram = getOrFallback(Identifier.of(MOD_ID, "superior_diagram"), Items.LEATHER);
+        var mastercraftedDiagram = getOrFallback(Identifier.of(MOD_ID, "mastercrafted_diagram"), Items.LEATHER);
+        var grandmasterDiagram = getOrFallback(Identifier.of(MOD_ID, "grandmaster_diagram"), Items.LEATHER);
+
+        createDiagramRecipes(exporter, "enhanced", enhancedDiagram);
+        createDiagramRecipes(exporter, "superior", superiorDiagram);
+        createDiagramRecipes(exporter, "mastercrafted", mastercraftedDiagram);
+        createDiagramRecipes(exporter, "grandmaster",grandmasterDiagram);
+    }
+    private void createDiagramRecipes(RecipeExporter exporter, String name, Item diagram) {
+        var hardenedLeather = getOrFallback(
+                Identifier.of("more_rpg_classes", "hardened_leather"),
+                Items.LEATHER
+        );
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, diagram, 2)
+                .pattern("BAB")
+                .pattern("BCB")
+                .pattern("BBB")
+                .input('C', hardenedLeather)
+                .input('A', diagram)
+                .input('B', Items.DIAMOND)
+                .criterion(hasItem(diagram), conditionsFromItem(diagram))
+                .offerTo(exporter, Identifier.of(MOD_ID, name + "_diagram"));
     }
 
     private void generateMaterialRecipes(RecipeExporter exporter) {
@@ -356,6 +397,17 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter, "dark_iron_ingot_from_block");
 
         // ===== DARK STEEL =====
+        // Dark Steel INGOT
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.DARK_STEEL_INGOT.item())
+                .pattern("SSS")
+                .pattern("SNN")
+                .pattern("MMM")
+                .input('M', WitcherMaterials.DARK_IRON_INGOT.item())
+                .input('S', WitcherItemTags.STEEL_INGOTS)
+                .input('N', Items.NETHERITE_SCRAP)
+                .criterion(hasItem(WitcherMaterials.DARK_IRON_INGOT.item()),
+                        conditionsFromItem(WitcherMaterials.DARK_IRON_INGOT.item()))
+                .offerTo(exporter);
         // Dark Steel Block
         ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, Blocks.DARK_STEEL_BLOCK)
                 .pattern("###")
@@ -394,11 +446,12 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         // ===== METEORITE SILVER =====
         // Meteorite Silver Ingot Crafting (Meteorite + Silver)
         ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.METEORITE_SILVER_INGOT.item())
-                .pattern("MSM")
-                .pattern("SMS")
-                .pattern("MSM")
+                .pattern("SSS")
+                .pattern("SNN")
+                .pattern("MMM")
                 .input('M', WitcherMaterials.METEORITE_INGOT.item())
                 .input('S', WitcherItemTags.SILVER_INGOTS)
+                .input('N', Items.NETHERITE_SCRAP)
                 .criterion(hasItem(WitcherMaterials.METEORITE_INGOT.item()),
                         conditionsFromItem(WitcherMaterials.METEORITE_INGOT.item()))
                 .offerTo(exporter);

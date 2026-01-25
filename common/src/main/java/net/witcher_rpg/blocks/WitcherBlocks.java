@@ -20,63 +20,63 @@ import net.witcher_rpg.item.WitcherGroup;
 import java.util.ArrayList;
 
 public class WitcherBlocks {
-    public record Entry(String name, Block block, BlockItem item) {
-        public Entry(String name, Block block) {
-            this(name, block, new BlockItem(block, new Item.Settings()));
+    public record Entry(String name, String translatedName ,Block block, BlockItem item) {
+        public Entry(String name, String translatedName ,Block block) {
+            this(name, translatedName, block, new BlockItem(block, new Item.Settings()));
         }
     }
 
     public static final ArrayList<Entry> all = new ArrayList<>();
 
-    private static Entry entry(String name, Block block) {
-        var entry = new Entry(name, block);
+    private static Entry entry(String name, String translatedName,Block block) {
+        var entry = new Entry(name, translatedName,block);
         all.add(entry);
         return entry;
     }
 
-    public static final Entry SILVER_ORE = entry("silver_ore", new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
+    public static final Entry SILVER_ORE = entry("silver_ore", "Silver Ore",new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
             FabricBlockSettings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresTool()
                     .strength(3.0F, 3.0F)
     ));
-    public static final Entry DEEPSLATE_SILVER_ORE= entry("deepslate_silver_ore", new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
+    public static final Entry DEEPSLATE_SILVER_ORE= entry("deepslate_silver_ore", "Deepslate Silver Ore",new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
             FabricBlockSettings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresTool()
                     .strength(4.0F, 3.0F)
     ));
-    public static final Entry METEORITE_ORE= entry("meteorite_ore", new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
+    public static final Entry METEORITE_ORE= entry("meteorite_ore", "Meteorite Ore",new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
             FabricBlockSettings.create()
                     .mapColor(MapColor.TERRACOTTA_BROWN)
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresTool()
                     .strength(4.0F, 3.0F)
     ));
-    public static final Entry DEEPSLATE_DARK_IRON_ORE= entry("deepslate_dark_iron_ore", new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
+    public static final Entry DEEPSLATE_DARK_IRON_ORE= entry("deepslate_dark_iron_ore", "Deepslate Dark Iron Ore",new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
             FabricBlockSettings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresTool()
                     .strength(4.0F, 3.0F)
     ));
-    public static final Entry DARK_IRON_ORE= entry("dark_iron_ore", new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
+    public static final Entry DARK_IRON_ORE= entry("dark_iron_ore", "Dark Iron Ore",new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
             FabricBlockSettings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresTool()
                     .strength(3.0F, 3.0F)
     ));
-    public static final Entry NETHER_DARK_IRON_ORE= entry("nether_dark_iron_ore", new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
+    public static final Entry NETHER_DARK_IRON_ORE= entry("nether_dark_iron_ore", "Nether Dark Iron Ore",new ExperienceDroppingBlock(UniformIntProvider.create(3, 7),
             FabricBlockSettings.create()
                     .mapColor(MapColor.DARK_RED)
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresTool()
                     .strength(3.0F, 3.0F)
     ));
-    public static final Entry SILVER_BLOCK = entry("silver_block", new Block(
+    public static final Entry SILVER_BLOCK = entry("silver_block", "Block of Silver",new Block(
             FabricBlockSettings.create()
                     .mapColor(MapColor.LIGHT_BLUE_GRAY)
                     .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
@@ -84,14 +84,14 @@ public class WitcherBlocks {
                     .strength(5.0F, 6.0F)
                     .sounds(BlockSoundGroup.METAL)
     ));
-    public static final Entry RAW_SILVER_BLOCK = entry("raw_silver_block", new Block(
+    public static final Entry RAW_SILVER_BLOCK = entry("raw_silver_block", "Block of Silver Ore",new Block(
             FabricBlockSettings.create()
                     .mapColor(MapColor.LIGHT_GRAY)
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresTool()
                     .strength(5.0F, 6.0F)
     ));
-    public static final Entry STEEL_BLOCK = entry("steel_block", new Block(
+    public static final Entry STEEL_BLOCK = entry("steel_block", "Block of Steel",new Block(
             FabricBlockSettings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
@@ -99,7 +99,7 @@ public class WitcherBlocks {
                     .strength(5.0F, 6.0F)
                     .sounds(BlockSoundGroup.METAL)
     ));
-    public static final Entry METEORITE_BLOCK = entry("meteorite_block", new Block(
+    public static final Entry METEORITE_BLOCK = entry("meteorite_block", "Block of Meteorite",new Block(
             FabricBlockSettings.create()
                     .mapColor(MapColor.PALE_PURPLE)
                     .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
@@ -107,7 +107,7 @@ public class WitcherBlocks {
                     .strength(5.0F, 6.0F)
                     .sounds(BlockSoundGroup.METAL)
     ));
-    public static final Entry DARK_IRON_BLOCK = entry("dark_iron_block", new Block(
+    public static final Entry DARK_IRON_BLOCK = entry("dark_iron_block", "Block of Dark Iron",new Block(
             FabricBlockSettings.create()
                     .mapColor(MapColor.DARK_GREEN)
                     .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
@@ -115,7 +115,7 @@ public class WitcherBlocks {
                     .strength(5.0F, 6.0F)
                     .sounds(BlockSoundGroup.METAL)
     ));
-    public static final Entry METEORITE_SILVER_BLOCK = entry("meteorite_silver_block", new Block(
+    public static final Entry METEORITE_SILVER_BLOCK = entry("meteorite_silver_block","Block of Meteorite Silver", new Block(
             FabricBlockSettings.create()
                     .mapColor(MapColor.PALE_PURPLE)
                     .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
@@ -123,7 +123,7 @@ public class WitcherBlocks {
                     .strength(50.0F, 1200.0F)
                     .sounds(BlockSoundGroup.NETHERITE)
     ));
-    public static final Entry DARK_STEEL_BLOCK = entry("dark_steel_block", new Block(
+    public static final Entry DARK_STEEL_BLOCK = entry("dark_steel_block", "Block of Dark Steel",new Block(
             FabricBlockSettings.create()
                     .mapColor(MapColor.PALE_GREEN)
                     .instrument(NoteBlockInstrument.IRON_XYLOPHONE)

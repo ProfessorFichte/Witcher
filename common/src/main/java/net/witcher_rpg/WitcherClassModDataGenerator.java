@@ -22,9 +22,8 @@ import net.spell_engine.api.item.set.EquipmentSetRegistry;
 import net.spell_engine.api.item.weapon.Weapon;
 import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
 import net.spell_engine.rpg_series.tags.RPGSeriesItemTags;
-import net.witcher_rpg.datagen.WitcherModelProvider;
-import net.witcher_rpg.datagen.WitcherRecipeProvider;
-import net.witcher_rpg.datagen.WitcherSmithingRecipeGenerator;
+import net.witcher_rpg.blocks.WitcherBlocks;
+import net.witcher_rpg.datagen.*;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
 import net.witcher_rpg.item.WitcherArmorDiagrams;
@@ -45,6 +44,7 @@ import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
+		WitcherVanillaAdvancementProvider.init();
 		var pack = fabricDataGenerator.createPack();
 		pack.addProvider(SpellGen::new);
 		pack.addProvider(ItemTagGenerator::new);
@@ -54,6 +54,9 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(WitcherRecipeProvider::new);
 		pack.addProvider(WitcherSmithingRecipeGenerator::new);
 		pack.addProvider(EquipmentSetGenerator::new);
+		pack.addProvider(WeaponAttributesGenerator::new);
+		pack.addProvider(WitcherAdvancementProvider::new);
+		pack.addProvider(WitcherVanillaAdvancementProvider::new);
 	}
 
 	public static class SpellGen extends SpellGenerator {
@@ -288,21 +291,100 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, FabricLanguageProvider.TranslationBuilder translationBuilder) {
+			translationBuilder.add("itemGroup.witcher_rpg.general", "Witcher");
+			/// ITEMS
 			WitcherTrinkets.entries.forEach(entry ->
 					translationBuilder.add(entry.item().get().getTranslationKey(), entry.translatedName())
 			);
+			WitcherMaterials.ENTRIES.forEach(entry ->
+							translationBuilder.add(entry.item().getTranslationKey(), entry.translatedName())
+					);
+			WeaponsRegister.entries.forEach(entry -> {
+				if (entry.item() != null && entry.translatedName() != null && !entry.translatedName().isEmpty()) {
+					translationBuilder.add(entry.item(), entry.translatedName());
+				}
+			});
+			Armors.entries.forEach(entry -> {
+				var set = entry.armorSet();
+				if (set.headTranslation != null && !set.headTranslation.isEmpty()) {
+					translationBuilder.add(((Item) set.head).getTranslationKey(), set.headTranslation);
+				}
+				if (set.chestTranslation != null && !set.chestTranslation.isEmpty()) {
+					translationBuilder.add(((Item) set.chest).getTranslationKey(), set.chestTranslation);
+				}
+				if (set.legsTranslation != null && !set.legsTranslation.isEmpty()) {
+					translationBuilder.add(((Item) set.legs).getTranslationKey(), set.legsTranslation);
+				}
+				if (set.feetTranslation != null && !set.feetTranslation.isEmpty()) {
+					translationBuilder.add(((Item) set.feet).getTranslationKey(), set.feetTranslation);
+				}
+			});
+			translationBuilder.add("item.witcher_rpg.base_signs_spell_book", "Witcher Sign Manual");
+			translationBuilder.add("item.witcher_rpg.base_signs.spell_scroll", "Witcher Sign Scroll");
+			translationBuilder.add("item.witcher_rpg.fencing_spell_book", "Witcher Techniques");
+			translationBuilder.add("item.witcher_rpg.fencing.spell_scroll", "Fencing Instruction");
+			translationBuilder.add("item.witcher_rpg.master_spell_book", "Master Witcher Book");
+			/// SMITHING TEMPLATES
+			translationBuilder.add("item.witcher_rpg.enhanced_diagram", "Smithing Template");
+			translationBuilder.add( "smithing_template.witcher_rpg.enhanced.applies_to", "Witcher Gear");
+			translationBuilder.add( "smithing_template.witcher_rpg.enhanced.ingredients", "Steel Ingot / Silver Ingot");
+			translationBuilder.add( "smithing_template.witcher_rpg.enhanced.title", "Diagram, Enhanced Witcher Gear");
+			translationBuilder.add( "smithing_template.witcher_rpg.enhanced.base_slot_description", "Add Witcher Gear here.");
+			translationBuilder.add( "smithing_template.witcher_rpg.enhanced.additions_slot_description", "Add Steel Ingot or Silver Ingot");
+
+			translationBuilder.add("item.witcher_rpg.superior_diagram", "Smithing Template");
+			translationBuilder.add( "smithing_template.witcher_rpg.superior.applies_to", "Enhanced Witcher Gear");
+			translationBuilder.add( "smithing_template.witcher_rpg.superior.ingredients", "Dark Iron Ingot / Meteorite Ingot");
+			translationBuilder.add( "smithing_template.witcher_rpg.superior.title", "Diagram, Superior Witcher Gear");
+			translationBuilder.add( "smithing_template.witcher_rpg.superior.base_slot_description", "Add Enhanced Witcher Gear here.");
+			translationBuilder.add( "smithing_template.witcher_rpg.superior.additions_slot_description", "Add Dark Iron Ingot or Meteorite Ingot");
+
+			translationBuilder.add("item.witcher_rpg.mastercrafted_diagram", "Smithing Template");
+			translationBuilder.add( "smithing_template.witcher_rpg.mastercrafted.applies_to", "Superior Witcher Gear");
+			translationBuilder.add( "smithing_template.witcher_rpg.mastercrafted.ingredients", "Dark Steel Ingot / Meteorite Silver Ingot");
+			translationBuilder.add( "smithing_template.witcher_rpg.mastercrafted.title", "Diagram, Mastercrafted Witcher Gear");
+			translationBuilder.add( "smithing_template.witcher_rpg.mastercrafted.base_slot_description", "Add Superior Witcher Gear here.");
+			translationBuilder.add( "smithing_template.witcher_rpg.mastercrafted.additions_slot_description", "Add Dark Steel Ingot or Meteorite Silver Ingot");
+
+			translationBuilder.add("item.witcher_rpg.grandmaster_diagram", "Smithing Template");
+			translationBuilder.add( "smithing_template.witcher_rpg.grandmaster.applies_to", "Mastercrafted Witcher Gear");
+			translationBuilder.add( "smithing_template.witcher_rpg.grandmaster.ingredients", "Dimeritium Ingot");
+			translationBuilder.add( "smithing_template.witcher_rpg.grandmaster.title", "Diagram, Grandmaster Witcher Gear");
+			translationBuilder.add( "smithing_template.witcher_rpg.grandmaster.base_slot_description", "Add Mastercrafted Witcher Gear here.");
+			translationBuilder.add( "smithing_template.witcher_rpg.grandmaster.additions_slot_description", "Add Dimeritium Ingot");
+
+			translationBuilder.add("item.witcher_rpg.dimeritium_ingot.applies_to", "Mastercrafted Witcher Gear");
+			translationBuilder.add("item.witcher_rpg.smithing_template.hint", "Witcher Gear upgrade Ingot");
+
+			/// SPELLS
 			WitcherSpells.entries.forEach(entry -> {
 				var id = entry.id();
 				translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".name" , entry.title());
 				translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".description" , entry.description());
 			});
+			/// STATUS EFFECTS
 			WitcherStatusEffects.entries.forEach(entry -> {
 				translationBuilder.add(entry.effect.getTranslationKey(), entry.title);
 				translationBuilder.add(entry.effect.getTranslationKey() + ".description", entry.description);
 			});
+			/// SET BONUSES
 			SetBonuses.all.forEach(entry -> {
 				translationBuilder.add(EquipmentSet.translationKey(entry.id()), entry.title());
 			});
+			// ADVANCEMENTS
+			for (var entry : WitcherAdvancementProvider.getEntries()) {
+				translationBuilder.add(entry.titleKey(), entry.title());
+				translationBuilder.add(entry.descriptionKey(), entry.description());
+			}
+			for (var entry : WitcherVanillaAdvancementProvider.getEntries()) {
+				translationBuilder.add(entry.titleKey(), entry.title());
+				translationBuilder.add(entry.descriptionKey(), entry.description());
+			}
+			/// BLOCKS
+			WitcherBlocks.all.forEach(entry -> {
+				translationBuilder.add(entry.block().getTranslationKey(), entry.translatedName());
+			});
+			///MISC
 			translationBuilder.add("filled_map.witcher_rpg.feline_hideouts", "Scavenger Hunt: Cat School Gear");
 			translationBuilder.add("filled_map.witcher_rpg.griffin_hideouts", "Scavenger Hunt: Griffin School Gear");
 			translationBuilder.add("filled_map.witcher_rpg.ursine_hideouts", "Scavenger Hunt: Bear School Gear");
@@ -320,6 +402,19 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			translationBuilder.add("item.witcher_rpg.empty_glyph_slot", "Empty Glyph Slot");
 			translationBuilder.add("item.witcher_rpg.empty_runestone_slot", "Empty Runestone Slot");
 
+			translationBuilder.add("enchantment.witcher_rpg.sign_intensity", "Sign Intensity");
+			translationBuilder.add("enchantment.witcher_rpg.sign_intensity.desc", "Increases all kinds of sign spell damage you deal");
+			translationBuilder.add("enchantment.witcher_rpg.sign_intensity.description", "Increases all kinds of sign spell damage you deal");
+
+			translationBuilder.add("entity.witcher_rpg.yrden_magical_trap", "Magical Trap");
+			///ATTRIBUTES
+			translationBuilder.add("attribute.name.witcher_rpg.adrenaline_modifier", "Adrenaline Gain");
+			translationBuilder.add("attribute.name.witcher_rpg.sign_intensity", "Sign Intensity");
+			translationBuilder.add("attribute.name.witcher_rpg.aard_intensity", "Aard Sign Intensity");
+			translationBuilder.add("attribute.name.witcher_rpg.axii_intensity","Axii Sign Intensity" );
+			translationBuilder.add("attribute.name.witcher_rpg.igni_intensity", "Igni Sign Intensity");
+			translationBuilder.add("attribute.name.witcher_rpg.quen_intensity", "Quen Sign Intensity");
+			translationBuilder.add("attribute.name.witcher_rpg.yrden_intensity", "Yrden Sign Intensity");
 		}
 	}
 

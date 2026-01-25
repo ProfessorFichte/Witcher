@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_netherite_scrap": {
+    "has_dark_steel_ingot": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:netherite_scrap"
+            "items": "witcher_rpg:dark_steel_ingot"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_netherite_scrap"
+      "has_dark_steel_ingot"
     ]
   ],
   "rewards": {

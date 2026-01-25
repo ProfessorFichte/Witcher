@@ -6,12 +6,15 @@
       "item": "witcher_rpg:steel_ingot"
     },
     "S": {
-      "item": "minecraft:leather"
+      "item": "minecraft:white_wool"
+    },
+    "X": {
+      "tag": "witcher_rpg:silver_ingots"
     }
   },
   "pattern": [
     "P P",
-    "PPP",
+    "PXP",
     "SSS"
   ],
   "result": {

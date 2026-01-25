@@ -7,8 +7,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -16,7 +14,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import net.more_rpg_classes.custom.MoreSpellSchools;
 import net.spell_engine.api.entity.SpellEntity;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.Spell;
@@ -26,11 +23,8 @@ import net.spell_engine.internals.target.EntityRelations;
 import net.spell_engine.fx.ParticleHelper;
 import net.spell_power.api.SpellPower;
 import net.witcher_rpg.custom.WitcherSpellSchools;
-import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
-import net.witcher_rpg.util.tags.WitcherEntityTags;
 
-import static net.more_rpg_classes.util.CustomMethods.spellSchoolDamageCalculation;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 

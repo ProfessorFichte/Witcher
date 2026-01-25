@@ -4,11 +4,17 @@
   "key": {
     "P": {
       "item": "minecraft:leather"
+    },
+    "S": {
+      "item": "more_rpg_classes:hardened_leather"
+    },
+    "X": {
+      "item": "minecraft:string"
     }
   },
   "pattern": [
-    "PPP",
-    "P P"
+    "PSP",
+    "X X"
   ],
   "result": {
     "count": 1,

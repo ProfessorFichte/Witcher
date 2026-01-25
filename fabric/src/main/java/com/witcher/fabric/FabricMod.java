@@ -13,6 +13,7 @@ public final class FabricMod implements ModInitializer {
         WitcherClassMod.init();
 
         WitcherClassMod.registerMapDecorations();
+        net.witcher_rpg.client.particle.WitcherParticles.register();
         WitcherClassMod.registerEffects();
         WitcherClassMod.registerItems();
         WitcherClassMod.registerEntities();

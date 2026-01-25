@@ -6,7 +6,7 @@ import net.witcher_rpg.client.WitcherClient;
 public final class FabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        WitcherClient.init();
         WitcherClient.registerParticleAppearances();
+        WitcherClient.init();
     }
 }

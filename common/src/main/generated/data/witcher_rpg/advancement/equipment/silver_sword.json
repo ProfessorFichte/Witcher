@@ -1,0 +1,34 @@
+{
+  "parent": "witcher_rpg:equipment/witcher_armor_set",
+  "criteria": {
+    "has_required_items": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#witcher_rpg:silver_swords"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.witcher_rpg.equipment.silver_sword.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "witcher_rpg:silver_witcher_sword"
+    },
+    "title": {
+      "translate": "advancements.witcher_rpg.equipment.silver_sword.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_required_items"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

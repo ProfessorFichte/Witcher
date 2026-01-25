@@ -1,0 +1,26 @@
+{
+  "parent": "witcher_rpg:spell_novice_fencing",
+  "criteria": {
+    "cast": {
+      "conditions": {
+        "spell": "#witcher_rpg:fencing"
+      },
+      "trigger": "spell_engine:spell_cast"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.witcher_rpg.spell_cast_fencing_book.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "witcher_rpg:fencing_spell_book"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.witcher_rpg.spell_cast_fencing_book.title"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "parent": "witcher_rpg:spell_novice_signs",
+  "criteria": {
+    "cast": {
+      "conditions": {
+        "spell": "#witcher_rpg:base_signs"
+      },
+      "trigger": "spell_engine:spell_cast"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.witcher_rpg.spell_cast_signs_book.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "witcher_rpg:base_signs_spell_book"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.witcher_rpg.spell_cast_signs_book.title"
+    }
+  }
+}

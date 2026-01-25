@@ -5,14 +5,17 @@
     "M": {
       "item": "witcher_rpg:meteorite_ingot"
     },
+    "N": {
+      "item": "minecraft:netherite_scrap"
+    },
     "S": {
       "tag": "witcher_rpg:silver_ingots"
     }
   },
   "pattern": [
-    "MSM",
-    "SMS",
-    "MSM"
+    "SSS",
+    "SNN",
+    "MMM"
   ],
   "result": {
     "count": 1,

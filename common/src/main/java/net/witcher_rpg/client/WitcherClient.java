@@ -13,7 +13,6 @@ import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.render.CustomModels;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.client.gui.SpellTooltip;
-import net.spell_engine.client.particle.SpellFlameParticle;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.witcher_rpg.client.armor.*;
@@ -68,8 +67,14 @@ public class WitcherClient{
                 Identifier.of(MOD_ID, "projectile/igni_dummy")
         ));
 
-        CustomParticleStatusEffect.register(WitcherStatusEffects.AXII.effect, new AxiiParticles(1));
-        CustomParticleStatusEffect.register(WitcherStatusEffects.AXII_PUPPET.effect, new AxiiParticles(3));
+        CustomParticleStatusEffect.register(
+                WitcherStatusEffects.AXII.effect,
+                new AxiiParticles(1)
+        );
+        CustomParticleStatusEffect.register(
+                WitcherStatusEffects.AXII_PUPPET.effect,
+                new AxiiParticles(3)
+        );
         CustomParticleStatusEffect.register(
                 WitcherStatusEffects.ROSE_OF_REMEMBRANCE.effect,
                 new BuffParticleSpawner(
@@ -152,7 +157,7 @@ public class WitcherClient{
         registry.register(WitcherParticles.YRDEN_SIGN, SoulParticle.Factory::new);
         registry.register(WitcherParticles.AARD_SIGN, SoulParticle.Factory::new);
         registry.register(WitcherParticles.QUEN_SIGN, SoulParticle.Factory::new);
-        registry.register(WitcherParticles.AXII_SIGN, SpellFlameParticle.FlameFactory::new);
+        registry.register(WitcherParticles.AXII_SIGN, SoulParticle.Factory::new);
         registry.register(WitcherParticles.YRDEN_IMPACT, DamageParticle.Factory::new);
         registry.register(WitcherParticles.YRDEN_CLOUD, DragonBreathParticle.Factory::new);
     }

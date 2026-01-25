@@ -6,7 +6,7 @@
       "item": "witcher_rpg:silver_ingot"
     },
     "S": {
-      "item": "minecraft:leather"
+      "item": "more_rpg_classes:hardened_leather"
     }
   },
   "pattern": [

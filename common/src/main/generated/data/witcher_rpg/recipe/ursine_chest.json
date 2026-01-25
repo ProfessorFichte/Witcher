@@ -7,11 +7,14 @@
     },
     "S": {
       "item": "minecraft:chain"
+    },
+    "X": {
+      "tag": "witcher_rpg:silver_ingots"
     }
   },
   "pattern": [
     "P P",
-    "PPP",
+    "PXP",
     "SSS"
   ],
   "result": {

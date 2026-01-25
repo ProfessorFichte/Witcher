@@ -49,6 +49,7 @@ common/src/main/java/**/config/*.properties
 
 # datagen cache
 common/src/main/generated/.cache/
+common/src/main/resources/_backup
 
 # java
 

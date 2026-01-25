@@ -1,3 +1,10 @@
+# 2.7.2 - 1.21.1
+- Fix Sign particles not working
+- add more glyph slot base numbers via id string search
+- add more runestone slot base numbers via id string search
+- The Project is now completely working with datagen (item models, spells, lang-file, etc.)
+- re-structure advancements
+
 # 2.7.1 - 1.21.1
 - Trying to fix crucial crash on Neoforge
 - Add Witcher Swords to Spell Blade Weapon Type so they can use Spell Crit Damage Enchantments

@@ -1,0 +1,26 @@
+{
+  "parent": "more_rpg_content:root",
+  "criteria": {
+    "book": {
+      "conditions": {
+        "spell_pool": "witcher_rpg:fencing"
+      },
+      "trigger": "spell_engine:spell_book_creation"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.witcher_rpg.path_choose_fencing.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "witcher_rpg:fencing_spell_book"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.witcher_rpg.path_choose_fencing.title"
+    }
+  }
+}

@@ -20,10 +20,10 @@ public class WitcherMaterials {
 
     public static class Container { Item item; }
 
-    public record Entry(Identifier id, Function<Item.Settings, Item> factory,
+    public record Entry(Identifier id, String translatedName,Function<Item.Settings, Item> factory,
                         Item.Settings settings, Container container) {
-        public Entry(Identifier id, Function<Item.Settings, Item> factory, Item.Settings settings) {
-            this(id, factory, settings, new Container());
+        public Entry(Identifier id, String translatedName,Function<Item.Settings, Item> factory, Item.Settings settings) {
+            this(id, translatedName, factory, settings, new Container());
         }
         public Item item() { return container.item; }
     }
@@ -35,72 +35,84 @@ public class WitcherMaterials {
     }
     public static final Entry SILVER_INGOT = add(new Entry(
             Identifier.of(MOD_ID, "silver_ingot"),
+            "Silver Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry SILVER_NUGGET = add(new Entry(
             Identifier.of(MOD_ID, "silver_nugget"),
+            "Silver Nugger",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry METEORITE_SILVER_INGOT = add(new Entry(
             Identifier.of(MOD_ID, "meteorite_silver_ingot"),
+            "Meteorite Silver Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry DARK_STEEL_INGOT = add(new Entry(
             Identifier.of(MOD_ID, "dark_steel_ingot"),
+            "Dark Steel Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry STEEL_INGOT = add(new Entry(
             Identifier.of(MOD_ID, "steel_ingot"),
+            "Steel Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry STEEL_NUGGET = add(new Entry(
             Identifier.of(MOD_ID, "steel_nugget"),
+            "Steel Nugget",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry RAW_SILVER = add(new Entry(
             Identifier.of(MOD_ID, "raw_silver"),
+            "Raw Silver",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry METEORITE = add(new Entry(
             Identifier.of(MOD_ID, "meteorite"),
+            "Meteorite",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry METEORITE_INGOT = add(new Entry(
             Identifier.of(MOD_ID, "meteorite_ingot"),
+            "Meteorite Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry DARK_IRON_INGOT = add(new Entry(
             Identifier.of(MOD_ID, "dark_iron_ingot"),
+            "Dark Iron Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry RAW_DARK_IRON = add(new Entry(
             Identifier.of(MOD_ID, "raw_dark_iron"),
+            "Raw Dark Iron",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry DIMERITIUM_INGOT = add(new Entry(
             Identifier.of(MOD_ID, "dimeritium_ingot"),
+            "Dimeritium Ingot",
             settings -> new UpgradeItem(settings, "item.witcher_rpg.dimeritium_ingot.applies_to"),
             new Item.Settings()
     ));

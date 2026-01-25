@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "witcher_rpg:enhanced_diagram"
+    },
+    "B": {
+      "item": "minecraft:diamond"
+    },
+    "C": {
+      "item": "more_rpg_classes:hardened_leather"
+    }
+  },
+  "pattern": [
+    "BAB",
+    "BCB",
+    "BBB"
+  ],
+  "result": {
+    "count": 2,
+    "id": "witcher_rpg:enhanced_diagram"
+  }
+}

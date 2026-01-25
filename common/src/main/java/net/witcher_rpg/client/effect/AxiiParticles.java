@@ -12,7 +12,7 @@ public class AxiiParticles implements CustomParticleStatusEffect.Spawner {
         this.particles = new ParticleBatch(
                 "witcher_rpg:axii_sign_cast",
                 ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                null, particleCount, 0.1F, 0.3F, 0);
+                null, particleCount, 0.05F, 0.08F, 360);
     }
 
     @Override

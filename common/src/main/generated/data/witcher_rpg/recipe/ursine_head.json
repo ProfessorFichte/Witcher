@@ -4,11 +4,17 @@
   "key": {
     "P": {
       "item": "witcher_rpg:steel_ingot"
+    },
+    "S": {
+      "item": "minecraft:chain"
+    },
+    "X": {
+      "item": "minecraft:string"
     }
   },
   "pattern": [
-    "PPP",
-    "P P"
+    "PSP",
+    "X X"
   ],
   "result": {
     "count": 1,

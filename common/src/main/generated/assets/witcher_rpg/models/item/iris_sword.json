@@ -1,0 +1,14 @@
+{
+  "parent": "witcher_rpg:item/witcher_sword_model",
+  "overrides": [
+    {
+      "model": "witcher_rpg:item/iris_sword_charged",
+      "predicate": {
+        "witcher_rpg:iris_charged": 1
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "witcher_rpg:item/weapons/iris_sword"
+  }
+}

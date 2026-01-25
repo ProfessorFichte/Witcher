@@ -1,0 +1,43 @@
+{
+  "parent": "more_rpg_content:root",
+  "criteria": {
+    "has_required_items": {
+      "conditions": {
+        "items": [
+          {
+            "items": "witcher_rpg:witcher_head"
+          },
+          {
+            "items": "witcher_rpg:witcher_chest"
+          },
+          {
+            "items": "witcher_rpg:witcher_legs"
+          },
+          {
+            "items": "witcher_rpg:witcher_feet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.witcher_rpg.equipment.witcher_armor_set.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "witcher_rpg:witcher_chest"
+    },
+    "title": {
+      "translate": "advancements.witcher_rpg.equipment.witcher_armor_set.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_required_items"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

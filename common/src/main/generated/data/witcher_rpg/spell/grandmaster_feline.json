@@ -16,26 +16,39 @@
   "passive": {
     "triggers": [
       {
+        "type": "MELEE_IMPACT",
+        "equipment_condition": "MAINHAND",
+        "target_conditions": [
+          {
+            "entity_predicate_id": "spell_engine:has_bad_effect"
+          }
+        ]
+      },
+      {
         "type": "SPELL_IMPACT_SPECIFIC",
+        "equipment_condition": "MAINHAND",
         "target_conditions": [
           {
             "entity_predicate_id": "spell_engine:has_bad_effect"
           }
         ],
         "spell": {
-          "id": "#witcher_rpg:fencing"
-        },
-        "impact": {
-          "impact_type": "DAMAGE"
+          "school": "spell_power:physical_melee",
+          "type": "ACTIVE"
         }
       },
       {
-        "type": "MELEE_IMPACT",
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "equipment_condition": "MAINHAND",
         "target_conditions": [
           {
             "entity_predicate_id": "spell_engine:has_bad_effect"
           }
-        ]
+        ],
+        "spell": {
+          "school": "spell_power:witcher_melee",
+          "type": "ACTIVE"
+        }
       }
     ]
   },
