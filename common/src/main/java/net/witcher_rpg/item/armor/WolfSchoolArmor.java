@@ -7,7 +7,7 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
-import net.spell_engine.api.item.armor.Armor;
+import net.spell_engine.rpg_series.item.Armor;
 import net.witcher_rpg.item.component.GlyphSlots;
 import net.witcher_rpg.item.component.GlyphTooltipComponent;
 import net.witcher_rpg.item.component.WitcherDataComponents;

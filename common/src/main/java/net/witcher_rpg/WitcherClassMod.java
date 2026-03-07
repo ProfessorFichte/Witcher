@@ -3,12 +3,21 @@ package net.witcher_rpg;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.spell_engine.api.event.CombatEvents;
+import net.spell_engine.api.spell.fx.PlayerAnimation;
+import net.spell_engine.internals.casting.SpellCast;
+import net.spell_engine.internals.casting.SpellCastSyncHelper;
+import net.spell_engine.internals.casting.SpellCasterEntity;
+import net.spell_engine.utils.AnimationHelper;
 import net.witcher_rpg.util.loot.WitcherLootInjector;
 import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.rpg_series.loot.LootConfig;
@@ -119,6 +128,20 @@ public class WitcherClassMod {
 		});
 		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, serverResourceManager, success) -> {
 			LootHelper.updateTagCache(lootEquipmentConfig.value);
+		});
+		CombatEvents.PLAYER_SHIELD_BLOCK.register(args -> {
+			PlayerEntity player = args.player();
+			if (player.getWorld().isClient()) return;
+			if (!(player instanceof ServerPlayerEntity serverPlayer)) return;
+			if (!(player instanceof SpellCasterEntity caster)) return;
+			if (!caster.isCastingSpell()) return;
+
+			var process = caster.getSpellCastProcess();
+			if (process == null || !process.id().equals(Identifier.of(MOD_ID, "defensive_witcher_mechanics"))) return;
+
+			AnimationHelper.sendAnimation(serverPlayer, PlayerLookup.tracking(serverPlayer),
+					SpellCast.Animation.MISC, PlayerAnimation.of("witcher_rpg:witcher_reflexes"), 1F);
+			SpellCastSyncHelper.clearCasting(player);
 		});
 	}
 

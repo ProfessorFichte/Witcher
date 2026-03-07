@@ -3,7 +3,7 @@
   "criteria": {
     "book": {
       "conditions": {
-        "spell_pool": "witcher_rpg:base_signs"
+        "spell_pool": "witcher_rpg:spell_book/signs"
       },
       "trigger": "spell_engine:spell_book_creation"
     }
@@ -16,7 +16,10 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "id": "witcher_rpg:base_signs_spell_book"
+      "components": {
+        "spell_engine:item_model": "witcher_rpg:item/spell_scroll/signs"
+      },
+      "id": "spell_engine:spell_scroll"
     },
     "show_toast": true,
     "title": {

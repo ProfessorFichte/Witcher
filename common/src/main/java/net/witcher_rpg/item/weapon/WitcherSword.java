@@ -7,6 +7,7 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.spell_engine.api.item.weapon.SpellSwordItem;
+import net.spell_engine.rpg_series.item.Weapon;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.component.RunestoneSlots;
 import net.witcher_rpg.item.component.RunestoneTooltipComponent;
@@ -29,15 +30,15 @@ public class WitcherSword extends SpellSwordItem {
     }
 
     // Factory methods for Weapon.Entry
-    public static net.spell_engine.api.item.weapon.Weapon.Factory with1Slot() {
+    public static Weapon.Factory with1Slot() {
         return (material, settings) -> new WitcherSword(material, settings, 1);
     }
 
-    public static net.spell_engine.api.item.weapon.Weapon.Factory with2Slots() {
+    public static Weapon.Factory with2Slots() {
         return (material, settings) -> new WitcherSword(material, settings, 2);
     }
 
-    public static net.spell_engine.api.item.weapon.Weapon.Factory with3Slots() {
+    public static Weapon.Factory with3Slots() {
         return (material, settings) -> new WitcherSword(material, settings, 3);
     }
 

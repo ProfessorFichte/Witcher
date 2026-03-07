@@ -13,7 +13,7 @@ import net.spell_engine.api.render.CustomModels;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class QuenActiveShieldRenderer implements CustomModelStatusEffect.Renderer{
-    public static final Identifier modelId = Identifier.of(MOD_ID, "effect/quen_active_shield");
+    public static final Identifier modelId = Identifier.of(MOD_ID, "spell_effect/quen_active_shield");
     private static final RenderLayer SHIELD_RENDER = RenderLayer.getEntityTranslucent(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
 
 

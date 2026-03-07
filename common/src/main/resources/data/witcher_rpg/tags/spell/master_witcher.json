@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#witcher_rpg:spell_book/fencing",
+      "required": false
+    },
+    {
+      "id": "#witcher_rpg:spell_book/signs",
+      "required": false
+    }
+  ]
+}

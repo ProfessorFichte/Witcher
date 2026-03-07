@@ -10,13 +10,16 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.WeaponConfig;
-import net.spell_engine.api.item.Equipment;
-import net.spell_engine.api.item.weapon.Weapon;
+import net.spell_engine.api.spell.container.SpellContainers;
+import net.spell_engine.rpg_series.item.Equipment;
+import net.spell_engine.rpg_series.item.Weapon;
 import net.witcher_rpg.WitcherClassMod;
 import net.witcher_rpg.item.WitcherGroup;
 import net.witcher_rpg.item.WitcherMaterials;
+import net.witcher_rpg.spell.WitcherSpells;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -26,7 +29,7 @@ public class WeaponsRegister {
     public static final ArrayList<Weapon.Entry> entries = new ArrayList<>();
     private static Weapon.Entry entry(String name, Weapon.CustomMaterial material, Weapon.Factory factory, WeaponConfig defaults, Equipment.WeaponType weaponType) {
         var entry = new Weapon.Entry(MOD_ID, name, material, factory, defaults, weaponType);
-        entry.castSpell();
+        entry.spellContainer(SpellContainers.forMeleeWeapon());
         entries.add(entry);
         return entry;
     }
@@ -107,11 +110,25 @@ public class WeaponsRegister {
     private static Weapon.Entry witcherswords(String name, Weapon.CustomMaterial material, float damage) {
         int slots = determineRunestoneSlots(name);
         Weapon.Factory factory = slots == 2 ? WitcherSword.with2Slots() : WitcherSword.with1Slot();
-        return entry(name, material, factory, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SPELL_BLADE);
+        return entry(name, material, factory, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SPELL_BLADE)
+                .spellContainer(SpellContainers.forMeleeWeapon().withSpellId(WitcherSpells.defensive_witcher_mechanics.id())
+                        .withAdditionalSpell(List.of(WitcherSpells.silver_sword_passive().id().toString())));
+    }
+    private static Weapon.Entry witcherSilverSwords(String name, Weapon.CustomMaterial material, float damage) {
+        int slots = determineRunestoneSlots(name);
+        Weapon.Factory factory = slots == 2 ? WitcherSword.with2Slots() : WitcherSword.with1Slot();
+        return entry(name, material, factory, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SPELL_BLADE)
+                .spellContainer(SpellContainers.forMeleeWeapon().withSpellId(WitcherSpells.defensive_witcher_mechanics.id()));
     }
 
     private static Weapon.Entry witcherrelicswords(String name, Weapon.CustomMaterial material, float damage) {
-        return entry(name, material, WitcherRelicSword::new, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SPELL_BLADE);
+        return entry(name, material, WitcherRelicSword::new, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SPELL_BLADE)
+                .spellContainer(SpellContainers.forMeleeWeapon().withSpellId(WitcherSpells.defensive_witcher_mechanics.id()));
+    }
+    private static Weapon.Entry witcherSilverRelicSwords(String name, Weapon.CustomMaterial material, float damage) {
+        return entry(name, material, WitcherRelicSword::new, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SPELL_BLADE)
+                .spellContainer(SpellContainers.forMeleeWeapon().withSpellId(WitcherSpells.defensive_witcher_mechanics.id())
+                        .withAdditionalSpell(List.of(WitcherSpells.silver_sword_passive().id().toString())));
     }
 
     public static final Weapon.Entry iron_witcher_sword = witcherswords("iron_witcher_sword",
@@ -157,24 +174,24 @@ public class WeaponsRegister {
             .attribute(AttributeModifier.multiply(ADRENALINE,0.1F))
             .attribute(AttributeModifier.multiply(BLEEDING_CHANCE,0.15F))
             .loot(Equipment.LootProperties.of(3));
-    public static final Weapon.Entry witcher_silver_sword = witcherswords("silver_witcher_sword",
+    public static final Weapon.Entry witcher_silver_sword = witcherSilverSwords("silver_witcher_sword",
             Weapon.CustomMaterial.matching(ToolMaterials.IRON, () -> Ingredient.ofItems(WitcherMaterials.SILVER_INGOT.item())), 4.5F)
             .translatedName("Silver Witcher Sword")
             .attribute(AttributeModifier.bonus(SIGN_INTENSITY,2.5F))
-            .spell(silver_sword)
+            .withAdditionalSpell(silver_sword.toString())
             .loot(Equipment.LootProperties.of(1));
-    public static final Weapon.Entry witcher_meteorite_sword = witcherswords("meteorite_witcher_sword",
+    public static final Weapon.Entry witcher_meteorite_sword = witcherSilverSwords("meteorite_witcher_sword",
             Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(WitcherMaterials.METEORITE_INGOT.item())), 4.5F)
             .translatedName("Meteorite Witcher Sword")
             .attribute(AttributeModifier.bonus(SIGN_INTENSITY,3.0F))
-            .spell(silver_sword)
+            .withAdditionalSpell(silver_sword.toString())
             .loot(Equipment.LootProperties.of(2));
-    public static final Weapon.Entry witcher_meteorite_silver_sword = witcherswords("meteorite_silver_witcher_sword",
+    public static final Weapon.Entry witcher_meteorite_silver_sword = witcherSilverSwords("meteorite_silver_witcher_sword",
             Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, () -> Ingredient.ofItems(WitcherMaterials.METEORITE_SILVER_INGOT.item())), 5.0F)
             .translatedName("Meteorite Silver Witcher Sword")
             .attribute(AttributeModifier.bonus(SIGN_INTENSITY,4.0F))
             .attribute(AttributeModifier.multiply(ADRENALINE,0.05F))
-            .spell(silver_sword)
+            .withAdditionalSpell(silver_sword.toString())
             .loot(Equipment.LootProperties.of(3));
 
     private static final String BETTER_END = "betterend";
@@ -228,7 +245,7 @@ public class WeaponsRegister {
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.075F))
                     .attribute(AttributeModifier.multiply(STAGGER_CHANCE,0.12F))
                     .rarity = Rarity.RARE;
-            witcherrelicswords("azure_wrath_sword",
+            witcherSilverRelicSwords("azure_wrath_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND,() -> Ingredient.ofItems(WitcherMaterials.SILVER_INGOT.item())), 6.0F)
                     .translatedName("Azure Wrath")
                     .attribute(AttributeModifier.bonus(SIGN_INTENSITY,4.0F))
@@ -236,27 +253,27 @@ public class WeaponsRegister {
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.05F))
                     .attribute(AttributeModifier.multiply(STUN_CHANCE,0.08F))
                     .rarity = Rarity.RARE;
-            witcherrelicswords("reach_of_the_damned_sword",
+            witcherSilverRelicSwords("reach_of_the_damned_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND,() -> Ingredient.ofItems(WitcherMaterials.SILVER_INGOT.item())), 6.0F)
                     .translatedName("Reach of the Damned")
                     .attribute(AttributeModifier.bonus(SIGN_INTENSITY,4.0F))
                     .attribute(AttributeModifier.bonus(AXII_INTENSITY,3.0F))
                     .attribute(AttributeModifier.bonus(QUEN_INTENSITY,3.0F))
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.05F))
-                    .spell(reach_of_the_damned_passive)
+                    .withAdditionalSpell(reach_of_the_damned_passive.toString())
                     .rarity = Rarity.RARE;
-            witcherrelicswords("aerondight_sword",
+            witcherSilverRelicSwords("aerondight_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherMaterials.METEORITE_SILVER_INGOT.item())), 6.5F)
                     .translatedName("Aerondight")
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.1F))
                     .attribute(AttributeModifier.bonus(SIGN_INTENSITY,5.0F))
-                    .spell(aerondight_passive)
+                    .withAdditionalSpell(WitcherSpells.aerondight_passive().id().toString())
                     .rarity = Rarity.EPIC;
             witcherrelicswords("iris_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherMaterials.DARK_STEEL_INGOT.item())), 7.0F)
                     .translatedName("Iris")
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.15F))
-                    .spell(iris_passive)
+                    .withAdditionalSpell(WitcherSpells.iris_passive().id().toString())
                     .rarity = Rarity.EPIC;
         }
         Weapon.register(configs, entries, WitcherGroup.WITCHER_KEY);

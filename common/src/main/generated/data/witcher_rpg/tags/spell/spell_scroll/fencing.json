@@ -1,0 +1,24 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:fast_attack",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:strong_attack",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:battle_trance",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:rend",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:whirl",
+      "required": false
+    }
+  ]
+}

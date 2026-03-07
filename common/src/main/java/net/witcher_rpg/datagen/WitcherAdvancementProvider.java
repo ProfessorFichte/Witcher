@@ -69,47 +69,44 @@ public class WitcherAdvancementProvider implements DataProvider {
                 "Student of Vesemir",
                 "Create the Witcher Techniques",
                 Identifier.of("more_rpg_content", "root"),
-                MOD_ID + ":fencing_spell_book",
+                MOD_ID + ":item/spell_scroll/fencing",
                 AdvancementFrame.TASK,
                 true, true, false, null,
                 SpellEngineCriteriaType.SPELL_BOOK_CREATION,
-                MOD_ID + ":fencing"
+                MOD_ID + ":spell_book/fencing"
         ));
-
-        addEntry(new Entry(
-                id("spell_novice_fencing"),
-                "First Fencing Lessons",
-                "Obtain your first Witcher Fencing skill",
-                id("path_choose_fencing"),
-                MOD_ID + ":fencing_spell_book",
-                AdvancementFrame.TASK,
-                true, true, false, null,
-                SpellEngineCriteriaType.ONE_SPELL_BOUND,
-                MOD_ID + ":fencing"
-        ));
-
-        addEntry(new Entry(
-                id("spell_master_fencing"),
-                "Master Witcher!",
-                "Complete the Witcher Techniques Book",
-                id("spell_novice_fencing"),
-                MOD_ID + ":fencing_spell_book",
-                AdvancementFrame.GOAL,
-                true, true, false, null,
-                SpellEngineCriteriaType.ALL_SPELLS_BOUND,
-                MOD_ID + ":fencing"
-        ));
-
         addEntry(new Entry(
                 id("spell_cast_fencing_book"),
                 "Speed not Strength!",
                 "Use a skill from Witcher Techniques Book",
                 id("spell_novice_fencing"),
-                MOD_ID + ":fencing_spell_book",
+                MOD_ID + ":item/spell_book/fencing",
                 AdvancementFrame.TASK,
                 true, true, false, null,
                 SpellEngineCriteriaType.SPELL_CAST,
-                "#" + MOD_ID + ":fencing"
+                "#" + MOD_ID + ":spell_book/fencing"
+        ));
+        addEntry(new Entry(
+                id("spell_novice_fencing"),
+                "First Fencing Lessons",
+                "Obtain your first Witcher Fencing skill",
+                id("path_choose_fencing"),
+                MOD_ID + ":steel_witcher_sword",
+                AdvancementFrame.TASK,
+                true, true, false, null,
+                SpellEngineCriteriaType.ONE_SPELL_BOUND,
+                MOD_ID + ":spell_book/fencing"
+        ));
+        addEntry(new Entry(
+                id("spell_master_fencing"),
+                "Master Witcher!",
+                "Complete the Witcher Techniques Book",
+                id("spell_novice_fencing"),
+                MOD_ID + ":dark_steel_witcher_sword",
+                AdvancementFrame.GOAL,
+                true, true, false, null,
+                SpellEngineCriteriaType.ALL_SPELLS_BOUND,
+                MOD_ID + ":spell_book/fencing"
         ));
         /// SIGNS
         addEntry(new Entry(
@@ -117,47 +114,44 @@ public class WitcherAdvancementProvider implements DataProvider {
                 "Complex Hand Gestures",
                 "Create the Witcher Sign Manual",
                 Identifier.of("more_rpg_content", "root"),
-                MOD_ID + ":base_signs_spell_book",
+                MOD_ID + ":item/spell_scroll/signs",
                 AdvancementFrame.TASK,
                 true, true, false, null,
                 SpellEngineCriteriaType.SPELL_BOOK_CREATION,
-                MOD_ID + ":base_signs"
+                MOD_ID + ":spell_book/signs"
         ));
-
-        addEntry(new Entry(
-                id("spell_novice_signs"),
-                "First Sign Hand gesture",
-                "Obtain your first Witcher Sign Manual spells",
-                id("path_choose_signs"),
-                MOD_ID + ":base_signs_spell_book",
-                AdvancementFrame.TASK,
-                true, true, false, null,
-                SpellEngineCriteriaType.ONE_SPELL_BOUND,
-                MOD_ID + ":base_signs"
-        ));
-
-        addEntry(new Entry(
-                id("spell_master_signs"),
-                "Master Witcher!",
-                "Complete the Witcher Sign Manual",
-                id("spell_novice_signs"),
-                MOD_ID + ":base_signs_spell_book",
-                AdvancementFrame.GOAL,
-                true, true, false, null,
-                SpellEngineCriteriaType.ALL_SPELLS_BOUND,
-                MOD_ID + ":base_signs"
-        ));
-
         addEntry(new Entry(
                 id("spell_cast_signs_book"),
                 "Steel wins battles, but Signs decide them!",
                 "Use a skill from Witcher Sign Manual",
                 id("spell_novice_signs"),
-                MOD_ID + ":base_signs_spell_book",
+                MOD_ID + ":item/spell_book/signs",
                 AdvancementFrame.TASK,
                 true, true, false, null,
                 SpellEngineCriteriaType.SPELL_CAST,
-                "#" + MOD_ID + ":base_signs"
+                "#" + MOD_ID + ":spell_book/signs"
+        ));
+        addEntry(new Entry(
+                id("spell_novice_signs"),
+                "First Sign Hand gesture",
+                "Obtain your first Witcher Sign Manual spells",
+                id("path_choose_signs"),
+                MOD_ID + ":silver_witcher_sword",
+                AdvancementFrame.TASK,
+                true, true, false, null,
+                SpellEngineCriteriaType.ONE_SPELL_BOUND,
+                MOD_ID + ":spell_book/signs"
+        ));
+        addEntry(new Entry(
+                id("spell_master_signs"),
+                "Master Witcher!",
+                "Complete the Witcher Sign Manual",
+                id("spell_novice_signs"),
+                MOD_ID + ":meteorite_silver_witcher_sword",
+                AdvancementFrame.GOAL,
+                true, true, false, null,
+                SpellEngineCriteriaType.ALL_SPELLS_BOUND,
+                MOD_ID + ":spell_book/signs"
         ));
     }
 
@@ -184,7 +178,22 @@ public class WitcherAdvancementProvider implements DataProvider {
         // Display
         JsonObject display = new JsonObject();
         JsonObject icon = new JsonObject();
-        icon.addProperty("id", entry.iconItemName().contains(":") ? entry.iconItemName() : MOD_ID + ":" + entry.iconItemName());
+        String iconName = entry.iconItemName().contains(":") ? entry.iconItemName() : MOD_ID + ":" + entry.iconItemName();
+        if (iconName.contains("item/spell_book/")) {
+            icon.addProperty("id", "spell_engine:spell_book");
+            JsonObject components = new JsonObject();
+            components.addProperty("spell_engine:item_model", iconName);
+            icon.add("components", components);
+        }
+        else if (iconName.contains("item/spell_scroll/")) {
+            icon.addProperty("id", "spell_engine:spell_scroll");
+            JsonObject components = new JsonObject();
+            components.addProperty("spell_engine:item_model", iconName);
+            icon.add("components", components);
+        }
+        else {
+            icon.addProperty("id", iconName);
+        }
         display.add("icon", icon);
         display.add("title", createTranslatable(entry.titleKey()));
         display.add("description", createTranslatable(entry.descriptionKey()));

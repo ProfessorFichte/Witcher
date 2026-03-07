@@ -31,13 +31,12 @@
           }
         ],
         "spell": {
-          "school": "spell_power:physical_melee",
+          "archetype": "MELEE",
           "type": "ACTIVE"
         }
       },
       {
         "type": "SPELL_IMPACT_SPECIFIC",
-        "equipment_condition": "MAINHAND",
         "target_conditions": [
           {
             "entity_predicate_id": "spell_engine:has_bad_effect"
@@ -76,6 +75,7 @@
     }
   ],
   "cost": {
+    "durability": 0,
     "cooldown": {
       "duration": 20.0
     }

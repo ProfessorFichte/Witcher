@@ -13,7 +13,9 @@
   },
   "active": {},
   "release": {
-    "animation": "spell_engine:dual_handed_weapon_charge",
+    "animation": {
+      "id": "spell_engine:dual_handed_weapon_charge"
+    },
     "particles": [
       {
         "particle_id": "spell_engine:magic_spell_decelerate",

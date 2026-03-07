@@ -16,10 +16,13 @@ import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.datagen.SpellGenerator;
-import net.spell_engine.api.item.armor.Armor;
+import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.spell_engine.api.tags.SpellTags;
+import net.spell_engine.rpg_series.item.Armor;
 import net.spell_engine.api.item.set.EquipmentSet;
 import net.spell_engine.api.item.set.EquipmentSetRegistry;
-import net.spell_engine.api.item.weapon.Weapon;
+import net.spell_engine.rpg_series.item.Weapon;
 import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
 import net.spell_engine.rpg_series.tags.RPGSeriesItemTags;
 import net.witcher_rpg.blocks.WitcherBlocks;
@@ -35,6 +38,7 @@ import net.witcher_rpg.spell.SetBonuses;
 import net.witcher_rpg.spell.WitcherSpells;
 import net.witcher_rpg.util.tags.WitcherItemTags;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -47,6 +51,7 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 		WitcherVanillaAdvancementProvider.init();
 		var pack = fabricDataGenerator.createPack();
 		pack.addProvider(SpellGen::new);
+		pack.addProvider(SpellTagGenerator::new);
 		pack.addProvider(ItemTagGenerator::new);
 		pack.addProvider(EnchantmentGenerator::new);
 		pack.addProvider(LangGenerator::new);
@@ -319,10 +324,10 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 					translationBuilder.add(((Item) set.feet).getTranslationKey(), set.feetTranslation);
 				}
 			});
-			translationBuilder.add("item.witcher_rpg.base_signs_spell_book", "Witcher Sign Manual");
-			translationBuilder.add("item.witcher_rpg.base_signs.spell_scroll", "Witcher Sign Scroll");
-			translationBuilder.add("item.witcher_rpg.fencing_spell_book", "Witcher Techniques");
-			translationBuilder.add("item.witcher_rpg.fencing.spell_scroll", "Fencing Instruction");
+			translationBuilder.add("item.witcher_rpg.spell_book/signs", "Witcher Sign Manual");
+			translationBuilder.add("item.witcher_rpg.spell_scroll/signs", "Witcher Sign Scroll");
+			translationBuilder.add("item.witcher_rpg.spell_book/fencing", "Witcher Techniques");
+			translationBuilder.add("item.witcher_rpg.spell_scroll/fencing", "Fencing Skill");
 			translationBuilder.add("item.witcher_rpg.master_spell_book", "Master Witcher Book");
 			/// SMITHING TEMPLATES
 			translationBuilder.add("item.witcher_rpg.enhanced_diagram", "Smithing Template");
@@ -415,6 +420,32 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			translationBuilder.add("attribute.name.witcher_rpg.igni_intensity", "Igni Sign Intensity");
 			translationBuilder.add("attribute.name.witcher_rpg.quen_intensity", "Quen Sign Intensity");
 			translationBuilder.add("attribute.name.witcher_rpg.yrden_intensity", "Yrden Sign Intensity");
+		}
+	}
+
+	public static class SpellTagGenerator extends FabricTagProvider<Spell> {
+		public SpellTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+			super(output, SpellRegistry.KEY, registriesFuture);
+		}
+
+		@Override
+		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+			var namespace = MOD_ID;
+			var treasureTagBuilder = getOrCreateTagBuilder(SpellTags.TREASURE);
+			var processedBooks = new HashSet<WitcherSpells.Book>();
+			WitcherSpells.entries.forEach(entry -> {
+				if (entry.book() != null) {
+					var bookTagKey = SpellTags.spellBook(namespace, entry.book().toString().toLowerCase());
+					var bookTag = getOrCreateTagBuilder(bookTagKey);
+					bookTag.addOptional(entry.id());
+					var scrollTagKey = SpellTags.spellScroll(namespace, entry.book().toString().toLowerCase());
+					var scrollTag = getOrCreateTagBuilder(scrollTagKey);
+					scrollTag.addOptional(entry.id());
+					if (processedBooks.add(entry.book())) {
+						treasureTagBuilder.addOptionalTag(scrollTagKey);
+					}
+				}
+			});
 		}
 	}
 

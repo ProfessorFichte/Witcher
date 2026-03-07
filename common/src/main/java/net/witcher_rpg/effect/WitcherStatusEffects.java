@@ -1,12 +1,15 @@
 package net.witcher_rpg.effect;
 
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
@@ -18,11 +21,17 @@ import net.spell_engine.api.entity.SpellEngineAttributes;
 import net.spell_engine.api.event.CombatEvents;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.fx.ParticleHelper;
+import net.spell_engine.internals.casting.SpellCast;
+import net.spell_engine.internals.casting.SpellCasterEntity;
+import net.spell_engine.internals.casting.SpellCastSyncHelper;
+import net.spell_engine.utils.AnimationHelper;
 import net.spell_power.api.SpellPowerMechanics;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -452,38 +461,6 @@ public class WitcherStatusEffects {
                     )
             )
     ));
-    public static Effects.Entry WITCHER_REFLEXES = add(new Effects.Entry(Identifier.of(MOD_ID,"witcher_reflexes"),
-            "Witcher Reflexes",
-            "Blocks the next Arrow or Melee Impact",
-            new WitcherReflexesEffect(StatusEffectCategory.BENEFICIAL, 0x880000),
-            new EffectConfig(
-                    List.of(
-                    )
-            )
-    ));
-    public static Effects.Entry ARROW_DEFLECTION = add(new Effects.Entry(Identifier.of(MOD_ID,"arrow_deflection"),
-            "Arrow Deflection",
-            "While blocking Arrows with Witcher Reflexes, you send the Arrow back to the shooter.",
-            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880000),
-            new EffectConfig(
-                    List.of(
-                    )
-            )
-    ));
-    public static Effects.Entry COUNTERATTACK = add(new Effects.Entry(Identifier.of(MOD_ID,"counterattack"),
-            "Counterattack",
-            "After a successful block, your next melee attack deals increased damage.",
-            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880000),
-            new EffectConfig(
-                    List.of(
-                            new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
-                                    0.3F,
-                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
-                            )
-                    )
-            )
-    ));
 
     public static void register(ConfigFile.Effects config) {
         ActionImpairing.configure(AXII.effect, EntityActionsAllowed.STUN);
@@ -505,26 +482,6 @@ public class WitcherStatusEffects {
             }
             if (context.entity().hasStatusEffect(QUEN_DISCHARGE.entry)) {
                 context.entity().removeStatusEffect(QUEN_DISCHARGE.entry);
-            }
-        });
-        OnRemoval.configure(WITCHER_REFLEXES.effect, (context) -> {
-            RegistryEntry<StatusEffect> effect = ARROW_DEFLECTION.entry;
-            if (context.entity().hasStatusEffect(effect)) {
-                int amplifier = context.entity().getStatusEffect(effect).getAmplifier();
-                int duration = context.entity().getStatusEffect(effect).getDuration();
-                if(amplifier == 0){
-                    context.entity().removeStatusEffect(effect);
-                }else{
-                    context.entity().removeStatusEffect(effect);
-                    context.entity().addStatusEffect(new StatusEffectInstance(effect,
-                            duration,amplifier-1,false,false,true));
-                }
-            }
-        });
-        CombatEvents.PLAYER_MELEE_ATTACK.register((event) -> {
-            RegistryEntry<StatusEffect> effect = COUNTERATTACK.entry;
-            if (event.player().hasStatusEffect(effect)) {
-                event.player().removeStatusEffect(effect);
             }
         });
 

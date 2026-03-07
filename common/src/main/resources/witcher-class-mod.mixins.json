@@ -11,7 +11,6 @@
     "PlayerEntityMixin",
     "SmithingRecipeMixin",
     "SmithingScreenHandlerMixin",
-    "SpellEngineTiersMixin",
     "SpellHelperMixin"
   ],
   "client": [

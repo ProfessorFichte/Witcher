@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": {
-    "item": "witcher_rpg:steel_ingot"
+    "item": "witcher_rpg:dark_steel_ingot"
   },
   "base": {
     "item": "witcher_rpg:superior_ursine_feet"

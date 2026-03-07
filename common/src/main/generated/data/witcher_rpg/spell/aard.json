@@ -5,7 +5,9 @@
   "learn": {},
   "active": {},
   "release": {
-    "animation": "witcher_rpg:sign_cast_short",
+    "animation": {
+      "id": "witcher_rpg:sign_cast_short"
+    },
     "particles": [
       {
         "particle_id": "witcher_rpg:aard_sign_cast",
@@ -81,7 +83,8 @@
   "cost": {
     "exhaust": 0.4,
     "cooldown": {
-      "duration": 16.0
+      "group": "aard",
+      "duration": 8.0
     }
   }
 }

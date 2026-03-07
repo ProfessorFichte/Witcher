@@ -12,7 +12,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
-import net.spell_engine.api.item.armor.Armor;
+import net.spell_engine.rpg_series.item.Armor;
 import net.witcher_rpg.blocks.WitcherBlocks;
 import net.witcher_rpg.item.WitcherArmorDiagrams;
 import net.witcher_rpg.item.WitcherMaterials;
@@ -166,27 +166,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
     }
 
     private void generateSpellBookRecipes(RecipeExporter exporter) {
-        var hardenedLeather = getOrFallback(Identifier.of("more_rpg_classes", "hardened_leather"), Items.LEATHER);
-        var baseSignsBook = getOrFallback(Identifier.of("witcher_rpg", "base_signs_spell_book"), Items.WRITTEN_BOOK);
-        var fencingBook = getOrFallback(Identifier.of("witcher_rpg", "fencing_spell_book"), Items.WRITTEN_BOOK);
-
-        // Base Signs Spell Book
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.COMBAT, baseSignsBook)
-                .input(hardenedLeather)
-                .input(WitcherItemTags.SILVER_INGOTS)
-                .input(Items.BOOK)
-                .input(Items.LAPIS_LAZULI)
-                .criterion(hasItem(Items.BOOK), conditionsFromItem(Items.BOOK))
-                .offerTo(exporter);
-
-        // Fencing Spell Book
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.COMBAT, fencingBook)
-                .input(hardenedLeather)
-                .input(WitcherItemTags.STEEL_INGOTS)
-                .input(Items.BOOK)
-                .input(Items.LAPIS_LAZULI)
-                .criterion(hasItem(Items.BOOK), conditionsFromItem(Items.BOOK))
-                .offerTo(exporter);
+        var hardenedLeather = getOrFallback(Identifier.of("more_rpg_classes", "hardened_leather"), Items.LEATHER);;
 
         // Master Spell Book - combines base signs and fencing
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, WitcherMaterials.MASTER_BOOK())

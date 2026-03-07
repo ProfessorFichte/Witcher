@@ -1,13 +1,15 @@
 {
   "school": "spell_power:quen",
   "range": 0.0,
-  "tier": 3,
+  "tier": 4,
   "learn": {},
   "active": {
     "cast": {
       "duration": 5.0,
-      "channel_ticks": 4,
-      "animation": "witcher_rpg:sign_cast_long",
+      "channel_ticks": 25,
+      "animation": {
+        "id": "witcher_rpg:sign_cast_long"
+      },
       "movement_speed": 0.1,
       "sound": {
         "id": "witcher_rpg:quen_sign",
@@ -38,6 +40,7 @@
   "cost": {
     "exhaust": 0.4,
     "cooldown": {
+      "group": "quen",
       "duration": 36.0,
       "haste_affected": false
     }

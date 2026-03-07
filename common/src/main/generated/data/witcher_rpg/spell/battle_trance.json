@@ -1,7 +1,7 @@
 {
   "school": "spell_power:witcher_melee",
   "range": 0.0,
-  "tier": 2,
+  "tier": 3,
   "learn": {},
   "active": {
     "cast": {
@@ -22,7 +22,7 @@
   "cost": {
     "exhaust": 0.8,
     "cooldown": {
-      "duration": 42.0
+      "duration": 30.0
     }
   }
 }

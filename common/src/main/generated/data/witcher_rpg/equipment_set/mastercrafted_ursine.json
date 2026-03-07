@@ -17,7 +17,6 @@
     {
       "required_piece_count": 4,
       "spells": {
-        "content": "ANY",
         "spell_ids": [
           "witcher_rpg:improved_rend"
         ]

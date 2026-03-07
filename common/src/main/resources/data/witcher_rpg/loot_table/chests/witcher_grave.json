@@ -139,9 +139,18 @@
           ]
         },
         {
-          "type": "minecraft:loot_table",
-          "value": "witcher_rpg:spell_scrolls/beginner",
-          "weight": 5
+          "type": "minecraft:item",
+          "weight": 5,
+          "name": "spell_engine:spell_scroll",
+          "functions": [
+            {
+              "function": "more_rpg_classes:specific_spell_scroll_pool",
+              "spell_pools": ["#witcher_rpg:spell_scroll/signs","#witcher_rpg:spell_scroll/fencing"],
+              "spell_tier_min": 1,
+              "spell_tier_max": 3,
+              "count": 1
+            }
+          ]
         }
       ]
     },

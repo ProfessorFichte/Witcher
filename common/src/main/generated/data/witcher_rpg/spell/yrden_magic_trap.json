@@ -1,12 +1,14 @@
 {
   "school": "spell_power:yrden",
   "range": 3.0,
-  "tier": 3,
+  "tier": 4,
   "learn": {},
   "active": {
     "cast": {
       "duration": 0.5,
-      "animation": "witcher_rpg:sign_cast_long",
+      "animation": {
+        "id": "witcher_rpg:sign_cast_long"
+      },
       "particles": [
         {
           "particle_id": "witcher_rpg:yrden_sign_cast",
@@ -28,7 +30,9 @@
     }
   },
   "release": {
-    "animation": "witcher_rpg:sign_cast_ground",
+    "animation": {
+      "id": "witcher_rpg:sign_cast_ground"
+    },
     "sound": {
       "id": "witcher_rpg:yrden_sign"
     }
@@ -49,7 +53,8 @@
   "cost": {
     "exhaust": 0.4,
     "cooldown": {
-      "duration": 40.0
+      "group": "yrden",
+      "duration": 35.0
     }
   }
 }

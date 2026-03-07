@@ -5,7 +5,9 @@
   "learn": {},
   "active": {},
   "release": {
-    "animation": "witcher_rpg:sign_cast_ground",
+    "animation": {
+      "id": "witcher_rpg:sign_cast_ground"
+    },
     "particles": [
       {
         "particle_id": "witcher_rpg:yrden_sign_cast",
@@ -54,7 +56,7 @@
             }
           ],
           "model": {
-            "model_id": "witcher_rpg:effect/yrden_circle",
+            "model_id": "witcher_rpg:spell_effect/yrden_circle",
             "light_emission": "RADIATE",
             "scale": 3.0,
             "rotate_degrees_per_tick": 0.0
@@ -123,7 +125,8 @@
   "cost": {
     "exhaust": 0.4,
     "cooldown": {
-      "duration": 18.0
+      "group": "yrden",
+      "duration": 15.0
     }
   }
 }

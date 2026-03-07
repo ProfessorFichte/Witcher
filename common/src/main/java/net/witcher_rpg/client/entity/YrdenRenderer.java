@@ -25,7 +25,7 @@ public class YrdenRenderer<T extends YrdenEntity> extends EntityRenderer<T> {
         return null;
     }
 
-    public static final Identifier modelId = Identifier.of(WitcherClassMod.MOD_ID, "effect/yrden_circle");
+    public static final Identifier modelId = Identifier.of(WitcherClassMod.MOD_ID, "spell_effect/yrden_circle");
 
     private static final RenderLayer layer =
             RenderLayer.getEntityTranslucent(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);

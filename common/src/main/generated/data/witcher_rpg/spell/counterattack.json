@@ -15,5 +15,8 @@
   },
   "target": {
     "type": "FROM_TRIGGER"
+  },
+  "cost": {
+    "durability": 0
   }
 }

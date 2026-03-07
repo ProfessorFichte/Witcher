@@ -2,7 +2,7 @@ package net.witcher_rpg.datagen;
 
 import com.google.gson.JsonObject;
 import net.minecraft.data.DataOutput;
-import net.spell_engine.api.item.weapon.Weapon;
+import net.spell_engine.rpg_series.item.Weapon;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.DataProvider;

@@ -1,3 +1,28 @@
+# 2.8.0 - 1.21.1
+**Update to use Spell Engine 1.9.0**
+- DISCLAIMER: All spell books and spell scrolls will be reset, due to major API changes.
+**Witcher Signs**
+- The Witcher Sign Spell Book now contains all signs including their alternate sign spells and you can bind 4 signs
+- Aard & Igni are Tier 1 Choices
+- Axii, Quen & Yrden are Tier 2 Choices
+- Igni Firestream & Aard Sweep are Tier 3 Choices
+- Quen Active Shield, Axii Puppet & Yrden Magic Trap are Tier 4 Choices
+- Same signs from the same group share cooldowns, for example Aard & Aard Sweep.
+- This was added as a small drawback, due to the Witcher having 4 available spells in one spell book
+- Many Sign Spell Cooldowns where lowered, to match them more towards Wizard Spell Cooldowns
+**Witcher Fencing Skills**
+- The Witcher Fencing Book now only contains 3 spells
+- **Witcher Reflexes** are now the Weapon Skill for all the Witcher Swords
+- Added the new Fast Attack & Strong Attack Melee Skills as Tier 2 Choices
+- Battle Trance is now a Tier 3 Spell
+- Rend & Whirl are now Tier 4 Choices for the Fencing Book
+- Rend was changed to the 
+**Other Fixes and Changes**
+- The Witcher Reflexes Weapon Skill is now channeled and blocks the next Hit and Arrow Show like a shield
+- In the Master Witcher Spell Book you still can choose between a mix of Sign and Fencing Spells
+- It now can contain 5 spells max and can bind multiple spells from a tier
+- Fixed Witcher Armor Diagram Smithing Upgrades always using Silver or Steel Ingots
+
 # 2.7.2 - 1.21.1
 - Fix Sign particles not working
 - add more glyph slot base numbers via id string search

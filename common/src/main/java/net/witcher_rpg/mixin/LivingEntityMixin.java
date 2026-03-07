@@ -14,13 +14,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.casting.SpellCasterEntity;
+import net.spell_engine.internals.casting.SpellCastSyncHelper;
+import net.spell_engine.internals.container.SpellContainerSource;
 import net.spell_engine.utils.AnimationHelper;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
@@ -38,10 +40,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
-import static net.witcher_rpg.WitcherClassMod.MOD_ID;;
+import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
@@ -233,9 +234,6 @@ public abstract class LivingEntityMixin {
         EntityAttributeInstance instance = this.getAttributeInstance(attribute);
         if (instance == null) return;
 
-        // Note: We don't remove modifiers here since we do that centrally in witcher$updateAllAttributeModifiers
-
-        // Add flat bonus if present
         if (flatBonus != 0.0) {
             instance.addTemporaryModifier(new EntityAttributeModifier(
                     modifierBase,
@@ -244,7 +242,6 @@ public abstract class LivingEntityMixin {
             ));
         }
 
-        // Add percentage bonus if present (as a separate modifier)
         if (percentBonus != 0.0) {
             Identifier percentModifierId = Identifier.of(modifierBase.getNamespace(), modifierBase.getPath() + "_percent");
             instance.addTemporaryModifier(new EntityAttributeModifier(
@@ -255,43 +252,62 @@ public abstract class LivingEntityMixin {
         }
     }
 
-    @Inject(at = @At("HEAD"), method = "isBlocking", cancellable = true)
-    private void witcherBlockingMechanics( final CallbackInfoReturnable<Boolean> info) {
-        LivingEntity player2 = ((LivingEntity) (Object) this);
-        if (player2 instanceof ServerPlayerEntity player && player instanceof SpellCasterEntity caster) {
-            var spellEntryWhirl = SpellRegistry.from(player.getWorld()).getEntry(Identifier.of(MOD_ID, "whirl")).orElse(null);
-            var spellWhirl = spellEntryWhirl.value();
-            RegistryEntry <StatusEffect>  effect = WitcherStatusEffects.WITCHER_REFLEXES.entry;
-            Spell spell = caster.getCurrentSpell();
-            ItemStack stack = player.getEquippedStack(EquipmentSlot.MAINHAND);
-            if (stack.isIn(ItemTags.SWORDS) && player2.hasStatusEffect(WitcherStatusEffects.WITCHER_REFLEXES.entry) && !caster.isCastingSpell() && !player.isUsingItem() && !player.isSleeping()) {
-                info.setReturnValue(true);
-            }
-            if (spell != null
-                    && Objects.equals(caster.getCurrentSpell(), spellWhirl)) {
-                info.setReturnValue(true);
-            }
+    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
+    private void witcher$reflexesBlock(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity entity = (LivingEntity)(Object)this;
+        if (!(entity instanceof ServerPlayerEntity player)) return;
+        if (!(player instanceof SpellCasterEntity caster)) return;
+        if (!caster.isCastingSpell()) return;
+
+        var process = caster.getSpellCastProcess();
+        if (process == null || !process.id().equals(Identifier.of(MOD_ID, "defensive_witcher_mechanics"))) return;
+        if (source.isIn(DamageTypeTags.BYPASSES_SHIELD)) return;
+
+        var playerSpells = SpellContainerSource.getSpellsOf(player);
+        var counterattackEntry = SpellRegistry.from(player.getWorld())
+                .getEntry(Identifier.of(MOD_ID, "counterattack")).orElse(null);
+        boolean hasCounterattack = counterattackEntry != null &&
+                (playerSpells.passives().contains(counterattackEntry) || playerSpells.modifiers().contains(counterattackEntry));
+
+        if (hasCounterattack) {
+            // TODO: Add counterattack animation and damage impact here
+        } else {
+            AnimationHelper.sendAnimation(player, PlayerLookup.tracking(player),
+                    SpellCast.Animation.MISC, PlayerAnimation.of("witcher_rpg:witcher_reflexes_release"), 1F);
         }
+
+        // Apply cooldown immediately so client re-cast packets are rejected by attemptCasting()
+        var spellEntry = SpellRegistry.from(player.getWorld())
+                .getEntry(Identifier.of(MOD_ID, "defensive_witcher_mechanics")).orElse(null);
+        if (spellEntry != null) {
+            int cooldownTicks = Math.round(spellEntry.value().cost.cooldown.duration * 20);
+            caster.getCooldownManager().set(spellEntry, cooldownTicks);
+        }
+        SpellCastSyncHelper.clearCasting(player);
+        cir.setReturnValue(false); // damage not applied
     }
-    @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"))
-    private void animationWitcherReflexes(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        LivingEntity damagedTarget = ((LivingEntity) (Object) this);
-        RegistryEntry <StatusEffect>  effect = WitcherStatusEffects.WITCHER_REFLEXES.entry;
-        ItemStack stack = damagedTarget.getEquippedStack(EquipmentSlot.MAINHAND);
-        if (stack.isIn(ItemTags.SWORDS) &&  damagedTarget instanceof ServerPlayerEntity player && player instanceof SpellCasterEntity caster && !caster.isCastingSpell()
-                && !player.isUsingItem() && !player.isSleeping() && damagedTarget.hasStatusEffect(effect)
-                && !source.isIn(DamageTypeTags.BYPASSES_SHIELD)) {
-            var tracker = PlayerLookup.tracking(damagedTarget);
-            AnimationHelper.sendAnimation(player, tracker, SpellCast.Animation.MISC, "witcher_rpg:witcher_reflexes", 1F);
-            int amplifier = player.getStatusEffect(effect).getAmplifier();
-            int duration = player.getStatusEffect(effect).getDuration();
-            if(amplifier == 0){
-                player.removeStatusEffect(effect);
-            }else{
-                player.removeStatusEffect(effect);
-                player.addStatusEffect(new StatusEffectInstance(effect,
-                        duration,amplifier-1,false,false,true));
-            }
+
+    @Inject(at = @At("HEAD"), method = "isBlocking", cancellable = true)
+    private void witcherBlockingMechanics(final CallbackInfoReturnable<Boolean> info) {
+        LivingEntity entity = ((LivingEntity)(Object)this);
+        if (!(entity instanceof ServerPlayerEntity player)) return;
+        if (!(player instanceof SpellCasterEntity caster)) return;
+        if (!caster.isCastingSpell()) return;
+
+        var process = caster.getSpellCastProcess();
+        if (process == null) return;
+
+        Identifier spellId = process.id();
+
+        // Witcher Reflexes: block the next hit while the player is casting
+        if (spellId.equals(Identifier.of(MOD_ID, "defensive_witcher_mechanics"))) {
+            info.setReturnValue(true);
+            return;
+        }
+
+        // Whirl: stay in blocking state while casting
+        if (spellId.equals(Identifier.of(MOD_ID, "whirl"))) {
+            info.setReturnValue(true);
         }
     }
 

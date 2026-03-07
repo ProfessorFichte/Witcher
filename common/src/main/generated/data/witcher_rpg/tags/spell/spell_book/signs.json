@@ -1,0 +1,44 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:aard",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:igni",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:yrden",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:axii",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:quen",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:igni_firestream",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:aard_sweep",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:yrden_magic_trap",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:axii_puppet",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:quen_active_shield",
+      "required": false
+    }
+  ]
+}

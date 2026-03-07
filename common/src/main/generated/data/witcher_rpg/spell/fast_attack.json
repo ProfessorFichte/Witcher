@@ -1,0 +1,92 @@
+{
+  "school": "spell_power:witcher_melee",
+  "range": 0.0,
+  "range_mechanic": "MELEE",
+  "tier": 2,
+  "learn": {},
+  "active": {},
+  "target": {
+    "type": "NONE"
+  },
+  "deliver": {
+    "type": "MELEE",
+    "melee": {
+      "attacks": [
+        {
+          "attack_speed_multiplier": 2.0,
+          "delay": 0.3,
+          "forward_momentum": 0.5,
+          "hitbox": {
+            "width": 0.5,
+            "height": 0.2
+          },
+          "animation": {
+            "id": "witcher_rpg:fast_attack_witcher_1",
+            "speed": 1.1
+          },
+          "swing_sound": {
+            "id": "spell_engine:weapon_sword_swing"
+          }
+        },
+        {
+          "attack_speed_multiplier": 2.0,
+          "delay": 0.3,
+          "additional_strike_delay": 0.2,
+          "forward_momentum": 0.5,
+          "hitbox": {
+            "height": 0.2,
+            "roll": 45.0,
+            "arc": 90.0
+          },
+          "animation": {
+            "id": "witcher_rpg:fast_attack_witcher_2",
+            "speed": 1.1
+          },
+          "swing_sound": {
+            "id": "spell_engine:weapon_sword_swing"
+          }
+        },
+        {
+          "attack_speed_multiplier": 2.0,
+          "delay": 0.3,
+          "additional_strike_delay": 0.2,
+          "forward_momentum": 0.5,
+          "hitbox": {
+            "height": 0.2,
+            "roll": -45.0,
+            "arc": 90.0
+          },
+          "animation": {
+            "id": "witcher_rpg:fast_attack_witcher_3",
+            "speed": 1.1
+          },
+          "swing_sound": {
+            "id": "spell_engine:weapon_sword_swing"
+          }
+        },
+        {
+          "attack_speed_multiplier": 2.0,
+          "delay": 0.3,
+          "forward_momentum": 0.5,
+          "hitbox": {
+            "width": 0.5,
+            "height": 0.2
+          },
+          "animation": {
+            "id": "witcher_rpg:fast_attack_witcher_1",
+            "speed": 1.1
+          },
+          "swing_sound": {
+            "id": "spell_engine:weapon_sword_swing"
+          }
+        }
+      ]
+    }
+  },
+  "cost": {
+    "cooldown": {
+      "attempt_duration": 1.0,
+      "duration": 8.0
+    }
+  }
+}

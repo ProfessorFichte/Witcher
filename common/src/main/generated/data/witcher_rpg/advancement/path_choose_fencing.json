@@ -3,7 +3,7 @@
   "criteria": {
     "book": {
       "conditions": {
-        "spell_pool": "witcher_rpg:fencing"
+        "spell_pool": "witcher_rpg:spell_book/fencing"
       },
       "trigger": "spell_engine:spell_book_creation"
     }
@@ -16,7 +16,10 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "id": "witcher_rpg:fencing_spell_book"
+      "components": {
+        "spell_engine:item_model": "witcher_rpg:item/spell_scroll/fencing"
+      },
+      "id": "spell_engine:spell_scroll"
     },
     "show_toast": true,
     "title": {

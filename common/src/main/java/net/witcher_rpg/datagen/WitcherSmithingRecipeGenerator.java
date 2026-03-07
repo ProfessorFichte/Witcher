@@ -55,7 +55,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "superior_feline",
                 Armors.enhancedFelineSchoolArmorSet,
                 superiorDiagram,
-                WitcherMaterials.STEEL_INGOT.item(),
+                WitcherMaterials.DARK_IRON_INGOT.item(),
                 Armors.superiorFelineSchoolArmorSet
         );
         // Superior -> Mastercrafted
@@ -63,7 +63,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "mastercrafted_feline",
                 Armors.superiorFelineSchoolArmorSet,
                 mastercraftedDiagram,
-                WitcherMaterials.STEEL_INGOT.item(),
+                WitcherMaterials.DARK_STEEL_INGOT.item(),
                 Armors.mastercraftedFelineSchoolArmorSet
         );
         // Mastercrafted -> Grandmaster
@@ -71,7 +71,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "grandmaster_feline",
                 Armors.mastercraftedFelineSchoolArmorSet,
                 grandmasterDiagram,
-                WitcherMaterials.STEEL_INGOT.item(),
+                WitcherMaterials.DIMERITIUM_INGOT.item(),
                 Armors.grandmasterFelineSchoolArmorSet
         );
 
@@ -89,7 +89,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "superior_griffin",
                 Armors.enhancedGriffinArmorSet,
                 superiorDiagram,
-                WitcherMaterials.SILVER_INGOT.item(),
+                WitcherMaterials.METEORITE_INGOT.item(),
                 Armors.superiorGriffinArmorSet
         );
         // Superior -> Mastercrafted
@@ -97,7 +97,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "mastercrafted_griffin",
                 Armors.superiorGriffinArmorSet,
                 mastercraftedDiagram,
-                WitcherMaterials.SILVER_INGOT.item(),
+                WitcherMaterials.METEORITE_SILVER_INGOT.item(),
                 Armors.mastercraftedGriffinArmorSet
         );
         // Mastercrafted -> Grandmaster
@@ -105,7 +105,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "grandmaster_griffin",
                 Armors.mastercraftedGriffinArmorSet,
                 grandmasterDiagram,
-                WitcherMaterials.SILVER_INGOT.item(),
+                WitcherMaterials.DIMERITIUM_INGOT.item(),
                 Armors.grandmasterGriffinArmorSet
         );
 
@@ -123,7 +123,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "superior_ursine",
                 Armors.enhancedUrsineArmorSet,
                 superiorDiagram,
-                WitcherMaterials.STEEL_INGOT.item(),
+                WitcherMaterials.DARK_IRON_INGOT.item(),
                 Armors.superiorUrsineArmorSet
         );
         // Superior -> Mastercrafted
@@ -131,7 +131,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "mastercrafted_ursine",
                 Armors.superiorUrsineArmorSet,
                 mastercraftedDiagram,
-                WitcherMaterials.STEEL_INGOT.item(),
+                WitcherMaterials.DARK_STEEL_INGOT.item(),
                 Armors.mastercraftedUrsineArmorSet
         );
         // Mastercrafted -> Grandmaster
@@ -139,7 +139,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "grandmaster_ursine",
                 Armors.mastercraftedUrsineArmorSet,
                 grandmasterDiagram,
-                WitcherMaterials.STEEL_INGOT.item(),
+                WitcherMaterials.DIMERITIUM_INGOT.item(),
                 Armors.grandmasterUrsineArmorSet
         );
 
@@ -157,7 +157,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "superior_wolven",
                 Armors.enhancedWolvenArmorSet,
                 superiorDiagram,
-                WitcherMaterials.SILVER_INGOT.item(),
+                WitcherMaterials.METEORITE_INGOT.item(),
                 Armors.superiorWolvenArmorSet
         );
         // Superior -> Mastercrafted
@@ -165,7 +165,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "mastercrafted_wolven",
                 Armors.superiorWolvenArmorSet,
                 mastercraftedDiagram,
-                WitcherMaterials.SILVER_INGOT.item(),
+                WitcherMaterials.METEORITE_SILVER_INGOT.item(),
                 Armors.mastercraftedWolvenArmorSet
         );
         // Mastercrafted -> Grandmaster
@@ -173,7 +173,7 @@ public class WitcherSmithingRecipeGenerator extends SmithingRecipeGenerator {
                 "grandmaster_wolven",
                 Armors.mastercraftedWolvenArmorSet,
                 grandmasterDiagram,
-                WitcherMaterials.SILVER_INGOT.item(),
+                WitcherMaterials.DIMERITIUM_INGOT.item(),
                 Armors.grandmasterWolvenArmorSet
         );
     }

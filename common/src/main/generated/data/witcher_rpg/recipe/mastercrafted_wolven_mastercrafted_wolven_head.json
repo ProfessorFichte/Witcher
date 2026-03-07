@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": {
-    "item": "witcher_rpg:silver_ingot"
+    "item": "witcher_rpg:meteorite_silver_ingot"
   },
   "base": {
     "item": "witcher_rpg:superior_wolven_head"

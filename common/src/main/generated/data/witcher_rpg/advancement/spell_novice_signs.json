@@ -4,7 +4,7 @@
     "bind": {
       "conditions": {
         "complete": false,
-        "spell_pool": "witcher_rpg:base_signs"
+        "spell_pool": "witcher_rpg:spell_book/signs"
       },
       "trigger": "spell_engine:spell_binding"
     }
@@ -17,7 +17,7 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "id": "witcher_rpg:base_signs_spell_book"
+      "id": "witcher_rpg:silver_witcher_sword"
     },
     "show_toast": true,
     "title": {

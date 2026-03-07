@@ -8,9 +8,9 @@ import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.effect.SpellEngineEffects;
 import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.render.LightEmission;
-import net.spell_engine.api.spell.ExternalSpellSchools;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.api.util.TriState;
 import net.spell_engine.client.gui.SpellTooltip;
@@ -32,8 +32,19 @@ import java.util.List;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class WitcherSpells {
+    public enum Book { FENCING, SIGNS}
     public record Entry(Identifier id, Spell spell, String title, String description,
-                        @Nullable SpellTooltip.DescriptionMutator mutator) {
+                        @Nullable SpellTooltip.DescriptionMutator mutator,
+                        @Nullable Book book) {
+        public Entry(Identifier id, Spell spell, String title, String description) {
+            this(id, spell, title, description, null, null);
+        }
+        public Entry mutator(SpellTooltip.DescriptionMutator mutator) {
+            return new Entry(id, spell, title, description, mutator, book);
+        }
+        public Entry book(Book book) {
+            return new Entry(id, spell, title, description, mutator, book);
+        }
     }
 
     public static final List<Entry> entries = new ArrayList<>();
@@ -191,7 +202,7 @@ public class WitcherSpells {
         spell.range = 7.5F;
         spell.tier = 1;
 
-        spell.release.animation = "witcher_rpg:sign_cast_short";
+        spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
         spell.release.sound = new Sound(Sounds.AARD_SIGN_ID);
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch("witcher_rpg:aard_sign_cast",
@@ -232,68 +243,79 @@ public class WitcherSpells {
         };
 
         spell.impacts = List.of(damage,custom);
-        configureCooldown(spell, 16);
+        configureCooldown(spell, 8);
         spell.cost.exhaust = 0.4F;
+        spell.cost.cooldown.group = "aard";
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
     }
-    /*
-    public static Entry igni = add(igni());
+    public static final Entry IGNI = add(igni());
     private static Entry igni() {
         var id = Identifier.of(MOD_ID, "igni");
-        var description = "";
         var title = "Igni";
-
+        var description = "Unleashes a stream of fire dealing {damage} damage and setting enemies ablaze.";
         var spell = activeSpellBase();
         spell.school = WitcherSpellSchools.IGNI;
-        spell.range = 6;
+        spell.range = 5.0F;
         spell.tier = 1;
 
-        spell.target.type = Spell.Target.Type.AIM;
-        spell.target.aim = new Spell.Target.Aim();
-
-        spell.deliver.type = Spell.Delivery.Type.PROJECTILE;
-        spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
-        spell.deliver.projectile.inherit_shooter_pitch = false;
-        spell.deliver.projectile.launch_properties.velocity = 1.25F;
-        var projectile = new Spell.ProjectileData();
-        projectile.homing_angle = 0F;
-        projectile.client_data = new Spell.ProjectileData.Client();
-        projectile.client_data.travel_particles = new ParticleBatch[] {
-                new ParticleBatch(
-                        SpellEngineParticles.flame_spark.id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        ParticleBatch.Rotation.LOOK, 30, 0.05F, 0.1F, 0.0F, 0F)
+        spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
+        spell.active.cast.movement_speed = 0.75F;
+        spell.active.cast.duration = 2.0F;
+        spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:igni_sign"), 0.2F);
+        spell.active.cast.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
+                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
+                        ParticleBatch.Rotation.LOOK, 40.0F, 1.2F, 2.5F, 90.0F, 0F),
+                new ParticleBatch("smoke",
+                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
+                        ParticleBatch.Rotation.LOOK, 0.1F, 0.01F, 0.4F, 90.0F, 0F),
+                new ParticleBatch("witcher_rpg:igni_sign_cast",
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
+                        1.0F, 0.01F, 0.02F)
         };
-        projectile.client_data.model = new Spell.ProjectileModel();
-        projectile.client_data.model.model_id = "witcher_rpg:projectile/igni_dummy";
-        projectile.perks.pierce = 999;
-        projectile.hitbox = new Spell.ProjectileData.HitBox(4.0F, 0.5F);
-        spell.deliver.projectile.projectile = projectile;
+        spell.active.cast.channel_ticks = 6;
 
-        var damage = SpellBuilder.Impacts.damage(0.8F,0.2F);
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+        spell.target.area.angle_degrees = 90;
+        spell.target.area.horizontal_range_multiplier = 2.0F;
+        spell.target.area.vertical_range_multiplier = 1.5F;
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.8F;
+        damage.action.damage.knockback = 0.2F;
         damage.sound = new Sound("block.blastfurnace.fire_crackle");
-        damage.particles = new ParticleBatch[] {
-                new ParticleBatch(
-                        SpellEngineParticles.flame_medium_a.id().toString(),
+        damage.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
+                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
+                        1.0F, 0.7F, 1.5F),
+                new ParticleBatch("large_smoke",
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        0.2F, 0.1F, 0.3F),
+                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 10, 0.5F, 1.3F, 0.0F, 0F),
-                new ParticleBatch(
-                        "large_smoke",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 4, 0.1F, 0.3F, 0.0F, 0F),
-                new ParticleBatch(
-                        SpellEngineParticles.flame_spark.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 4, 0.2F, 0.3F, 0.0F, 0F)
+                        4.0F, 0.02F, 0.1F)
         };
-        var fire = SpellBuilder.Impacts.fire(2);
+
+        var fire = new Spell.Impact();
+        fire.action = new Spell.Impact.Action();
+        fire.action.type = Spell.Impact.Action.Type.FIRE;
+        fire.action.fire = new Spell.Impact.Action.Fire();
+        fire.action.fire.duration = 2;
+        fire.sound = new Sound("block.blastfurnace.fire_crackle");
+
         spell.impacts = List.of(damage, fire);
 
-        configureCooldown(spell, 16);
-        return new Entry(id, spell, title, description, null);
+        configureCooldown(spell, 8);
+        spell.cost.exhaust = 0.4F;
+        spell.cost.cooldown.group = "igni";
+
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
     }
-     */
     public static final Entry yrden = add(yrden());
     private static Entry yrden() {
         var id = Identifier.of(MOD_ID, "yrden");
@@ -304,7 +326,7 @@ public class WitcherSpells {
         spell.range = 0;
         spell.tier = 2;
 
-        spell.release.animation = "witcher_rpg:sign_cast_ground";
+        spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
         spell.release.sound = new Sound("witcher_rpg:yrden_sign");
         spell.release.particles = new ParticleBatch[]{ new ParticleBatch(
                 "witcher_rpg:yrden_sign_cast",
@@ -325,7 +347,7 @@ public class WitcherSpells {
         cloud.client_data = new Spell.Delivery.Cloud.ClientData();
         cloud.client_data.light_level = 14;
         cloud.client_data.model = new Spell.ProjectileModel();
-        cloud.client_data.model.model_id = "witcher_rpg:effect/yrden_circle";
+        cloud.client_data.model.model_id = "witcher_rpg:spell_effect/yrden_circle";
         cloud.client_data.model.scale = 3.0F;
         cloud.client_data.model.rotate_degrees_per_tick = 0;
         cloud.client_data.model.light_emission = LightEmission.RADIATE;
@@ -360,11 +382,605 @@ public class WitcherSpells {
         };
         spell.impacts = List.of(debuff,damage);
 
-        configureCooldown(spell, 18);
+        configureCooldown(spell, 15);
         spell.cost.exhaust = 0.4F;
+        spell.cost.cooldown.group = "yrden";
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
     }
+    public static final Entry AXII = add(axii());
+    private static Entry axii() {
+        var id = Identifier.of(MOD_ID, "axii");
+        var title = "Axii";
+        var description = "Charms the target for {effect_duration} seconds, causing them to stop attacking.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.AXII;
+        spell.range = 10;
+        spell.tier = 2;
+
+        spell.active.cast.movement_speed = 0.75F;
+        spell.active.cast.duration = 0.5F;
+        spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
+        spell.active.cast.particles = new ParticleBatch[]{
+                new ParticleBatch("witcher_rpg:axii_sign_cast",
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
+                        0.2F, 0.01F, 0.1F)
+        };
+
+        spell.target.type = Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+        spell.target.aim.sticky = false;
+        spell.target.aim.required = true;
+
+        spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
+        spell.release.sound = new Sound("witcher_rpg:axii_sign");
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch("witcher_rpg:axii_sign_cast",
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
+                        1.0F, 0.01F, 0.1F)
+        };
+
+        var effect = new Spell.Impact();
+        effect.action = new Spell.Impact.Action();
+        effect.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
+        effect.action.status_effect = new Spell.Impact.Action.StatusEffect();
+        effect.action.status_effect.effect_id = WitcherStatusEffects.AXII.id.toString();
+        effect.action.status_effect.duration = 5;
+        effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
+        effect.action.status_effect.amplifier = 0;
+        effect.action.status_effect.amplifier_power_multiplier = 0.25F;
+        effect.action.status_effect.show_particles = false;
+        var modifier = createImpactModifier("#witcher_rpg:axii_effect_immune");
+        modifier.execute = TriState.DENY;
+        effect.target_modifiers = List.of(modifier);
+        spell.impacts = List.of(effect);
+
+        configureCooldown(spell, 20);
+        spell.cost.cooldown.haste_affected = false;
+        spell.cost.exhaust = 0.4F;
+        spell.cost.cooldown.group = "axii";
+
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
+    }
+    public static final Entry QUEN = add(quen());
+    private static Entry quen() {
+        var id = Identifier.of(MOD_ID, "quen");
+        var title = "Quen";
+        var description = "Creates a protective shield that absorbs damage for {effect_duration} seconds.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.QUEN;
+        spell.range = 0;
+        spell.tier = 2;
+
+        spell.active.cast.movement_speed = 0.75F;
+        spell.active.cast.duration = 0;
+
+        spell.target.type = Spell.Target.Type.CASTER;
+
+        spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
+        spell.release.sound = new Sound("witcher_rpg:quen_sign");
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.electric_arc_A.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
+                        3.0F, 0.01F, 0.05F).extent(1),
+                new ParticleBatch(SpellEngineParticles.electric_arc_B.id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        5.0F, 0.01F, 0.05F).extent(1),
+                new ParticleBatch("witcher_rpg:quen_sign_cast",
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
+                        3.0F, 0.01F, 0.1F),
+                new ParticleBatch("witcher_rpg:quen_sign_cast",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
+                        1.0F, 0.01F, 0.2F)
+        };
+
+        var effect = new Spell.Impact();
+        effect.action = new Spell.Impact.Action();
+        effect.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
+        effect.action.status_effect = new Spell.Impact.Action.StatusEffect();
+        effect.action.status_effect.effect_id = WitcherStatusEffects.QUEN_SHIELD.id.toString();
+        effect.action.status_effect.duration = 10;
+        effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
+        effect.action.status_effect.amplifier = 0;
+        effect.action.status_effect.amplifier_power_multiplier = 0.25F;
+        effect.action.status_effect.show_particles = false;
+        spell.impacts = List.of(effect);
+
+        configureCooldown(spell, 24);
+        spell.cost.exhaust = 0.4F;
+        spell.cost.cooldown.group = "quen";
+
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
+    }
+    public static final Entry IGNI_FIRESTREAM = add(igni_firestream());
+    private static Entry igni_firestream() {
+        var id = Identifier.of(MOD_ID, "igni_firestream");
+        var title = "Igni Firestream";
+        var description = "Unleashes a concentrated stream of fire dealing {damage} damage and setting enemies ablaze.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.IGNI;
+        spell.range = 6.0F;
+        spell.tier = 3;
+
+        spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
+        spell.active.cast.movement_speed = 0.5F;
+        spell.active.cast.duration = 7.0F;
+        spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:igni_sign"), 0.4F);
+        spell.active.cast.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
+                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
+                        ParticleBatch.Rotation.LOOK, 5.0F, 0.8F, 6.0F, 20.0F, 0F),
+                new ParticleBatch("witcher_rpg:igni_sign_cast",
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
+                        0.2F, 0.01F, 0.2F)
+        };
+        spell.active.cast.channel_ticks = 35;
+
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+        spell.target.area.angle_degrees = 20;
+
+        spell.release.sound = new Sound("block.blastfurnace.fire_crackle");
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.9F;
+        damage.action.damage.knockback = 0.2F;
+        damage.sound = new Sound("block.blastfurnace.fire_crackle");
+        damage.particles = new ParticleBatch[]{
+                new ParticleBatch("lava",
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        1.0F, 0.5F, 3.0F),
+                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        10.0F, 0.08F, 0.2F)
+        };
+
+        var fire = new Spell.Impact();
+        fire.action = new Spell.Impact.Action();
+        fire.action.type = Spell.Impact.Action.Type.FIRE;
+        fire.action.fire = new Spell.Impact.Action.Fire();
+        fire.action.fire.duration = 3;
+
+        spell.impacts = List.of(damage, fire);
+
+        configureCooldown(spell, 12);
+        spell.cost.exhaust = 0.5F;
+        spell.cost.cooldown.group = "igni";
+
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
+    }
+    public static final Entry AARD_SWEEP = add(aard_sweep());
+    private static Entry aard_sweep() {
+        var id = Identifier.of(MOD_ID, "aard_sweep");
+        var title = "Aard Sweep";
+        var description = "A 360 degree telekinetic blast dealing {damage} damage and knocking back all nearby enemies.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.AARD;
+        spell.range = 4.0F;
+        spell.tier = 3;
+
+        spell.active.cast.movement_speed = 0.1F;
+        spell.active.cast.duration = 0;
+        spell.active.cast.particles = new ParticleBatch[]{
+                new ParticleBatch("witcher_rpg:aard_sign_cast",
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
+                        0.2F, 0.01F, 0.1F)
+        };
+        spell.active.cast.start_sound = new Sound(Sounds.AARD_SIGN_ID);
+
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+        spell.target.area.angle_degrees = 360;
+
+        spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
+        spell.release.sound = new Sound(Sounds.AARD_SIGN_ID);
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        40.0F, 0.2F, 0.3F).preSpawnTravel(6),
+                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        40.0F, 0.2F, 0.3F).preSpawnTravel(3),
+                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        40.0F, 0.2F, 0.3F).preSpawnTravel(1)
+        };
+
+        var custom = new Spell.Impact();
+        custom.action = new Spell.Impact.Action();
+        custom.action.type = Spell.Impact.Action.Type.CUSTOM;
+        custom.action.custom = new Spell.Impact.Action.Custom();
+        custom.action.custom.handler = "more_rpg_classes:stop_arrows";
+        custom.action.custom.intent = SpellTarget.Intent.HARMFUL;
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 0.6F;
+        damage.action.damage.knockback = 4.0F;
+        damage.particles = new ParticleBatch[]{
+                new ParticleBatch("more_rpg_classes:wind_vacuum",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
+                        ParticleBatch.Rotation.LOOK, 1.0F, 0.1F, 1.0F, 0F, 0F),
+                new ParticleBatch("gust",
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        1.0F, 0.2F, 0.3F)
+        };
+
+        spell.impacts = List.of(custom, damage);
+
+        configureCooldown(spell, 15);
+        spell.cost.exhaust = 0.5F;
+        spell.cost.cooldown.group = "aard";
+
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
+    }
+
+    public static final Entry YRDEN_MAGIC_TRAP = add(yrden_magic_trap());
+    private static Entry yrden_magic_trap() {
+        var id = Identifier.of(MOD_ID, "yrden_magic_trap");
+        var title = "Yrden Magic Trap";
+        var description = "Places a magical trap that damages and slows enemies that enter it.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.YRDEN;
+        spell.range = 3;
+        spell.tier = 4;
+
+        spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
+        spell.active.cast.duration = 0.5F;
+        spell.active.cast.particles = new ParticleBatch[]{
+                new ParticleBatch("witcher_rpg:yrden_sign_cast",
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        1.0F, 0.001F, 0.006F),
+                new ParticleBatch("witcher_rpg:yrden_sign_cast",
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.CENTER,
+                        1.0F, 0.01F, 0.06F)
+        };
+
+        spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
+        spell.release.sound = new Sound("witcher_rpg:yrden_sign");
+
+        var spawn = new Spell.Impact();
+        spawn.action = new Spell.Impact.Action();
+        spawn.action.type = Spell.Impact.Action.Type.SPAWN;
+        var spawnData = new Spell.Impact.Action.Spawn();
+        spawnData.entity_type_id = "witcher_rpg:yrden_magical_trap";
+        spawnData.time_to_live_seconds = 20;
+        spawn.action.spawns = List.of(spawnData);
+        spell.impacts = List.of(spawn);
+
+        configureCooldown(spell, 35);
+        spell.cost.exhaust = 0.4F;
+        spell.cost.cooldown.group = "yrden";
+
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
+    }
+    public static final Entry AXII_PUPPET = add(axii_puppet());
+    private static Entry axii_puppet() {
+        var id = Identifier.of(MOD_ID, "axii_puppet");
+        var title = "Axii Puppet";
+        var description = "Dominates the target for {effect_duration} seconds, turning them into an ally.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.AXII;
+        spell.range = 10;
+        spell.tier = 4;
+
+        spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
+        spell.active.cast.movement_speed = 0.2F;
+        spell.active.cast.duration = 2.0F;
+        spell.active.cast.particles = new ParticleBatch[]{
+                new ParticleBatch("witcher_rpg:axii_sign_cast",
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
+                        0.2F, 0.01F, 0.1F)
+        };
+
+        spell.target.type = Spell.Target.Type.AIM;
+        spell.target.aim = new Spell.Target.Aim();
+        spell.target.aim.sticky = false;
+        spell.target.aim.required = true;
+
+        spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
+        spell.release.sound = new Sound("witcher_rpg:axii_sign");
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch("witcher_rpg:axii_sign_cast",
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
+                        1.0F, 0.01F, 0.1F)
+        };
+
+        var effect = new Spell.Impact();
+        effect.action = new Spell.Impact.Action();
+        effect.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
+        effect.action.status_effect = new Spell.Impact.Action.StatusEffect();
+        effect.action.status_effect.effect_id = WitcherStatusEffects.AXII_PUPPET.id.toString();
+        effect.action.status_effect.duration = 8;
+        effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
+        effect.action.status_effect.amplifier = 0;
+        effect.action.status_effect.show_particles = false;
+        var modifier = createImpactModifier("#witcher_rpg:axii_effect_immune");
+        modifier.execute = TriState.DENY;
+        effect.target_modifiers = List.of(modifier);
+        spell.impacts = List.of(effect);
+
+        configureCooldown(spell, 25);
+        spell.cost.cooldown.haste_affected = false;
+        spell.cost.exhaust = 0.4F;
+        spell.cost.cooldown.group = "axii";
+
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
+    }
+    public static final Entry QUEN_ACTIVE_SHIELD = add(quen_active_shield());
+    private static Entry quen_active_shield() {
+        var id = Identifier.of(MOD_ID, "quen_active_shield");
+        var title = "Quen Active Shield";
+        var description = "Creates an active protective shield that absorbs damage and heals the caster.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.QUEN;
+        spell.range = 0;
+        spell.tier = 4;
+
+        spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
+        spell.active.cast.movement_speed = 0.1F;
+        spell.active.cast.duration = 5.0F;
+        spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:quen_sign"), 0.4F);
+        spell.active.cast.particles = new ParticleBatch[]{
+                new ParticleBatch("witcher_rpg:quen_sign_cast",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
+                        0.3F, 0.01F, 0.5F)
+        };
+        spell.active.cast.channel_ticks = 25;
+
+        spell.target.type = Spell.Target.Type.CASTER;
+
+        var custom = new Spell.Impact();
+        custom.action = new Spell.Impact.Action();
+        custom.action.type = Spell.Impact.Action.Type.CUSTOM;
+        custom.action.custom = new Spell.Impact.Action.Custom();
+        custom.action.custom.handler = "witcher_rpg:quen_active";
+        spell.impacts = List.of(custom);
+
+        configureCooldown(spell, 36);
+        spell.cost.cooldown.proportional = false;
+        spell.cost.cooldown.haste_affected = false;
+        spell.cost.exhaust = 0.4F;
+        spell.cost.cooldown.group = "quen";
+
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
+    }
+
+    /// FENCING ACTIVE SPELLS
+    public static Entry fast_attack = add(fast_attack());
+    private static Entry fast_attack() {
+        var id = Identifier.of(MOD_ID, "fast_attack");
+        var title = "Fast Attack";
+        var description = "Performs some fast attacks with small forward momentum.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        spell.range_mechanic = Spell.RangeMechanic.MELEE;
+        spell.range = 0;
+        spell.tier = 2;
+
+        SpellBuilder.Casting.instant(spell);
+        SpellBuilder.Target.none(spell);
+
+        float forward_momentum_fa = 0.5F;
+        var fast_attack_1 = new Spell.Delivery.Melee.Attack();
+        fast_attack_1.attack_speed_multiplier = 2F;
+        fast_attack_1.delay = 0.3F;
+        fast_attack_1.hitbox = new Spell.Delivery.Melee.HitBox();
+        fast_attack_1.hitbox.height = 0.2F;
+        fast_attack_1.hitbox.width = 0.5F;
+        fast_attack_1.forward_momentum = forward_momentum_fa;
+        fast_attack_1.animation = PlayerAnimation.of("witcher_rpg:fast_attack_witcher_1");
+        fast_attack_1.animation.speed = 1.1F;
+        fast_attack_1.swing_sound = Sound.of(SpellEngineSounds.WEAPON_SWORD_SWING.id());
+
+        var fast_attack_2 = new Spell.Delivery.Melee.Attack();
+        fast_attack_2.attack_speed_multiplier = 2F;
+        fast_attack_2.delay = 0.3F;
+        fast_attack_2.hitbox = new Spell.Delivery.Melee.HitBox();
+        fast_attack_2.hitbox.arc = 90;
+        fast_attack_2.hitbox.height = 0.2F;
+        fast_attack_2.hitbox.roll = 45;
+        fast_attack_2.forward_momentum = forward_momentum_fa;
+        fast_attack_2.additional_strike_delay = 0.2F;
+        fast_attack_2.animation = PlayerAnimation.of("witcher_rpg:fast_attack_witcher_2");
+        fast_attack_2.animation.speed = 1.1F;
+        fast_attack_2.swing_sound = Sound.of(SpellEngineSounds.WEAPON_SWORD_SWING.id());
+
+        var fast_attack_3 = new Spell.Delivery.Melee.Attack();
+        fast_attack_3.attack_speed_multiplier = 2F;
+        fast_attack_3.delay = 0.3F;
+        fast_attack_3.hitbox = new Spell.Delivery.Melee.HitBox();
+        fast_attack_3.hitbox.arc = 90;
+        fast_attack_3.hitbox.height = 0.2F;
+        fast_attack_3.hitbox.roll = -45;
+        fast_attack_3.forward_momentum = forward_momentum_fa;
+        fast_attack_3.additional_strike_delay = 0.2F;
+        fast_attack_3.animation = PlayerAnimation.of("witcher_rpg:fast_attack_witcher_3");
+        fast_attack_3.animation.speed = 1.1F;
+        fast_attack_3.swing_sound = Sound.of(SpellEngineSounds.WEAPON_SWORD_SWING.id());
+
+        var fast_attack_4 = new Spell.Delivery.Melee.Attack();
+        fast_attack_4.attack_speed_multiplier = 2F;
+        fast_attack_4.delay = 0.3F;
+        fast_attack_4.hitbox = new Spell.Delivery.Melee.HitBox();
+        fast_attack_4.hitbox.height = 0.2F;
+        fast_attack_4.hitbox.width = 0.5F;
+        fast_attack_4.forward_momentum = forward_momentum_fa;
+        fast_attack_4.animation = PlayerAnimation.of("witcher_rpg:fast_attack_witcher_1");
+        fast_attack_4.animation.speed = 1.1F;
+        fast_attack_4.swing_sound = Sound.of(SpellEngineSounds.WEAPON_SWORD_SWING.id());
+
+        SpellBuilder.Deliver.melee(spell, List.of(fast_attack_1, fast_attack_2, fast_attack_3,fast_attack_4));
+
+        SpellBuilder.Cost.cooldown(spell, 8);
+        spell.cost.cooldown.attempt_duration = 1F;
+
+        return new Entry(id, spell, title, description).book(Book.FENCING);
+    }
+    public static Entry strong_attack = add(strong_attack());
+    private static Entry strong_attack() {
+        var id = Identifier.of(MOD_ID, "strong_attack");
+        var title = "Strong Attack";
+        var description = "Performs two heavy blows.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        spell.range_mechanic = Spell.RangeMechanic.MELEE;
+        spell.range = 0;
+        spell.tier = 2;
+
+        SpellBuilder.Casting.instant(spell);
+        SpellBuilder.Target.none(spell);
+
+        var attack1 = new Spell.Delivery.Melee.Attack();
+        attack1.attack_speed_multiplier = 1.25F;
+        attack1.delay = 0.1F;
+        attack1.hitbox = new Spell.Delivery.Melee.HitBox();
+        attack1.hitbox.arc = 90;
+        attack1.hitbox.roll = 60F;
+        attack1.hitbox.height = 0.25F;
+        attack1.damage_bonus = 0.5F;
+        attack1.animation = PlayerAnimation.of("witcher_rpg:strong_attack_witcher_1");
+        attack1.animation.speed = 0.75F;
+        attack1.swing_sound = Sound.of(SpellEngineSounds.WEAPON_SWORD_SWING.id());
+
+        var attack2 = new Spell.Delivery.Melee.Attack();
+        attack2.attack_speed_multiplier = 1.25F;
+        attack2.delay = 0.3F;
+        attack2.hitbox = new Spell.Delivery.Melee.HitBox();
+        attack2.hitbox.height = 0.5F;
+        attack2.damage_bonus = 0.5F;
+        attack2.animation = PlayerAnimation.of("witcher_rpg:strong_attack_witcher_2");
+        attack2.animation.speed = 0.75F;
+        attack2.swing_sound = Sound.of(SpellEngineSounds.WEAPON_SWORD_SWING.id());
+
+        SpellBuilder.Deliver.melee(spell, List.of(attack1, attack2));
+
+        SpellBuilder.Cost.cooldown(spell, 8);
+        spell.cost.cooldown.attempt_duration = 1F;
+
+        return new Entry(id, spell, title, description).book(Book.FENCING);
+    }
+    public static final Entry BATTLE_TRANCE = add(battle_trance());
+    private static Entry battle_trance() {
+        var id = Identifier.of(MOD_ID, "battle_trance");
+        var title = "Battle Trance";
+        var description = "Enters a battle trance for {effect_duration} seconds, enhancing combat abilities.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        spell.range = 0;
+        spell.tier = 3;
+
+        spell.active.cast.movement_speed = 0.75F;
+        spell.active.cast.duration = 0;
+
+        spell.target.type = Spell.Target.Type.CASTER;
+
+        var effect = new Spell.Impact();
+        effect.action = new Spell.Impact.Action();
+        effect.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
+        effect.action.status_effect = new Spell.Impact.Action.StatusEffect();
+        effect.action.status_effect.effect_id = WitcherStatusEffects.BATTLE_TRANCE.id.toString();
+        effect.action.status_effect.duration = 5;
+        effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
+        effect.action.status_effect.amplifier = 0;
+        effect.action.status_effect.show_particles = false;
+        spell.impacts = List.of(effect);
+
+        configureCooldown(spell, 30);
+        spell.cost.exhaust = 0.8F;
+
+        return new Entry(id, spell, title, description).book(Book.FENCING);
+    }
+    public static final Entry REND = add(rend());
+    private static Entry rend() {
+        var id = Identifier.of(MOD_ID, "rend");
+        var title = "Rend";
+        var description = "A powerful overhead strike that deals heavy damage and disables shields.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        spell.range_mechanic = Spell.RangeMechanic.MELEE;
+        spell.range = 0;
+        spell.tier = 4;
+
+        spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:rend_cast");
+        spell.active.cast.movement_speed = 0F;
+        spell.active.cast.duration = 0.3F;
+
+        SpellBuilder.Target.none(spell);
+
+        spell.release.sound = Sound.withRandomness(Identifier.of("witcher_rpg:rend_spell"),1.2F);
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch("crimson_spore",
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        20.0F, 1.0F, 15.0F),
+        };
+
+        var rend = new Spell.Delivery.Melee.Attack();
+        rend.attack_speed_multiplier = 1.5F;
+        rend.delay = 0.1F;
+        rend.hitbox = new Spell.Delivery.Melee.HitBox();
+        rend.hitbox.height = 1.0F;
+        rend.hitbox.width = 1.0F;
+        rend.hitbox.length = 5.0F;
+        rend.damage_bonus = 1.0F;
+        rend.animation = PlayerAnimation.of("witcher_rpg:rend_release");
+        rend.animation.speed = 1F;
+
+        SpellBuilder.Deliver.melee(spell, List.of(rend));
+
+        var disrupt = SpellBuilder.Impacts.disrupt(true, 4F);
+
+        spell.impacts = List.of(disrupt);
+
+        configureCooldown(spell, 22);
+        spell.cost.exhaust = 1.0F;
+        spell.cost.durability = 1;
+
+        return new Entry(id, spell, title, description).book(Book.FENCING);
+    }
+    public static final Entry WHIRL = add(whirl());
+    private static Entry whirl() {
+        var id = Identifier.of(MOD_ID, "whirl");
+        var title = "Whirl";
+        var description = "A spinning attack dealing {damage} damage to all nearby enemies and blocking arrows.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+        spell.range = 1.0F;
+        spell.range_mechanic = Spell.RangeMechanic.MELEE;
+        spell.tier = 4;
+
+        spell.active.cast.movement_speed = 1.3F;
+        spell.active.cast.duration = 2.5F;
+        spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:witcher_whirl");
+        spell.active.cast.sound =  Sound.withVolume(Identifier.of("witcher_rpg:whirl"),0.6F);
+        spell.active.cast.channel_ticks = 6;
+
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+        spell.target.area.angle_degrees = 360;
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.damage.spell_power_coefficient = 1.35F;
+        damage.action.damage.knockback = 0.3F;
+        damage.sound = Sound.withVolume(Identifier.of("more_rpg_classes:crippling_strike"), 0.2F);
+        spell.impacts = List.of(damage);
+
+        configureCooldown(spell, 30);
+        spell.cost.exhaust = 1.0F;
+        spell.cost.durability = 1;
+
+        return new Entry(id, spell, title, description).book(Book.FENCING);
+    }
+
+    /// ACTIVE SPELL HELPER IMPACTS
     public static final Entry yrden_glyph_impact = add(yrden_glyph_impact());
     private static Entry yrden_glyph_impact() {
         var id = Identifier.of(MOD_ID, "yrden_glyph_impact");
@@ -385,7 +1001,7 @@ public class WitcherSpells {
         spell.impacts = List.of( damage, debuff);
         configureCooldown(spell, 1);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry quen_active_helper = add(quen_active_helper());
     private static Entry quen_active_helper() {
@@ -403,28 +1019,27 @@ public class WitcherSpells {
         spell.impacts = List.of(buff);
         configureCooldown(spell, 0);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
+    /// WEAPON SKILLS
     public static final Entry defensive_witcher_mechanics = add(defensive_witcher_mechanics());
     private static Entry defensive_witcher_mechanics() {
         var id = Identifier.of(MOD_ID, "defensive_witcher_mechanics");
-        var effect = WitcherStatusEffects.WITCHER_REFLEXES;
-        var description = "Sharpens your reflexes for {effect_duration} sec, blocking {effect_amplifier} arrow or melee impacts.";
+        var description = "You sharpen your reflexes and prepare to block the next attack or arrow.";
         var spell = SpellBuilder.createSpellActive();
         spell.tier = 1;
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
-        var title = effect.title;
+        var title = "Witcher Reflexes";
 
-        spell.target.type = Spell.Target.Type.CASTER;
+        spell.active.cast.movement_speed = 0.2F;
+        spell.active.cast.duration = 5.0F;
+        spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:witcher_reflexes");
 
-        var buff = SpellBuilder.Impacts.effectSet(effect.id.toString(),10,0);
-        buff.action.status_effect.amplifier_cap = 2;
-        buff.action.status_effect.amplifier_power_multiplier = 0.15F;
-        buff.action.status_effect.refresh_duration = false;
-        spell.impacts = List.of(buff);
+        SpellBuilder.Cost.cooldownGroupWeapon(spell);
         configureCooldown(spell, 15);
+        spell.cost.cooldown.proportional = true;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     ///GLYPH MODIFERS
     public static final Entry GREATER_AARD_GLYPH = add(greater_aard_glyph());
@@ -444,7 +1059,7 @@ public class WitcherSpells {
         modifier.impact_filters = List.of(impactfilter);
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry GREATER_AXII_GLYPH = add(greater_axii_glyph());
     private static Entry greater_axii_glyph() {
@@ -462,7 +1077,7 @@ public class WitcherSpells {
         modifier.impact_filters = List.of(impactfilter);
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry GREATER_IGNI_GLYPH = add(greater_igni_glyph());
     private static Entry greater_igni_glyph() {
@@ -481,7 +1096,7 @@ public class WitcherSpells {
         modifier.impact_filters = List.of(impactfilter);
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry GREATER_QUEN_GLYPH = add(greater_quen_glyph());
     private static Entry greater_quen_glyph() {
@@ -500,7 +1115,7 @@ public class WitcherSpells {
         modifier.impact_filters = List.of(impactfilter);
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry GREATER_YRDEN_GLYPH = add(greater_yrden_glyph());
     private static Entry greater_yrden_glyph() {
@@ -517,7 +1132,7 @@ public class WitcherSpells {
         modifier.impact_filters = List.of(impactfilter_spawn);
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     ///EQUIPMENT SET MODIFERS
     public static Entry improved_whirl = add(improved_whirl());
@@ -533,7 +1148,7 @@ public class WitcherSpells {
         modifier.cooldown_duration_deduct = 3;
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry improved_yrden = add(improved_yrden());
     private static Entry improved_yrden() {
@@ -548,7 +1163,7 @@ public class WitcherSpells {
         modifier.cooldown_duration_deduct = 2;
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry improved_aard = add(improved_aard());
     private static Entry improved_aard() {
@@ -563,7 +1178,7 @@ public class WitcherSpells {
         modifier.cooldown_duration_deduct = 2;
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry improved_rend = add(improved_rend());
     private static Entry improved_rend() {
@@ -579,10 +1194,10 @@ public class WitcherSpells {
         modifier.power_modifier.critical_chance_bonus = 0.05F;
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     //// SKILL TREE MODIFERS
-    /// AARD
+    /// AARD MODIFIERS
     public static final Entry aard_far_reach = add(aard_far_reach());
     private static Entry aard_far_reach() {
         var id = Identifier.of(MOD_ID, "aard_far_reach");
@@ -599,7 +1214,7 @@ public class WitcherSpells {
         modifier2.range_add = 2;
         spell.modifiers = List.of(modifier,modifier2);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry aard_shockwave = add(aard_shockwave());
     private static Entry aard_shockwave() {
@@ -618,7 +1233,7 @@ public class WitcherSpells {
         spell.impacts = List.of(stun);
 
         SpellBuilder.Cost.cooldown(spell, 0.5F);
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry aard_frostbite = add(aard_frostbite());
     private static Entry aard_frostbite() {
@@ -650,9 +1265,9 @@ public class WitcherSpells {
         spell.impacts = List.of(freeze);
 
         SpellBuilder.Cost.cooldown(spell, 0.5F);
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-    /// AXII
+    /// AXII MODIFIERS
     public static final Entry axii_lethargy = add(axii_lethargy());
     private static Entry axii_lethargy() {
         var id = Identifier.of(MOD_ID, "axii_lethargy");
@@ -676,7 +1291,7 @@ public class WitcherSpells {
 
         SpellBuilder.Cost.cooldown(spell, 0.5F);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry axii_link = add(axii_link());
     private static Entry axii_link() {
@@ -711,7 +1326,7 @@ public class WitcherSpells {
         spell.area_impact = area_impact;
 
         SpellBuilder.Cost.cooldown(spell, 5.0F);
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry axii_domination = add(axii_domination());
     private static Entry axii_domination() {
@@ -737,9 +1352,9 @@ public class WitcherSpells {
         spell.impacts = List.of(impact);
 
         SpellBuilder.Cost.cooldown(spell, 5.0F);
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-    /// IGNI
+    /// IGNI MODIFIERS
     public static Entry igni_melt_armor = add(igni_melt_armor());
     private static Entry igni_melt_armor() {
         var id = Identifier.of(MOD_ID, "igni_melt_armor");
@@ -758,7 +1373,7 @@ public class WitcherSpells {
         spell.impacts = List.of(debuff);
 
         SpellBuilder.Cost.cooldown(spell, 0.5F);
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry igni_combustion = add(igni_combustion());
     private static Entry igni_combustion() {
@@ -792,7 +1407,7 @@ public class WitcherSpells {
 
 
         SpellBuilder.Cost.cooldown(spell, 5.0F);
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry igni_pyromaniac = add(igni_pyromaniac());
     private static Entry igni_pyromaniac() {
@@ -814,9 +1429,9 @@ public class WitcherSpells {
 
         spell.modifiers = List.of(modifier,modifier2);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-    /// QUEN
+    /// QUEN MODIFIERS
     public static final Entry quen_exploding_shield = add(quen_exploding_shield());
     private static Entry quen_exploding_shield() {
         var id = Identifier.of(MOD_ID, "quen_exploding_shield");
@@ -847,7 +1462,7 @@ public class WitcherSpells {
 
         SpellBuilder.Cost.cooldown(spell, 1);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry quen_warding_shield = add(quen_warding_shield());
     private static Entry quen_warding_shield() {
@@ -862,7 +1477,7 @@ public class WitcherSpells {
         modifier.effect_duration_add = 4.0F;
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry quen_discharge = add(quen_discharge());
     private static Entry quen_discharge() {
@@ -894,9 +1509,9 @@ public class WitcherSpells {
 
         SpellBuilder.Cost.cooldown(spell, 1);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-    /// YRDEN
+    /// YRDEN MODIFIERS
     /// TO DO - INCREASE RANGE OF THE CIRCLE INSTEAD OF DURATION
     public static final Entry yrden_sustained_glyphs = add(yrden_sustained_glyphs());
     private static Entry yrden_sustained_glyphs() {
@@ -913,7 +1528,7 @@ public class WitcherSpells {
         modifier.impact_filters = List.of(impactfilter_spawn);
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry yrden_binding_glyphs = add(yrden_binding_glyphs());
     private static Entry yrden_binding_glyphs() {
@@ -931,7 +1546,7 @@ public class WitcherSpells {
         modifier.impact_filters = List.of(impactfilter_spawn);
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry yrden_supercharged_glyphs = add(yrden_supercharged_glyphs());
     private static Entry yrden_supercharged_glyphs() {
@@ -950,9 +1565,9 @@ public class WitcherSpells {
 
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-    /// FAST ATTACK
+    /// FAST ATTACK MODIFIERS
     public static final Entry muscle_memory = add(muscle_memory());
     private static Entry muscle_memory() {
         var id = Identifier.of(MOD_ID, "muscle_memory");
@@ -985,7 +1600,7 @@ public class WitcherSpells {
         spell.impacts = List.of(buff);
         configureCooldown(spell, 20);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, mutator, null);
     }
     public static Entry whirl_boost_a = add(whirl_boost_a());
     private static Entry whirl_boost_a() {
@@ -1001,9 +1616,9 @@ public class WitcherSpells {
         modifier.power_modifier.power_multiplier = 0.25F;
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-    /// STRONG ATTACK
+    /// STRONG ATTACK MODIFIERS
     public static final Entry strength_training = add(strength_training());
     private static Entry strength_training() {
         var id = Identifier.of(MOD_ID, "strength_training");
@@ -1036,7 +1651,7 @@ public class WitcherSpells {
         spell.impacts = List.of(buff);
         configureCooldown(spell, 20);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, mutator, null);
     }
     public static Entry rend_boost_a = add(rend_boost_a());
     private static Entry rend_boost_a() {
@@ -1052,9 +1667,9 @@ public class WitcherSpells {
         modifier.power_modifier.power_multiplier = 0.3F;
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-    /// DEFENSE
+    /// DEFENSE MODIFIERS
     public static Entry witcher_reflexes_boost_a = add(witcher_reflexes_boost_a());
     private static Entry witcher_reflexes_boost_a() {
         var id = Identifier.of(MOD_ID, "witcher_reflexes_boost_a");
@@ -1068,12 +1683,11 @@ public class WitcherSpells {
         modifier.effect_amplifier_add = 2;
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry arrow_deflection = add(arrow_deflection());
     private static Entry arrow_deflection() {
         var id = Identifier.of(MOD_ID, "arrow_deflection");
-        var effect = WitcherStatusEffects.ARROW_DEFLECTION;
         var title = "Arrow Deflection";
         var description = "While blocking Arrows with Witcher Reflexes, you send the Arrow back to the shooter.";
         var spell = modifierSpellBase();
@@ -1081,26 +1695,18 @@ public class WitcherSpells {
 
         var modifier = new Spell.Modifier();
         modifier.spell_pattern = "witcher_rpg:defensive_witcher_mechanics";
-        var impact = SpellBuilder.Impacts.effectSet(effect.id.toString(), 20, 0);
-        impact.action.status_effect.amplifier_power_multiplier = 0.15F;
-        modifier.mutate_impacts = Spell.Modifier.ImpactListModifier.APPEND;
-        modifier.impacts = List.of(impact);
+        modifier.impacts = List.of();
 
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry counterattack = add(counterattack());
     private static Entry counterattack() {
         var id = Identifier.of(MOD_ID, "counterattack");
-        var effect = WitcherStatusEffects.COUNTERATTACK;
-        var title = effect.title;
+        var title = "Counterattack";
         var description = "After blocking, with your next melee attack you have {bonus} attack damage.";
         var spell = createModifierAlikePassiveSpell();
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var bonus = SpellTooltip.percent(effect.config().firstModifier().value);
-            return args.description().replace("{bonus}", bonus);
-        };
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
@@ -1108,14 +1714,11 @@ public class WitcherSpells {
         var trigger = SpellBuilder.Triggers.shieldBlock();
         spell.passive.triggers = List.of(trigger);
 
-        var impact = SpellBuilder.Impacts.effectSet(effect.id.toString(), 15, 0);
-        impact.action.status_effect.amplifier_power_multiplier = 0.15F;
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, null, null);
     }
-    /// BATTLE TRANCE
     /// PASSIVE SPELLS
-    /// GENERIC WITCHER TRAITS
+    /// GENERIC PASSIVE WITCHER TRAITS
     public static final Entry griffin_school_technique = add(griffin_school_technique());
     private static Entry griffin_school_technique() {
         var id = Identifier.of(MOD_ID, "griffin_school_technique");
@@ -1182,7 +1785,7 @@ public class WitcherSpells {
 
         SpellBuilder.Cost.cooldown(spell, 45F);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry cat_school_technique = add(cat_school_technique());
     private static Entry cat_school_technique() {
@@ -1225,7 +1828,7 @@ public class WitcherSpells {
 
         SpellBuilder.Cost.cooldown(spell, 45F);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry bear_school_technique = add(bear_school_technique());
     private static Entry bear_school_technique() {
@@ -1260,7 +1863,7 @@ public class WitcherSpells {
 
         SpellBuilder.Cost.cooldown(spell, 45F);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, mutator, null);
     }
     public static final Entry wolf_school_technique = add(wolf_school_technique());
     private static Entry wolf_school_technique() {
@@ -1307,9 +1910,9 @@ public class WitcherSpells {
 
         SpellBuilder.Cost.cooldown(spell, 45F);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-
+    //// WITCHER RELIC SPELLS
     public static final Entry ROSE_OF_REMEMBRANCE = add(rose_of_remembrance());
     private static Entry rose_of_remembrance() {
         var id = Identifier.of(MOD_ID, "rose_of_remembrance");
@@ -1334,7 +1937,7 @@ public class WitcherSpells {
 
         configureCooldown(spell, 45);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry sunstone = add(sunstone());
     private static Entry sunstone() {
@@ -1360,7 +1963,7 @@ public class WitcherSpells {
 
         spell.school = WitcherSpellSchools.SIGN;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(
                         SpellEngineParticles.MagicParticles.get(
@@ -1373,7 +1976,7 @@ public class WitcherSpells {
         spell.impacts = List.of(createEffectImpact(Identifier.of(effect.id.toString()), 15));
         configureCooldown(spell, 90);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, mutator, null);
     }
     public static Entry crystal_skull = add(crystal_skull());
     private static Entry crystal_skull() {
@@ -1403,7 +2006,7 @@ public class WitcherSpells {
         projectile.homing_angle = 0F;
         projectile.client_data = new Spell.ProjectileData.Client();
         projectile.client_data.model = new Spell.ProjectileModel();
-        projectile.client_data.model.model_id = "witcher_rpg:projectile/crystal_skull";
+        projectile.client_data.model.model_id = "witcher_rpg:spell_projectile/crystal_skull";
         projectile.perks.pierce = 999;
         spell.deliver.projectile.projectile = projectile;
 
@@ -1424,7 +2027,7 @@ public class WitcherSpells {
         spell.impacts = List.of(damage);
 
         configureCooldown(spell, 5);
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static Entry pure_silver = add(pure_silver());
     private static Entry pure_silver() {
@@ -1457,8 +2060,9 @@ public class WitcherSpells {
         spell.impacts = List.of(fire);
 
         configureCooldown(spell, 1);
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
+    /// GRANDMASTER SET PASSIVES
     public static final Entry grandmaster_feline = add(grandmaster_feline());
     private static Entry grandmaster_feline() {
         var id = Identifier.of(MOD_ID, "grandmaster_feline");
@@ -1496,7 +2100,7 @@ public class WitcherSpells {
 
         SpellBuilder.Cost.cooldown(spell, 20F);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, mutator, null);
     }
     public static final Entry grandmaster_griffin = add(grandmaster_griffin());
     private static Entry grandmaster_griffin() {
@@ -1539,7 +2143,7 @@ public class WitcherSpells {
 
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description, mutator, null);
     }
     public static final Entry grandmaster_wolven = add(grandmaster_wolven());
     private static Entry grandmaster_wolven() {
@@ -1576,7 +2180,7 @@ public class WitcherSpells {
 
         SpellBuilder.Cost.cooldown(spell, 1F);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
     public static final Entry grandmaster_ursine = add(grandmaster_ursine());
     private static Entry grandmaster_ursine() {
@@ -1611,598 +2215,11 @@ public class WitcherSpells {
 
         SpellBuilder.Cost.cooldown(spell, 60F);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-
-    /// CONVERTED FROM JSON - ACTIVE SPELLS
-    public static final Entry AXII = add(axii());
-    private static Entry axii() {
-        var id = Identifier.of(MOD_ID, "axii");
-        var title = "Axii";
-        var description = "Charms the target for {effect_duration} seconds, causing them to stop attacking.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.AXII;
-        spell.range = 10;
-        spell.tier = 2;
-
-        spell.active.cast.movement_speed = 0.75F;
-        spell.active.cast.duration = 0.5F;
-        spell.active.cast.animation = "witcher_rpg:sign_cast_long";
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:axii_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        0.2F, 0.01F, 0.1F)
-        };
-
-        spell.target.type = Spell.Target.Type.AIM;
-        spell.target.aim = new Spell.Target.Aim();
-        spell.target.aim.sticky = false;
-        spell.target.aim.required = true;
-
-        spell.release.animation = "witcher_rpg:sign_cast_short";
-        spell.release.sound = new Sound("witcher_rpg:axii_sign");
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:axii_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.01F, 0.1F)
-        };
-
-        var effect = new Spell.Impact();
-        effect.action = new Spell.Impact.Action();
-        effect.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        effect.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        effect.action.status_effect.effect_id = WitcherStatusEffects.AXII.id.toString();
-        effect.action.status_effect.duration = 5;
-        effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
-        effect.action.status_effect.amplifier = 0;
-        effect.action.status_effect.amplifier_power_multiplier = 0.25F;
-        effect.action.status_effect.show_particles = false;
-        var modifier = createImpactModifier("#witcher_rpg:axii_effect_immune");
-        modifier.execute = TriState.DENY;
-        effect.target_modifiers = List.of(modifier);
-        spell.impacts = List.of(effect);
-
-        configureCooldown(spell, 20);
-        spell.cost.cooldown.haste_affected = false;
-        spell.cost.exhaust = 0.4F;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    public static final Entry AXII_PUPPET = add(axii_puppet());
-    private static Entry axii_puppet() {
-        var id = Identifier.of(MOD_ID, "axii_puppet");
-        var title = "Axii Puppet";
-        var description = "Dominates the target for {effect_duration} seconds, turning them into an ally.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.AXII;
-        spell.range = 10;
-        spell.tier = 3;
-
-        spell.active.cast.animation = "witcher_rpg:sign_cast_long";
-        spell.active.cast.movement_speed = 0.2F;
-        spell.active.cast.duration = 2.0F;
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:axii_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        0.2F, 0.01F, 0.1F)
-        };
-
-        spell.target.type = Spell.Target.Type.AIM;
-        spell.target.aim = new Spell.Target.Aim();
-        spell.target.aim.sticky = false;
-        spell.target.aim.required = true;
-
-        spell.release.animation = "witcher_rpg:sign_cast_short";
-        spell.release.sound = new Sound("witcher_rpg:axii_sign");
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:axii_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.01F, 0.1F)
-        };
-
-        var effect = new Spell.Impact();
-        effect.action = new Spell.Impact.Action();
-        effect.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        effect.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        effect.action.status_effect.effect_id = WitcherStatusEffects.AXII_PUPPET.id.toString();
-        effect.action.status_effect.duration = 8;
-        effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
-        effect.action.status_effect.amplifier = 0;
-        effect.action.status_effect.show_particles = false;
-        var modifier = createImpactModifier("#witcher_rpg:axii_effect_immune");
-        modifier.execute = TriState.DENY;
-        effect.target_modifiers = List.of(modifier);
-        spell.impacts = List.of(effect);
-
-        configureCooldown(spell, 28);
-        spell.cost.cooldown.haste_affected = false;
-        spell.cost.exhaust = 0.4F;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    public static final Entry IGNI = add(igni());
-    private static Entry igni() {
-        var id = Identifier.of(MOD_ID, "igni");
-        var title = "Igni";
-        var description = "Unleashes a stream of fire dealing {damage} damage and setting enemies ablaze.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.IGNI;
-        spell.range = 5.0F;
-        spell.tier = 1;
-
-        spell.active.cast.animation = "witcher_rpg:sign_cast_long";
-        spell.active.cast.movement_speed = 0.75F;
-        spell.active.cast.duration = 2.0F;
-        spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:igni_sign"), 0.2F);
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
-                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
-                        ParticleBatch.Rotation.LOOK, 40.0F, 1.2F, 2.5F, 90.0F, 0F),
-                new ParticleBatch("smoke",
-                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
-                        ParticleBatch.Rotation.LOOK, 0.1F, 0.01F, 0.4F, 90.0F, 0F),
-                new ParticleBatch("witcher_rpg:igni_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.01F, 0.02F)
-        };
-        spell.active.cast.channel_ticks = 8;
-
-        spell.target.type = Spell.Target.Type.AREA;
-        spell.target.area = new Spell.Target.Area();
-        spell.target.area.angle_degrees = 90;
-        spell.target.area.horizontal_range_multiplier = 2.0F;
-        spell.target.area.vertical_range_multiplier = 1.5F;
-
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 0.8F;
-        damage.action.damage.knockback = 0.2F;
-        damage.sound = new Sound("block.blastfurnace.fire_crackle");
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
-                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.7F, 1.5F),
-                new ParticleBatch("large_smoke",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        0.2F, 0.1F, 0.3F),
-                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        4.0F, 0.02F, 0.1F)
-        };
-
-        var fire = new Spell.Impact();
-        fire.action = new Spell.Impact.Action();
-        fire.action.type = Spell.Impact.Action.Type.FIRE;
-        fire.action.fire = new Spell.Impact.Action.Fire();
-        fire.action.fire.duration = 2;
-        fire.sound = new Sound("block.blastfurnace.fire_crackle");
-
-        spell.impacts = List.of(damage, fire);
-
-        configureCooldown(spell, 16);
-        spell.cost.exhaust = 0.4F;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    public static final Entry IGNI_FIRESTREAM = add(igni_firestream());
-    private static Entry igni_firestream() {
-        var id = Identifier.of(MOD_ID, "igni_firestream");
-        var title = "Igni Firestream";
-        var description = "Unleashes a concentrated stream of fire dealing {damage} damage and setting enemies ablaze.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.IGNI;
-        spell.range = 6.0F;
-        spell.tier = 3;
-
-        spell.active.cast.animation = "witcher_rpg:sign_cast_long";
-        spell.active.cast.movement_speed = 0.5F;
-        spell.active.cast.duration = 7.5F;
-        spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:igni_sign"), 0.4F);
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
-                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
-                        ParticleBatch.Rotation.LOOK, 5.0F, 0.8F, 6.0F, 20.0F, 0F),
-                new ParticleBatch("witcher_rpg:igni_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        0.2F, 0.01F, 0.2F)
-        };
-        spell.active.cast.channel_ticks = 4;
-
-        spell.target.type = Spell.Target.Type.AREA;
-        spell.target.area = new Spell.Target.Area();
-        spell.target.area.angle_degrees = 20;
-
-        spell.release.sound = new Sound("block.blastfurnace.fire_crackle");
-
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 0.9F;
-        damage.action.damage.knockback = 0.2F;
-        damage.sound = new Sound("block.blastfurnace.fire_crackle");
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch("lava",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        1.0F, 0.5F, 3.0F),
-                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10.0F, 0.08F, 0.2F)
-        };
-
-        var fire = new Spell.Impact();
-        fire.action = new Spell.Impact.Action();
-        fire.action.type = Spell.Impact.Action.Type.FIRE;
-        fire.action.fire = new Spell.Impact.Action.Fire();
-        fire.action.fire.duration = 3;
-
-        spell.impacts = List.of(damage, fire);
-
-        configureCooldown(spell, 24);
-        spell.cost.exhaust = 0.5F;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    public static final Entry QUEN = add(quen());
-    private static Entry quen() {
-        var id = Identifier.of(MOD_ID, "quen");
-        var title = "Quen";
-        var description = "Creates a protective shield that absorbs damage for {effect_duration} seconds.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.QUEN;
-        spell.range = 0;
-        spell.tier = 2;
-
-        spell.active.cast.movement_speed = 0.75F;
-        spell.active.cast.duration = 0;
-
-        spell.target.type = Spell.Target.Type.CASTER;
-
-        spell.release.animation = "witcher_rpg:sign_cast_short";
-        spell.release.sound = new Sound("witcher_rpg:quen_sign");
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.electric_arc_A.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        3.0F, 0.01F, 0.05F).extent(1),
-                new ParticleBatch(SpellEngineParticles.electric_arc_B.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        5.0F, 0.01F, 0.05F).extent(1),
-                new ParticleBatch("witcher_rpg:quen_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        3.0F, 0.01F, 0.1F),
-                new ParticleBatch("witcher_rpg:quen_sign_cast",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.01F, 0.2F)
-        };
-
-        var effect = new Spell.Impact();
-        effect.action = new Spell.Impact.Action();
-        effect.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        effect.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        effect.action.status_effect.effect_id = WitcherStatusEffects.QUEN_SHIELD.id.toString();
-        effect.action.status_effect.duration = 10;
-        effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
-        effect.action.status_effect.amplifier = 0;
-        effect.action.status_effect.amplifier_power_multiplier = 0.25F;
-        effect.action.status_effect.show_particles = false;
-        spell.impacts = List.of(effect);
-
-        configureCooldown(spell, 28);
-        spell.cost.exhaust = 0.4F;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    public static final Entry QUEN_ACTIVE_SHIELD = add(quen_active_shield());
-    private static Entry quen_active_shield() {
-        var id = Identifier.of(MOD_ID, "quen_active_shield");
-        var title = "Quen Active Shield";
-        var description = "Creates an active protective shield that absorbs damage and heals the caster.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.QUEN;
-        spell.range = 0;
-        spell.tier = 3;
-
-        spell.active.cast.animation = "witcher_rpg:sign_cast_long";
-        spell.active.cast.movement_speed = 0.1F;
-        spell.active.cast.duration = 5.0F;
-        spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:quen_sign"), 0.4F);
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:quen_sign_cast",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        0.3F, 0.01F, 0.5F)
-        };
-        spell.active.cast.channel_ticks = 4;
-
-        spell.target.type = Spell.Target.Type.CASTER;
-
-        var custom = new Spell.Impact();
-        custom.action = new Spell.Impact.Action();
-        custom.action.type = Spell.Impact.Action.Type.CUSTOM;
-        custom.action.custom = new Spell.Impact.Action.Custom();
-        custom.action.custom.handler = "witcher_rpg:quen_active";
-        spell.impacts = List.of(custom);
-
-        configureCooldown(spell, 36);
-        spell.cost.cooldown.proportional = false;
-        spell.cost.cooldown.haste_affected = false;
-        spell.cost.exhaust = 0.4F;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    public static final Entry BATTLE_TRANCE = add(battle_trance());
-    private static Entry battle_trance() {
-        var id = Identifier.of(MOD_ID, "battle_trance");
-        var title = "Battle Trance";
-        var description = "Enters a battle trance for {effect_duration} seconds, enhancing combat abilities.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.WITCHER_MELEE;
-        spell.range = 0;
-        spell.tier = 2;
-
-        spell.active.cast.movement_speed = 0.75F;
-        spell.active.cast.duration = 0;
-
-        spell.target.type = Spell.Target.Type.CASTER;
-
-        var effect = new Spell.Impact();
-        effect.action = new Spell.Impact.Action();
-        effect.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        effect.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        effect.action.status_effect.effect_id = WitcherStatusEffects.BATTLE_TRANCE.id.toString();
-        effect.action.status_effect.duration = 5;
-        effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
-        effect.action.status_effect.amplifier = 0;
-        effect.action.status_effect.show_particles = false;
-        spell.impacts = List.of(effect);
-
-        configureCooldown(spell, 42);
-        spell.cost.exhaust = 0.8F;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    public static final Entry REND = add(rend());
-    private static Entry rend() {
-        var id = Identifier.of(MOD_ID, "rend");
-        var title = "Rend";
-        var description = "A powerful overhead strike dealing {damage} damage and inflicting grievous wounds.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.WITCHER_MELEE;
-        spell.range = 3.0F;
-        spell.range_mechanic = Spell.RangeMechanic.MELEE;
-        spell.tier = 3;
-
-        spell.active.cast.animation = "witcher_rpg:rend_cast";
-        spell.active.cast.movement_speed = 0.1F;
-        spell.active.cast.duration = 0.3F;
-
-        spell.target.type = Spell.Target.Type.AIM;
-        spell.target.aim = new Spell.Target.Aim();
-
-        spell.release.animation = "witcher_rpg:rend_release";
-        spell.release.sound = Sound.withRandomness(Identifier.of("witcher_rpg:rend_spell"),1.5F);
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("crimson_spore",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        20.0F, 1.0F, 15.0F),
-                new ParticleBatch("sweep_attack",
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.LAUNCH_POINT,
-                        ParticleBatch.Rotation.LOOK, 1.0F, 0.2F, 1.0F, 0F, 0F)
-        };
-
-        spell.deliver.type = Spell.Delivery.Type.PROJECTILE;
-        spell.deliver.projectile = new Spell.Delivery.ShootProjectile();
-        spell.deliver.projectile.inherit_shooter_pitch = false;
-        spell.deliver.projectile.launch_properties.velocity = 0.9F;
-        var projectile = new Spell.ProjectileData();
-        projectile.homing_angle = 0F;
-        projectile.perks.pierce = 999;
-        projectile.hitbox = new Spell.ProjectileData.HitBox(1.0F, 0.5F);
-        projectile.client_data = new Spell.ProjectileData.Client();
-        projectile.client_data.model = new Spell.ProjectileModel();
-        projectile.client_data.model.model_id = "witcher_rpg:projectile/rend";
-        projectile.client_data.model.scale = 4.0F;
-        projectile.client_data.model.rotate_degrees_per_tick = 0;
-        spell.deliver.projectile.projectile = projectile;
-
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 1.5F;
-        damage.action.damage.knockback = 1.0F;
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch("crimson_spore",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        15.0F, 0.2F, 1.6F),
-                new ParticleBatch("sweep_attack",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        ParticleBatch.Rotation.LOOK, 1.0F, 0.2F, 1.0F, 0F, 0F)
-        };
-
-        var grievous = new Spell.Impact();
-        grievous.action = new Spell.Impact.Action();
-        grievous.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        grievous.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        grievous.action.status_effect.effect_id = MRPGCEffects.GRIEVOUS_WOUNDS.id.toString();
-        grievous.action.status_effect.duration = 7;
-        grievous.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
-        grievous.action.status_effect.amplifier_power_multiplier = 0.15F;
-        grievous.action.status_effect.show_particles = false;
-        grievous.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25.0F, 0.2F, 0.2F).color(3208659199L)
-        };
-
-        spell.impacts = List.of(damage, grievous);
-
-        configureCooldown(spell, 18);
-        spell.cost.exhaust = 1.0F;
-        spell.cost.durability = 1;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    public static final Entry WHIRL = add(whirl());
-    private static Entry whirl() {
-        var id = Identifier.of(MOD_ID, "whirl");
-        var title = "Whirl";
-        var description = "A spinning attack dealing {damage} damage to all nearby enemies.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.WITCHER_MELEE;
-        spell.range = 1.0F;
-        spell.range_mechanic = Spell.RangeMechanic.MELEE;
-        spell.tier = 4;
-
-        spell.active.cast.movement_speed = 1.3F;
-        spell.active.cast.duration = 2.5F;
-        spell.active.cast.animation = "witcher_rpg:witcher_whirl";
-        spell.active.cast.sound =  Sound.withVolume(Identifier.of("witcher_rpg:whirl"),0.6F);
-        spell.active.cast.channel_ticks = 8;
-
-        spell.target.type = Spell.Target.Type.AREA;
-        spell.target.area = new Spell.Target.Area();
-        spell.target.area.angle_degrees = 360;
-
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 1.35F;
-        damage.action.damage.knockback = 0.3F;
-        damage.sound = Sound.withVolume(Identifier.of("more_rpg_classes:crippling_strike"), 0.2F);
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch("damage_indicator",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.5F, 3.0F)
-        };
-        spell.impacts = List.of(damage);
-
-        configureCooldown(spell, 32);
-        spell.cost.exhaust = 1.0F;
-        spell.cost.durability = 1;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    public static final Entry AARD_SWEEP = add(aard_sweep());
-    private static Entry aard_sweep() {
-        var id = Identifier.of(MOD_ID, "aard_sweep");
-        var title = "Aard Sweep";
-        var description = "A 360 degree telekinetic blast dealing {damage} damage and knocking back all nearby enemies.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.AARD;
-        spell.range = 4.0F;
-        spell.tier = 3;
-
-        spell.active.cast.movement_speed = 0.1F;
-        spell.active.cast.duration = 0;
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:aard_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        0.2F, 0.01F, 0.1F)
-        };
-        spell.active.cast.start_sound = new Sound(Sounds.AARD_SIGN_ID);
-
-        spell.target.type = Spell.Target.Type.AREA;
-        spell.target.area = new Spell.Target.Area();
-        spell.target.area.angle_degrees = 360;
-
-        spell.release.animation = "witcher_rpg:sign_cast_ground";
-        spell.release.sound = new Sound(Sounds.AARD_SIGN_ID);
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        40.0F, 0.2F, 0.3F).preSpawnTravel(6),
-                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        40.0F, 0.2F, 0.3F).preSpawnTravel(3),
-                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        40.0F, 0.2F, 0.3F).preSpawnTravel(1)
-        };
-
-        var custom = new Spell.Impact();
-        custom.action = new Spell.Impact.Action();
-        custom.action.type = Spell.Impact.Action.Type.CUSTOM;
-        custom.action.custom = new Spell.Impact.Action.Custom();
-        custom.action.custom.handler = "more_rpg_classes:stop_arrows";
-        custom.action.custom.intent = SpellTarget.Intent.HARMFUL;
-
-        var damage = new Spell.Impact();
-        damage.action = new Spell.Impact.Action();
-        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
-        damage.action.damage = new Spell.Impact.Action.Damage();
-        damage.action.damage.spell_power_coefficient = 0.6F;
-        damage.action.damage.knockback = 4.0F;
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch("more_rpg_classes:wind_vacuum",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        ParticleBatch.Rotation.LOOK, 1.0F, 0.1F, 1.0F, 0F, 0F),
-                new ParticleBatch("gust",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        1.0F, 0.2F, 0.3F)
-        };
-
-        spell.impacts = List.of(custom, damage);
-
-        configureCooldown(spell, 26);
-        spell.cost.exhaust = 0.5F;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    public static final Entry YRDEN_MAGIC_TRAP = add(yrden_magic_trap());
-    private static Entry yrden_magic_trap() {
-        var id = Identifier.of(MOD_ID, "yrden_magic_trap");
-        var title = "Yrden Magic Trap";
-        var description = "Places a magical trap that damages and slows enemies that enter it.";
-        var spell = activeSpellBase();
-        spell.school = WitcherSpellSchools.YRDEN;
-        spell.range = 3;
-        spell.tier = 3;
-
-        spell.active.cast.animation = "witcher_rpg:sign_cast_long";
-        spell.active.cast.duration = 0.5F;
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:yrden_sign_cast",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        1.0F, 0.001F, 0.006F),
-                new ParticleBatch("witcher_rpg:yrden_sign_cast",
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.CENTER,
-                        1.0F, 0.01F, 0.06F)
-        };
-
-        spell.release.animation = "witcher_rpg:sign_cast_ground";
-        spell.release.sound = new Sound("witcher_rpg:yrden_sign");
-
-        var spawn = new Spell.Impact();
-        spawn.action = new Spell.Impact.Action();
-        spawn.action.type = Spell.Impact.Action.Type.SPAWN;
-        var spawnData = new Spell.Impact.Action.Spawn();
-        spawnData.entity_type_id = "witcher_rpg:yrden_magical_trap";
-        spawnData.time_to_live_seconds = 20;
-        spawn.action.spawns = List.of(spawnData);
-        spell.impacts = List.of(spawn);
-
-        configureCooldown(spell, 40);
-        spell.cost.exhaust = 0.4F;
-
-        return new Entry(id, spell, title, description, null);
-    }
-
-    /// CONVERTED FROM JSON - PASSIVE SPELLS
+    /// SWORD PASSIVE SPELLS
     public static final Entry AERONDIGHT_PASSIVE = add(aerondight_passive());
-    private static Entry aerondight_passive() {
+    public static Entry aerondight_passive() {
         var id = Identifier.of(MOD_ID, "aerondight_passive");
         var title = "Aerondight";
         var description = "Each hit deals bonus arcane damage and builds up charges, increasing damage.";
@@ -2257,11 +2274,10 @@ public class WitcherSpells {
         configureCooldown(spell, 1);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-
     public static final Entry IRIS_PASSIVE = add(iris_passive());
-    private static Entry iris_passive() {
+    public static Entry iris_passive() {
         var id = Identifier.of(MOD_ID, "iris_passive");
         var title = "Iris";
         var description = "Each hit builds up charges, increasing physical damage.";
@@ -2317,11 +2333,10 @@ public class WitcherSpells {
         configureCooldown(spell, 1);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-
     public static final Entry SILVER_SWORD_PASSIVE = add(silver_sword_passive());
-    private static Entry silver_sword_passive() {
+    public static Entry silver_sword_passive() {
         var id = Identifier.of(MOD_ID, "silver_sword_passive");
         var title = "Silver Sword";
         var description = "Deals bonus damage to silver vulnerable targets.";
@@ -2357,9 +2372,8 @@ public class WitcherSpells {
         configureCooldown(spell, 1);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
-
     public static final Entry REACH_OF_THE_DAMNED_PASSIVE = add(reach_of_the_damned_passive());
     private static Entry reach_of_the_damned_passive() {
         var id = Identifier.of(MOD_ID, "reach_of_the_damned_passive");
@@ -2400,6 +2414,6 @@ public class WitcherSpells {
         configureCooldown(spell, 10);
         spell.cost.cooldown.hosting_item = false;
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
 }

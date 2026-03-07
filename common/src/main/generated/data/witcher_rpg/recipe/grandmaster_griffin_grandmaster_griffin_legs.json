@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": {
-    "item": "witcher_rpg:silver_ingot"
+    "item": "witcher_rpg:dimeritium_ingot"
   },
   "base": {
     "item": "witcher_rpg:mastercrafted_griffin_legs"

@@ -5,12 +5,10 @@ import mod.azure.azurelibarmor.common.render.armor.AzArmorRendererRegistry;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.particle.*;
-import net.minecraft.util.Identifier;
 import net.spell_engine.api.effect.CustomModelStatusEffect;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
-import net.spell_engine.api.item.armor.Armor;
+import net.spell_engine.rpg_series.item.Armor;
 import net.spell_engine.api.render.BuffParticleSpawner;
-import net.spell_engine.api.render.CustomModels;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
@@ -33,10 +31,8 @@ import net.witcher_rpg.item.component.RunestoneTooltipComponent;
 import net.witcher_rpg.spell.WitcherSpells;
 
 
-import java.util.List;
 import java.util.function.Supplier;
 
-import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class WitcherClient{
 
@@ -58,14 +54,6 @@ public class WitcherClient{
         }
 
         WitcherModelPredicates.registerModelPredicates();
-        CustomModels.registerModelIds(List.of(
-                YrdenRenderer.modelId,
-                YrdenMagicTrapRenderer.modelId,
-                QuenActiveShieldRenderer.modelId,
-                Identifier.of(MOD_ID, "projectile/rend"),
-                Identifier.of(MOD_ID, "projectile/crystal_skull"),
-                Identifier.of(MOD_ID, "projectile/igni_dummy")
-        ));
 
         CustomParticleStatusEffect.register(
                 WitcherStatusEffects.AXII.effect,

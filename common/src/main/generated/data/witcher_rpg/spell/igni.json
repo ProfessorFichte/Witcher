@@ -6,8 +6,10 @@
   "active": {
     "cast": {
       "duration": 2.0,
-      "channel_ticks": 8,
-      "animation": "witcher_rpg:sign_cast_long",
+      "channel_ticks": 6,
+      "animation": {
+        "id": "witcher_rpg:sign_cast_long"
+      },
       "movement_speed": 0.75,
       "sound": {
         "id": "witcher_rpg:igni_sign",
@@ -105,7 +107,8 @@
   "cost": {
     "exhaust": 0.4,
     "cooldown": {
-      "duration": 16.0
+      "group": "igni",
+      "duration": 8.0
     }
   }
 }

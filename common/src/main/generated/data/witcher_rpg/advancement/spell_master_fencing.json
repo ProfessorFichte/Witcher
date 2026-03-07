@@ -4,7 +4,7 @@
     "bind": {
       "conditions": {
         "complete": true,
-        "spell_pool": "witcher_rpg:fencing"
+        "spell_pool": "witcher_rpg:spell_book/fencing"
       },
       "trigger": "spell_engine:spell_binding"
     }
@@ -17,7 +17,7 @@
     "frame": "goal",
     "hidden": false,
     "icon": {
-      "id": "witcher_rpg:fencing_spell_book"
+      "id": "witcher_rpg:dark_steel_witcher_sword"
     },
     "show_toast": true,
     "title": {

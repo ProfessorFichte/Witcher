@@ -22,7 +22,9 @@
     }
   },
   "release": {
-    "animation": "witcher_rpg:sign_cast_ground",
+    "animation": {
+      "id": "witcher_rpg:sign_cast_ground"
+    },
     "particles": [
       {
         "particle_id": "spell_engine:smoke_medium",
@@ -103,7 +105,8 @@
   "cost": {
     "exhaust": 0.5,
     "cooldown": {
-      "duration": 26.0
+      "group": "aard",
+      "duration": 15.0
     }
   }
 }

@@ -40,7 +40,7 @@
         },
         "client_data": {
           "model": {
-            "model_id": "witcher_rpg:projectile/crystal_skull"
+            "model_id": "witcher_rpg:spell_projectile/crystal_skull"
           }
         }
       }

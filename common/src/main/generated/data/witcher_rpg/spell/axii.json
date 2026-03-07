@@ -6,7 +6,9 @@
   "active": {
     "cast": {
       "duration": 0.5,
-      "animation": "witcher_rpg:sign_cast_long",
+      "animation": {
+        "id": "witcher_rpg:sign_cast_long"
+      },
       "movement_speed": 0.75,
       "particles": [
         {
@@ -21,7 +23,9 @@
     }
   },
   "release": {
-    "animation": "witcher_rpg:sign_cast_short",
+    "animation": {
+      "id": "witcher_rpg:sign_cast_short"
+    },
     "particles": [
       {
         "particle_id": "witcher_rpg:axii_sign_cast",
@@ -67,6 +71,7 @@
   "cost": {
     "exhaust": 0.4,
     "cooldown": {
+      "group": "axii",
       "duration": 20.0,
       "haste_affected": false
     }
