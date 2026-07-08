@@ -19,6 +19,21 @@
     "witcher_rpg:griffin_feet",
     "witcher_rpg:griffin_head",
     "witcher_rpg:griffin_legs",
-    "witcher_rpg:griffin_chest"
+    "witcher_rpg:griffin_chest",
+
+    "witcher_rpg:superior_feline_feet",
+    "witcher_rpg:superior_feline_head",
+    "witcher_rpg:superior_feline_legs",
+    "witcher_rpg:superior_feline_chest",
+
+    "witcher_rpg:superior_ursine_feet",
+    "witcher_rpg:superior_ursine_head",
+    "witcher_rpg:superior_ursine_legs",
+    "witcher_rpg:superior_ursine_chest",
+
+    "witcher_rpg:superior_griffin_feet",
+    "witcher_rpg:superior_griffin_head",
+    "witcher_rpg:superior_griffin_legs",
+    "witcher_rpg:superior_griffin_chest"
   ]
 }
