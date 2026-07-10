@@ -1,3 +1,6 @@
+# 2.8.1 - 1.21.1
+- Remove debugging Loggers from the GlyphAnvilHandler I forgot Github issue #14
+
 # 2.8.0 - 1.21.1
 **Update to use Spell Engine 1.9.0**
 - DISCLAIMER: All spell books and spell scrolls will be reset, due to major API changes.

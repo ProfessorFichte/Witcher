@@ -16,13 +16,10 @@ import net.spell_engine.api.spell.container.SpellContainer;
 import net.witcher_rpg.item.component.GlyphSlots;
 import net.witcher_rpg.item.component.WitcherDataComponents;
 import net.witcher_rpg.util.tags.WitcherItemTags;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class GlyphAnvilHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger("WitcherRPG/GlyphAnvil");
     private static final Random RANDOM = new Random();
 
     public static AnvilResult handleAnvilUpdate(ItemStack left, ItemStack right, String newName) {
@@ -38,39 +35,28 @@ public class GlyphAnvilHandler {
     }
 
     private static AnvilResult handleGlyphAttachment(ItemStack armor, ItemStack glyph, String newName) {
-        LOGGER.info("=== handleGlyphAttachment called ===");
-        LOGGER.info("Armor: {}", Registries.ITEM.getId(armor.getItem()));
-        LOGGER.info("Glyph: {}", Registries.ITEM.getId(glyph.getItem()));
-
         GlyphSlots slots = armor.get(WitcherDataComponents.GLYPH_SLOTS);
-        LOGGER.info("Existing slots: {}", slots);
 
         if (slots == null) {
             boolean shouldInitialize = armor.isIn(WitcherItemTags.GLYPH_ATTACHABLE);
-            LOGGER.info("Should initialize: {}", shouldInitialize);
 
             if (shouldInitialize) {
-                LOGGER.info("Initializing glyph slots");
                 int defaultSlots = getDefaultGlyphSlots(armor);
-                LOGGER.info("Default slots: {}", defaultSlots);
                 slots = new GlyphSlots(defaultSlots, List.of());
             }
         }
 
         if (slots == null) {
-            LOGGER.info("Slots is null, returning PASS");
             return AnvilResult.PASS;
         }
 
         if (!slots.canAttachGlyph()) {
-            LOGGER.info("Cannot attach glyph (full), returning PASS. Current: {}/{}", slots.attachedGlyphs().size(), slots.maxSlots());
             return AnvilResult.PASS;
         }
 
         ItemStack result = armor.copy();
 
         GlyphSlots newSlots = slots.withGlyph(glyph);
-        LOGGER.info("New slots after adding glyph: {}", newSlots);
         result.set(WitcherDataComponents.GLYPH_SLOTS, newSlots);
 
         rebuildAllSpellContainers(result, newSlots.attachedGlyphs());
@@ -103,15 +89,13 @@ public class GlyphAnvilHandler {
     }
 
     private static void rebuildAllSpellContainers(ItemStack armor, List<ItemStack> glyphs) {
-        // Use LinkedHashSet to preserve order and automatically deduplicate
+        // LinkedHashSet preserves insertion order and deduplicates spell IDs across glyphs
         Set<String> uniqueSpellIds = new LinkedHashSet<>();
 
-        // Collect spell IDs from all glyphs
         for (ItemStack glyph : glyphs) {
             SpellContainer container = glyph.get(SpellDataComponents.SPELL_CONTAINER);
             if (container != null) {
-                List<String> spellIds = extractSpellIds(container);
-                uniqueSpellIds.addAll(spellIds); // Duplicates automatically ignored
+                uniqueSpellIds.addAll(extractSpellIds(container));
             }
         }
 
@@ -120,7 +104,6 @@ public class GlyphAnvilHandler {
             return;
         }
 
-        // Create a new spell container with unique spell IDs
         SpellContainer merged = createSpellContainer(new ArrayList<>(uniqueSpellIds));
         if (merged != null) {
             armor.set(SpellDataComponents.SPELL_CONTAINER, merged);
@@ -130,7 +113,6 @@ public class GlyphAnvilHandler {
     @SuppressWarnings("unchecked")
     private static List<String> extractSpellIds(SpellContainer container) {
         try {
-            // Get the codec for SpellContainer from the registry
             var componentType = Registries.DATA_COMPONENT_TYPE.get(Identifier.of("spell_engine", "spell_container"));
             if (componentType != null) {
                 var rawCodec = componentType.getCodec();
@@ -161,7 +143,6 @@ public class GlyphAnvilHandler {
     @SuppressWarnings("unchecked")
     private static SpellContainer createSpellContainer(List<String> spellIds) {
         try {
-            // Create NBT with spell IDs
             NbtCompound compound = new NbtCompound();
             NbtList list = new NbtList();
             for (String id : spellIds) {
@@ -170,7 +151,6 @@ public class GlyphAnvilHandler {
             compound.put("spell_ids", list);
             compound.putString("content", "ANY");
 
-            // Get the codec from the component type
             var componentType = Registries.DATA_COMPONENT_TYPE.get(Identifier.of("spell_engine", "spell_container"));
             if (componentType != null) {
                 var rawCodec = componentType.getCodec();
@@ -191,7 +171,7 @@ public class GlyphAnvilHandler {
     private static boolean hasDuplicateSpell(List<ItemStack> existingGlyphs, ItemStack newGlyph) {
         SpellContainer newContainer = newGlyph.get(SpellDataComponents.SPELL_CONTAINER);
         if (newContainer == null) {
-            return false; // No spell on new glyph, so no duplicate
+            return false;
         }
 
         List<String> newSpellIds = extractSpellIds(newContainer);
@@ -199,14 +179,13 @@ public class GlyphAnvilHandler {
             return false;
         }
 
-        // Check all existing glyphs for duplicate spell IDs
         for (ItemStack existingGlyph : existingGlyphs) {
             SpellContainer existingContainer = existingGlyph.get(SpellDataComponents.SPELL_CONTAINER);
             if (existingContainer != null) {
                 List<String> existingSpellIds = extractSpellIds(existingContainer);
                 for (String newSpellId : newSpellIds) {
                     if (existingSpellIds.contains(newSpellId)) {
-                        return true; // Found duplicate
+                        return true;
                     }
                 }
             }
@@ -239,12 +218,7 @@ public class GlyphAnvilHandler {
 
     private static boolean isGlyphAttachable(ItemStack stack) {
         GlyphSlots slots = stack.get(WitcherDataComponents.GLYPH_SLOTS);
-        boolean hasSlots = slots != null && slots.maxSlots() > 0;
-        boolean inTag = stack.isIn(WitcherItemTags.GLYPH_ATTACHABLE);
-        String itemId = Registries.ITEM.getId(stack.getItem()).toString();
-        LOGGER.info("isGlyphAttachable for {}: hasSlots={}, inTag={}",
-            itemId, hasSlots, inTag);
-        return hasSlots || inTag;
+        return (slots != null && slots.maxSlots() > 0) || stack.isIn(WitcherItemTags.GLYPH_ATTACHABLE);
     }
 
     private static int getDefaultGlyphSlots(ItemStack item) {
