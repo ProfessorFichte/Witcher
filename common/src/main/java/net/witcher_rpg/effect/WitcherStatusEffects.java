@@ -1,16 +1,8 @@
 package net.witcher_rpg.effect;
 
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
 import net.spell_engine.api.config.AttributeModifier;
@@ -18,16 +10,6 @@ import net.spell_engine.api.config.ConfigFile;
 import net.spell_engine.api.config.EffectConfig;
 import net.spell_engine.api.effect.*;
 import net.spell_engine.api.entity.SpellEngineAttributes;
-import net.spell_engine.api.event.CombatEvents;
-import net.spell_engine.api.spell.Spell;
-import net.spell_engine.api.spell.fx.ParticleBatch;
-import net.spell_engine.api.spell.fx.PlayerAnimation;
-import net.spell_engine.api.spell.registry.SpellRegistry;
-import net.spell_engine.fx.ParticleHelper;
-import net.spell_engine.internals.casting.SpellCast;
-import net.spell_engine.internals.casting.SpellCasterEntity;
-import net.spell_engine.internals.casting.SpellCastSyncHelper;
-import net.spell_engine.utils.AnimationHelper;
 import net.spell_power.api.SpellPowerMechanics;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
@@ -37,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
+import static net.witcher_rpg.WitcherClassMod.tweaksConfig;
 
 public class WitcherStatusEffects {
     public static final List<Effects.Entry> entries = new ArrayList<>();
@@ -154,7 +137,7 @@ public class WitcherStatusEffects {
                     List.of(
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
-                                    0.025F,
+                                    0.05F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             ),
                             new AttributeModifier(
@@ -220,13 +203,13 @@ public class WitcherStatusEffects {
     ));
     public static Effects.Entry BATTLE_TRANCE = add(new Effects.Entry(Identifier.of(MOD_ID,"battle_trance"),
             "Battle Trance",
-            "Gain Movement Speed and deal 10% more melee damage for each Adrenaline Effect Amplifier.",
+            "Gain Attack Damage. Melee hits build up Adrenaline while active.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
-                                    0.3F,
+                                    0.2F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
@@ -462,7 +445,19 @@ public class WitcherStatusEffects {
             )
     ));
 
+    public static Effects.Entry WITCHER_SENSES_EXPOSED = add(new Effects.Entry(Identifier.of(MOD_ID,"witcher_senses_exposed"),
+            "Exposed",
+            "Weakness exposed by Witcher Senses, taking increased critical hits.",
+            new CustomStatusEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.AXII.color),
+            new EffectConfig(
+                    List.of(
+                    )
+            )
+    ));
+
     public static void register(ConfigFile.Effects config) {
+        ADRENALINE_GAIN.config().attributes().get(0).value = tweaksConfig.value.battle_trance_damage_per_adrenaline_level;
+
         ActionImpairing.configure(AXII.effect, EntityActionsAllowed.STUN);
         RemoveOnHit.configure(AXII.effect, RemoveOnHit.Trigger.ANY_HIT);
 

@@ -39,8 +39,14 @@
           "pierce": 999
         },
         "client_data": {
-          "model": {
-            "model_id": "witcher_rpg:spell_projectile/crystal_skull"
+          "composite_model": {
+            "models": [
+              {
+                "fx": {
+                  "model_id": "witcher_rpg:spell_projectile/crystal_skull"
+                }
+              }
+            ]
           }
         }
       }

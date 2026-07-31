@@ -37,6 +37,10 @@
       "required": false
     },
     {
+      "id": "witcher_rpg:witcher_senses",
+      "required": false
+    },
+    {
       "id": "witcher_rpg:quen_active_shield",
       "required": false
     }

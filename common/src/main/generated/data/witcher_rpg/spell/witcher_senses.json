@@ -1,0 +1,90 @@
+{
+  "school": "spell_power:axii",
+  "range": 20.0,
+  "tier": 3,
+  "learn": {},
+  "active": {
+    "cast": {
+      "duration": 0.5,
+      "animation": {
+        "id": "witcher_rpg:sign_cast_ground"
+      },
+      "movement_speed": 0.5,
+      "start_sound": {
+        "id": "witcher_rpg:axii_sign"
+      }
+    }
+  },
+  "release": {
+    "animation": {
+      "id": "witcher_rpg:sign_cast_ground"
+    },
+    "particles": [
+      {
+        "particle_id": "spell_engine:smoke_medium",
+        "origin": "CENTER",
+        "shape": "CIRCLE",
+        "count": 40.0,
+        "min_speed": 0.2,
+        "max_speed": 0.3,
+        "pre_spawn_travel": 6.0,
+        "color_rgba": 8388863
+      },
+      {
+        "particle_id": "spell_engine:smoke_medium",
+        "origin": "CENTER",
+        "shape": "CIRCLE",
+        "count": 40.0,
+        "min_speed": 0.2,
+        "max_speed": 0.3,
+        "pre_spawn_travel": 3.0,
+        "color_rgba": 8388863
+      }
+    ],
+    "sound": {
+      "id": "witcher_rpg:axii_sign",
+      "volume": 0.6
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "angle_degrees": 360.0
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "minecraft:glowing"
+        }
+      }
+    },
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "witcher_rpg:witcher_senses_exposed"
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "witcher_rpg:axii_sign_cast",
+          "origin": "CENTER",
+          "shape": "SPHERE",
+          "count": 3.0,
+          "min_speed": 0.1,
+          "max_speed": 0.3,
+          "color_rgba": 8388863
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "exhaust": 0.6,
+    "cooldown": {
+      "duration": 25.0
+    }
+  }
+}

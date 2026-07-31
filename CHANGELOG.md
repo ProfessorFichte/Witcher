@@ -1,3 +1,11 @@
+# 2.8.2 - 1.21.1
+- Adapt to Spell Engine 1.9.10+ API Changes
+**Balancing & Internal Changes:**
+- Prepared the Spell Expansion Spells technically, they'll be available once they're fully ready
+- Models, Textures, Sound Effects & Animations are still missing
+- Battle Trance now 100% stacks Adrenaline with every Melee Hit
+- Reduced Amount of Extra Damage from and Movement Speed Battle Trance
+
 # 2.8.1 - 1.21.1
 - Remove debugging Loggers from the GlyphAnvilHandler I forgot Github issue #14
 

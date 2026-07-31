@@ -9,6 +9,8 @@ import net.spell_engine.api.effect.SpellEngineEffects;
 import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.render.LightEmission;
 import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.fx.ModelEffect;
+import net.spell_engine.api.spell.fx.ModelEffectBuilder;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.fx.Sound;
@@ -30,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
+import static net.witcher_rpg.WitcherClassMod.tweaksConfig;
 
 public class WitcherSpells {
     public enum Book { FENCING, SIGNS}
@@ -155,6 +158,9 @@ public class WitcherSpells {
     }
     private static final SpellEntityPredicates.Entry HAS_YRDEN =
             SpellEntityPredicates.hasEffectOptimized(Identifier.of("witcher_rpg", "yrden_circle"));
+    public static final SpellEntityPredicates.Entry HAS_WITCHER_SENSES_EXPOSED =
+            SpellEntityPredicates.hasEffectOptimized(Identifier.of(MOD_ID, "witcher_senses_exposed"));
+    private static final float BATTLE_TRANCE_DURATION_SECONDS = 5F;
 
     public static class TargetConditions {
         public TargetConditions() {
@@ -274,7 +280,9 @@ public class WitcherSpells {
                         ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
                         1.0F, 0.01F, 0.02F)
         };
-        spell.active.cast.channel_ticks = 6;
+        spell.active.cast.type = Spell.Active.Cast.Type.CHANNEL;
+        spell.active.cast.channel = new Spell.Active.Cast.Channel();
+        spell.active.cast.channel.ticks = 6;
 
         spell.target.type = Spell.Target.Type.AREA;
         spell.target.area = new Spell.Target.Area();
@@ -344,13 +352,20 @@ public class WitcherSpells {
         cloud.volume.area.vertical_range_multiplier = 1.5F;
         cloud.impact_tick_interval = 10;
         cloud.time_to_live_seconds = 10;
+        cloud.spawn_ticks = 10;
+        cloud.despawn_ticks = 10;
+        var yrdenCircleTotalTicks = cloud.spawn_ticks + Math.round(cloud.time_to_live_seconds * 20F) + cloud.despawn_ticks;
         cloud.client_data = new Spell.Delivery.Cloud.ClientData();
         cloud.client_data.light_level = 14;
-        cloud.client_data.model = new Spell.ProjectileModel();
-        cloud.client_data.model.model_id = "witcher_rpg:spell_effect/yrden_circle";
-        cloud.client_data.model.scale = 3.0F;
-        cloud.client_data.model.rotate_degrees_per_tick = 0;
-        cloud.client_data.model.light_emission = LightEmission.RADIATE;
+        cloud.client_data.model_fx = List.of(
+                ModelEffectBuilder.create("witcher_rpg:spell_effect/yrden_circle")
+                        .scale(3.0F)
+                        .light(LightEmission.RADIATE)
+                        .duration(yrdenCircleTotalTicks)
+                        .scaleIn(0, cloud.spawn_ticks, ModelEffect.Easing.EASE_OUT_CUBIC)
+                        .scaleOut(yrdenCircleTotalTicks - cloud.despawn_ticks, yrdenCircleTotalTicks, ModelEffect.Easing.EASE_IN_CUBIC)
+                        .build()
+        );
         cloud.client_data.particles = new ParticleBatch[]{
                 new ParticleBatch(
                         SpellEngineParticles.ground_glow.id().toString(),
@@ -514,7 +529,9 @@ public class WitcherSpells {
                         ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
                         0.2F, 0.01F, 0.2F)
         };
-        spell.active.cast.channel_ticks = 35;
+        spell.active.cast.type = Spell.Active.Cast.Type.CHANNEL;
+        spell.active.cast.channel = new Spell.Active.Cast.Channel();
+        spell.active.cast.channel.ticks = 35;
 
         spell.target.type = Spell.Target.Type.AREA;
         spell.target.area = new Spell.Target.Area();
@@ -712,6 +729,52 @@ public class WitcherSpells {
 
         return new Entry(id, spell, title, description).book(Book.SIGNS);
     }
+    public static final Entry WITCHER_SENSES = add(witcher_senses());
+    private static Entry witcher_senses() {
+        var id = Identifier.of(MOD_ID, "witcher_senses");
+        var title = "Witcher Senses";
+        var description = "Reveals all enemies within range, making them Glow and exposing their weaknesses for {effect_duration} seconds. Critical hits against exposed enemies deal more damage and are more likely to land.";
+        var spell = activeSpellBase();
+        spell.school = WitcherSpellSchools.AXII;
+        spell.range = 20;
+        spell.tier = 3;
+
+        spell.active.cast.movement_speed = 0.5F;
+        spell.active.cast.duration = 0.5F;
+        spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
+        spell.active.cast.start_sound = new Sound(Sounds.AXII_SIGN_ID);
+
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+        spell.target.area.angle_degrees = 360;
+
+        spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
+        spell.release.sound = Sound.withVolume(Sounds.AXII_SIGN_ID, 0.6F);
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        40.0F, 0.2F, 0.3F).preSpawnTravel(6)
+                        .color(Color.from(WitcherSpellSchools.AXII.color).toRGBA()),
+                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
+                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                        40.0F, 0.2F, 0.3F).preSpawnTravel(3)
+                        .color(Color.from(WitcherSpellSchools.AXII.color).toRGBA())
+        };
+
+        var glow = createEffectImpact(Identifier.of("minecraft", "glowing"), 10);
+        var expose = createEffectImpact(Identifier.of(WitcherStatusEffects.WITCHER_SENSES_EXPOSED.id.toString()), 10);
+        expose.particles = new ParticleBatch[]{
+                new ParticleBatch("witcher_rpg:axii_sign_cast",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        3F, 0.1F, 0.3F).color(Color.from(WitcherSpellSchools.AXII.color).toRGBA())
+        };
+        spell.impacts = List.of(glow, expose);
+
+        configureCooldown(spell, 25);
+        spell.cost.exhaust = 0.6F;
+
+        return new Entry(id, spell, title, description).book(Book.SIGNS);
+    }
     public static final Entry QUEN_ACTIVE_SHIELD = add(quen_active_shield());
     private static Entry quen_active_shield() {
         var id = Identifier.of(MOD_ID, "quen_active_shield");
@@ -731,7 +794,9 @@ public class WitcherSpells {
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
                         0.3F, 0.01F, 0.5F)
         };
-        spell.active.cast.channel_ticks = 25;
+        spell.active.cast.type = Spell.Active.Cast.Type.CHANNEL;
+        spell.active.cast.channel = new Spell.Active.Cast.Channel();
+        spell.active.cast.channel.ticks = 25;
 
         spell.target.type = Spell.Target.Type.CASTER;
 
@@ -885,7 +950,7 @@ public class WitcherSpells {
         effect.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
         effect.action.status_effect = new Spell.Impact.Action.StatusEffect();
         effect.action.status_effect.effect_id = WitcherStatusEffects.BATTLE_TRANCE.id.toString();
-        effect.action.status_effect.duration = 5;
+        effect.action.status_effect.duration = BATTLE_TRANCE_DURATION_SECONDS;
         effect.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
         effect.action.status_effect.amplifier = 0;
         effect.action.status_effect.show_particles = false;
@@ -895,6 +960,40 @@ public class WitcherSpells {
         spell.cost.exhaust = 0.8F;
 
         return new Entry(id, spell, title, description).book(Book.FENCING);
+    }
+    public static final Entry battle_trance_adrenaline_stacking = add(battle_trance_adrenaline_stacking());
+    private static Entry battle_trance_adrenaline_stacking() {
+        var id = Identifier.of(MOD_ID, "battle_trance_adrenaline_stacking");
+        var title = "Battle Trance - Adrenaline";
+        var stashEffect = WitcherStatusEffects.BATTLE_TRANCE;
+        var impactEffect = WitcherStatusEffects.ADRENALINE_GAIN;
+        var description = "While " + stashEffect.title + " is active, melee hits stack " + impactEffect.title + ".";
+        var spell = SpellBuilder.createSpellPassive();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+
+        var stashTriggers = witcherMeleeImpacts();
+        for (var trigger : stashTriggers) {
+            trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        }
+
+        spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
+        spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
+        spell.deliver.stash_effect.id = stashEffect.id.toString();
+        spell.deliver.stash_effect.consume = 0;
+        spell.deliver.stash_effect.triggers = stashTriggers;
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var buff = SpellBuilder.Impacts.effectAdd(impactEffect.id.toString(), BATTLE_TRANCE_DURATION_SECONDS, 1, 19);
+        buff.action.status_effect.refresh_duration = false;
+        spell.impacts = List.of(buff);
+
+        return new Entry(id, spell, title, description);
+    }
+
+    public static void applyTweaksConfig() {
+        var cap = Math.max(0, tweaksConfig.value.adrenaline_max_amplifier - 1);
+        battle_trance_adrenaline_stacking.spell().impacts.get(0).action.status_effect.amplifier_cap = cap;
     }
     public static final Entry REND = add(rend());
     private static Entry rend() {
@@ -958,7 +1057,9 @@ public class WitcherSpells {
         spell.active.cast.duration = 2.5F;
         spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:witcher_whirl");
         spell.active.cast.sound =  Sound.withVolume(Identifier.of("witcher_rpg:whirl"),0.6F);
-        spell.active.cast.channel_ticks = 6;
+        spell.active.cast.type = Spell.Active.Cast.Type.CHANNEL;
+        spell.active.cast.channel = new Spell.Active.Cast.Channel();
+        spell.active.cast.channel.ticks = 6;
 
         spell.target.type = Spell.Target.Type.AREA;
         spell.target.area = new Spell.Target.Area();
@@ -2005,8 +2106,7 @@ public class WitcherSpells {
         var projectile = new Spell.ProjectileData();
         projectile.homing_angle = 0F;
         projectile.client_data = new Spell.ProjectileData.Client();
-        projectile.client_data.model = new Spell.ProjectileModel();
-        projectile.client_data.model.model_id = "witcher_rpg:spell_projectile/crystal_skull";
+        projectile.client_data.composite_model = SpellBuilder.ProjectileModels.single("witcher_rpg:spell_projectile/crystal_skull");
         projectile.perks.pierce = 999;
         spell.deliver.projectile.projectile = projectile;
 

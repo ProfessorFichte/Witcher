@@ -6,7 +6,10 @@
   "active": {
     "cast": {
       "duration": 2.0,
-      "channel_ticks": 6,
+      "type": "CHANNEL",
+      "channel": {
+        "ticks": 6
+      },
       "animation": {
         "id": "witcher_rpg:sign_cast_long"
       },

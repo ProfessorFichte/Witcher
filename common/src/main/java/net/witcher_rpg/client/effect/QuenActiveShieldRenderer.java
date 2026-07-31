@@ -18,7 +18,7 @@ public class QuenActiveShieldRenderer implements CustomModelStatusEffect.Rendere
 
 
     @Override
-    public void renderEffect(int amplifier, LivingEntity livingEntity, float delta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light) {
+    public void renderEffect(long appliedAtWorldTime, int amplifier, LivingEntity livingEntity, float delta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light) {
         float yOffset = 0.51F;
         matrixStack.push();
         matrixStack.translate(0, yOffset, 0);

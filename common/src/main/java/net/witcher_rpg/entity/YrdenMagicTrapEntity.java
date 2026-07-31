@@ -240,6 +240,10 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
         return SpellRegistry.from(this.getWorld()).getEntry(this.spellId).orElse(null);
     }
 
+    public int getTimeToLive() {
+        return this.timeToLive;
+    }
+
     private LivingEntity cachedOwner = null;
     @Nullable
     public LivingEntity getOwner() {

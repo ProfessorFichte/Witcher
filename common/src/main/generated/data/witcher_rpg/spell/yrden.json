@@ -55,12 +55,14 @@
               "scale": 3.25
             }
           ],
-          "model": {
-            "model_id": "witcher_rpg:spell_effect/yrden_circle",
-            "light_emission": "RADIATE",
-            "scale": 3.0,
-            "rotate_degrees_per_tick": 0.0
-          }
+          "model_fx": [
+            {
+              "model_id": "witcher_rpg:spell_effect/yrden_circle",
+              "light_emission": "RADIATE",
+              "scale": 3.0,
+              "duration": 200
+            }
+          ]
         }
       }
     ]
