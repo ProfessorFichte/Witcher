@@ -1,10 +1,18 @@
-# 2.8.2 - 1.21.1
+# 3.0.0 - 1.21.1
 - Adapt to Spell Engine 1.9.10+ API Changes
+**Spell Expansion**
+- T3 Witcher Senses: Reveals all enemies within range, making them Glow and exposing their weaknesses. 
+- Critical hits against exposed enemies deal more damage and are more likely to land.
+- The exposing glow and increased Critical Hits for Melee attacks only works for the caster of the effect.
 **Balancing & Internal Changes:**
-- Prepared the Spell Expansion Spells technically, they'll be available once they're fully ready
-- Models, Textures, Sound Effects & Animations are still missing
+- Code Clean Up
 - Battle Trance now 100% stacks Adrenaline with every Melee Hit
-- Reduced Amount of Extra Damage from and Movement Speed Battle Trance
+- Reduced Amount of Extra Damage from Battle Trance
+- Rend is now a charged Spell, the longer you hold the stronger and further the hit goes.
+- Slightly Improved Rend's Animations
+- Wolf School Technique, Aerondight- & Iris Charge now use Spell Engine's GlowingItemStatusEffect Renderer
+- The Yrden Circle Model received a new Animation with the new Spell Engine API functions
+- Added a small Easter Egg for the Witcher Medallion's Trinkets, increasing a certain Spell :)
 
 # 2.8.1 - 1.21.1
 - Remove debugging Loggers from the GlyphAnvilHandler I forgot Github issue #14

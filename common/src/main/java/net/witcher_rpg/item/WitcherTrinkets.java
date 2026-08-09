@@ -21,6 +21,7 @@ import net.spell_power.api.SpellPowerMechanics;
 import net.witcher_rpg.config.TrinketConfig;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
 import net.witcher_rpg.spell.SetBonuses;
+import net.witcher_rpg.spell.WitcherModifiers;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -182,6 +183,7 @@ public class WitcherTrinkets {
                             new AttributeModifier(WitcherAttributes.ADRENALINE_MODIFIER.getIdAsString(), medallion_adrenaline, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             )
+            .spell(SpellContainers.forRelic(WitcherModifiers.increased_medallion_senses.id()))
             .component(SpellDataComponents.EQUIPMENT_SET, SetBonuses.grandmaster_ursine.id());
     public static final Entry CAT_SCHOOL_MEDALLION = add(new Entry(10, "cat_school_medallion", "Cat School Medallion"))
             .config(new TrinketConfig.Entry()
@@ -191,6 +193,7 @@ public class WitcherTrinkets {
                             new AttributeModifier(WitcherAttributes.ADRENALINE_MODIFIER.getIdAsString(), medallion_adrenaline, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             )
+            .spell(SpellContainers.forRelic(WitcherModifiers.increased_medallion_senses.id()))
             .component(SpellDataComponents.EQUIPMENT_SET, SetBonuses.grandmaster_feline.id());
     public static final Entry GRIFFIN_SCHOOL_MEDALLION = add(new Entry(10, "griffin_school_medallion", "Griffin School Medallion"))
             .config(new TrinketConfig.Entry()
@@ -200,6 +203,7 @@ public class WitcherTrinkets {
                             new AttributeModifier(WitcherAttributes.ADRENALINE_MODIFIER.getIdAsString(), medallion_adrenaline, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             )
+            .spell(SpellContainers.forRelic(WitcherModifiers.increased_medallion_senses.id()))
             .component(SpellDataComponents.EQUIPMENT_SET, SetBonuses.grandmaster_griffin.id());
     public static final Entry WOLF_SCHOOL_MEDALLION = add(new Entry(10, "wolf_school_medallion", "Wolf School Medallion"))
             .config(new TrinketConfig.Entry()
@@ -209,6 +213,7 @@ public class WitcherTrinkets {
                             new AttributeModifier(WitcherAttributes.ADRENALINE_MODIFIER.getIdAsString(), medallion_adrenaline, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             )
+            .spell(SpellContainers.forRelic(WitcherModifiers.increased_medallion_senses.id()))
             .component(SpellDataComponents.EQUIPMENT_SET, SetBonuses.grandmaster_wolven.id());
     ///GLYPHS
     public static final Entry LESSER_AARD_GLYPH = add(new Entry(10, "lesser_aard_glyph", "Lesser Aard Glyph"))

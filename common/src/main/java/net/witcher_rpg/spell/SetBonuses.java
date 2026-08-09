@@ -96,7 +96,7 @@ public class SetBonuses {
                                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
                                 id)
                         ),
-                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherSpells.improved_whirl.id()))
+                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_whirl.id()))
                 )
         );
     }
@@ -113,8 +113,8 @@ public class SetBonuses {
                                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
                                 id)
                         ),
-                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherSpells.improved_whirl.id())),
-                        EquipmentSet.Bonus.withSpells(5, SpellContainers.forModifier(WitcherSpells.grandmaster_feline.id()))
+                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_whirl.id())),
+                        EquipmentSet.Bonus.withSpells(5, SpellContainers.forModifier(WitcherPassives.grandmaster_feline.id()))
                 )
         );
     }
@@ -131,7 +131,7 @@ public class SetBonuses {
                                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
                                 id)
                         ),
-                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherSpells.improved_yrden.id()))
+                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_yrden.id()))
                 )
         );
     }
@@ -148,8 +148,8 @@ public class SetBonuses {
                                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
                                 id)
                         ),
-                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherSpells.improved_yrden.id())),
-                        EquipmentSet.Bonus.withSpells(5, SpellContainers.forModifier(WitcherSpells.grandmaster_griffin.id()))
+                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_yrden.id())),
+                        EquipmentSet.Bonus.withSpells(5, SpellContainers.forModifier(WitcherModifiers.grandmaster_griffin.id()))
                 )
         );
     }
@@ -166,7 +166,7 @@ public class SetBonuses {
                                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
                                 id)
                         ),
-                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherSpells.improved_aard.id()))
+                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_aard.id()))
                 )
         );
     }
@@ -183,8 +183,8 @@ public class SetBonuses {
                                 EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
                                 id)
                         ),
-                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherSpells.improved_aard.id())),
-                        EquipmentSet.Bonus.withSpells(5, SpellContainers.forModifier(WitcherSpells.grandmaster_wolven.id()))
+                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_aard.id())),
+                        EquipmentSet.Bonus.withSpells(5, SpellContainers.forModifier(WitcherPassives.grandmaster_wolven.id()))
                 )
         );
     }
@@ -201,7 +201,7 @@ public class SetBonuses {
                                 EntityAttributeModifier.Operation.ADD_VALUE,
                                 id)
                         ),
-                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherSpells.improved_rend.id()))
+                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_rend.id()))
                 )
         );
     }
@@ -218,8 +218,8 @@ public class SetBonuses {
                                 EntityAttributeModifier.Operation.ADD_VALUE,
                                 id)
                         ),
-                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherSpells.improved_rend.id())),
-                        EquipmentSet.Bonus.withSpells(5, SpellContainers.forModifier(WitcherSpells.grandmaster_ursine.id()))
+                        EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_rend.id())),
+                        EquipmentSet.Bonus.withSpells(5, SpellContainers.forModifier(WitcherPassives.grandmaster_ursine.id()))
                 )
         );
     }

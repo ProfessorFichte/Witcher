@@ -1,12 +1,21 @@
 {
   "school": "spell_power:witcher_melee",
-  "range": 0.0,
+  "range": 0.5,
   "range_mechanic": "MELEE",
   "tier": 4,
+  "group": "mutant",
   "learn": {},
   "active": {
     "cast": {
-      "duration": 0.3,
+      "duration": 2.0,
+      "type": "CHARGE",
+      "charge": {
+        "min_release_ratio": 0.1,
+        "output_scaling": 1.2,
+        "bonus": {
+          "range_add": 2.0
+        }
+      },
       "animation": {
         "id": "witcher_rpg:rend_cast"
       },
@@ -37,7 +46,7 @@
     "melee": {
       "attacks": [
         {
-          "damage_bonus": 1.0,
+          "damage_bonus": 1.5,
           "attack_speed_multiplier": 1.5,
           "delay": 0.1,
           "hitbox": {
@@ -57,6 +66,14 @@
         "disrupt": {
           "shield_blocking": true,
           "item_usage_seconds": 4.0
+        }
+      }
+    },
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.0
         }
       }
     }

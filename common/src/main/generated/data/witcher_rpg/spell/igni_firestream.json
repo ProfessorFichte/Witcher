@@ -2,6 +2,7 @@
   "school": "spell_power:igni",
   "range": 6.0,
   "tier": 3,
+  "group": "signs",
   "learn": {},
   "active": {
     "cast": {

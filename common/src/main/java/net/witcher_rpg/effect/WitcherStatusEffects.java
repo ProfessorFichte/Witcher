@@ -1,9 +1,16 @@
 package net.witcher_rpg.effect;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.spell_engine.client.util.Color;
+import net.witcher_rpg.network.ExposedGlowPayload;
+
+import java.util.UUID;
 import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ConfigFile;
@@ -208,7 +215,7 @@ public class WitcherStatusEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
                                     0.2F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
@@ -448,7 +455,7 @@ public class WitcherStatusEffects {
     public static Effects.Entry WITCHER_SENSES_EXPOSED = add(new Effects.Entry(Identifier.of(MOD_ID,"witcher_senses_exposed"),
             "Exposed",
             "Weakness exposed by Witcher Senses, taking increased critical hits.",
-            new CustomStatusEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.AXII.color),
+            new WitcherSensesExposedEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.SIGN.color),
             new EffectConfig(
                     List.of(
                     )
@@ -456,10 +463,26 @@ public class WitcherStatusEffects {
     ));
 
     public static void register(ConfigFile.Effects config) {
+        BATTLE_TRANCE.config().attributes().get(0).value = tweaksConfig.value.battle_trance_attack_damage_bonus;
         ADRENALINE_GAIN.config().attributes().get(0).value = tweaksConfig.value.battle_trance_damage_per_adrenaline_level;
 
         ActionImpairing.configure(AXII.effect, EntityActionsAllowed.STUN);
         RemoveOnHit.configure(AXII.effect, RemoveOnHit.Trigger.ANY_HIT);
+
+        GlowingItemStatusEffect.register(IRIS_CHARGE.effect, Color.BLOOD, 0.1F);
+        GlowingItemStatusEffect.register(AERONDIGHT_CHARGE.effect, Color.ARCANE, 0.1F);
+        GlowingItemStatusEffect.register(WOLF_SCHOOL_MEDALLION.effect, Color.from(WitcherSpellSchools.SIGN.color), 0.1F);
+
+        OnRemoval.configure(WITCHER_SENSES_EXPOSED.effect, (context) -> {
+            var entity = context.entity();
+            UUID source = WitcherExposed.remove(entity.getUuid());
+            if (source != null && entity.getWorld() instanceof ServerWorld serverWorld) {
+                ServerPlayerEntity player = serverWorld.getServer().getPlayerManager().getPlayer(source);
+                if (player != null) {
+                    ServerPlayNetworking.send(player, new ExposedGlowPayload(entity.getId(), false));
+                }
+            }
+        });
 
         OnRemoval.configure(QUEN_SHIELD.effect, (context) -> {
             QuenShieldEffect.onRemove(context.entity());

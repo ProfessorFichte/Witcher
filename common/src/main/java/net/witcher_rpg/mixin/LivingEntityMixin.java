@@ -1,6 +1,8 @@
 package net.witcher_rpg.mixin;
 
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -8,7 +10,9 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -17,13 +21,16 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.spell_engine.compat.CriticalStrikeCompat;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.casting.SpellCasterEntity;
 import net.spell_engine.internals.casting.SpellCastSyncHelper;
 import net.spell_engine.internals.container.SpellContainerSource;
 import net.spell_engine.utils.AnimationHelper;
+import net.witcher_rpg.effect.WitcherExposed;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
+import net.witcher_rpg.network.ExposedGlowPayload;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.component.GlyphSlots;
 import net.witcher_rpg.item.component.RunestoneSlots;
@@ -33,12 +40,14 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
@@ -315,6 +324,45 @@ public abstract class LivingEntityMixin {
         if(damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry) && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)){
             damagedTarget.heal(amount/2);
         }
+    }
+
+    @Unique
+    private static final Identifier CRITICAL_STRIKE_DAMAGE_ATTRIBUTE_ID = Identifier.of("critical_strike", "damage");
+    @Unique
+    private static final float DEFAULT_EXPOSED_CRIT_MULTIPLIER = 1.5F;
+
+    @ModifyArg(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"), index = 1)
+    private float witcher$guaranteedCritOnExposed(DamageSource source, float amount) {
+        LivingEntity target = (LivingEntity) (Object) this;
+        if (target.getWorld().isClient()) return amount;
+        if (!target.hasStatusEffect(WitcherStatusEffects.WITCHER_SENSES_EXPOSED.entry)) return amount;
+        if (!source.isOf(DamageTypes.PLAYER_ATTACK)) return amount;
+        if (!(source.getAttacker() instanceof PlayerEntity attacker)) return amount;
+        UUID exposedSource = WitcherExposed.get(target.getUuid());
+        if (exposedSource == null || !attacker.getUuid().equals(exposedSource)) return amount;
+        if (CriticalStrikeCompat.isCriticalStrike(source)) return amount;
+
+        float multiplier = DEFAULT_EXPOSED_CRIT_MULTIPLIER;
+        var critDamageAttribute = Registries.ATTRIBUTE.getEntry(CRITICAL_STRIKE_DAMAGE_ATTRIBUTE_ID).orElse(null);
+        if (critDamageAttribute != null) {
+            var instance = attacker.getAttributeInstance(critDamageAttribute);
+            if (instance != null) {
+                multiplier = (float) instance.getValue();
+            }
+        }
+
+        CriticalStrikeCompat.setCriticalStrike(source, multiplier);
+        return amount * multiplier;
+    }
+
+    @Inject(method = "addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"))
+    private void witcher$captureExposedSource(StatusEffectInstance effect, Entity source, CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (self.getWorld().isClient()) return;
+        if (effect.getEffectType().value() != WitcherStatusEffects.WITCHER_SENSES_EXPOSED.effect) return;
+        if (!(source instanceof ServerPlayerEntity player)) return;
+        WitcherExposed.set(self.getUuid(), player.getUuid());
+        ServerPlayNetworking.send(player, new ExposedGlowPayload(self.getId(), true));
     }
 
     @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"))

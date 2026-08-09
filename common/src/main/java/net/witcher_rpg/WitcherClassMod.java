@@ -3,7 +3,9 @@ package net.witcher_rpg;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.witcher_rpg.network.ExposedGlowPayload;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -31,12 +33,11 @@ import net.witcher_rpg.entity.WitcherEntities;
 import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.sounds.Sounds;
-import net.witcher_rpg.spell.WitcherSpells;
+import net.witcher_rpg.spell.WitcherPassives;
 import net.witcher_rpg.worldgen.OreGen;
 import net.witcher_rpg.blocks.WitcherBlocks;
 import net.witcher_rpg.item.armor.Armors;
 import net.tiny_config.ConfigManager;
-import net.witcher_rpg.custom.CustomSpells;
 import net.witcher_rpg.item.WitcherGroup;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
 import net.witcher_rpg.worldgen.map.ModMapDecorations;
@@ -98,6 +99,7 @@ public class WitcherClassMod {
 
 
 	public static void init() {
+		PayloadTypeRegistry.playS2C().register(ExposedGlowPayload.ID, ExposedGlowPayload.CODEC);
 		lootEquipmentConfig.refresh();
 		trinketConfig.refresh();
 		itemConfig.refresh();
@@ -108,10 +110,9 @@ public class WitcherClassMod {
 		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			tweaksConfig.value.ignore_items_required_mods = true;
 		}
-		WitcherSpells.applyTweaksConfig();
+		WitcherPassives.applyTweaksConfig();
 		WitcherSpellSchools.initialize();
 		CustomSpellImpacts.registerCustomImpacts();
-		CustomSpells.register();
 		/// SPECIFIC LOOT INJECTIONS
 		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
 			var tableId = key.getValue().toString();

@@ -2,6 +2,7 @@
   "school": "spell_power:aard",
   "range": 7.5,
   "tier": 1,
+  "group": "signs",
   "learn": {},
   "active": {},
   "release": {

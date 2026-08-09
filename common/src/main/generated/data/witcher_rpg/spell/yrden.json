@@ -2,6 +2,7 @@
   "school": "spell_power:yrden",
   "range": 0.0,
   "tier": 2,
+  "group": "signs",
   "learn": {},
   "active": {},
   "release": {
@@ -34,6 +35,8 @@
     "type": "CLOUD",
     "clouds": [
       {
+        "spawn_ticks": 10,
+        "despawn_ticks": 10,
         "volume": {
           "radius": 3.0,
           "area": {
@@ -60,7 +63,44 @@
               "model_id": "witcher_rpg:spell_effect/yrden_circle",
               "light_emission": "RADIATE",
               "scale": 3.0,
-              "duration": 200
+              "duration": 220,
+              "positioning": {
+                "vertical": 0.0
+              },
+              "initial": [
+                {
+                  "operation": "scale",
+                  "x": -1.0,
+                  "y": -1.0,
+                  "z": -1.0
+                },
+                {
+                  "operation": "translate",
+                  "x": 0.0,
+                  "y": 0.2,
+                  "z": 0.0
+                }
+              ],
+              "animations": [
+                {
+                  "start": 0,
+                  "end": 10,
+                  "easing": "EASE_OUT_CUBIC",
+                  "operation": "scale",
+                  "x": 1.0,
+                  "y": 1.0,
+                  "z": 1.0
+                },
+                {
+                  "start": 210,
+                  "end": 220,
+                  "easing": "EASE_IN_CUBIC",
+                  "operation": "scale",
+                  "x": -1.0,
+                  "y": -1.0,
+                  "z": -1.0
+                }
+              ]
             }
           ]
         }

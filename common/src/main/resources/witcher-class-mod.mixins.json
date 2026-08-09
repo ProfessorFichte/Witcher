@@ -14,7 +14,8 @@
   ],
   "client": [
     "ItemStackTooltipMixin",
-    "ItemTooltipAttributeMixin"
+    "ItemTooltipAttributeMixin",
+    "MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1

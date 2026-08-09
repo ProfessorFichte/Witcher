@@ -38,9 +38,6 @@ public class WitcherSchoolWeakness {
     public static WeaknessConfig createDefault() {
         var config = new WeaknessConfig();
 
-        // Witcher Senses: exposed enemies take increased critical hits from any Witcher-school damage.
-        // `execute` is left at its default (PASS) so non-exposed targets are still damaged normally -
-        // only the crit bonus is conditional, the impact itself is never denied.
         var exposedCondition = new Spell.TargetCondition();
         exposedCondition.entity_predicate_id = SpellEntityPredicates.hasEffectOptimized(
                 Identifier.of(MOD_ID, "witcher_senses_exposed")).id().toString();
@@ -101,8 +98,15 @@ public class WitcherSchoolWeakness {
                 new ScopedWeakness(Spell.Impact.Action.Type.DAMAGE, yrdenDamageAllow), exposedWeaknessScope
         ));
 
+        var exposedMeleeWeakness = new Spell.Impact.TargetModifier();
+        exposedMeleeWeakness.conditions = List.of(exposedCondition);
+        exposedMeleeWeakness.modifier = new Spell.Impact.Modifier();
+        exposedMeleeWeakness.modifier.critical_chance_bonus = 1.0f;
+        exposedMeleeWeakness.modifier.critical_damage_bonus = 0.25f;
+        var exposedMeleeWeaknessScope = new ScopedWeakness(Spell.Impact.Action.Type.DAMAGE, exposedMeleeWeakness);
+
         config.school_weaknesses.put(WitcherSpellSchools.WITCHER_MELEE.id.toString(), List.of(
-                exposedWeaknessScope
+                exposedMeleeWeaknessScope
         ));
 
         return config;

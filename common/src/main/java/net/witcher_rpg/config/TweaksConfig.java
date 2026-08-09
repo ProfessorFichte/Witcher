@@ -5,4 +5,5 @@ public class TweaksConfig {
     public int adrenaline_max_amplifier = 20;
     public int adrenaline_max_seconds_duration = 180;
     public float battle_trance_damage_per_adrenaline_level = 0.05F;
+    public float battle_trance_attack_damage_bonus = 0.2F;
 }

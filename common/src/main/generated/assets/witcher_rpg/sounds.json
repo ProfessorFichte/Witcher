@@ -1,22 +1,12 @@
 {
+  "aard_frost_sign": {
+    "sounds": [
+      "witcher_rpg:aard_frost_sign"
+    ]
+  },
   "aard_sign": {
     "sounds": [
       "witcher_rpg:aard_sign"
-    ]
-  },
-  "quen_sign": {
-    "sounds": [
-      "witcher_rpg:quen_sign"
-    ]
-  },
-  "igni_sign": {
-    "sounds": [
-      "witcher_rpg:igni_sign"
-    ]
-  },
-  "yrden_sign": {
-    "sounds": [
-      "witcher_rpg:yrden_sign"
     ]
   },
   "axii_sign": {
@@ -24,9 +14,14 @@
       "witcher_rpg:axii_sign"
     ]
   },
-  "aard_frost_sign": {
+  "igni_sign": {
     "sounds": [
-      "witcher_rpg:aard_frost_sign"
+      "witcher_rpg:igni_sign"
+    ]
+  },
+  "quen_sign": {
+    "sounds": [
+      "witcher_rpg:quen_sign"
     ]
   },
   "quen_sign_break": {
@@ -42,6 +37,16 @@
   "whirl": {
     "sounds": [
       "witcher_rpg:whirl"
+    ]
+  },
+  "witcher_senses_exposed": {
+    "sounds": [
+      "witcher_rpg:witcher_senses_exposed"
+    ]
+  },
+  "yrden_sign": {
+    "sounds": [
+      "witcher_rpg:yrden_sign"
     ]
   }
 }

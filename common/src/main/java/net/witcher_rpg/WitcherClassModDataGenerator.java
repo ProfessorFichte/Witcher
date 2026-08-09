@@ -15,6 +15,7 @@ import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.spell_engine.api.datagen.SimpleSoundGeneratorV2;
 import net.spell_engine.api.datagen.SpellGenerator;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
@@ -34,6 +35,7 @@ import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
 import net.witcher_rpg.item.armor.Armors;
+import net.witcher_rpg.sounds.Sounds;
 import net.witcher_rpg.spell.SetBonuses;
 import net.witcher_rpg.spell.WitcherSpells;
 import net.witcher_rpg.util.tags.WitcherItemTags;
@@ -50,6 +52,7 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		WitcherVanillaAdvancementProvider.init();
 		var pack = fabricDataGenerator.createPack();
+		pack.addProvider(SoundGen::new);
 		pack.addProvider(SpellGen::new);
 		pack.addProvider(SpellTagGenerator::new);
 		pack.addProvider(ItemTagGenerator::new);
@@ -64,6 +67,22 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(WitcherVanillaAdvancementProvider::new);
 	}
 
+	public static class SoundGen extends SimpleSoundGeneratorV2 {
+		public SoundGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+			super(dataOutput, registryLookup);
+		}
+
+		@Override
+		public void generateSounds(Builder builder) {
+			builder.entries.add(new Entry(MOD_ID,
+							Sounds.entries.stream()
+									.map(entry -> SoundEntry.withVariants(entry.id().getPath(), entry.variants()))
+									.toList()
+					)
+			);
+		}
+	}
+
 	public static class SpellGen extends SpellGenerator {
 		public SpellGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
 			super(dataOutput, registryLookup);
@@ -71,7 +90,7 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generateSpells(Builder builder) {
-			for (var entry: WitcherSpells.entries) {
+			for (var entry: WitcherSpells.allEntries()) {
 				builder.add(entry.id(), entry.spell());
 			}
 		}
@@ -362,7 +381,7 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			translationBuilder.add("item.witcher_rpg.smithing_template.hint", "Witcher Gear upgrade Ingot");
 
 			/// SPELLS
-			WitcherSpells.entries.forEach(entry -> {
+			WitcherSpells.allEntries().forEach(entry -> {
 				var id = entry.id();
 				translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".name" , entry.title());
 				translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".description" , entry.description());
@@ -433,7 +452,7 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			var namespace = MOD_ID;
 			var treasureTagBuilder = getOrCreateTagBuilder(SpellTags.TREASURE);
 			var processedBooks = new HashSet<WitcherSpells.Book>();
-			WitcherSpells.entries.forEach(entry -> {
+			WitcherSpells.allEntries().forEach(entry -> {
 				if (entry.book() != null) {
 					var bookTagKey = SpellTags.spellBook(namespace, entry.book().toString().toLowerCase());
 					var bookTag = getOrCreateTagBuilder(bookTagKey);

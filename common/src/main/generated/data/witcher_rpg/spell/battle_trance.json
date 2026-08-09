@@ -2,6 +2,7 @@
   "school": "spell_power:witcher_melee",
   "range": 0.0,
   "tier": 3,
+  "group": "mutant",
   "learn": {},
   "active": {
     "cast": {

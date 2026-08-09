@@ -37,6 +37,7 @@ import java.util.function.Supplier;
 public class WitcherClient{
 
     public static void  init(){
+        WitcherExposedClient.register();
         net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback.EVENT.register(data -> {
             if (data instanceof GlyphTooltipComponent component) {
                 return new GlyphTooltipRenderer(component);
@@ -47,7 +48,7 @@ public class WitcherClient{
             return null;
         });
 
-        for (var entry: WitcherSpells.entries) {
+        for (var entry: WitcherSpells.allEntries()) {
             if (entry.mutator() != null) {
                 SpellTooltip.addDescriptionMutator(entry.id(), entry.mutator());
             }

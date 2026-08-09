@@ -5,6 +5,10 @@
       "required": false
     },
     {
+      "id": "witcher_rpg:witcher_senses",
+      "required": false
+    },
+    {
       "id": "witcher_rpg:strong_attack",
       "required": false
     },

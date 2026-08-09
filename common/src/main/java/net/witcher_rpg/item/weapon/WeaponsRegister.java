@@ -16,6 +16,7 @@ import net.spell_engine.rpg_series.item.Weapon;
 import net.witcher_rpg.WitcherClassMod;
 import net.witcher_rpg.item.WitcherGroup;
 import net.witcher_rpg.item.WitcherMaterials;
+import net.witcher_rpg.spell.WitcherPassives;
 import net.witcher_rpg.spell.WitcherSpells;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class WeaponsRegister {
         Weapon.Factory factory = slots == 2 ? WitcherSword.with2Slots() : WitcherSword.with1Slot();
         return entry(name, material, factory, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SPELL_BLADE)
                 .spellContainer(SpellContainers.forMeleeWeapon().withSpellId(WitcherSpells.defensive_witcher_mechanics.id())
-                        .withAdditionalSpell(List.of(WitcherSpells.silver_sword_passive().id().toString())));
+                        .withAdditionalSpell(List.of(WitcherPassives.silver_sword_passive().id().toString())));
     }
     private static Weapon.Entry witcherSilverSwords(String name, Weapon.CustomMaterial material, float damage) {
         int slots = determineRunestoneSlots(name);
@@ -128,7 +129,7 @@ public class WeaponsRegister {
     private static Weapon.Entry witcherSilverRelicSwords(String name, Weapon.CustomMaterial material, float damage) {
         return entry(name, material, WitcherRelicSword::new, new WeaponConfig(damage, witcher_sword_attackSpeed), Equipment.WeaponType.SPELL_BLADE)
                 .spellContainer(SpellContainers.forMeleeWeapon().withSpellId(WitcherSpells.defensive_witcher_mechanics.id())
-                        .withAdditionalSpell(List.of(WitcherSpells.silver_sword_passive().id().toString())));
+                        .withAdditionalSpell(List.of(WitcherPassives.silver_sword_passive().id().toString())));
     }
 
     public static final Weapon.Entry iron_witcher_sword = witcherswords("iron_witcher_sword",
@@ -267,13 +268,13 @@ public class WeaponsRegister {
                     .translatedName("Aerondight")
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.1F))
                     .attribute(AttributeModifier.bonus(SIGN_INTENSITY,5.0F))
-                    .withAdditionalSpell(WitcherSpells.aerondight_passive().id().toString())
+                    .withAdditionalSpell(WitcherPassives.aerondight_passive().id().toString())
                     .rarity = Rarity.EPIC;
             witcherrelicswords("iris_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE,() -> Ingredient.ofItems(WitcherMaterials.DARK_STEEL_INGOT.item())), 7.0F)
                     .translatedName("Iris")
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.15F))
-                    .withAdditionalSpell(WitcherSpells.iris_passive().id().toString())
+                    .withAdditionalSpell(WitcherPassives.iris_passive().id().toString())
                     .rarity = Rarity.EPIC;
         }
         Weapon.register(configs, entries, WitcherGroup.WITCHER_KEY);

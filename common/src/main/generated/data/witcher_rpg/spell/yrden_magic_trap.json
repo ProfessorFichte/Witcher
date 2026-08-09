@@ -2,6 +2,7 @@
   "school": "spell_power:yrden",
   "range": 3.0,
   "tier": 4,
+  "group": "signs",
   "learn": {},
   "active": {
     "cast": {

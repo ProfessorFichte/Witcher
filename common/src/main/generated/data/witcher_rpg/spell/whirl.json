@@ -3,6 +3,7 @@
   "range": 1.0,
   "range_mechanic": "MELEE",
   "tier": 4,
+  "group": "monster_hunter",
   "learn": {},
   "active": {
     "cast": {
