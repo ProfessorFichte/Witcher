@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.ParticleBatch;
 import net.spell_engine.particle.ParticleHelper;
 
-import static net.more_rpg_classes.util.CustomMethods.clearNegativeEffects;
+import static net.more_rpg_classes.util.CustomMethods.removeEffects;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class QuenActiveEffect extends StatusEffect {
@@ -33,7 +33,7 @@ public class QuenActiveEffect extends StatusEffect {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        clearNegativeEffects(entity,true);
+        removeEffects(entity,true,false);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class QuenActiveEffect extends StatusEffect {
 
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-        clearNegativeEffects(entity,true);
+        removeEffects(entity,true,false);
         entity.setAbsorptionAmount(entity.getAbsorptionAmount() + (float)(healthPerStack * (amplifier + 1)));
         super.onApplied(entity, attributes, amplifier);
     }

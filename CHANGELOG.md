@@ -1,3 +1,6 @@
+1.2.5 - 1.20.1
+- Attempt to Fix a crash with MRPG Lib Version when using Quen
+
 1.2.4 - 1.20.1
 - fix Quen Sign crash with MRPG Lib
 - Add Netherite Tier Armor Sets to the Sign Intensity Enchantment Item Tag

@@ -4,14 +4,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.ParticleBatch;
 import net.spell_engine.particle.ParticleHelper;
 
-import static net.more_rpg_classes.util.CustomMethods.clearNegativeEffects;
+import static net.more_rpg_classes.util.CustomMethods.removeEffects;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class QuenEffect extends StatusEffect {
@@ -52,7 +51,7 @@ public class QuenEffect extends StatusEffect {
 
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-        clearNegativeEffects(entity,true);
+        removeEffects(entity,true,false);
         entity.setAbsorptionAmount(entity.getAbsorptionAmount() + (float)(healthPerStack * (amplifier + 1)));
         super.onApplied(entity, attributes, amplifier);
     }
