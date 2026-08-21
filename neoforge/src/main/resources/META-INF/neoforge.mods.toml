@@ -48,5 +48,11 @@ versionRange = "[${more_rpg_library_version},)"
 ordering = "NONE"
 side = "BOTH"
 
+[[dependencies.witcher_rpg]]
+modId = "curios"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+
 [[mixins]]
 config = "witcher-class-mod.mixins.json"

@@ -25,8 +25,6 @@ repositories {
         url = 'https://maven.ladysnake.org/releases'
     }
 
-    // For Accessories:
-    maven { url 'https://maven.wispforest.io/releases' }
     maven { url 'https://maven.su5ed.dev/releases' }
     maven { url 'https://maven.fabricmc.net' }
 
@@ -52,12 +50,6 @@ dependencies {
 
     // Compatibility
     modCompileOnly("maven.modrinth:critical-strike:${project.critical_strike_version}-${platform}")
-    // Fabric specific
-    modCompileOnly "io.wispforest:owo-lib:${project.owo_version}" // Accessories needs this
-    modImplementation("io.wispforest:accessories-common:${project.accessories_version}")
-
-    // Cardinal Components API & Trinkets (Fabric-only, compile-only for common)
-    modCompileOnly "org.ladysnake.cardinal-components-api:cardinal-components-base:6.1.3"
-    modCompileOnly "org.ladysnake.cardinal-components-api:cardinal-components-entity:6.1.3"
-    modCompileOnly("maven.modrinth:trinkets:${project.trinkets_version}")
+    // No slot-mod (Trinkets / Curios) dependency here on purpose -- `common` stays slot-mod
+    // agnostic; the integration lives behind the per-platform `CompatFeatures` seam.
 }

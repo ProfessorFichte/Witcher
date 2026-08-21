@@ -1,9 +1,9 @@
 package com.witcher.neoforge.compat;
 
-import net.witcher_rpg.compat.AccessoriesCompat;
+import com.witcher.neoforge.compat.curios.CuriosCompat;
 
 public class CompatFeatures {
     public static void init() {
-        AccessoriesCompat.init();
+        CuriosCompat.init();
     }
 }
