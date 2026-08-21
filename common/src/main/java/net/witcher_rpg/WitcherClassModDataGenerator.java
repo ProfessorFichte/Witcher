@@ -381,11 +381,13 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			translationBuilder.add("item.witcher_rpg.smithing_template.hint", "Witcher Gear upgrade Ingot");
 
 			/// SPELLS
-			WitcherSpells.allEntries().forEach(entry -> {
-				var id = entry.id();
-				translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".name" , entry.title());
-				translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".description" , entry.description());
-			});
+			WitcherSpells.allEntries().stream()
+					.filter(entry -> !entry.id().getPath().startsWith("helpers/"))
+					.forEach(entry -> {
+						var id = entry.id();
+						translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".name" , entry.title());
+						translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".description" , entry.description());
+					});
 			/// STATUS EFFECTS
 			WitcherStatusEffects.entries.forEach(entry -> {
 				translationBuilder.add(entry.effect.getTranslationKey(), entry.title);

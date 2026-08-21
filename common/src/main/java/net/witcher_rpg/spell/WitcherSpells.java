@@ -1,5 +1,6 @@
 package net.witcher_rpg.spell;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.datagen.SpellBuilder;
@@ -11,11 +12,13 @@ import net.spell_engine.api.spell.fx.ModelEffectBuilder;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.fx.Sound;
+import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.api.util.TriState;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
+import net.spell_engine.internals.SpellHelper;
 import net.spell_engine.internals.target.SpellTarget;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.effect.WitcherStatusEffects;
@@ -27,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
+import static net.witcher_rpg.WitcherClassMod.tweaksConfig;
 
 public class WitcherSpells {
     public enum Book { FENCING, SIGNS}
@@ -161,6 +165,8 @@ public class WitcherSpells {
             SpellEntityPredicates.hasEffectOptimized(Identifier.of("witcher_rpg", "yrden_circle"));
     public static final SpellEntityPredicates.Entry HAS_WITCHER_SENSES_EXPOSED =
             SpellEntityPredicates.hasEffectOptimized(Identifier.of(MOD_ID, "witcher_senses_exposed"));
+    static final SpellEntityPredicates.Entry HAS_BATTLE_TRANCE =
+            SpellEntityPredicates.hasEffectOptimized(Identifier.of(MOD_ID, "battle_trance"));
     static final float BATTLE_TRANCE_DURATION_SECONDS = 5F;
 
     public static class TargetConditions {
@@ -654,7 +660,20 @@ public class WitcherSpells {
     private static Entry yrden_magic_trap() {
         var id = Identifier.of(MOD_ID, "yrden_magic_trap");
         var title = "Yrden Magic Trap";
-        var description = "Places a magical trap that damages and slows enemies that enter it.";
+        var description = "Places a magical trap that deals {trap_damage} damage and slows enemies that enter it.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var world = args.player().getWorld();
+            if (world == null) return args.description();
+            var optional = SpellRegistry.from(world).getEntry(yrden_glyph_impact.id());
+            if (optional.isEmpty()) return args.description();
+            var estimated = SpellHelper.estimate(optional.get().value(), args.player(), ItemStack.EMPTY);
+            var desc = args.description();
+            if (!estimated.damage().isEmpty()) {
+                var dmg = estimated.damage().get(0);
+                desc = desc.replace("{trap_damage}", SpellTooltip.formattedRange(dmg.min(), dmg.max()));
+            }
+            return desc;
+        };
         var spell = activeSpellBase();
         spell.school = WitcherSpellSchools.YRDEN;
         spell.range = 3;
@@ -688,7 +707,7 @@ public class WitcherSpells {
         spell.cost.exhaust = 0.4F;
         spell.cost.cooldown.group = "yrden";
 
-        return new Entry(id, spell, title, description).book(Book.SIGNS);
+        return new Entry(id, spell, title, description).mutator(mutator).book(Book.SIGNS);
     }
     public static final Entry AXII_PUPPET = add(axii_puppet());
     private static Entry axii_puppet() {
@@ -942,7 +961,16 @@ public class WitcherSpells {
     private static Entry battle_trance() {
         var id = Identifier.of(MOD_ID, "battle_trance");
         var title = "Battle Trance";
-        var description = "Enters a battle trance for {effect_duration} seconds, enhancing combat abilities.";
+        var description = "Enters a battle trance for {effect_duration} seconds, enhancing combat abilities. " +
+                "Melee hits stack Adrenaline, increasing attack damage by {adrenaline_bonus} per stack, up to {adrenaline_max_stacks} stacks.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = WitcherStatusEffects.ADRENALINE_GAIN.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            var maxStacks = battle_trance_adrenaline_stacking.spell().impacts.get(0).action.status_effect.amplifier_cap;
+            return args.description()
+                    .replace("{adrenaline_bonus}", bonus)
+                    .replace("{adrenaline_max_stacks}", String.valueOf(maxStacks));
+        };
         var spell = activeSpellBase();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
         spell.range = 0;
@@ -968,7 +996,7 @@ public class WitcherSpells {
         configureCooldown(spell, 30);
         spell.cost.exhaust = 0.8F;
 
-        return new Entry(id, spell, title, description).book(Book.FENCING);
+        return new Entry(id, spell, title, description).mutator(mutator).book(Book.FENCING);
     }
     public static final Entry REND = add(rend());
     private static Entry rend() {
@@ -1065,9 +1093,43 @@ public class WitcherSpells {
     }
 
     /// ACTIVE SPELL HELPER IMPACTS
+    public static void applyTweaksConfig() {
+        var cap = Math.max(0, tweaksConfig.value.adrenaline_max_amplifier - 1);
+        battle_trance_adrenaline_stacking.spell().impacts.get(0).action.status_effect.amplifier_cap = cap;
+    }
+
+    public static final Entry battle_trance_adrenaline_stacking = add(battle_trance_adrenaline_stacking());
+    private static Entry battle_trance_adrenaline_stacking() {
+        var id = Identifier.of(MOD_ID, "helpers/battle_trance_adrenaline_stacking");
+        var title = "Battle Trance - Adrenaline";
+        var stashEffect = WitcherStatusEffects.BATTLE_TRANCE;
+        var impactEffect = WitcherStatusEffects.ADRENALINE_GAIN;
+        var description = "While " + stashEffect.title + " is active, melee hits stack " + impactEffect.title + ".";
+        var spell = SpellBuilder.createSpellPassive();
+        spell.school = WitcherSpellSchools.WITCHER_MELEE;
+
+        var stashTriggers = witcherMeleeImpacts();
+        for (var trigger : stashTriggers) {
+            trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        }
+
+        spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
+        spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
+        spell.deliver.stash_effect.id = stashEffect.id.toString();
+        spell.deliver.stash_effect.consume = 0;
+        spell.deliver.stash_effect.triggers = stashTriggers;
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var buff = SpellBuilder.Impacts.effectAdd(impactEffect.id.toString(), BATTLE_TRANCE_DURATION_SECONDS, 1, 19);
+        buff.action.status_effect.refresh_duration = false;
+        spell.impacts = List.of(buff);
+
+        return new Entry(id, spell, title, description);
+    }
     public static final Entry yrden_glyph_impact = add(yrden_glyph_impact());
     private static Entry yrden_glyph_impact() {
-        var id = Identifier.of(MOD_ID, "yrden_glyph_impact");
+        var id = Identifier.of(MOD_ID, "helpers/yrden_glyph_impact");
         var spell = activeSpellBase();
         var title = "Yrden Glyph Impact";
         var description = "The yrden glyph deals {damage} damage and slows nearby targets by {effect_duration} sec.";
@@ -1089,7 +1151,7 @@ public class WitcherSpells {
     }
     public static Entry quen_active_helper = add(quen_active_helper());
     private static Entry quen_active_helper() {
-        var id = Identifier.of(MOD_ID, "quen_active_helper");
+        var id = Identifier.of(MOD_ID, "helpers/quen_active_helper");
         var description = "Quen Active Helper Impact";
         var effect = WitcherStatusEffects.QUEN_ACTIVE;
         var title = "Quen Active Helper Impact";

@@ -462,6 +462,96 @@ public class WitcherStatusEffects {
             )
     ));
 
+    public static Effects.Entry COUNTERATTACK_READY = add(new Effects.Entry(Identifier.of(MOD_ID,"counterattack_ready"),
+            "Counterattack Ready",
+            "Your next melee attack deals massively increased damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    1.0F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry RESOLVE = add(new Effects.Entry(Identifier.of(MOD_ID,"resolve"),
+            "Resolve",
+            "Reduces incoming damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellEngineAttributes.DAMAGE_TAKEN.id,
+                                    -0.25F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry FOOTWORK = add(new Effects.Entry(Identifier.of(MOD_ID,"footwork"),
+            "Footwork",
+            "Increases evasion chance and movement speed.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellEngineAttributes.EVASION_CHANCE.id,
+                                    0.15F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
+                                    0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry ENEMY_KNOWLEDGE = add(new Effects.Entry(Identifier.of(MOD_ID,"enemy_knowledge"),
+            "Enemy Knowledge",
+            "Reduces damage taken from enemies you've exposed.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellEngineAttributes.DAMAGE_TAKEN.id,
+                                    -0.25F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry FLOOD_OF_ANGER = add(new Effects.Entry(Identifier.of(MOD_ID,"flood_of_anger"),
+            "Flood of Anger",
+            "Increases attack damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Effects.Entry SCORCHED = add(new Effects.Entry(Identifier.of(MOD_ID,"scorched"),
+            "Scorched",
+            "Reduces movement speed.",
+            new CustomStatusEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.IGNI.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
+                                    -0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
     public static void register(ConfigFile.Effects config) {
         BATTLE_TRANCE.config().attributes().get(0).value = tweaksConfig.value.battle_trance_attack_damage_bonus;
         ADRENALINE_GAIN.config().attributes().get(0).value = tweaksConfig.value.battle_trance_damage_per_adrenaline_level;

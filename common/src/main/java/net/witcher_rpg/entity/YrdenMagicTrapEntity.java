@@ -24,6 +24,7 @@ import net.spell_engine.fx.ParticleHelper;
 import net.spell_power.api.SpellPower;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
+import net.witcher_rpg.spell.WitcherSpells;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
@@ -203,7 +204,7 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
                     if (entity instanceof LivingEntity livingEntity) {
                         if (!isProtected(livingEntity)) {
                             if(this.age % checkDamageInterval == 0){
-                                RegistryEntry<Spell> yrdenGlyphSpellImpact = SpellRegistry.from(owner.getWorld()).getEntry(Identifier.of(MOD_ID, "yrden_glyph_impact")).get();
+                                RegistryEntry<Spell> yrdenGlyphSpellImpact = SpellRegistry.from(owner.getWorld()).getEntry(WitcherSpells.yrden_glyph_impact.id()).get();
                                 SpellHelper.performImpacts(owner.getWorld(), owner, livingEntity, livingEntity, yrdenGlyphSpellImpact,
                                         yrdenGlyphSpellImpact.value().impacts, new SpellHelper.ImpactContext().power(SpellPower.getSpellPower(WitcherSpellSchools.YRDEN, owner)).position(livingEntity.getPos()));
                                 livingEntity.playSound(yrdenSound,1F,1F);

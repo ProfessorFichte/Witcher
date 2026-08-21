@@ -1,0 +1,53 @@
+{
+  "school": "spell_power:igni",
+  "range": 0.0,
+  "tier": 7,
+  "tooltip": {
+    "show_header": false,
+    "name": {
+      "show_in_compact": false,
+      "show_in_details": false
+    },
+    "description": {
+      "color": "dark_green"
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "ROLL"
+      }
+    ]
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "angle_degrees": 360.0
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.4,
+          "knockback": 0.0
+        }
+      }
+    },
+    {
+      "action": {
+        "type": "FIRE",
+        "fire": {
+          "duration": 3.0
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 12.0
+    }
+  }
+}

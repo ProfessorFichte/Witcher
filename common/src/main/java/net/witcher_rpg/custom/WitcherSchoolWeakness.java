@@ -92,8 +92,8 @@ public class WitcherSchoolWeakness {
         var yrdenCondition = new Spell.TargetCondition();
         yrdenCondition.entity_type = "#" + WitcherEntityTags.YRDEN_VULNERABLE.id();
         yrdenDamageAllow.conditions = List.of(yrdenCondition);
-        igniWeakness.modifier = new Spell.Impact.Modifier();
-        igniWeakness.modifier.critical_chance_bonus = 1.0f;
+        yrdenDamageAllow.modifier = new Spell.Impact.Modifier();
+        yrdenDamageAllow.modifier.critical_chance_bonus = 1.0f;
         config.school_weaknesses.put(WitcherSpellSchools.YRDEN.id.toString(), List.of(
                 new ScopedWeakness(Spell.Impact.Action.Type.DAMAGE, yrdenDamageAllow), exposedWeaknessScope
         ));

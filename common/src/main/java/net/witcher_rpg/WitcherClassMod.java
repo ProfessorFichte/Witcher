@@ -33,7 +33,7 @@ import net.witcher_rpg.entity.WitcherEntities;
 import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.sounds.Sounds;
-import net.witcher_rpg.spell.WitcherPassives;
+import net.witcher_rpg.spell.WitcherSpells;
 import net.witcher_rpg.worldgen.OreGen;
 import net.witcher_rpg.blocks.WitcherBlocks;
 import net.witcher_rpg.item.armor.Armors;
@@ -110,7 +110,7 @@ public class WitcherClassMod {
 		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			tweaksConfig.value.ignore_items_required_mods = true;
 		}
-		WitcherPassives.applyTweaksConfig();
+		WitcherSpells.applyTweaksConfig();
 		WitcherSpellSchools.initialize();
 		CustomSpellImpacts.registerCustomImpacts();
 		/// SPECIFIC LOOT INJECTIONS

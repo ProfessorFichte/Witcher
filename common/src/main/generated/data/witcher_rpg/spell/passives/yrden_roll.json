@@ -1,0 +1,42 @@
+{
+  "school": "spell_power:yrden",
+  "range": 0.0,
+  "tier": 7,
+  "tooltip": {
+    "show_header": false,
+    "name": {
+      "show_in_compact": false,
+      "show_in_details": false
+    },
+    "description": {
+      "color": "dark_green"
+    }
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "ROLL",
+        "chance": 0.2
+      }
+    ]
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "SPAWN",
+        "spawns": [
+          {
+            "entity_type_id": "witcher_rpg:yrden_magical_trap",
+            "time_to_live_seconds": 10
+          }
+        ]
+      }
+    }
+  ],
+  "cost": {
+    "cooldown": {
+      "duration": 15.0
+    }
+  }
+}

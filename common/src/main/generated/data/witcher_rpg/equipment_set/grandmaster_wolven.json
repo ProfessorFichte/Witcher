@@ -18,7 +18,7 @@
       "required_piece_count": 4,
       "spells": {
         "spell_ids": [
-          "witcher_rpg:improved_aard"
+          "witcher_rpg:equipment_set_modifiers/improved_aard"
         ]
       }
     },
@@ -26,7 +26,7 @@
       "required_piece_count": 5,
       "spells": {
         "spell_ids": [
-          "witcher_rpg:grandmaster_wolven"
+          "witcher_rpg:equipment_set_passives/grandmaster_wolven"
         ]
       }
     }

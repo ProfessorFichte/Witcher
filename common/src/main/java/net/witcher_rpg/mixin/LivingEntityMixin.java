@@ -19,6 +19,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.compat.CriticalStrikeCompat;
@@ -32,6 +33,7 @@ import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
 import net.witcher_rpg.network.ExposedGlowPayload;
 import net.witcher_rpg.item.WitcherTrinkets;
+import net.witcher_rpg.spell.WitcherModifiers;
 import net.witcher_rpg.item.component.GlyphSlots;
 import net.witcher_rpg.item.component.RunestoneSlots;
 import net.witcher_rpg.item.component.WitcherDataComponents;
@@ -270,17 +272,22 @@ public abstract class LivingEntityMixin {
         if (process == null || !process.id().equals(Identifier.of(MOD_ID, "defensive_witcher_mechanics"))) return;
         if (source.isIn(DamageTypeTags.BYPASSES_SHIELD)) return;
 
-        var playerSpells = SpellContainerSource.getSpellsOf(player);
-        var counterattackEntry = SpellRegistry.from(player.getWorld())
-                .getEntry(Identifier.of(MOD_ID, "counterattack")).orElse(null);
-        boolean hasCounterattack = counterattackEntry != null &&
-                (playerSpells.passives().contains(counterattackEntry) || playerSpells.modifiers().contains(counterattackEntry));
+        boolean frontalAttack = witcher$isFrontalAttack(player, source);
 
-        if (hasCounterattack) {
-            // TODO: Add counterattack animation and damage impact here
-        } else {
-            AnimationHelper.sendAnimation(player, PlayerLookup.tracking(player),
-                    SpellCast.Animation.MISC, PlayerAnimation.of("witcher_rpg:witcher_reflexes_release"), 1F);
+        if (frontalAttack) {
+            var playerSpells = SpellContainerSource.getSpellsOf(player);
+            var counterattackEntry = SpellRegistry.from(player.getWorld())
+                    .getEntry(WitcherModifiers.counterattack.id()).orElse(null);
+            boolean hasCounterattack = counterattackEntry != null &&
+                    (playerSpells.passives().contains(counterattackEntry) || playerSpells.modifiers().contains(counterattackEntry));
+
+            if (hasCounterattack) {
+                player.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.COUNTERATTACK_READY.entry,
+                        100, 0, false, true, true));
+            } else {
+                AnimationHelper.sendAnimation(player, PlayerLookup.tracking(player),
+                        SpellCast.Animation.MISC, PlayerAnimation.of("witcher_rpg:witcher_reflexes_release"), 1F);
+            }
         }
 
         // Apply cooldown immediately so client re-cast packets are rejected by attemptCasting()
@@ -291,7 +298,24 @@ public abstract class LivingEntityMixin {
             caster.getCooldownManager().set(spellEntry, cooldownTicks);
         }
         SpellCastSyncHelper.clearCasting(player);
-        cir.setReturnValue(false); // damage not applied
+
+        if (frontalAttack) {
+            cir.setReturnValue(false); // damage not applied
+        }
+    }
+
+    @Unique
+    private static boolean witcher$isFrontalAttack(LivingEntity player, DamageSource source) {
+        Vec3d attackerPos = source.getAttacker() != null ? source.getAttacker().getPos() : source.getPosition();
+        if (attackerPos == null) return true;
+
+        Vec3d toAttacker = attackerPos.subtract(player.getPos());
+        toAttacker = new Vec3d(toAttacker.x, 0, toAttacker.z);
+        if (toAttacker.lengthSquared() < 1.0E-4) return true;
+        toAttacker = toAttacker.normalize();
+
+        Vec3d facing = Vec3d.fromPolar(0, player.getYaw());
+        return toAttacker.dotProduct(facing) >= 0;
     }
 
     @Inject(at = @At("HEAD"), method = "isBlocking", cancellable = true)

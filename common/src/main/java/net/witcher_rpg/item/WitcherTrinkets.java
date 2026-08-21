@@ -22,6 +22,7 @@ import net.witcher_rpg.config.TrinketConfig;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
 import net.witcher_rpg.spell.SetBonuses;
 import net.witcher_rpg.spell.WitcherModifiers;
+import net.witcher_rpg.spell.WitcherPassives;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -489,15 +490,15 @@ public class WitcherTrinkets {
             );
     ///TRINKETS
     public static final Entry PURE_SILVER = add(new Entry(10, "pure_silver", "Pure Silver"))
-            .spell(SpellContainers.forRelic(Identifier.of("witcher_rpg:pure_silver")))
+            .spell(SpellContainers.forRelic(WitcherPassives.pure_silver.id()))
             .config(new TrinketConfig.Entry()
             );
     public static final Entry ROSE_OF_REMEMBRANCE = add(new Entry(10, "rose_of_remembrance", "Rose of Remembrance"))
-            .spell(SpellContainers.forRelic(Identifier.of("witcher_rpg:rose_of_remembrance")))
+            .spell(SpellContainers.forRelic(WitcherPassives.ROSE_OF_REMEMBRANCE.id()))
             .config(new TrinketConfig.Entry()
             );
     public static final Entry CRYSTAL_SKULL = add(new Entry(10, "crystal_skull", "Crystal Skull"))
-            .spell(SpellContainers.forRelic(Identifier.of("witcher_rpg:crystal_skull")))
+            .spell(SpellContainers.forRelic(WitcherPassives.crystal_skull.id()))
             .config(new TrinketConfig.Entry()
             );
     public static final Entry SUNSTONE = add(new Entry(10, "sunstone", "Sunstone"))

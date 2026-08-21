@@ -5,18 +5,24 @@
   "passive": {
     "triggers": [
       {
-        "type": "MELEE_IMPACT"
+        "type": "MELEE_IMPACT",
+        "spell": {
+          "id": "witcher_rpg:strong_attack"
+        }
       }
     ]
   },
   "deliver": {
     "type": "STASH_EFFECT",
     "stash_effect": {
-      "id": "witcher_rpg:muscle_memory",
+      "id": "witcher_rpg:strength_training",
       "triggers": [
         {
           "target_override": "CASTER",
-          "type": "MELEE_IMPACT"
+          "type": "MELEE_IMPACT",
+          "spell": {
+            "id": "witcher_rpg:strong_attack"
+          }
         }
       ],
       "consume": 0
@@ -27,7 +33,7 @@
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {
-          "effect_id": "witcher_rpg:muscle_memory",
+          "effect_id": "witcher_rpg:strength_training",
           "amplifier": 1,
           "amplifier_cap": 5,
           "refresh_duration": false,

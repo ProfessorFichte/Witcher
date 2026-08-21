@@ -11,6 +11,7 @@ import net.spell_engine.internals.SpellHelper;
 import net.spell_power.api.SpellPower;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.effect.WitcherStatusEffects;
+import net.witcher_rpg.spell.WitcherSpells;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
@@ -27,7 +28,7 @@ public class QuenActiveImpact implements SpellHandlers.CustomImpact {
     ) {
         if (!caster.getWorld().isClient) {
             if(!caster.hasStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry)){
-                RegistryEntry<Spell> helper_spell = SpellRegistry.from(caster.getWorld()).getEntry(Identifier.of(MOD_ID, "quen_active_helper")).get();
+                RegistryEntry<Spell> helper_spell = SpellRegistry.from(caster.getWorld()).getEntry(WitcherSpells.quen_active_helper.id()).get();
                 SpellHelper.performImpacts(caster.getWorld(), caster, target, target, helper_spell,
                         helper_spell.value().impacts, new SpellHelper.ImpactContext().power(SpellPower.getSpellPower(WitcherSpellSchools.QUEN, caster)).position(target.getPos()));
             }

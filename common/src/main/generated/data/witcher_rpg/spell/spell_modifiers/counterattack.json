@@ -13,9 +13,17 @@
       }
     ]
   },
-  "target": {
-    "type": "FROM_TRIGGER"
-  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "witcher_rpg:counterattack_ready",
+          "duration": 8.0
+        }
+      }
+    }
+  ],
   "cost": {
     "durability": 0
   }

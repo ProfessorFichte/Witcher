@@ -102,9 +102,9 @@ public class WeaponsRegister {
     }
 
     ///WITCHER PASSIVES
-    public static Identifier silver_sword = Identifier.of(MOD_ID, "silver_sword_passive");
+    public static Identifier silver_sword = WitcherPassives.silver_sword_passive().id();
     public static Identifier aerondight_passive = Identifier.of(MOD_ID, "aerondight_passive");
-    public static Identifier reach_of_the_damned_passive = Identifier.of(MOD_ID, "reach_of_the_damned_passive");
+    public static Identifier reach_of_the_damned_passive = WitcherPassives.REACH_OF_THE_DAMNED_PASSIVE.id();
     public static Identifier iris_passive = Identifier.of(MOD_ID, "iris_passive");
 
 
