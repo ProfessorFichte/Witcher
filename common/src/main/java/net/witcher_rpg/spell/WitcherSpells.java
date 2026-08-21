@@ -8,7 +8,7 @@ import net.spell_engine.api.render.LightEmission;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.*;
 import net.spell_engine.api.util.TriState;
-import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.api.spell.tooltip.TooltipTokens;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
@@ -27,16 +27,12 @@ import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 public class WitcherSpells {
     public enum Book { FENCING, SIGNS}
     public record Entry(Identifier id, Spell spell, String title, String description,
-                        @Nullable SpellTooltip.DescriptionMutator mutator,
                         @Nullable Book book) {
         public Entry(Identifier id, Spell spell, String title, String description) {
-            this(id, spell, title, description, null, null);
-        }
-        public Entry mutator(SpellTooltip.DescriptionMutator mutator) {
-            return new Entry(id, spell, title, description, mutator, book);
+            this(id, spell, title, description, null);
         }
         public Entry book(Book book) {
-            return new Entry(id, spell, title, description, mutator, book);
+            return new Entry(id, spell, title, description, book);
         }
     }
 
@@ -1138,14 +1134,14 @@ public class WitcherSpells {
     public static Entry sunstone = add(sunstone());
     private static Entry sunstone() {
         var id = Identifier.of(MOD_ID, "sunstone");
-        var description = "Use: Increases sign intensity by {bonus} for {effect_duration} seconds.";
         var effect = WitcherStatusEffects.SUNSTONE;
+        // Sunstone carries a single attribute modifier, so the token's blank-attribute fallback is
+        // unambiguous. It resolves off the *registered* effect, which SpellEngine builds from the
+        // very `EffectConfig` the old mutator read - config overrides included.
+        var description = "Use: Increases sign intensity by "
+                + TooltipTokens.effect(effect.id)
+                + " for {effect_duration} seconds.";
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = new Spell();
         spell.type = Spell.Type.ACTIVE;
@@ -1168,6 +1164,6 @@ public class WitcherSpells {
         spell.impacts = List.of(createEffectImpact(Identifier.of(effect.id.toString()), 15));
         configureCooldown(spell, 90);
 
-        return new Entry(id, spell, title, description, mutator, null);
+        return new Entry(id, spell, title, description, null);
     }
 }

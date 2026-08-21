@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-21T19:43:29.064059	Witcher Class Mod/Model Definitions
+// 1.21.1	2026-08-21T19:52:27.641817	Witcher Class Mod/Model Definitions
 c855af4a4508c8d8e6cc254fdef54c014905cde7 assets/witcher_rpg/models/item/netherite_witcher_sword.json
 7d891d41136dcc57d6b1ba6f260e11111c222209 assets/witcher_rpg/models/item/enhanced_wolven_feet.json
 a56b13e1789ed6a8afe6b4763e52e2eb699cb639 assets/witcher_rpg/models/item/enhanced_diagram.json
@@ -102,8 +102,8 @@ c4979a7f84992f7820807df3c77a0d7df59e2f78 assets/witcher_rpg/models/item/lesser_s
 23c3cac7cc9e785c3c75b6637fef6f3bf17aec6e assets/witcher_rpg/models/item/grandmaster_feline_chest.json
 8c965026d0b05cc9ff6e3eb2e60f4adb5aa8378a assets/witcher_rpg/models/item/greater_dazhbog_runestone.json
 98e9670d0124473750152ef004eabfcf2325017b assets/witcher_rpg/models/item/lesser_zoria_runestone.json
-124d05e82c721b0c40813ac5341b988af0961078 assets/witcher_rpg/models/item/griffin_feet.json
 9456c71e6874b7a4b45ab2f21fb9d56d86f436f5 assets/witcher_rpg/models/item/lesser_aard_glyph.json
+124d05e82c721b0c40813ac5341b988af0961078 assets/witcher_rpg/models/item/griffin_feet.json
 1a1ca51c673cf8ffbfbdd0155589d8d8d7d127f4 assets/witcher_rpg/models/item/mastercrafted_ursine_head.json
 8414ba75680189869a77155d486109aa4bd4d2e8 assets/witcher_rpg/models/item/mastercrafted_wolven_feet.json
 9be99b623434d7a3ba9c88a0a3c070aa299a01c3 assets/witcher_rpg/models/item/meteorite_silver_witcher_sword.json

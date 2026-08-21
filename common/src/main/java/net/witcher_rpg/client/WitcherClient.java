@@ -11,7 +11,6 @@ import net.spell_engine.rpg_series.item.Armor;
 import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.spell.fx.ParticleGroup;
 import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
-import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.witcher_rpg.client.armor.*;
@@ -29,7 +28,6 @@ import net.witcher_rpg.entity.YrdenMagicTrapEntity;
 import net.witcher_rpg.item.armor.Armors;
 import net.witcher_rpg.item.component.GlyphTooltipComponent;
 import net.witcher_rpg.item.component.RunestoneTooltipComponent;
-import net.witcher_rpg.spell.WitcherSpells;
 
 
 import java.util.function.Supplier;
@@ -48,12 +46,6 @@ public class WitcherClient{
             }
             return null;
         });
-
-        for (var entry: WitcherSpells.allEntries()) {
-            if (entry.mutator() != null) {
-                SpellTooltip.addDescriptionMutator(entry.id(), entry.mutator());
-            }
-        }
 
         WitcherModelPredicates.registerModelPredicates();
 

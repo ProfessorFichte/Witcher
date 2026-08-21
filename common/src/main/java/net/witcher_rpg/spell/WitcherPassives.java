@@ -17,7 +17,8 @@ import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.api.util.TriState;
-import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.api.entity.SpellEngineAttributes;
+import net.spell_engine.api.spell.tooltip.TooltipTokens;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
@@ -196,13 +197,12 @@ public class WitcherPassives {
         var id = Identifier.of(MOD_ID, "bear_school_technique");
         var title = "Bear School Technique";
         var effect = WitcherStatusEffects.BEAR_SCHOOL_MEDALLION;
-        var description = "Taking Damage reduces incoming damage by {bonus} for {effect_duration} secs.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().attributes().get(0);
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description()
-                    .replace("{bonus}", bonus);
-        };
+        // Single modifier, so the token's blank-attribute fallback is unambiguous. `ABS` because the
+        // configured value is negative (-20%) while the prose already says "reduces ... by" - the old
+        // mutator used the raw value and rendered "reduces incoming damage by -20%".
+        var description = "Taking Damage reduces incoming damage by "
+                + TooltipTokens.effect(effect.id, 0, null, TooltipTokens.Format.ABS)
+                + " for {effect_duration} secs.";
         var spell = SpellBuilder.createSpellPassive();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
         spell.range = 0;
@@ -224,7 +224,7 @@ public class WitcherPassives {
 
         SpellBuilder.Cost.cooldown(spell, 45F);
 
-        return new Entry(id, spell, title, description, mutator, null);
+        return new Entry(id, spell, title, description, null);
     }
     public static final Entry wolf_school_technique = add(wolf_school_technique());
     private static Entry wolf_school_technique() {
@@ -375,14 +375,13 @@ public class WitcherPassives {
         var id = Identifier.of(MOD_ID, "grandmaster_feline");
         var effect = WitcherStatusEffects.FELINE_INJURY_MASTER;
         var title = "Grandmaster Feline Technique";
+        // The effect carries two modifiers (damage taken +20%, movement speed -20%) and the status
+        // effect's modifier map is unordered, so the attribute is named explicitly rather than read
+        // by list position the way the old mutator did (`attributes().get(0)`).
         var description = "Fencing Spells and melee hits inflict injuries if the target has a bad effect, " +
-                "increasing incoming damage and reducing movement speed by {bonus} {effect_duration} sec.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().attributes().get(0);
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description()
-                    .replace("{bonus}", bonus);
-        };
+                "increasing incoming damage and reducing movement speed by "
+                + TooltipTokens.effect(effect.id, 0, SpellEngineAttributes.DAMAGE_TAKEN.id)
+                + " {effect_duration} sec.";
         var spell = SpellBuilder.createSpellPassive();
         spell.school = WitcherSpellSchools.AARD;
         spell.range = 0;
@@ -407,7 +406,7 @@ public class WitcherPassives {
 
         SpellBuilder.Cost.cooldown(spell, 20F);
 
-        return new Entry(id, spell, title, description, mutator, null);
+        return new Entry(id, spell, title, description, null);
     }
     public static final Entry grandmaster_wolven = add(grandmaster_wolven());
     private static Entry grandmaster_wolven() {

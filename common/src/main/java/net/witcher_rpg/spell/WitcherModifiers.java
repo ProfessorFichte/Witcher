@@ -11,7 +11,8 @@ import net.spell_engine.api.spell.fx.Fx;
 import net.spell_engine.api.spell.fx.ParticleGroup;
 import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.api.spell.fx.Sound;
-import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.api.entity.SpellEngineAttributes;
+import net.spell_engine.api.spell.tooltip.TooltipTokens;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
@@ -261,7 +262,11 @@ public class WitcherModifiers {
     private static Entry axii_lethargy() {
         var id = Identifier.of(MOD_ID, "axii_lethargy");
         var title = "Lethargy";
-        var description = "Axii signs inflict Lethargy slowing the target by {bonus}.";
+        // `{bonus}` used to render literally here - no mutator was ever registered for this spell.
+        // Lethargy has a single modifier (movement speed -10%); `ABS` matches the "slowing ... by" prose.
+        var description = "Axii signs inflict Lethargy slowing the target by "
+                + TooltipTokens.effect(WitcherStatusEffects.AXII_LETHARGY.id, 0, null, TooltipTokens.Format.ABS)
+                + ".";
         var spell = createModifierAlikePassiveSpell();
         spell.school = WitcherSpellSchools.AXII;
 
@@ -464,15 +469,13 @@ public class WitcherModifiers {
     private static Entry muscle_memory() {
         var id = Identifier.of(MOD_ID, "muscle_memory");
         var effect = WitcherStatusEffects.MUSCLE_MEMORY;
-        var description = "Increasing melee attack speed by {bonus}, stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
+        // Single modifier (attack speed), so the token's blank-attribute fallback is unambiguous.
+        var description = "Increasing melee attack speed by "
+                + TooltipTokens.effect(effect.id)
+                + ", stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
         var spell = SpellBuilder.createSpellPassive();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var passiveMeleeTrigger = new Spell.Trigger();
         passiveMeleeTrigger.type = Spell.Trigger.Type.MELEE_IMPACT;
@@ -492,22 +495,20 @@ public class WitcherModifiers {
         spell.impacts = List.of(buff);
         configureCooldown(spell, 20);
 
-        return new Entry(id, spell, title, description, mutator, null);
+        return new Entry(id, spell, title, description, null);
     }
     /// STRONG ATTACK MODIFIERS
     public static final Entry strength_training = add(strength_training());
     private static Entry strength_training() {
         var id = Identifier.of(MOD_ID, "strength_training");
         var effect = WitcherStatusEffects.STRENGTH_TRAINING;
-        var description = "Increasing melee attack damage by {bonus}, stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
+        // Single modifier (attack damage), so the token's blank-attribute fallback is unambiguous.
+        var description = "Increasing melee attack damage by "
+                + TooltipTokens.effect(effect.id)
+                + ", stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
         var spell = SpellBuilder.createSpellPassive();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var passiveMeleeTrigger = new Spell.Trigger();
         passiveMeleeTrigger.type = Spell.Trigger.Type.MELEE_IMPACT;
@@ -527,7 +528,7 @@ public class WitcherModifiers {
         spell.impacts = List.of(buff);
         configureCooldown(spell, 20);
 
-        return new Entry(id, spell, title, description, mutator, null);
+        return new Entry(id, spell, title, description, null);
     }
     public static Entry counterattack = add(counterattack());
     private static Entry counterattack() {
@@ -543,7 +544,7 @@ public class WitcherModifiers {
         spell.passive.triggers = List.of(trigger);
 
 
-        return new Entry(id, spell, title, description, null, null);
+        return new Entry(id, spell, title, description);
     }
     /// AARD MODIFIERS
     public static final Entry aard_far_reach = add(aard_far_reach());
@@ -726,16 +727,15 @@ public class WitcherModifiers {
         var id = Identifier.of(MOD_ID, "grandmaster_griffin");
         var title = "Grandmaster Griffin Technique";
         var effect = WitcherStatusEffects.YRDEN_GRIFFIN_MASTER;
-        var description = "The Yrden circle increases the sign intensity of the caster by {bonus2} & reduces incoming damage by {bonus}.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().attributes().get(1);
-            var modifier2 = effect.config().attributes().get(0);
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            var bonus2 = SpellTooltip.bonus(modifier2.value, modifier2.operation);
-            return args.description()
-                    .replace("{bonus}", bonus)
-                    .replace("{bonus2}", bonus2);
-        };
+        // Two modifiers, and the status effect's modifier map is unordered, so each is named
+        // explicitly instead of being read by list position (`attributes().get(0)` / `.get(1)`).
+        // Damage taken is stored negative (-20%) and the prose says "reduces ... by", hence `ABS` -
+        // the old mutator passed the raw value and rendered "reduces incoming damage by -20%".
+        var description = "The Yrden circle increases the sign intensity of the caster by "
+                + TooltipTokens.effect(effect.id, 0, Identifier.of(WitcherAttributes.SIGN_INTENSITY.getIdAsString()))
+                + " & reduces incoming damage by "
+                + TooltipTokens.effect(effect.id, 0, SpellEngineAttributes.DAMAGE_TAKEN.id, TooltipTokens.Format.ABS)
+                + ".";
         var spell = SpellBuilder.createSpellModifier();
         spell.school = WitcherSpellSchools.YRDEN;
         spell.tooltip = new Spell.Tooltip();
@@ -759,6 +759,6 @@ public class WitcherModifiers {
 
         spell.modifiers = List.of(modifier);
 
-        return new Entry(id, spell, title, description, mutator, null);
+        return new Entry(id, spell, title, description, null);
     }
 }
