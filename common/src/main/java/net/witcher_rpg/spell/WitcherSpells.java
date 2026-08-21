@@ -6,11 +6,7 @@ import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.render.LightEmission;
 import net.spell_engine.api.spell.Spell;
-import net.spell_engine.api.spell.fx.ModelEffect;
-import net.spell_engine.api.spell.fx.ModelEffectBuilder;
-import net.spell_engine.api.spell.fx.ParticleBatch;
-import net.spell_engine.api.spell.fx.PlayerAnimation;
-import net.spell_engine.api.spell.fx.Sound;
+import net.spell_engine.api.spell.fx.*;
 import net.spell_engine.api.util.TriState;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
@@ -215,17 +211,18 @@ public class WitcherSpells {
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
         spell.release.sound = new Sound(Sounds.AARD_SIGN.id());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:aard_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.CENTER,
-                        4, 0.01F, 0.1F),
-                new ParticleBatch("more_rpg_classes:wind_vacuum",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1, 0.1F, 1.0F),
-                new ParticleBatch("small_gust",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        30, 0.25F, 0.25F)
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("witcher_rpg:aard_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
+                                .count(4F).speed(0.01F, 0.1F)),
+                ParticleGroupBuilder.of("more_rpg_classes:wind_vacuum")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).speed(0.1F, 1.0F)),
+                // Unnamespaced in V1, so this is vanilla `minecraft:small_gust`, not `more_rpg_classes:small_gust`
+                ParticleGroupBuilder.of("small_gust")
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(30F).speed(0.25F, 0.25F)));
 
         spell.target.type = Spell.Target.Type.AREA;
         spell.target.area = new Spell.Target.Area();
@@ -244,14 +241,15 @@ public class WitcherSpells {
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.75F;
         damage.action.damage.knockback = 5.0F;
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch("more_rpg_classes:wind_vacuum",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1, 0.1F, 1.0F),
-                new ParticleBatch("gust",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        10, 0.2F, 0.5F),
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("more_rpg_classes:wind_vacuum")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).speed(0.1F, 1.0F)),
+                // Unnamespaced in V1, so this is vanilla `minecraft:gust`
+                ParticleGroupBuilder.of("gust")
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(10F).speed(0.2F, 0.5F)));
 
         spell.impacts = List.of(damage,custom);
         configureCooldown(spell, 8);
@@ -275,17 +273,22 @@ public class WitcherSpells {
         spell.active.cast.movement_speed = 0.75F;
         spell.active.cast.duration = 2.0F;
         spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:igni_sign"), 0.2F);
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
-                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
-                        ParticleBatch.Rotation.LOOK, 40.0F, 1.2F, 2.5F, 90.0F, 0F),
-                new ParticleBatch("smoke",
-                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
-                        ParticleBatch.Rotation.LOOK, 0.1F, 0.01F, 0.4F, 90.0F, 0F),
-                new ParticleBatch("witcher_rpg:igni_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.01F, 0.02F)
-        };
+        spell.active.cast.particles = List.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_spark)
+                        .batch(b -> b.shape(ParticleGroup.Shape.CONE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .alignment(ParticleGroup.Alignment.LOOK)
+                                .count(40F).speed(1.2F, 2.5F).angle(90F)),
+                // V1 count 0.1 was a 10% chance to emit per tick, not a 10 tick period
+                ParticleGroupBuilder.of("smoke")
+                        .batch(b -> b.shape(ParticleGroup.Shape.CONE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .alignment(ParticleGroup.Alignment.LOOK)
+                                .count(1F).chance(0.1F).speed(0.01F, 0.4F).angle(90F)),
+                ParticleGroupBuilder.of("witcher_rpg:igni_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).speed(0.01F, 0.02F)));
         spell.active.cast.type = Spell.Active.Cast.Type.CHANNEL;
         spell.active.cast.channel = new Spell.Active.Cast.Channel();
         spell.active.cast.channel.ticks = 6;
@@ -303,17 +306,18 @@ public class WitcherSpells {
         damage.action.damage.spell_power_coefficient = 0.8F;
         damage.action.damage.knockback = 0.2F;
         damage.sound = new Sound("block.blastfurnace.fire_crackle");
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
-                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.7F, 1.5F),
-                new ParticleBatch("large_smoke",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        0.2F, 0.1F, 0.3F),
-                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        4.0F, 0.02F, 0.1F)
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_medium_a)
+                        .batch(b -> b.shape(ParticleGroup.Shape.CONE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).speed(0.7F, 1.5F)),
+                // V1 count 0.2 was a 20% chance to emit at all
+                ParticleGroupBuilder.of("large_smoke")
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(1F).chance(0.2F).speed(0.1F, 0.3F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_spark)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(4F).speed(0.02F, 0.1F)));
 
         var fire = new Spell.Impact();
         fire.action = new Spell.Impact.Action();
@@ -343,15 +347,13 @@ public class WitcherSpells {
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
         spell.release.sound = new Sound("witcher_rpg:yrden_sign");
-        spell.release.particles = new ParticleBatch[]{ new ParticleBatch(
-                "witcher_rpg:yrden_sign_cast",
-                ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                1, 0.001F, 0.006F),
-                new ParticleBatch(
-                        "witcher_rpg:yrden_sign_cast",
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.CENTER,
-                        1, 0.001F, 0.006F)
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("witcher_rpg:yrden_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(1F).speed(0.001F, 0.006F)),
+                ParticleGroupBuilder.of("witcher_rpg:yrden_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PILLAR)
+                                .count(1F).speed(0.001F, 0.006F)));
 
         spell.deliver.type = Spell.Delivery.Type.CLOUD;
         var cloud = new Spell.Delivery.Cloud();
@@ -371,39 +373,36 @@ public class WitcherSpells {
                         .scale(3.0F)
                         .initialTranslateY(0.2F)
                         .duration(yrdenCircleTotalTicks)
-                        .scaleIn(0, cloud.spawn_ticks, ModelEffect.Easing.EASE_OUT_CUBIC)
-                        .scaleOut(yrdenCircleTotalTicks - cloud.despawn_ticks, yrdenCircleTotalTicks, ModelEffect.Easing.EASE_IN_CUBIC)
+                        .scaleIn(0, cloud.spawn_ticks, Easing.EASE_OUT_CUBIC)
+                        .scaleOut(yrdenCircleTotalTicks - cloud.despawn_ticks, yrdenCircleTotalTicks, Easing.EASE_IN_CUBIC)
                         .build()
         );
-        cloud.client_data.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.ground_glow.id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.GROUND,
-                        1, 0, 0).scale(3.25F).color(Color.ARCANE.alpha(0.25F).toRGBA())
-        };
+        cloud.client_data.particles = List.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.ground_glow)
+                        .scale(3.25F)
+                        .color(Color.ARCANE.alpha(0.25F).toRGBA())
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .anchor(ParticleGroup.Anchor.GROUND)
+                                .count(1F).speed(0F, 0F)));
         cloud.placement.force_onto_ground = true;
         cloud.placement.location_offset_y = 0;
         spell.deliver.clouds = List.of(cloud);
 
         var debuff = SpellBuilder.Impacts.effectSet(WitcherStatusEffects.YRDEN_CIRCLE.id.toString(), 1,0);
-        debuff.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:yrden_cloud",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        2, 0.05F, 0.2F)
-        };
+        debuff.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("witcher_rpg:yrden_cloud")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(2F).speed(0.05F, 0.2F)));
         debuff.action.status_effect.amplifier_power_multiplier = 0.3F;
         debuff.sound = Sound.withRandomness(Identifier.of("witcher_rpg:yrden_sign"),0.2F);
         var damage = SpellBuilder.Impacts.damage(0.1F,0);
         yrdenAllow(damage);
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.ARCANE,
-                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        15, 0.1F, 0.3F).extent(0.5F)
-                        .color(Color.ARCANE.toRGBA()),
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_arcane, ParticleGroup.Motion.BURST)
+                        .color(Color.ARCANE.toRGBA())
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(15F).speed(0.1F, 0.3F)
+                                .extent(0.5F)));
         spell.impacts = List.of(debuff,damage);
 
         configureCooldown(spell, 15);
@@ -426,11 +425,12 @@ public class WitcherSpells {
         spell.active.cast.movement_speed = 0.75F;
         spell.active.cast.duration = 0.5F;
         spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:axii_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        0.2F, 0.01F, 0.1F)
-        };
+        // V1 count 0.2 was a 20% chance to emit per tick, not a 5 tick period
+        spell.active.cast.particles = List.of(
+                ParticleGroupBuilder.of("witcher_rpg:axii_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).chance(0.2F).speed(0.01F, 0.1F)));
 
         spell.target.type = Spell.Target.Type.AIM;
         spell.target.aim = new Spell.Target.Aim();
@@ -439,11 +439,11 @@ public class WitcherSpells {
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
         spell.release.sound = new Sound("witcher_rpg:axii_sign");
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:axii_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.01F, 0.1F)
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("witcher_rpg:axii_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).speed(0.01F, 0.1F)));
 
         var effect = new Spell.Impact();
         effect.action = new Spell.Impact.Action();
@@ -485,20 +485,25 @@ public class WitcherSpells {
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
         spell.release.sound = new Sound("witcher_rpg:quen_sign");
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.electric_arc_A.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        3.0F, 0.01F, 0.05F).extent(1),
-                new ParticleBatch(SpellEngineParticles.electric_arc_B.id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        5.0F, 0.01F, 0.05F).extent(1),
-                new ParticleBatch("witcher_rpg:quen_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        3.0F, 0.01F, 0.1F),
-                new ParticleBatch("witcher_rpg:quen_sign_cast",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.01F, 0.2F)
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_A)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(3F).speed(0.01F, 0.05F)
+                                .extent(1F)),
+                ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_B)
+                        .batch(b -> b.shape(ParticleGroup.Shape.PILLAR)
+                                .verticalOrigin(ParticleGroupBuilder.Batches.FEET)
+                                .count(5F).speed(0.01F, 0.05F)
+                                .extent(1F)),
+                ParticleGroupBuilder.of("witcher_rpg:quen_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(3F).speed(0.01F, 0.1F)),
+                ParticleGroupBuilder.of("witcher_rpg:quen_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).speed(0.01F, 0.2F)));
 
         var effect = new Spell.Impact();
         effect.action = new Spell.Impact.Action();
@@ -533,14 +538,17 @@ public class WitcherSpells {
         spell.active.cast.movement_speed = 0.5F;
         spell.active.cast.duration = 7.0F;
         spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:igni_sign"), 0.4F);
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.flame_medium_a.id().toString(),
-                        ParticleBatch.Shape.CONE, ParticleBatch.Origin.LAUNCH_POINT,
-                        ParticleBatch.Rotation.LOOK, 5.0F, 0.8F, 6.0F, 20.0F, 0F),
-                new ParticleBatch("witcher_rpg:igni_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        0.2F, 0.01F, 0.2F)
-        };
+        spell.active.cast.particles = List.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_medium_a)
+                        .batch(b -> b.shape(ParticleGroup.Shape.CONE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .alignment(ParticleGroup.Alignment.LOOK)
+                                .count(5F).speed(0.8F, 6F).angle(20F)),
+                // V1 count 0.2 was a per-tick spawn probability, not a period
+                ParticleGroupBuilder.of("witcher_rpg:igni_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).chance(0.2F).speed(0.01F, 0.2F)));
         spell.active.cast.type = Spell.Active.Cast.Type.CHANNEL;
         spell.active.cast.channel = new Spell.Active.Cast.Channel();
         spell.active.cast.channel.ticks = 35;
@@ -558,14 +566,13 @@ public class WitcherSpells {
         damage.action.damage.spell_power_coefficient = 0.9F;
         damage.action.damage.knockback = 0.2F;
         damage.sound = new Sound("block.blastfurnace.fire_crackle");
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch("lava",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        1.0F, 0.5F, 3.0F),
-                new ParticleBatch(SpellEngineParticles.flame_spark.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10.0F, 0.08F, 0.2F)
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("lava")
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(1F).speed(0.5F, 3F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_spark)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(10F).speed(0.08F, 0.2F)));
 
         var fire = new Spell.Impact();
         fire.action = new Spell.Impact.Action();
@@ -594,11 +601,12 @@ public class WitcherSpells {
 
         spell.active.cast.movement_speed = 0.1F;
         spell.active.cast.duration = 0;
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:aard_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        0.2F, 0.01F, 0.1F)
-        };
+        spell.active.cast.particles = List.of(
+                // V1 count 0.2 was a per-tick spawn probability, not a period
+                ParticleGroupBuilder.of("witcher_rpg:aard_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).chance(0.2F).speed(0.01F, 0.1F)));
         spell.active.cast.start_sound = new Sound(Sounds.AARD_SIGN.id());
 
         spell.target.type = Spell.Target.Type.AREA;
@@ -607,17 +615,16 @@ public class WitcherSpells {
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
         spell.release.sound = new Sound(Sounds.AARD_SIGN.id());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        40.0F, 0.2F, 0.3F).preSpawnTravel(6),
-                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        40.0F, 0.2F, 0.3F).preSpawnTravel(3),
-                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        40.0F, 0.2F, 0.3F).preSpawnTravel(1)
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.smoke_medium)
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(40F).speed(0.2F, 0.3F).preTravel(6F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.smoke_medium)
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(40F).speed(0.2F, 0.3F).preTravel(3F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.smoke_medium)
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(40F).speed(0.2F, 0.3F).preTravel(1F)));
 
         var custom = new Spell.Impact();
         custom.action = new Spell.Impact.Action();
@@ -632,14 +639,15 @@ public class WitcherSpells {
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.6F;
         damage.action.damage.knockback = 4.0F;
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch("more_rpg_classes:wind_vacuum",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        ParticleBatch.Rotation.LOOK, 1.0F, 0.1F, 1.0F, 0F, 0F),
-                new ParticleBatch("gust",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        1.0F, 0.2F, 0.3F)
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("more_rpg_classes:wind_vacuum")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .alignment(ParticleGroup.Alignment.LOOK)
+                                .count(1F).speed(0.1F, 1F)),
+                ParticleGroupBuilder.of("gust")
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(1F).speed(0.2F, 0.3F)));
 
         spell.impacts = List.of(custom, damage);
 
@@ -663,14 +671,13 @@ public class WitcherSpells {
 
         spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
         spell.active.cast.duration = 0.5F;
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:yrden_sign_cast",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        1.0F, 0.001F, 0.006F),
-                new ParticleBatch("witcher_rpg:yrden_sign_cast",
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.CENTER,
-                        1.0F, 0.01F, 0.06F)
-        };
+        spell.active.cast.particles = List.of(
+                ParticleGroupBuilder.of("witcher_rpg:yrden_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(1F).speed(0.001F, 0.006F)),
+                ParticleGroupBuilder.of("witcher_rpg:yrden_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PILLAR)
+                                .count(1F).speed(0.01F, 0.06F)));
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
         spell.release.sound = new Sound("witcher_rpg:yrden_sign");
@@ -704,11 +711,12 @@ public class WitcherSpells {
         spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
         spell.active.cast.movement_speed = 0.2F;
         spell.active.cast.duration = 2.0F;
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:axii_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        0.2F, 0.01F, 0.1F)
-        };
+        spell.active.cast.particles = List.of(
+                // V1 count 0.2 was a per-tick spawn probability, not a period
+                ParticleGroupBuilder.of("witcher_rpg:axii_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).chance(0.2F).speed(0.01F, 0.1F)));
 
         spell.target.type = Spell.Target.Type.AIM;
         spell.target.aim = new Spell.Target.Aim();
@@ -717,11 +725,11 @@ public class WitcherSpells {
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
         spell.release.sound = new Sound("witcher_rpg:axii_sign");
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:axii_sign_cast",
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.LAUNCH_POINT,
-                        1.0F, 0.01F, 0.1F)
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("witcher_rpg:axii_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).speed(0.01F, 0.1F)));
 
         var effect = new Spell.Impact();
         effect.action = new Spell.Impact.Action();
@@ -759,11 +767,12 @@ public class WitcherSpells {
         spell.active.cast.movement_speed = 0.1F;
         spell.active.cast.duration = 5.0F;
         spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:quen_sign"), 0.4F);
-        spell.active.cast.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:quen_sign_cast",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.LAUNCH_POINT,
-                        0.3F, 0.01F, 0.5F)
-        };
+        spell.active.cast.particles = List.of(
+                // V1 count 0.3 was a per-tick spawn probability, not a period
+                ParticleGroupBuilder.of("witcher_rpg:quen_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(1F).chance(0.3F).speed(0.01F, 0.5F)));
         spell.active.cast.type = Spell.Active.Cast.Type.CHANNEL;
         spell.active.cast.channel = new Spell.Active.Cast.Channel();
         spell.active.cast.channel.ticks = 25;
@@ -877,14 +886,16 @@ public class WitcherSpells {
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
         spell.release.sound = Sound.withVolume(Sounds.WITCHER_SENSES_EXPOSED.id(), 0.6F);
-        spell.release.particles_scaled_with_ranged = new ParticleBatch[] {
-                new ParticleBatch(
-                        SpellEngineParticles.area_effect_637.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.GROUND,
-                        1, 0, 0)
-                        .scale(0.25F)
-                        .color(Color.WHITE.toRGBA()),
-        };
+        // V1 `particles_scaled_with_ranged` REPLACED the authored scale with the spell range,
+        // so the 0.25F never rendered. `ScaleWith.RANGE` multiplies, so it is dropped rather
+        // than ported - keeping it would shrink the decal to a quarter of its V1 size.
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.area_effect_637)
+                        .color(Color.WHITE.toRGBA())
+                        .scaleWith(Fx.ScaleWith.RANGE)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .anchor(ParticleGroup.Anchor.GROUND)
+                                .count(1F)));
 
         var expose = createEffectImpact(Identifier.of(WitcherStatusEffects.WITCHER_SENSES_EXPOSED.id.toString()), 6);
         spell.impacts = List.of(expose);
@@ -993,11 +1004,10 @@ public class WitcherSpells {
         SpellBuilder.Target.none(spell);
 
         spell.release.sound = Sound.withRandomness(Identifier.of("witcher_rpg:rend_spell"),1.2F);
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("crimson_spore",
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        20.0F, 1.0F, 15.0F),
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("crimson_spore")
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(20F).speed(1F, 15F)));
 
         var rend = new Spell.Delivery.Melee.Attack();
         rend.attack_speed_multiplier = 1.5F;
@@ -1150,15 +1160,11 @@ public class WitcherSpells {
         spell.school = WitcherSpellSchools.SIGN;
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        30, 0.2F, 0.6F)
-                        .color(Color.WHITE.toRGBA()),
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_spell, ParticleGroup.Motion.DECELERATE)
+                        .color(Color.WHITE.toRGBA())
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(30F).speed(0.2F, 0.6F)));
         spell.impacts = List.of(createEffectImpact(Identifier.of(effect.id.toString()), 15));
         configureCooldown(spell, 90);
 

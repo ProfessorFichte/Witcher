@@ -17,11 +17,10 @@ import net.minecraft.util.Identifier;
 import net.spell_engine.api.event.CombatEvents;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.internals.casting.SpellCast;
-import net.spell_engine.internals.casting.SpellCastSyncHelper;
 import net.spell_engine.internals.casting.SpellCasterEntity;
 import net.spell_engine.utils.AnimationHelper;
 import net.witcher_rpg.util.loot.WitcherLootInjector;
-import net.spell_engine.api.config.ConfigFile;
+import net.spell_engine.rpg_series.config.ConfigFile;
 import net.spell_engine.rpg_series.loot.LootConfig;
 import net.spell_engine.rpg_series.loot.LootHelper;
 import net.witcher_rpg.config.*;
@@ -124,7 +123,9 @@ public class WitcherClassMod {
 		/// TAG BASED LOOT INJECTION
 		LootHelper.TAG_CACHE.refresh();
 		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
-			LootHelper.configureV2(registries, key.getValue(), tableBuilder, lootEquipmentConfig.value, new HashMap<>());
+			// 1.10 renamed configureV2 -> configure and takes a Consumer<LootPool> sink
+			// instead of the LootTable.Builder itself.
+			LootHelper.configure(registries, key.getValue(), tableBuilder::pool, lootEquipmentConfig.value, new HashMap<>());
 		});
 		ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
 			LootHelper.updateTagCache(lootEquipmentConfig.value);
@@ -144,7 +145,7 @@ public class WitcherClassMod {
 
 			AnimationHelper.sendAnimation(serverPlayer, PlayerLookup.tracking(serverPlayer),
 					SpellCast.Animation.MISC, PlayerAnimation.of("witcher_rpg:witcher_reflexes"), 1F);
-			SpellCastSyncHelper.clearCasting(player);
+			caster.getInteractor().requestClear();
 		});
 	}
 

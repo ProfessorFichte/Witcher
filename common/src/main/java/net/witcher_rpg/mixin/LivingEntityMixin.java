@@ -24,7 +24,6 @@ import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.compat.CriticalStrikeCompat;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.casting.SpellCasterEntity;
-import net.spell_engine.internals.casting.SpellCastSyncHelper;
 import net.spell_engine.internals.container.SpellContainerSource;
 import net.spell_engine.utils.AnimationHelper;
 import net.witcher_rpg.effect.WitcherExposed;
@@ -290,7 +289,7 @@ public abstract class LivingEntityMixin {
             int cooldownTicks = Math.round(spellEntry.value().cost.cooldown.duration * 20);
             caster.getCooldownManager().set(spellEntry, cooldownTicks);
         }
-        SpellCastSyncHelper.clearCasting(player);
+        caster.getInteractor().requestClear();
         cir.setReturnValue(false); // damage not applied
     }
 

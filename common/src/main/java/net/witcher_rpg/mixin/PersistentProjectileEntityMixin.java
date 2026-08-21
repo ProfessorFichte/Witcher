@@ -10,7 +10,6 @@ import net.minecraft.util.math.Vec3d;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.internals.casting.SpellCasterEntity;
-import net.spell_engine.internals.casting.SpellCastSyncHelper;
 import net.spell_engine.internals.container.SpellContainerSource;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import org.spongepowered.asm.mixin.Mixin;
@@ -74,7 +73,7 @@ public class PersistentProjectileEntityMixin {
             int cooldownTicks = Math.round(spellEntry.value().cost.cooldown.duration * 20);
             caster.getCooldownManager().set(spellEntry, cooldownTicks);
         }
-        SpellCastSyncHelper.clearCasting(playerEntity);
+        caster.getInteractor().requestClear();
     }
 
     @Shadow

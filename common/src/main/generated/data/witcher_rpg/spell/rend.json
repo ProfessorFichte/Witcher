@@ -23,16 +23,21 @@
     }
   },
   "release": {
-    "particles": [
-      {
-        "particle_id": "crimson_spore",
-        "origin": "CENTER",
-        "shape": "CIRCLE",
-        "count": 20.0,
-        "min_speed": 1.0,
-        "max_speed": 15.0
-      }
-    ],
+    "visuals": {
+      "particles": [
+        {
+          "id": "crimson_spore",
+          "appearance": {},
+          "batch": {
+            "count": 20.0,
+            "shape": "CIRCLE",
+            "anchor": "ENTITY",
+            "min_speed": 1.0,
+            "max_speed": 15.0
+          }
+        }
+      ]
+    },
     "sound": {
       "id": "witcher_rpg:rend_spell",
       "randomness": 1.2

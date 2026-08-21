@@ -7,7 +7,9 @@ import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.effect.SpellEngineEffects;
 import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.spell.Spell;
-import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.Fx;
+import net.spell_engine.api.spell.fx.ParticleGroup;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
@@ -239,16 +241,14 @@ public class WitcherModifiers {
 
         var damage = SpellBuilder.Impacts.damage(0.5F,0);
         damage.attribute = WitcherAttributes.AARD_INTENSITY.getIdAsString();
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.snowflake.id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.FEET,
-                        30, 0.4F, 0.4F),
-                new ParticleBatch(
-                        SpellEngineParticles.frost_shard.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        20, 0.4F, 0.6F)
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.snowflake)
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .verticalOrigin(ParticleGroupBuilder.Batches.FEET)
+                                .count(30).speed(0.4F, 0.4F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.frost_shard)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(20).speed(0.4F, 0.6F)));
         var freeze = SpellBuilder.Impacts.effectSet(MRPGCEffects.FROSTED.id.toString(), 3, 0);
         freeze.chance = 0.2F;
         spell.impacts = List.of(freeze);
@@ -385,12 +385,10 @@ public class WitcherModifiers {
         area_impact.radius = 3.0F;
         area_impact.area = new Spell.Target.Area();
         area_impact.area.distance_dropoff = Spell.Target.Area.DropoffCurve.SQUARED;
-        area_impact.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.flame.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        30, 0.5F, 0.5F),
-        };
+        area_impact.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.flame)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(30).speed(0.5F, 0.5F)));
         area_impact.sound = new Sound(SpellEngineSounds.GENERIC_FIRE_IGNITE.id().toString());
         spell.area_impact = area_impact;
 
@@ -418,12 +416,11 @@ public class WitcherModifiers {
         spell.deliver.stash_effect.consume = 0;
 
         var damage = SpellBuilder.Impacts.damage(0F, 1.5F);
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.electric_arc_A.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        15, 0.15F, 0.2F)
-        };
+        // V1 `electric_arc_a` is retired; `electricArc(lightning_arc_A)` is its 1.10 rebuild.
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_A)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(15).speed(0.15F, 0.2F)));
         damage.sound = new Sound("");
         spell.impacts = List.of(damage);
 
@@ -450,12 +447,11 @@ public class WitcherModifiers {
         spell.deliver.stash_effect.consume = 0;
 
         var damage = SpellBuilder.Impacts.damage(0.25F, 0.1F);
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.electric_arc_A.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        15, 0.15F, 0.2F)
-        };
+        // V1 `electric_arc_a` is retired; `electricArc(lightning_arc_A)` is its 1.10 rebuild.
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_A)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(15).speed(0.15F, 0.2F)));
         damage.sound = new Sound("");
         spell.impacts = List.of(damage);
 
@@ -752,15 +748,12 @@ public class WitcherModifiers {
         modifier.spell_pattern = "witcher_rpg:yrden";
         var impact = SpellBuilder.Impacts.effectSet(effect.id.toString(),2,0);
         impact.action.apply_to_caster = true;
-        impact.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.STRIPE,
-                                SpellEngineParticles.MagicParticles.Motion.ASCEND).id().toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.GROUND,
-                        20, 0.2F, 0.2F).extent(1.0F)
-                        .color(Color.ARCANE.toRGBA())
-        };
+        impact.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_stripe, ParticleGroup.Motion.ASCEND, Color.ARCANE)
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE).widthFactor(2F) // V1 WIDE_PIPE
+                                .anchor(ParticleGroup.Anchor.GROUND)
+                                .count(20).speed(0.2F, 0.2F)
+                                .extent(1.0F)));
         modifier.mutate_impacts = Spell.Modifier.ImpactListModifier.APPEND;
         modifier.impacts = List.of(impact);
 

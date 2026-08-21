@@ -15,39 +15,37 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import net.spell_engine.api.entity.SpellEntity;
-import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.ParticleGroup;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
-import net.spell_engine.internals.SpellHelper;
+import net.spell_engine.internals.SpellExecution;
+import net.spell_engine.internals.impact.SpellImpacts;
 import net.spell_engine.internals.target.EntityRelations;
 import net.spell_engine.fx.ParticleHelper;
 import net.spell_power.api.SpellPower;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
 
+import java.util.List;
+
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 
 public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned {
     public static EntityType<YrdenMagicTrapEntity > ENTITY_TYPE;
-    public static final ParticleBatch yrden_damage_circle = new ParticleBatch(
-            "witcher_rpg.json:yrden_cloud",
-            ParticleBatch.Shape.CIRCLE,
-            ParticleBatch.Origin.CENTER,
-            null,
-            15,
-            0.001F,
-            0.02F,
-            0);
-    public static final ParticleBatch yrden_damage_spehre = new ParticleBatch(
-            "witcher_rpg.json:yrden_cloud",
-            ParticleBatch.Shape.SPHERE,
-            ParticleBatch.Origin.CENTER,
-            null,
-            15,
-            0.001F,
-            0.02F,
-            0);
+    // Both batches referenced "witcher_rpg.json:yrden_cloud" in V1 — an unregistered id
+    // (the particle is registered as `witcher_rpg:yrden_cloud` in WitcherParticles), so
+    // neither rendered anything. Repointed at the real id here.
+    // `yrden_cloud` is a plain SimpleParticleType, so only the batch geometry applies.
+    public static final ParticleGroup yrden_damage_circle = ParticleGroupBuilder.of(Identifier.of(MOD_ID, "yrden_cloud"))
+            .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                    .count(15)
+                    .speed(0.001F, 0.02F));
+    public static final ParticleGroup yrden_damage_spehre = ParticleGroupBuilder.of(Identifier.of(MOD_ID, "yrden_cloud"))
+            .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                    .count(15)
+                    .speed(0.001F, 0.02F));
 
 
     private Identifier spellId;
@@ -194,8 +192,8 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
                         if (!isProtected(projectile.getOwner())) {
                             entity.playSound(yrdenSound,1F,1F);
                             if(!entity.getWorld().isClient()){
-                                ParticleHelper.sendBatches(entity, new ParticleBatch[]{yrden_damage_circle});
-                                ParticleHelper.sendBatches(entity, new ParticleBatch[]{yrden_damage_spehre});
+                                ParticleHelper.sendBatches(entity, List.of(yrden_damage_circle));
+                                ParticleHelper.sendBatches(entity, List.of(yrden_damage_spehre));
                             }
                             projectile.kill();
                         }
@@ -204,12 +202,12 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
                         if (!isProtected(livingEntity)) {
                             if(this.age % checkDamageInterval == 0){
                                 RegistryEntry<Spell> yrdenGlyphSpellImpact = SpellRegistry.from(owner.getWorld()).getEntry(Identifier.of(MOD_ID, "yrden_glyph_impact")).get();
-                                SpellHelper.performImpacts(owner.getWorld(), owner, livingEntity, livingEntity, yrdenGlyphSpellImpact,
-                                        yrdenGlyphSpellImpact.value().impacts, new SpellHelper.ImpactContext().power(SpellPower.getSpellPower(WitcherSpellSchools.YRDEN, owner)).position(livingEntity.getPos()));
+                                SpellImpacts.performImpacts(owner.getWorld(), owner, livingEntity, livingEntity, yrdenGlyphSpellImpact,
+                                        yrdenGlyphSpellImpact.value().impacts, new SpellExecution.ImpactContext().power(SpellPower.getSpellPower(WitcherSpellSchools.YRDEN, owner)).position(livingEntity.getPos()));
                                 livingEntity.playSound(yrdenSound,1F,1F);
                                 if(!entity.getWorld().isClient()){
-                                    ParticleHelper.sendBatches(entity, new ParticleBatch[]{yrden_damage_circle});
-                                    ParticleHelper.sendBatches(entity, new ParticleBatch[]{yrden_damage_spehre});
+                                    ParticleHelper.sendBatches(entity, List.of(yrden_damage_circle));
+                                    ParticleHelper.sendBatches(entity, List.of(yrden_damage_spehre));
                                 }
                             }
                         }

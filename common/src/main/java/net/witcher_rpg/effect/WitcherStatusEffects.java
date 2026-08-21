@@ -12,9 +12,9 @@ import net.witcher_rpg.network.ExposedGlowPayload;
 
 import java.util.UUID;
 import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
-import net.spell_engine.api.config.AttributeModifier;
-import net.spell_engine.api.config.ConfigFile;
-import net.spell_engine.api.config.EffectConfig;
+import net.spell_engine.rpg_series.config.AttributeModifier;
+import net.spell_engine.rpg_series.config.ConfigFile;
+import net.spell_engine.rpg_series.config.EffectConfig;
 import net.spell_engine.api.effect.*;
 import net.spell_engine.api.entity.SpellEngineAttributes;
 import net.spell_power.api.SpellPowerMechanics;

@@ -6,31 +6,33 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.util.math.Vec3d;
-import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.minecraft.util.Identifier;
+import net.spell_engine.api.spell.fx.ParticleGroup;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.fx.ParticleHelper;
 import net.witcher_rpg.util.tags.WitcherEntityTags;
+
+import java.util.List;
+
+import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class YrdenCircleEffect extends StatusEffect {
     public YrdenCircleEffect(StatusEffectCategory statusEffectCategory, int color) {
         super(statusEffectCategory, color);
     }
 
-    public static final ParticleBatch yrden_damage_spehre = new ParticleBatch(
-            "witcher_rpg:yrden_cloud",
-            ParticleBatch.Shape.SPHERE,
-            ParticleBatch.Origin.CENTER,
-            null,
-            15,
-            0.001F,
-            0.02F,
-            0);
+    // `yrden_cloud` is a plain SimpleParticleType, so only the batch geometry applies.
+    public static final ParticleGroup yrden_damage_spehre = ParticleGroupBuilder.of(Identifier.of(MOD_ID, "yrden_cloud"))
+            .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                    .count(15)
+                    .speed(0.001F, 0.02F));
 
     @Override
     public boolean applyUpdateEffect(LivingEntity entity, int pAmplifier) {
         EntityType<?> type = ((Entity) entity).getType();
         if(type.isIn(WitcherEntityTags.YRDEN_VULNERABLE)){
             if (!entity.getWorld().isClient()) {
-                ParticleHelper.sendBatches(entity, new ParticleBatch[]{yrden_damage_spehre});
+                ParticleHelper.sendBatches(entity, List.of(yrden_damage_spehre));
             }
             entity.setVelocity(Vec3d.ZERO);
         }

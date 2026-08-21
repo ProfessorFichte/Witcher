@@ -9,7 +9,8 @@ import net.spell_engine.api.effect.CustomModelStatusEffect;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.rpg_series.item.Armor;
 import net.spell_engine.api.render.BuffParticleSpawner;
-import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.ParticleGroup;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
@@ -64,47 +65,49 @@ public class WitcherClient{
                 WitcherStatusEffects.AXII_PUPPET.effect,
                 new AxiiParticles(3)
         );
+        // V1 `BuffParticleSpawner.defaultBatch(id, count, color)` = WIDE_PIPE / FEET,
+        // speed 0.11..0.12, extent -0.2. That is `Batches.casting` (PIPE + widthFactor 2,
+        // verticalOrigin 0.1) with the speeds and extent restored.
+        // The 0.5 count stays a count: BuffParticleSpawner multiplies it by the amplifier
+        // and then turns any leftover fraction back into a per-tick chance (Spacing.RANDOM),
+        // which is exactly V1's "count < 1 = probability of one particle".
         CustomParticleStatusEffect.register(
                 WitcherStatusEffects.ROSE_OF_REMEMBRANCE.effect,
                 new BuffParticleSpawner(
-                        BuffParticleSpawner.defaultBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                SpellEngineParticles.MagicParticles.Motion.ASCEND).id().toString(),
-                        0.5F,
-                        Color.RED.toRGBA()))
+                        ParticleGroupBuilder.magic(SpellEngineParticles.magic_spell, ParticleGroup.Motion.ASCEND, Color.RED)
+                                .batch(ParticleGroupBuilder.Batches.casting(0.5F, 0.12F)
+                                        .andThen(b -> b.speed(0.11F, 0.12F).extent(-0.2F))))
         );
         CustomParticleStatusEffect.register(
                 WitcherStatusEffects.SUNSTONE.effect,
                 new BuffParticleSpawner(
-                        BuffParticleSpawner.defaultBatch(
-                                SpellEngineParticles.MagicParticles.get(
-                                        SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                        SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(),
-                                0.5F,
-                                Color.WHITE.toRGBA())
-                )
+                        ParticleGroupBuilder.magic(SpellEngineParticles.magic_spell, ParticleGroup.Motion.FLOAT, Color.WHITE)
+                                .batch(ParticleGroupBuilder.Batches.casting(0.5F, 0.12F)
+                                        .andThen(b -> b.speed(0.11F, 0.12F).extent(-0.2F))))
         );
+        // V1 `aura_effect_622` was zone/effect_622 registered a second time camera-facing.
+        // 1.10 keeps one entry, so it ports as facing(CAMERA) — not `aura()`, which would
+        // also attach POSITION_SCALED where V1's followEntity(true) is plain POSITION.
         CustomParticleStatusEffect.register(
                 WitcherStatusEffects.QUEN_SHIELD.effect,
                 new BuffParticleSpawner(
-                        new ParticleBatch(
-                                SpellEngineParticles.aura_effect_622.id().toString(),
-                                ParticleBatch.Shape.LINE, ParticleBatch.Origin.CENTER,
-                                1, 0, 0)
+                        ParticleGroupBuilder.of(SpellEngineParticles.area_effect_622)
+                                .facing(ParticleGroup.Facing.CAMERA)
+                                .attached()
                                 .scale(1.4F)
-                                .followEntity(true).copy().color(Color.ELECTRIC.alpha(0.5F).toRGBA())
+                                .color(Color.ELECTRIC.alpha(0.5F))
+                                .batch(b -> b.shape(ParticleGroup.Shape.LINE).count(1).speed(0F, 0F))
                 ).withFrequency(20).scaleWithAmplifier(false)
         );
         CustomParticleStatusEffect.register(
                 WitcherStatusEffects.YRDEN_GRIFFIN_MASTER.effect,
                 new BuffParticleSpawner(
-                        new ParticleBatch(
-                                SpellEngineParticles.aura_effect_622.id().toString(),
-                                ParticleBatch.Shape.LINE, ParticleBatch.Origin.CENTER,
-                                1, 0, 0)
+                        ParticleGroupBuilder.of(SpellEngineParticles.area_effect_622)
+                                .facing(ParticleGroup.Facing.CAMERA)
+                                .attached()
                                 .scale(1.4F)
-                                .followEntity(true).copy().color(Color.ARCANE.alpha(0.5F).toRGBA())
+                                .color(Color.ARCANE.alpha(0.5F))
+                                .batch(b -> b.shape(ParticleGroup.Shape.LINE).count(1).speed(0F, 0F))
                 ).withFrequency(20).scaleWithAmplifier(false)
         );
 

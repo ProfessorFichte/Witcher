@@ -27,18 +27,26 @@
               "duration": 2.0
             }
           },
-          "particles": [
-            {
-              "particle_id": "spell_engine:magic_stripe_ascend",
-              "origin": "GROUND",
-              "shape": "WIDE_PIPE",
-              "count": 20.0,
-              "min_speed": 0.2,
-              "max_speed": 0.2,
-              "extent": 1.0,
-              "color_rgba": 4284940287
-            }
-          ]
+          "visuals": {
+            "particles": [
+              {
+                "id": "spell_engine:magic_stripe",
+                "appearance": {
+                  "color": 4284940287,
+                  "motion": "ASCEND"
+                },
+                "batch": {
+                  "count": 20.0,
+                  "shape": "PIPE",
+                  "anchor": "GROUND",
+                  "min_speed": 0.2,
+                  "max_speed": 0.2,
+                  "extent": 1.0,
+                  "width_factor": 2.0
+                }
+              }
+            ]
+          }
         }
       ]
     }

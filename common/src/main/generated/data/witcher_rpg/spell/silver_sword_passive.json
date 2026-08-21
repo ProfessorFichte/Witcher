@@ -43,16 +43,21 @@
           "spell_power_coefficient": 0.2
         }
       },
-      "particles": [
-        {
-          "particle_id": "firework",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 20.0,
-          "min_speed": 0.05,
-          "max_speed": 0.2
-        }
-      ]
+      "visuals": {
+        "particles": [
+          {
+            "id": "firework",
+            "appearance": {},
+            "batch": {
+              "count": 20.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.05,
+              "max_speed": 0.2
+            }
+          }
+        ]
+      }
     }
   ],
   "cost": {

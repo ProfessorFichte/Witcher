@@ -11,6 +11,7 @@ import net.minecraft.util.math.RotationAxis;
 import net.spell_engine.api.render.CustomLayers;
 import net.spell_engine.api.render.CustomModels;
 import net.spell_engine.api.render.LightEmission;
+import net.spell_engine.api.spell.fx.Easing;
 import net.spell_engine.api.spell.fx.ModelEffect;
 import net.spell_engine.api.spell.fx.ModelEffectBuilder;
 import net.spell_engine.client.render.ModelEffectOperations;
@@ -41,8 +42,8 @@ public class YrdenMagicTrapRenderer<T extends YrdenMagicTrapEntity> extends Enti
     private static ModelEffect fx(int totalTicks) {
         return fxCache.computeIfAbsent(totalTicks, ticks -> ModelEffectBuilder.create(modelId.toString())
                 .duration(ticks)
-                .scaleIn(0, Math.min(spawnTicks, ticks), ModelEffect.Easing.EASE_OUT_BACK)
-                .scaleOut(Math.max(ticks - despawnTicks, 0), ticks, ModelEffect.Easing.EASE_IN_BACK)
+                .scaleIn(0, Math.min(spawnTicks, ticks), Easing.EASE_OUT_BACK)
+                .scaleOut(Math.max(ticks - despawnTicks, 0), ticks, Easing.EASE_IN_BACK)
                 .build());
     }
 

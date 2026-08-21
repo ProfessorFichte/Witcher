@@ -10,7 +10,7 @@
     "PersistentProjectileEntityMixin",
     "SmithingRecipeMixin",
     "SmithingScreenHandlerMixin",
-    "SpellHelperMixin"
+    "SpellExecutionMixin"
   ],
   "client": [
     "ItemStackTooltipMixin",

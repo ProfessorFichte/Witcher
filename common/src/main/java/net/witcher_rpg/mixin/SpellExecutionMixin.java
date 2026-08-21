@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
-import net.spell_engine.internals.SpellHelper;
+import net.spell_engine.internals.SpellExecution;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.casting.SpellCasterEntity;
 import net.spell_engine.internals.target.SpellTarget;
@@ -27,8 +27,8 @@ import java.util.Objects;
 import static net.more_rpg_classes.util.CustomMethods.applyStatusEffect;
 import static net.witcher_rpg.WitcherClassMod.*;
 
-@Mixin(SpellHelper.class)
-public abstract class SpellHelperMixin {
+@Mixin(SpellExecution.class)
+public abstract class SpellExecutionMixin {
 
     @Inject(at = @At("HEAD"), method = "performSpell", cancellable = true)
     private static void witcherQuenActiveShield(World world, PlayerEntity player, RegistryEntry<Spell> spellEntry, SpellTarget.SearchResult targetResult, SpellCast.Action action, float progress, CallbackInfo callbackInfo) {

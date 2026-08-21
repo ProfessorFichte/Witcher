@@ -64,24 +64,34 @@
           "handler": "more_rpg_classes:damage_according_to_missing_health"
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:dripping_blood",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 35.0,
-          "min_speed": 0.4
-        },
-        {
-          "particle_id": "spell_engine:smoke_medium",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 10.0,
-          "min_speed": 0.2,
-          "max_speed": 0.5,
-          "color_rgba": 4278190335
-        }
-      ]
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:dripping_blood",
+            "appearance": {},
+            "batch": {
+              "count": 35.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.4,
+              "max_speed": 1.0
+            }
+          },
+          {
+            "id": "spell_engine:smoke_medium",
+            "appearance": {
+              "color": 4278190335
+            },
+            "batch": {
+              "count": 10.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.2,
+              "max_speed": 0.5
+            }
+          }
+        ]
+      }
     }
   ],
   "cost": {
