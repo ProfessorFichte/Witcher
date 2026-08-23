@@ -23,7 +23,14 @@ side = "BOTH"
 [[dependencies.witcher_rpg]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.1,)"
+versionRange = "[${minecraft_compat_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "forgified_fabric_api"
+type = "required"
+versionRange = "[${forgified_fabric_api_version},)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -46,6 +53,12 @@ modId = "more_rpg_classes"
 type = "required"
 versionRange = "[${more_rpg_library_version},)"
 ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "curios"
+type = "optional"
+ordering = "AFTER"
 side = "BOTH"
 
 [[mixins]]

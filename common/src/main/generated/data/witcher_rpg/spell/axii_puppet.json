@@ -12,12 +12,16 @@
       },
       "particles": [
         {
-          "particle_id": "witcher_rpg:axii_sign_cast",
-          "origin": "LAUNCH_POINT",
-          "shape": "PIPE",
-          "count": 0.2,
-          "min_speed": 0.01,
-          "max_speed": 0.1
+          "id": "witcher_rpg:axii_sign_cast",
+          "appearance": {},
+          "batch": {
+            "count": 1.0,
+            "chance": 0.2,
+            "shape": "PIPE",
+            "anchor": "LAUNCH_POINT",
+            "min_speed": 0.01,
+            "max_speed": 0.1
+          }
         }
       ]
     }
@@ -26,16 +30,21 @@
     "animation": {
       "id": "witcher_rpg:sign_cast_short"
     },
-    "particles": [
-      {
-        "particle_id": "witcher_rpg:axii_sign_cast",
-        "origin": "LAUNCH_POINT",
-        "shape": "PIPE",
-        "count": 1.0,
-        "min_speed": 0.01,
-        "max_speed": 0.1
-      }
-    ],
+    "visuals": {
+      "particles": [
+        {
+          "id": "witcher_rpg:axii_sign_cast",
+          "appearance": {},
+          "batch": {
+            "count": 1.0,
+            "shape": "PIPE",
+            "anchor": "LAUNCH_POINT",
+            "min_speed": 0.01,
+            "max_speed": 0.1
+          }
+        }
+      ]
+    },
     "sound": {
       "id": "witcher_rpg:axii_sign"
     }

@@ -44,25 +44,33 @@
           "knockback": 0.0
         }
       },
-      "particles": [
-        {
-          "particle_id": "witcher_rpg:yrden_sign_cast",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 3.0,
-          "min_speed": 0.1,
-          "max_speed": 0.3
-        },
-        {
-          "particle_id": "witcher_rpg:aard_sign_cast",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 3.0,
-          "min_speed": 0.3,
-          "max_speed": 0.5,
-          "extent": 2.0
-        }
-      ]
+      "visuals": {
+        "particles": [
+          {
+            "id": "witcher_rpg:yrden_sign_cast",
+            "appearance": {},
+            "batch": {
+              "count": 3.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.1,
+              "max_speed": 0.3
+            }
+          },
+          {
+            "id": "witcher_rpg:aard_sign_cast",
+            "appearance": {},
+            "batch": {
+              "count": 3.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.3,
+              "max_speed": 0.5,
+              "extent": 2.0
+            }
+          }
+        ]
+      }
     }
   ],
   "cost": {

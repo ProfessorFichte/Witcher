@@ -9,13 +9,16 @@ import net.spell_engine.api.effect.SpellEngineEffects;
 import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.render.LightEmission;
 import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.fx.Fx;
 import net.spell_engine.api.spell.fx.ModelEffect;
 import net.spell_engine.api.spell.fx.ModelEffectBuilder;
-import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.ParticleGroup;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.api.util.TriState;
-import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.api.entity.SpellEngineAttributes;
+import net.spell_engine.api.spell.tooltip.TooltipTokens;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
@@ -139,16 +142,14 @@ public class WitcherPassives {
         custom.action.type = Spell.Impact.Action.Type.CUSTOM;
         custom.action.custom.intent = SpellTarget.Intent.HARMFUL;
         custom.action.custom.handler = "more_rpg_classes:damage_according_to_missing_health";
-        custom.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.dripping_blood.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        35, 0.4F, 1.0F),
-                new ParticleBatch(
-                        SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10, 0.2F, 0.5F).color(Color.RED.toRGBA())
-        };
+        custom.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.dripping_blood)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(35).speed(0.4F, 1.0F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.smoke_medium)
+                        .color(Color.RED.toRGBA())
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(10).speed(0.2F, 0.5F)));
 
         spell.impacts = List.of(custom);
 
@@ -161,13 +162,11 @@ public class WitcherPassives {
         var id = Identifier.of(MOD_ID, "passives/bear_school_technique");
         var title = "Bear School Technique";
         var effect = WitcherStatusEffects.BEAR_SCHOOL_MEDALLION;
-        var description = "Taking Damage reduces incoming damage by {bonus} for {effect_duration} secs.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().attributes().get(0);
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description()
-                    .replace("{bonus}", bonus);
-        };
+        // Single modifier, so the token's blank-attribute fallback is unambiguous. `ABS` because the
+        // configured value is negative (-20%) while the prose already says "reduces ... by".
+        var description = "Taking Damage reduces incoming damage by "
+                + TooltipTokens.effect(effect.id, 0, null, TooltipTokens.Format.ABS)
+                + " for {effect_duration} secs.";
         var spell = SpellBuilder.createSpellPassive();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
         spell.range = 0;
@@ -189,7 +188,7 @@ public class WitcherPassives {
 
         SpellBuilder.Cost.cooldown(spell, 45F);
 
-        return new Entry(id, spell, title, description, mutator, null);
+        return new Entry(id, spell, title, description, null);
     }
     public static final Entry wolf_school_technique = add(wolf_school_technique());
     private static Entry wolf_school_technique() {
@@ -224,14 +223,10 @@ public class WitcherPassives {
 
         var damage = SpellBuilder.Impacts.damage(0.15F,0.0F);
         damage.attribute = "minecraft:generic.attack_damage";
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPARK,
-                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        20, 0.1F, 0.2F).color(Color.ELECTRIC.toRGBA())
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_spark, ParticleGroup.Motion.BURST, Color.ELECTRIC)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(20).speed(0.1F, 0.2F)));
         spell.impacts = List.of(damage);
 
         SpellBuilder.Cost.cooldown(spell, 45F);
@@ -301,15 +296,10 @@ public class WitcherPassives {
         damage.action.type = Spell.Impact.Action.Type.DAMAGE;
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.2F;
-        damage.particles = new ParticleBatch[] {
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.ARCANE,
-                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 20, 0.1F, 0.3F, 0.0F, 0F)
-                        .color(Color.GREEN.toRGBA())
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_arcane, ParticleGroup.Motion.BURST, Color.GREEN)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(20).speed(0.1F, 0.3F)));
         spell.impacts = List.of(damage);
 
         configureCooldown(spell, 5);
@@ -334,15 +324,10 @@ public class WitcherPassives {
 
         var fire = SpellBuilder.Impacts.fire(3);
         silverVulnerabilityAllow(fire);
-        fire.particles = new ParticleBatch[] {
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.ARCANE,
-                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 20, 0.1F, 0.3F, 0.0F, 0F)
-                        .color(Color.WHITE.toRGBA())
-        };
+        fire.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_arcane, ParticleGroup.Motion.BURST, Color.WHITE)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(20).speed(0.1F, 0.3F)));
         spell.impacts = List.of(fire);
 
         configureCooldown(spell, 1);
@@ -354,14 +339,12 @@ public class WitcherPassives {
         var id = Identifier.of(MOD_ID, "equipment_set_passives/grandmaster_feline");
         var effect = WitcherStatusEffects.FELINE_INJURY_MASTER;
         var title = "Grandmaster Feline Technique";
+        // The effect carries two modifiers of equal magnitude (damage taken +20%, movement speed
+        // -20%); the prose quotes that shared value but only the damage-taken attribute is read.
         var description = "Fencing Spells and melee hits inflict injuries if the target has a bad effect, " +
-                "increasing incoming damage and reducing movement speed by {bonus} {effect_duration} sec.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().attributes().get(0);
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description()
-                    .replace("{bonus}", bonus);
-        };
+                "increasing incoming damage and reducing movement speed by "
+                + TooltipTokens.effect(effect.id, 0, SpellEngineAttributes.DAMAGE_TAKEN.id)
+                + " {effect_duration} sec.";
         var spell = SpellBuilder.createSpellPassive();
         spell.school = WitcherSpellSchools.AARD;
         spell.range = 0;
@@ -377,16 +360,16 @@ public class WitcherPassives {
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
         var debuff = SpellBuilder.Impacts.effectSet(effect.id.toString(),5,0);
-        debuff.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.smoke_medium.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        3F, 0.1F, 0.3F).color(Color.RED.toRGBA())
-        };
+        debuff.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.smoke_medium)
+                        .color(Color.RED.toRGBA())
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(3F).speed(0.1F, 0.3F)));
         spell.impacts = List.of(debuff);
 
         SpellBuilder.Cost.cooldown(spell, 20F);
 
-        return new Entry(id, spell, title, description, mutator, null);
+        return new Entry(id, spell, title, description, null);
     }
     public static final Entry grandmaster_wolven = add(grandmaster_wolven());
     private static Entry grandmaster_wolven() {
@@ -411,14 +394,14 @@ public class WitcherPassives {
         spell.passive.triggers = List.of(trigger);
 
         var damage = SpellBuilder.Impacts.damage(1.25F, 0F);
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:yrden_sign_cast",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        3F, 0.1F, 0.3F),
-                new ParticleBatch("witcher_rpg:aard_sign_cast",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        3F, 0.3F, 0.5F).extent(2)
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("witcher_rpg:yrden_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(3F).speed(0.1F, 0.3F)),
+                ParticleGroupBuilder.of("witcher_rpg:aard_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(3F).speed(0.3F, 0.5F)
+                                .extent(2F)));
         spell.impacts = List.of(damage);
 
         SpellBuilder.Cost.cooldown(spell, 1F);
@@ -449,11 +432,11 @@ public class WitcherPassives {
 
         var effect = SpellBuilder.Impacts.effectSet(WitcherStatusEffects.QUEN_SHIELD.id.toString(),10,0);
         effect.action.status_effect.amplifier_power_multiplier = 0.3F;
-        effect.particles = new ParticleBatch[]{
-                new ParticleBatch("witcher_rpg:quen_sign_cast",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        3F, 0.3F, 0.5F).extent(2)
-        };
+        effect.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("witcher_rpg:quen_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(3F).speed(0.3F, 0.5F)
+                                .extent(2F)));
         spell.impacts = List.of(effect);
 
         SpellBuilder.Cost.cooldown(spell, 60F);
@@ -484,11 +467,10 @@ public class WitcherPassives {
         damage.action.type = Spell.Impact.Action.Type.DAMAGE;
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.1F;
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch("firework",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        20, 0.05F, 0.2F)
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("firework")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(20).speed(0.05F, 0.2F)));
 
         var charge = new Spell.Impact();
         charge.action = new Spell.Impact.Action();
@@ -502,13 +484,11 @@ public class WitcherPassives {
         charge.action.status_effect.refresh_duration = true;
         charge.action.status_effect.show_particles = false;
         charge.action.apply_to_caster = true;
-        charge.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPELL,
-                        SpellEngineParticles.MagicParticles.Motion.ASCEND).id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        ParticleBatch.Rotation.LOOK, 2.0F, 0.05F, 0.1F, 0F, 0F)
-        };
+        charge.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_spell, ParticleGroup.Motion.ASCEND)
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .alignment(ParticleGroup.Alignment.LOOK)
+                                .count(2.0F).speed(0.05F, 0.1F)));
 
         spell.impacts = List.of(damage, charge);
 
@@ -548,26 +528,22 @@ public class WitcherPassives {
         charge.action.status_effect.refresh_duration = true;
         charge.action.status_effect.show_particles = false;
         charge.action.apply_to_caster = true;
-        charge.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPELL,
-                        SpellEngineParticles.MagicParticles.Motion.ASCEND).id().toString(),
-                        ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                        ParticleBatch.Rotation.LOOK, 2.0F, 0.05F, 0.1F, 0F, 0F).color(Color.RED.toRGBA())
-        };
+        charge.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_spell, ParticleGroup.Motion.ASCEND, Color.RED)
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .alignment(ParticleGroup.Alignment.LOOK)
+                                .count(2.0F).speed(0.05F, 0.1F)));
 
         var damage = new Spell.Impact();
         damage.action = new Spell.Impact.Action();
         damage.action.type = Spell.Impact.Action.Type.DAMAGE;
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.1F;
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.STRIPE,
-                        SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.CENTER,
-                        25.0F, 0.2F, 1.0F).extent(0.1F)
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_stripe, ParticleGroup.Motion.BURST)
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE).widthFactor(2F)
+                                .count(25.0F).speed(0.2F, 1.0F)
+                                .extent(0.1F)));
 
         spell.impacts = List.of(charge, damage);
 
@@ -602,11 +578,10 @@ public class WitcherPassives {
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.2F;
         silverVulnerabilityAllow(damage);
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch("firework",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        20, 0.05F, 0.2F)
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("firework")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(20).speed(0.05F, 0.2F)));
 
         spell.impacts = List.of(damage);
 
@@ -642,13 +617,10 @@ public class WitcherPassives {
         damage.action.type = Spell.Impact.Action.Type.DAMAGE;
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.5F;
-        damage.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPELL,
-                        SpellEngineParticles.MagicParticles.Motion.ASCEND).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        20, 0.05F, 0.2F)
-        };
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_spell, ParticleGroup.Motion.ASCEND)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(20).speed(0.05F, 0.2F)));
 
         spell.impacts = List.of(damage);
 
@@ -780,12 +752,8 @@ public class WitcherPassives {
         var id = Identifier.of(MOD_ID, "passives/flood_of_anger");
         var title = "Flood of Anger";
         var effect = WitcherStatusEffects.FLOOD_OF_ANGER;
-        var description = "On Roll: Small chance to instantly gain Adrenaline Level 5 and {bonus} increased Attack Damage for a short duration.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "On Roll: Small chance to instantly gain Adrenaline Level 5 and "
+                + TooltipTokens.effect(effect.id) + " increased Attack Damage for a short duration.";
         var spell = passiveSpellBase();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
 
@@ -800,6 +768,6 @@ public class WitcherPassives {
 
         configureCooldown(spell, 30F);
 
-        return new Entry(id, spell, title, description, mutator, null);
+        return new Entry(id, spell, title, description);
     }
 }

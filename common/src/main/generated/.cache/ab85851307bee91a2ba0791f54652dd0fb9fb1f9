@@ -1,4 +1,4 @@
-// 1.21.1	2026-08-18T23:32:27.7923014	Witcher Class Mod/Tags for minecraft:item
+// 1.21.1	2026-08-23T23:16:52.0013602	Witcher Class Mod/Tags for minecraft:item
 d656e6d4d5cb40bc95f79fb195797c84d44ec346 data\witcher_rpg\tags\item\trinkets_1.json
 181554749a891905bcb0442dec0b28b72591f3e8 data\rpg_series\tags\item\weapon_type\spell_blade.json
 d85b7b61f576bd2268dc5418ef481cce4db771c5 data\rpg_series\tags\item\loot_theme\golden.json
@@ -12,8 +12,8 @@ d85b7b61f576bd2268dc5418ef481cce4db771c5 data\rpg_series\tags\item\loot_theme\go
 80cd864690ee1d9906519fae782ffd82b755fba0 data\rpg_series\tags\item\loot_tier\tier_2_weapons.json
 c87618a291645f991afbb127be6ab789065bcfed data\rpg_series\tags\item\loot_tier\tier_1_weapons.json
 8fd7e341dcc07b257b9314b1d03b7ea1d00b833b data\rpg_series\tags\item\loot_tier\tier_10_armors.json
-814b0c784f5f725ceb12fdc9569d5e77b256cdd0 data\witcher_rpg\tags\item\relic_swords_1.json
 b117d3bbc705bc505c766b3bf6745543fc646ada data\minecraft\tags\item\head_armor.json
+814b0c784f5f725ceb12fdc9569d5e77b256cdd0 data\witcher_rpg\tags\item\relic_swords_1.json
 181554749a891905bcb0442dec0b28b72591f3e8 data\witcher_rpg\tags\item\witcher_swords.json
 62a0e522f6bd6f3c592d9a344683310b4ca83b66 data\rpg_series\tags\item\armor_type\magic.json
 a5e793b460b1c60d0eb7ec3b4a5eb9465f6731fa data\rpg_series\tags\item\loot_tier\tier_3_weapons.json
@@ -32,6 +32,6 @@ bb744123490210af7917d7503b960bc65986f0eb data\minecraft\tags\item\foot_armor.jso
 91afdd6e1ac7e11c75e1a0fe683620694a84c850 data\witcher_rpg\tags\item\mastercrafted_diagrams.json
 ff7387c6c9293a107ca0e4941154803048542f30 data\rpg_series\tags\item\armor_type\melee.json
 b1831f5a191591998540979a1271a94b9e96cf25 data\witcher_rpg\tags\item\glyphs_0.json
-77695c9e7f081190a6866339c4e5d84bf4fd85bc data\witcher_rpg\tags\item\steel_swords.json
 5c42c9402399544b9ef13974a1e60f661a32852a data\minecraft\tags\item\chest_armor.json
+77695c9e7f081190a6866339c4e5d84bf4fd85bc data\witcher_rpg\tags\item\steel_swords.json
 eb42812c46e1217063de57565d622b8cb149312e data\witcher_rpg\tags\item\superior_diagrams.json

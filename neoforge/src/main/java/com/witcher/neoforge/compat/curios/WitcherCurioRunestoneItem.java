@@ -1,16 +1,18 @@
-package net.witcher_rpg.compat;
+package com.witcher.neoforge.compat.curios;
 
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class WitcherAccessoriesRunestoneItem extends WitcherAccessoriesItem {
-    public WitcherAccessoriesRunestoneItem(Settings settings) {
-        super(settings);
+public class WitcherCurioRunestoneItem extends WitcherCurioItem {
+    public WitcherCurioRunestoneItem(Item.Settings settings, @Nullable AttributeModifiersComponent customAttributes) {
+        super(settings, customAttributes);
     }
 
     @Override

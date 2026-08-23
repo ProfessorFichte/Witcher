@@ -36,18 +36,25 @@
           "apply_mode": "ADD"
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:magic_spell_ascend",
-          "origin": "CENTER",
-          "shape": "CIRCLE",
-          "rotation": "LOOK",
-          "count": 2.0,
-          "min_speed": 0.05,
-          "max_speed": 0.1,
-          "color_rgba": 4278190335
-        }
-      ]
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:magic_spell",
+            "appearance": {
+              "color": 4278190335,
+              "motion": "ASCEND"
+            },
+            "batch": {
+              "count": 2.0,
+              "shape": "CIRCLE",
+              "anchor": "ENTITY",
+              "alignment": "LOOK",
+              "min_speed": 0.05,
+              "max_speed": 0.1
+            }
+          }
+        ]
+      }
     },
     {
       "action": {
@@ -56,16 +63,25 @@
           "spell_power_coefficient": 0.1
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:magic_stripe_burst",
-          "origin": "CENTER",
-          "shape": "WIDE_PIPE",
-          "count": 25.0,
-          "min_speed": 0.2,
-          "extent": 0.1
-        }
-      ]
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:magic_stripe",
+            "appearance": {
+              "motion": "BURST"
+            },
+            "batch": {
+              "count": 25.0,
+              "shape": "PIPE",
+              "anchor": "ENTITY",
+              "min_speed": 0.2,
+              "max_speed": 1.0,
+              "extent": 0.1,
+              "width_factor": 2.0
+            }
+          }
+        ]
+      }
     }
   ],
   "cost": {

@@ -12,20 +12,26 @@
       },
       "particles": [
         {
-          "particle_id": "witcher_rpg:yrden_sign_cast",
-          "origin": "CENTER",
-          "shape": "CIRCLE",
-          "count": 1.0,
-          "min_speed": 0.001,
-          "max_speed": 0.006
+          "id": "witcher_rpg:yrden_sign_cast",
+          "appearance": {},
+          "batch": {
+            "count": 1.0,
+            "shape": "CIRCLE",
+            "anchor": "ENTITY",
+            "min_speed": 0.001,
+            "max_speed": 0.006
+          }
         },
         {
-          "particle_id": "witcher_rpg:yrden_sign_cast",
-          "origin": "CENTER",
-          "shape": "PILLAR",
-          "count": 1.0,
-          "min_speed": 0.01,
-          "max_speed": 0.06
+          "id": "witcher_rpg:yrden_sign_cast",
+          "appearance": {},
+          "batch": {
+            "count": 1.0,
+            "shape": "PILLAR",
+            "anchor": "ENTITY",
+            "min_speed": 0.01,
+            "max_speed": 0.06
+          }
         }
       ]
     }

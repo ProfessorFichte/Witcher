@@ -18,7 +18,7 @@
       "required_piece_count": 4,
       "spells": {
         "spell_ids": [
-          "witcher_rpg:equipment_set_modifiers/improved_aard"
+          "witcher_rpg:improved_aard"
         ]
       }
     },

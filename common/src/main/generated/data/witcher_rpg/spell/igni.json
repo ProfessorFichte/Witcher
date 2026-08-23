@@ -21,32 +21,42 @@
       },
       "particles": [
         {
-          "particle_id": "spell_engine:flame_spark",
-          "origin": "LAUNCH_POINT",
-          "shape": "CONE",
-          "rotation": "LOOK",
-          "count": 40.0,
-          "min_speed": 1.2,
-          "max_speed": 2.5,
-          "angle": 90.0
+          "id": "spell_engine:flame_spark",
+          "appearance": {},
+          "batch": {
+            "count": 40.0,
+            "shape": "CONE",
+            "anchor": "LAUNCH_POINT",
+            "alignment": "LOOK",
+            "min_speed": 1.2,
+            "max_speed": 2.5,
+            "angle": 90.0
+          }
         },
         {
-          "particle_id": "smoke",
-          "origin": "LAUNCH_POINT",
-          "shape": "CONE",
-          "rotation": "LOOK",
-          "count": 0.1,
-          "min_speed": 0.01,
-          "max_speed": 0.4,
-          "angle": 90.0
+          "id": "smoke",
+          "appearance": {},
+          "batch": {
+            "count": 1.0,
+            "chance": 0.1,
+            "shape": "CONE",
+            "anchor": "LAUNCH_POINT",
+            "alignment": "LOOK",
+            "min_speed": 0.01,
+            "max_speed": 0.4,
+            "angle": 90.0
+          }
         },
         {
-          "particle_id": "witcher_rpg:igni_sign_cast",
-          "origin": "LAUNCH_POINT",
-          "shape": "PIPE",
-          "count": 1.0,
-          "min_speed": 0.01,
-          "max_speed": 0.02
+          "id": "witcher_rpg:igni_sign_cast",
+          "appearance": {},
+          "batch": {
+            "count": 1.0,
+            "shape": "PIPE",
+            "anchor": "LAUNCH_POINT",
+            "min_speed": 0.01,
+            "max_speed": 0.02
+          }
         }
       ]
     }
@@ -68,32 +78,44 @@
           "knockback": 0.2
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:flame_medium_a",
-          "origin": "LAUNCH_POINT",
-          "shape": "CONE",
-          "count": 1.0,
-          "min_speed": 0.7,
-          "max_speed": 1.5
-        },
-        {
-          "particle_id": "large_smoke",
-          "origin": "CENTER",
-          "shape": "CIRCLE",
-          "count": 0.2,
-          "min_speed": 0.1,
-          "max_speed": 0.3
-        },
-        {
-          "particle_id": "spell_engine:flame_spark",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 4.0,
-          "min_speed": 0.02,
-          "max_speed": 0.1
-        }
-      ],
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:flame_medium_a",
+            "appearance": {},
+            "batch": {
+              "count": 1.0,
+              "shape": "CONE",
+              "anchor": "LAUNCH_POINT",
+              "min_speed": 0.7,
+              "max_speed": 1.5
+            }
+          },
+          {
+            "id": "large_smoke",
+            "appearance": {},
+            "batch": {
+              "count": 1.0,
+              "chance": 0.2,
+              "shape": "CIRCLE",
+              "anchor": "ENTITY",
+              "min_speed": 0.1,
+              "max_speed": 0.3
+            }
+          },
+          {
+            "id": "spell_engine:flame_spark",
+            "appearance": {},
+            "batch": {
+              "count": 4.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.02,
+              "max_speed": 0.1
+            }
+          }
+        ]
+      },
       "sound": {
         "id": "block.blastfurnace.fire_crackle"
       }

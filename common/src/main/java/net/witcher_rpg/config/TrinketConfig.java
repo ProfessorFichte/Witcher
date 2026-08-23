@@ -1,7 +1,7 @@
 package net.witcher_rpg.config;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.spell_engine.api.config.AttributeModifier;
+import net.spell_engine.rpg_series.config.AttributeModifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
