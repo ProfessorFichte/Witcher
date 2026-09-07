@@ -1,6 +1,6 @@
 package net.witcher_rpg.item.weapon;
 
-import net.fabricmc.loader.api.FabricLoader;
+import net.spell_engine.Platform;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterials;
@@ -201,8 +201,8 @@ public class WeaponsRegister {
     private static final String ARSENAL = "arsenal";
     //Registration
     public static void register(Map<String, WeaponConfig> configs) {
-        if(FabricLoader.getInstance().isModLoaded(BETTER_NETHER) || WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
-            var repair = ingredient("betternether:nether_ruby", FabricLoader.getInstance().isModLoaded(BETTER_NETHER), Items.NETHERITE_INGOT);
+        if(Platform.util().isModLoaded(BETTER_NETHER) || WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
+            var repair = ingredient("betternether:nether_ruby", Platform.util().isModLoaded(BETTER_NETHER), Items.NETHERITE_INGOT);
             witcherswords( "ruby_witcher_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, repair),7.0F)
                     .translatedName("Ruby Witcher Sword")
@@ -211,8 +211,8 @@ public class WeaponsRegister {
                     .loot(Equipment.LootProperties.of(4));
 
         }
-        if(FabricLoader.getInstance().isModLoaded(BETTER_END)|| WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
-            var repair = ingredient("betterend:aeternium_ingot", FabricLoader.getInstance().isModLoaded(BETTER_NETHER), Items.NETHERITE_INGOT);
+        if(Platform.util().isModLoaded(BETTER_END)|| WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
+            var repair = ingredient("betterend:aeternium_ingot", Platform.util().isModLoaded(BETTER_NETHER), Items.NETHERITE_INGOT);
             witcherswords( "aeternium_witcher_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, repair),7.0F)
                     .translatedName("Aeternium Witcher Sword")
@@ -220,8 +220,8 @@ public class WeaponsRegister {
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.1F))
                     .loot(Equipment.LootProperties.of(4));
         }
-        if(FabricLoader.getInstance().isModLoaded(AETHER)|| WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
-            var repair = ingredient("aether:ambrosium_shard", FabricLoader.getInstance().isModLoaded(AETHER), Items.NETHERITE_INGOT);
+        if(Platform.util().isModLoaded(AETHER)|| WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
+            var repair = ingredient("aether:ambrosium_shard", Platform.util().isModLoaded(AETHER), Items.NETHERITE_INGOT);
             witcherswords( "aether_witcher_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.NETHERITE, repair),7.0F)
                     .translatedName("Heavenly Witcher Sword")
@@ -229,7 +229,7 @@ public class WeaponsRegister {
                     .attribute(AttributeModifier.multiply(ADRENALINE,0.1F))
                     .loot(Equipment.LootProperties.of("aether"));
         }
-        if(FabricLoader.getInstance().isModLoaded(ARSENAL)|| WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
+        if(Platform.util().isModLoaded(ARSENAL)|| WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
             witcherrelicswords("winters_blade_sword",
                     Weapon.CustomMaterial.matching(ToolMaterials.DIAMOND, () -> Ingredient.ofItems(WitcherMaterials.STEEL_INGOT.item())), 6.5F)
                     .translatedName("Winter´s Blade")

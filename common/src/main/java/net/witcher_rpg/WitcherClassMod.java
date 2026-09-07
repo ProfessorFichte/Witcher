@@ -1,14 +1,10 @@
 package net.witcher_rpg;
 
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.witcher_rpg.network.ExposedGlowPayload;
-import net.fabricmc.loader.api.FabricLoader;
+import net.spell_engine.Platform;
+import net.spell_engine.PlatformEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -33,7 +29,6 @@ import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.sounds.Sounds;
 import net.witcher_rpg.spell.WitcherSpells;
-import net.witcher_rpg.worldgen.OreGen;
 import net.witcher_rpg.blocks.WitcherBlocks;
 import net.witcher_rpg.item.armor.Armors;
 import net.tiny_config.ConfigManager;
@@ -43,8 +38,6 @@ import net.witcher_rpg.worldgen.map.ModMapDecorations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.witcher_rpg.util.loot.Defaults;
-
-import java.util.HashMap;
 
 
 public class WitcherClassMod {
@@ -80,7 +73,7 @@ public class WitcherClassMod {
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)
-			.constrain(LootConfig::constrainValues)
+			.constrain(config -> LootConfig.constrainValues(config, Defaults.itemLootConfig))
 			.build();
 	public static ConfigManager<WeaknessConfig> weaknessConfig = new ConfigManager<>
 			("elemental_weaknesses", WitcherSchoolWeakness.createDefault())
@@ -98,7 +91,6 @@ public class WitcherClassMod {
 
 
 	public static void init() {
-		PayloadTypeRegistry.playS2C().register(ExposedGlowPayload.ID, ExposedGlowPayload.CODEC);
 		lootEquipmentConfig.refresh();
 		trinketConfig.refresh();
 		itemConfig.refresh();
@@ -106,28 +98,28 @@ public class WitcherClassMod {
 		weaknessConfig.refresh();
 		tweaksConfig.refresh();
 		lootInjectionConfig.refresh();
-		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+		if (Platform.util().isDevelopmentEnvironment()) {
 			tweaksConfig.value.ignore_items_required_mods = true;
 		}
 		WitcherSpellSchools.initialize();
 		CustomSpellImpacts.registerCustomImpacts();
 		/// SPECIFIC LOOT INJECTIONS
-		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
-			var tableId = key.getValue().toString();
+		PlatformEvents.onLootTableModify(context -> {
+			var tableId = context.tableId().toString();
 			if (!lootInjectionConfig.value.entries.containsKey(tableId)) {
 				return;
 			}
-			WitcherLootInjector.configure(registries, key.getValue(), tableBuilder);
+			WitcherLootInjector.configure(context.registries(), context.tableId(), context::addPool);
 		});
 		/// TAG BASED LOOT INJECTION
 		LootHelper.TAG_CACHE.refresh();
-		LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
-			LootHelper.configure(registries, key.getValue(), tableBuilder::pool, lootEquipmentConfig.value, new HashMap<>());
+		PlatformEvents.onLootTableModify(context -> {
+			LootHelper.configure(context.registries(), context.tableId(), context::existingPools, context::addPool, lootEquipmentConfig.value, "witcher_rpg");
 		});
-		ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
+		PlatformEvents.onServerStarted((server) -> {
 			LootHelper.updateTagCache(lootEquipmentConfig.value);
 		});
-		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, serverResourceManager, success) -> {
+		PlatformEvents.onDataPackReloadComplete(() -> {
 			LootHelper.updateTagCache(lootEquipmentConfig.value);
 		});
 		CombatEvents.PLAYER_SHIELD_BLOCK.register(args -> {
@@ -140,7 +132,7 @@ public class WitcherClassMod {
 			var process = caster.getSpellCastProcess();
 			if (process == null || !process.id().equals(Identifier.of(MOD_ID, "defensive_witcher_mechanics"))) return;
 
-			AnimationHelper.sendAnimation(serverPlayer, PlayerLookup.tracking(serverPlayer),
+			AnimationHelper.sendAnimation(serverPlayer, Platform.tracking(serverPlayer),
 					SpellCast.Animation.MISC, PlayerAnimation.of("witcher_rpg:witcher_reflexes"), 1F);
 			caster.getInteractor().requestClear();
 		});
@@ -153,9 +145,6 @@ public class WitcherClassMod {
 	public static void registerBlocks() {
 		WitcherBlocks.register();
 	}
-	public static void registerWorldGen() {
-		OreGen.register();
-	}
 	public static void registerSounds() {
 		Sounds.register();
 	}
@@ -163,7 +152,7 @@ public class WitcherClassMod {
 		WitcherEntities.register();
 	}
 	public static void registerItems() {
-		WitcherGroup.WITCHER = FabricItemGroup.builder()
+		WitcherGroup.WITCHER = new ItemGroup.Builder(ItemGroup.Row.TOP, 0)
 				.icon(() -> new ItemStack(WitcherTrinkets.WOLF_SCHOOL_MEDALLION.item().get()))
 				.displayName(Text.translatable("itemGroup." + MOD_ID + ".general"))
 				.build();

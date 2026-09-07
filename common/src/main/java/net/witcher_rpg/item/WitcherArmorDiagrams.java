@@ -1,6 +1,6 @@
 package net.witcher_rpg.item;
 
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.spell_engine.PlatformEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.SmithingTemplateItem;
 import net.minecraft.registry.Registries;
@@ -73,7 +73,7 @@ public class WitcherArmorDiagrams {
             Registry.register(Registries.ITEM, entry.id(), item);
         }
 
-        ItemGroupEvents.modifyEntriesEvent(WitcherGroup.WITCHER_KEY).register(content -> {
+        PlatformEvents.onItemGroupModify(WitcherGroup.WITCHER_KEY, (content, context) -> {
             for (var entry : ENTRIES) {
                 content.add(entry.item());
             }

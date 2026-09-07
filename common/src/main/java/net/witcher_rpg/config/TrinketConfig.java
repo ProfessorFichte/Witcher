@@ -1,6 +1,6 @@
 package net.witcher_rpg.config;
 
-import net.fabricmc.loader.api.FabricLoader;
+import net.spell_engine.Platform;
 import net.spell_engine.rpg_series.config.AttributeModifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +41,7 @@ public class TrinketConfig {
 
         public boolean isSatisfied() {
             if (required_mod != null || !required_mod.isEmpty()) {
-                if (!FabricLoader.getInstance().isModLoaded(required_mod)) {
+                if (!Platform.util().isModLoaded(required_mod)) {
                     return false;
                 }
             }

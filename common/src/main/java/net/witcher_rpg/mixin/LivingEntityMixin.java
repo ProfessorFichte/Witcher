@@ -1,7 +1,6 @@
 package net.witcher_rpg.mixin;
 
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.spell_engine.Platform;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -278,7 +277,7 @@ public abstract class LivingEntityMixin {
         if (hasCounterattack) {
             // TODO: Add counterattack animation and damage impact here
         } else {
-            AnimationHelper.sendAnimation(player, PlayerLookup.tracking(player),
+            AnimationHelper.sendAnimation(player, Platform.tracking(player),
                     SpellCast.Animation.MISC, PlayerAnimation.of("witcher_rpg:witcher_reflexes_release"), 1F);
         }
 
@@ -361,7 +360,7 @@ public abstract class LivingEntityMixin {
         if (effect.getEffectType().value() != WitcherStatusEffects.WITCHER_SENSES_EXPOSED.effect) return;
         if (!(source instanceof ServerPlayerEntity player)) return;
         WitcherExposed.set(self.getUuid(), player.getUuid());
-        ServerPlayNetworking.send(player, new ExposedGlowPayload(self.getId(), true));
+        Platform.util().networkS2C_Send(player, new ExposedGlowPayload(self.getId(), true));
     }
 
     @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"))

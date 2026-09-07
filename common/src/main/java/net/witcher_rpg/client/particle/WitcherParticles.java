@@ -1,6 +1,5 @@
 package net.witcher_rpg.client.particle;
 
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -9,13 +8,17 @@ import net.minecraft.util.Identifier;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 public class WitcherParticles {
-    public static final SimpleParticleType IGNI_SIGN = FabricParticleTypes.simple();
-    public static final SimpleParticleType YRDEN_SIGN = FabricParticleTypes.simple();
-    public static final SimpleParticleType AARD_SIGN = FabricParticleTypes.simple();
-    public static final SimpleParticleType QUEN_SIGN = FabricParticleTypes.simple();
-    public static final SimpleParticleType AXII_SIGN = FabricParticleTypes.simple();
-    public static final SimpleParticleType YRDEN_IMPACT = FabricParticleTypes.simple();
-    public static final SimpleParticleType YRDEN_CLOUD = FabricParticleTypes.simple();
+    private static SimpleParticleType simple() {
+        return new SimpleParticleType(false) { };
+    }
+
+    public static final SimpleParticleType IGNI_SIGN = simple();
+    public static final SimpleParticleType YRDEN_SIGN = simple();
+    public static final SimpleParticleType AARD_SIGN = simple();
+    public static final SimpleParticleType QUEN_SIGN = simple();
+    public static final SimpleParticleType AXII_SIGN = simple();
+    public static final SimpleParticleType YRDEN_IMPACT = simple();
+    public static final SimpleParticleType YRDEN_CLOUD = simple();
 
 
 

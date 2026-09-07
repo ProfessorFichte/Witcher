@@ -1,6 +1,6 @@
 package net.witcher_rpg.effect;
 
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.spell_engine.Platform;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectCategory;
@@ -569,7 +569,7 @@ public class WitcherStatusEffects {
             if (source != null && entity.getWorld() instanceof ServerWorld serverWorld) {
                 ServerPlayerEntity player = serverWorld.getServer().getPlayerManager().getPlayer(source);
                 if (player != null) {
-                    ServerPlayNetworking.send(player, new ExposedGlowPayload(entity.getId(), false));
+                    Platform.util().networkS2C_Send(player, new ExposedGlowPayload(entity.getId(), false));
                 }
             }
         });

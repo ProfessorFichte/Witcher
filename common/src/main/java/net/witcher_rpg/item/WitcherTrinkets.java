@@ -1,7 +1,7 @@
 package net.witcher_rpg.item;
 
 import com.google.common.base.Suppliers;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.spell_engine.PlatformEvents;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -523,7 +523,7 @@ public class WitcherTrinkets {
                 Registry.register(Registries.ITEM, entry.id(), entry.item().get());
             }
         }
-        ItemGroupEvents.modifyEntriesEvent(WitcherGroup.WITCHER_KEY).register(content -> {
+        PlatformEvents.onItemGroupModify(WitcherGroup.WITCHER_KEY, (content, context) -> {
             for(var entry: entries) {
                 if (entry.isEnabled()) {
                     content.add(entry.item().get());

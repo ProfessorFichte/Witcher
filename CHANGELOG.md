@@ -1,3 +1,7 @@
+# 3.1.1 - 1.21.1
+- Drop Forgified Fabric API (FFAPI) as a required dependency
+- Replace AzurelibArmor with Armor Model API
+
 # 3.1.0 - 1.21.1
 - Adopt Spell Engine 1.10 - Thanks Daedelus for the PR!
 - Skill Tree Prep with Modifiers & Passives!

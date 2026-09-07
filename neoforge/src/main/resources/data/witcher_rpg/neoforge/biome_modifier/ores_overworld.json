@@ -1,0 +1,16 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "witcher_rpg:silver_ore_small_placed",
+    "witcher_rpg:silver_ore_large_placed",
+    "witcher_rpg:silver_ore_buried_placed",
+    "witcher_rpg:meteorite_ore_small_placed",
+    "witcher_rpg:meteorite_ore_large_placed",
+    "witcher_rpg:meteorite_ore_buried_placed",
+    "witcher_rpg:dark_iron_ore_small_placed",
+    "witcher_rpg:dark_iron_ore_large_placed",
+    "witcher_rpg:dark_iron_ore_buried_placed"
+  ],
+  "step": "underground_ores"
+}

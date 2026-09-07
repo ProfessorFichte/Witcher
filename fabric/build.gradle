@@ -63,7 +63,6 @@ repositories {
     maven { url 'https://maven.fabricmc.net' }
     maven { url 'https://maven.kosmx.dev/' }
     maven { url 'https://maven.shedaniel.me/' }
-    maven { url 'https://maven.azuredoom.com/mods' }
     maven {
         name = 'Modrinth'
         url = 'https://api.modrinth.com/maven'
@@ -91,7 +90,7 @@ dependencies {
 
     modImplementation("dev.kosmx.player-anim:player-animation-lib-${platform}:${project.player_anim_version}")
     modImplementation("me.shedaniel.cloth:cloth-config-${platform}:${project.cloth_config_version}")
-    modImplementation("mod.azure.azurelibarmor:azurelibarmor-fabric-${project.azure_mc_version}:${project.azure_lib_version}")
+    modImplementation("maven.modrinth:armor-model-api:${project.armor_model_api_version}-${platform}")
     modImplementation("maven.modrinth:tiny-config:${project.tiny_config_version}-${platform}")
     modImplementation("maven.modrinth:more-rpg-library:${project.more_rpg_library_version}-${platform}")
 
@@ -149,7 +148,7 @@ publishMods {
         client = true
         server = true
         changelogType = "markdown"
-        requires("spell-engine", "more-rpg-library", "azurelib-armor")
+        requires("spell-engine", "more-rpg-library", "armor-model-api")
     }
 
     modrinth {
@@ -159,7 +158,7 @@ publishMods {
         minecraftVersions.add(project.minecraft_version)
         requires { slug = "spell-engine" }
         requires { slug = "more-rpg-library" }
-        requires { slug = "azurelib-armor" }
+        requires { slug = "armor-model-api" }
     }
 
     github {

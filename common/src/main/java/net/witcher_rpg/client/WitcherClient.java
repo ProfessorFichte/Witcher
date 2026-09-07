@@ -1,10 +1,11 @@
 package net.witcher_rpg.client;
 
-import mod.azure.azurelibarmor.common.render.armor.AzArmorRenderer;
-import mod.azure.azurelibarmor.common.render.armor.AzArmorRendererRegistry;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.ParticleFactory;
+import net.minecraft.client.particle.SpriteProvider;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleType;
+import net.rpg_foundation.armor_api.client.ArmorRenderers;
+import net.rpg_foundation.armor_api.client.GeoArmorRenderer;
 import net.spell_engine.api.effect.CustomModelStatusEffect;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.rpg_series.item.Armor;
@@ -16,37 +17,19 @@ import net.spell_engine.fx.SpellEngineParticles;
 import net.witcher_rpg.client.armor.*;
 import net.witcher_rpg.client.effect.AxiiParticles;
 import net.witcher_rpg.client.effect.QuenActiveShieldRenderer;
-import net.witcher_rpg.client.entity.YrdenMagicTrapRenderer;
-import net.witcher_rpg.client.entity.YrdenRenderer;
 import net.witcher_rpg.client.particle.WitcherParticles;
 import net.witcher_rpg.client.predicate_models.WitcherModelPredicates;
-import net.witcher_rpg.client.render.GlyphTooltipRenderer;
-import net.witcher_rpg.client.render.RunestoneTooltipRenderer;
 import net.witcher_rpg.effect.WitcherStatusEffects;
-import net.witcher_rpg.entity.YrdenEntity;
-import net.witcher_rpg.entity.YrdenMagicTrapEntity;
 import net.witcher_rpg.item.armor.Armors;
-import net.witcher_rpg.item.component.GlyphTooltipComponent;
-import net.witcher_rpg.item.component.RunestoneTooltipComponent;
 
-
-import java.util.function.Supplier;
+import net.minecraft.client.particle.SoulParticle;
+import net.minecraft.client.particle.DamageParticle;
+import net.minecraft.client.particle.DragonBreathParticle;
 
 
 public class WitcherClient{
 
     public static void  init(){
-        WitcherExposedClient.register();
-        net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback.EVENT.register(data -> {
-            if (data instanceof GlyphTooltipComponent component) {
-                return new GlyphTooltipRenderer(component);
-            }
-            if (data instanceof RunestoneTooltipComponent component) {
-                return new RunestoneTooltipRenderer(component);
-            }
-            return null;
-        });
-
         WitcherModelPredicates.registerModelPredicates();
 
         CustomParticleStatusEffect.register(
@@ -96,49 +79,54 @@ public class WitcherClient{
 
         CustomModelStatusEffect.register(WitcherStatusEffects.QUEN_ACTIVE.effect, new QuenActiveShieldRenderer());
 
-        registerArmorRenderer(Armors.witcherArmorSet, CustomArmorRenderer::kaer_morhen);
+        registerArmorRenderer(Armors.witcherArmorSet, CustomArmorRenderer.kaer_morhen());
 
-        registerArmorRenderer(Armors.felineSchoolArmorSet, CustomArmorRenderer::feline);
-        registerArmorRenderer(Armors.enhancedFelineSchoolArmorSet, CustomArmorRenderer::enhanced_feline);
-        registerArmorRenderer(Armors.superiorFelineSchoolArmorSet, CustomArmorRenderer::superior_feline);
-        registerArmorRenderer(Armors.mastercraftedFelineSchoolArmorSet, CustomArmorRenderer::mastercrafted_feline);
-        registerArmorRenderer(Armors.grandmasterFelineSchoolArmorSet, CustomArmorRenderer::grandmaster_feline);
+        registerArmorRenderer(Armors.felineSchoolArmorSet, CustomArmorRenderer.feline());
+        registerArmorRenderer(Armors.enhancedFelineSchoolArmorSet, CustomArmorRenderer.enhanced_feline());
+        registerArmorRenderer(Armors.superiorFelineSchoolArmorSet, CustomArmorRenderer.superior_feline());
+        registerArmorRenderer(Armors.mastercraftedFelineSchoolArmorSet, CustomArmorRenderer.mastercrafted_feline());
+        registerArmorRenderer(Armors.grandmasterFelineSchoolArmorSet, CustomArmorRenderer.grandmaster_feline());
 
-        registerArmorRenderer(Armors.griffinArmorSet, CustomArmorRenderer::griffin);
-        registerArmorRenderer(Armors.enhancedGriffinArmorSet, CustomArmorRenderer::enhanced_griffin);
-        registerArmorRenderer(Armors.superiorGriffinArmorSet, CustomArmorRenderer::superior_griffin);
-        registerArmorRenderer(Armors.mastercraftedGriffinArmorSet, CustomArmorRenderer::mastercrafted_griffin);
-        registerArmorRenderer(Armors.grandmasterGriffinArmorSet, CustomArmorRenderer::grandmaster_griffin);
+        registerArmorRenderer(Armors.griffinArmorSet, CustomArmorRenderer.griffin());
+        registerArmorRenderer(Armors.enhancedGriffinArmorSet, CustomArmorRenderer.enhanced_griffin());
+        registerArmorRenderer(Armors.superiorGriffinArmorSet, CustomArmorRenderer.superior_griffin());
+        registerArmorRenderer(Armors.mastercraftedGriffinArmorSet, CustomArmorRenderer.mastercrafted_griffin());
+        registerArmorRenderer(Armors.grandmasterGriffinArmorSet, CustomArmorRenderer.grandmaster_griffin());
 
-        registerArmorRenderer(Armors.ursineArmorSet, CustomArmorRenderer::ursine);
-        registerArmorRenderer(Armors.enhancedUrsineArmorSet, CustomArmorRenderer::enhanced_ursine);
-        registerArmorRenderer(Armors.superiorUrsineArmorSet, CustomArmorRenderer::superior_ursine);
-        registerArmorRenderer(Armors.mastercraftedUrsineArmorSet, CustomArmorRenderer::mastercrafted_ursine);
-        registerArmorRenderer(Armors.grandmasterUrsineArmorSet, CustomArmorRenderer::grandmaster_ursine);
+        registerArmorRenderer(Armors.ursineArmorSet, CustomArmorRenderer.ursine());
+        registerArmorRenderer(Armors.enhancedUrsineArmorSet, CustomArmorRenderer.enhanced_ursine());
+        registerArmorRenderer(Armors.superiorUrsineArmorSet, CustomArmorRenderer.superior_ursine());
+        registerArmorRenderer(Armors.mastercraftedUrsineArmorSet, CustomArmorRenderer.mastercrafted_ursine());
+        registerArmorRenderer(Armors.grandmasterUrsineArmorSet, CustomArmorRenderer.grandmaster_ursine());
 
-        registerArmorRenderer(Armors.wolvenArmorSet, CustomArmorRenderer::wolven);
-        registerArmorRenderer(Armors.enhancedWolvenArmorSet, CustomArmorRenderer::enhanced_wolven);
-        registerArmorRenderer(Armors.superiorWolvenArmorSet, CustomArmorRenderer::superior_wolven);
-        registerArmorRenderer(Armors.mastercraftedWolvenArmorSet, CustomArmorRenderer::mastercrafted_wolven);
-        registerArmorRenderer(Armors.grandmasterWolvenArmorSet, CustomArmorRenderer::grandmaster_wolven);
-
-        EntityRendererRegistry.register(YrdenEntity.ENTITY_TYPE,YrdenRenderer::new);
-        EntityRendererRegistry.register(YrdenMagicTrapEntity.ENTITY_TYPE,YrdenMagicTrapRenderer::new);
-    }
-    public static void registerParticleAppearances() {
-        ParticleFactoryRegistry registry = ParticleFactoryRegistry.getInstance();
-
-        registry.register(WitcherParticles.IGNI_SIGN, SoulParticle.Factory::new);
-        registry.register(WitcherParticles.YRDEN_SIGN, SoulParticle.Factory::new);
-        registry.register(WitcherParticles.AARD_SIGN, SoulParticle.Factory::new);
-        registry.register(WitcherParticles.QUEN_SIGN, SoulParticle.Factory::new);
-        registry.register(WitcherParticles.AXII_SIGN, SoulParticle.Factory::new);
-        registry.register(WitcherParticles.YRDEN_IMPACT, DamageParticle.Factory::new);
-        registry.register(WitcherParticles.YRDEN_CLOUD, DragonBreathParticle.Factory::new);
+        registerArmorRenderer(Armors.wolvenArmorSet, CustomArmorRenderer.wolven());
+        registerArmorRenderer(Armors.enhancedWolvenArmorSet, CustomArmorRenderer.enhanced_wolven());
+        registerArmorRenderer(Armors.superiorWolvenArmorSet, CustomArmorRenderer.superior_wolven());
+        registerArmorRenderer(Armors.mastercraftedWolvenArmorSet, CustomArmorRenderer.mastercrafted_wolven());
+        registerArmorRenderer(Armors.grandmasterWolvenArmorSet, CustomArmorRenderer.grandmaster_wolven());
     }
 
-    private static void registerArmorRenderer(Armor.Set set, Supplier<AzArmorRenderer> armorRendererSupplier) {
-        AzArmorRendererRegistry.register(armorRendererSupplier, set.head, set.chest, set.legs, set.feet);
+    public interface ParticleAppearanceRegistrar {
+        <T extends ParticleEffect> void register(ParticleType<T> type, SpriteFactory<T> factory);
+    }
+
+    @FunctionalInterface
+    public interface SpriteFactory<T extends ParticleEffect> {
+        ParticleFactory<T> create(SpriteProvider spriteProvider);
+    }
+
+    public static void registerParticleAppearances(ParticleAppearanceRegistrar registrar) {
+        registrar.register(WitcherParticles.IGNI_SIGN, SoulParticle.Factory::new);
+        registrar.register(WitcherParticles.YRDEN_SIGN, SoulParticle.Factory::new);
+        registrar.register(WitcherParticles.AARD_SIGN, SoulParticle.Factory::new);
+        registrar.register(WitcherParticles.QUEN_SIGN, SoulParticle.Factory::new);
+        registrar.register(WitcherParticles.AXII_SIGN, SoulParticle.Factory::new);
+        registrar.register(WitcherParticles.YRDEN_IMPACT, DamageParticle.Factory::new);
+        registrar.register(WitcherParticles.YRDEN_CLOUD, DragonBreathParticle.Factory::new);
+    }
+
+    private static void registerArmorRenderer(Armor.Set set, GeoArmorRenderer renderer) {
+        ArmorRenderers.register(renderer, set.head, set.chest, set.legs, set.feet);
     }
 
 }

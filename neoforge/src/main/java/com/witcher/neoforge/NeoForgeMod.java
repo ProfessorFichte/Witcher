@@ -4,7 +4,9 @@ import com.witcher.neoforge.compat.CompatFeatures;
 import net.minecraft.registry.RegistryKeys;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.witcher_rpg.client.WitcherExposedClient;
+import net.witcher_rpg.network.ExposedGlowPayload;
 
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.witcher_rpg.WitcherClassMod;
@@ -16,7 +18,13 @@ public final class NeoForgeMod {
         CompatFeatures.init();
         WitcherClassMod.init();
         modBus.addListener(RegisterEvent.class, NeoForgeMod::register);
-        modBus.addListener(NeoForgeMod::registerSpawnPlacements);
+        modBus.addListener(RegisterPayloadHandlersEvent.class, NeoForgeMod::registerPayloads);
+    }
+
+    private static void registerPayloads(final RegisterPayloadHandlersEvent event) {
+        var registrar = event.registrar("1");
+        registrar.playToClient(ExposedGlowPayload.ID, ExposedGlowPayload.CODEC, (payload, context) ->
+                WitcherExposedClient.setActive(payload.entityId(), payload.active()));
     }
 
     public static void register(RegisterEvent event) {
@@ -44,8 +52,5 @@ public final class NeoForgeMod {
         event.register(RegistryKeys.ENTITY_TYPE, reg -> {
             WitcherClassMod.registerEntities();
         });
-    }
-    private static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
-        WitcherClassMod.registerWorldGen();
     }
 }

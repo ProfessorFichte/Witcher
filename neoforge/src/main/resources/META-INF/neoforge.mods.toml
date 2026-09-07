@@ -3,6 +3,9 @@ loaderVersion = "[4,)"
 #issueTrackerURL = ""
 license = "ARR"
 
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
 [[mods]]
 modId = "witcher_rpg"
 version = "${version}"
@@ -28,13 +31,6 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.witcher_rpg]]
-modId = "forgified_fabric_api"
-type = "required"
-versionRange = "[${forgified_fabric_api_version},)"
-ordering = "NONE"
-side = "BOTH"
-
-[[dependencies.witcher_rpg]]
 modId = "spell_engine"
 type = "required"
 versionRange = "[${spell_engine_version},)"
@@ -42,9 +38,9 @@ ordering = "BEFORE"
 side = "BOTH"
 
 [[dependencies.witcher_rpg]]
-modId = "azurelibarmor"
+modId = "armor_model_api"
 type = "required"
-versionRange = "[${azure_lib_version},)"
+versionRange = "[${armor_model_api_version},)"
 ordering = "NONE"
 side = "BOTH"
 

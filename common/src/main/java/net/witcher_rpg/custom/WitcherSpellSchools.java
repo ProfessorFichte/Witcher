@@ -1,7 +1,7 @@
 package net.witcher_rpg.custom;
 
 import net.critical_strike.api.CriticalStrikeAttributes;
-import net.fabricmc.loader.api.FabricLoader;
+import net.spell_engine.Platform;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -281,7 +281,7 @@ public class WitcherSpellSchools {
             var value2 = (query.entity().getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER) - 100) / 10;
             return value1 + value2;
         });
-        if (FabricLoader.getInstance().isModLoaded("critical_strike")) {
+        if (Platform.util().isModLoaded("critical_strike")) {
             WITCHER_MELEE.addSource(SpellSchool.Trait.CRIT_CHANCE, SpellSchool.Apply.ADD, query ->  {
                 var value = query.entity().getAttributeValue(CriticalStrikeAttributes.CHANCE.attributeEntry);
                 return (double) CriticalStrikeAttributes.CHANCE.asChance(value); // 0.2

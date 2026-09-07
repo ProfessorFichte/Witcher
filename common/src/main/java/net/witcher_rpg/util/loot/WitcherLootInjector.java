@@ -1,7 +1,6 @@
 package net.witcher_rpg.util.loot;
 
 import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.BinomialLootNumberProvider;
@@ -13,8 +12,10 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.witcher_rpg.WitcherClassMod;
 
+import java.util.function.Consumer;
+
 public class WitcherLootInjector {
-    public static void configure(RegistryWrapper.WrapperLookup registries, Identifier id, LootTable.Builder tableBuilder) {
+    public static void configure(RegistryWrapper.WrapperLookup registries, Identifier id, Consumer<LootPool> poolAdder) {
         var config = WitcherClassMod.lootInjectionConfig.value;
         var tableId = id.toString();
         var pool = config.entries.get(tableId);
@@ -45,9 +46,9 @@ public class WitcherLootInjector {
             var lootEntry = ItemEntry.builder(item)
                     .weight(weight);
             lootPoolBuilder.with(lootEntry);
-            lootPoolBuilder.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(minAmount, maxAmount)).build());
+            lootPoolBuilder.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(minAmount, maxAmount)));
         }
-        tableBuilder.pool(lootPoolBuilder);
+        poolAdder.accept(lootPoolBuilder.build());
     }
 
     private static LootNumberProvider numberProvider(float min, float max) {
