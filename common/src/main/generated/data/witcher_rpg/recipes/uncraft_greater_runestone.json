@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "witcher_rpg:runestones_2"
+    }
+  ],
+  "result": {
+    "item": "minecraft:stone"
+  }
+}

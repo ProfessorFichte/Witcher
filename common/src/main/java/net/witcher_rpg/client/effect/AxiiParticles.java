@@ -13,7 +13,7 @@ public class AxiiParticles implements CustomParticleStatusEffect.Spawner {
     private final ParticleGroup particles;
 
     public AxiiParticles(int particleCount) {
-        this.particles = ParticleGroupBuilder.of(Identifier.of(MOD_ID, "axii_sign_cast"))
+        this.particles = ParticleGroupBuilder.of(new Identifier(MOD_ID, "axii_sign_cast"))
                 .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
                         .count(particleCount)
                         .speed(0.05F, 0.08F));

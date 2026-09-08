@@ -1,3 +1,6 @@
+# 3.1.1.001 - 1.20.1
+- Backport to Minecraft 1.20.1 (Fabric + Forge 47, no Forgified Fabric API)
+
 # 3.1.1 - 1.21.1
 - Drop Forgified Fabric API (FFAPI) as a required dependency
 - Replace AzurelibArmor with Armor Model API

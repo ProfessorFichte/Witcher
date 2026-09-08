@@ -6,6 +6,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
@@ -22,51 +23,66 @@ public class WitcherSpellSchools {
 
 
     public static final SpellSchool SIGN = new SpellSchool(SpellSchool.Archetype.MAGIC,
-            Identifier.of(SpellPowerMod.ID, "sign"),
+            new Identifier(SpellPowerMod.ID, "sign"),
             0xfffeca,
-            RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(WitcherClassMod.MOD_ID, "signs")),
-            WitcherAttributes.SIGN_INTENSITY);
+            RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(WitcherClassMod.MOD_ID, "signs")),
+            null);
     public static final SpellSchool AARD = new SpellSchool(SpellSchool.Archetype.MAGIC,
-            Identifier.of(SpellPowerMod.ID, "aard"),
+            new Identifier(SpellPowerMod.ID, "aard"),
             0x3beeff,
             DamageTypes.MAGIC,
-            WitcherAttributes.AARD_INTENSITY);
+            null);
     public static final SpellSchool AXII = new SpellSchool(SpellSchool.Archetype.MAGIC,
-            Identifier.of(SpellPowerMod.ID, "axii"),
+            new Identifier(SpellPowerMod.ID, "axii"),
             0x008000,
-            RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(WitcherClassMod.MOD_ID, "axii")),
-            WitcherAttributes.AXII_INTENSITY);
+            RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(WitcherClassMod.MOD_ID, "axii")),
+            null);
     public static final SpellSchool IGNI = new SpellSchool(SpellSchool.Archetype.MAGIC,
-            Identifier.of(SpellPowerMod.ID, "igni"),
+            new Identifier(SpellPowerMod.ID, "igni"),
             0xdd4e00,
-            RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(WitcherClassMod.MOD_ID, "igni")),
-            WitcherAttributes.IGNI_INTENSITY);
+            RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(WitcherClassMod.MOD_ID, "igni")),
+            null);
     public static final SpellSchool QUEN= new SpellSchool(SpellSchool.Archetype.MAGIC,
-            Identifier.of(SpellPowerMod.ID, "quen"),
+            new Identifier(SpellPowerMod.ID, "quen"),
             0xfffeca,
-            RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(WitcherClassMod.MOD_ID, "quen")),
-            WitcherAttributes.QUEN_INTENSITY);
+            RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(WitcherClassMod.MOD_ID, "quen")),
+            null);
     public static final SpellSchool YRDEN= new SpellSchool(SpellSchool.Archetype.MAGIC,
-            Identifier.of(SpellPowerMod.ID, "yrden"),
+            new Identifier(SpellPowerMod.ID, "yrden"),
             0xe717fe,
-            RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(WitcherClassMod.MOD_ID, "yrden")),
-            WitcherAttributes.YRDEN_INTENSITY);
+            RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(WitcherClassMod.MOD_ID, "yrden")),
+            null);
     public static final SpellSchool WITCHER_MELEE = new SpellSchool(SpellSchool.Archetype.MELEE,
-            Identifier.of(SpellPowerMod.ID, "witcher_melee"),
+            new Identifier(SpellPowerMod.ID, "witcher_melee"),
             0xb3b3b3,
             DamageTypes.PLAYER_ATTACK,
-            EntityAttributes.GENERIC_ATTACK_DAMAGE);
+            null);
 
+
+    /// The `SpellSchool` objects above are constructed at class-init time (`WitcherStatusEffects` reads
+    /// their `color` while registering effects), but `WitcherAttributes` is only populated inside the
+    /// `ATTRIBUTE` registration window on Forge - so the schools are built with a null `attributeEntry`
+    /// and it is filled in here, from `initialize()`, which runs after the attributes exist.
+    private static void bindAttributes() {
+        SIGN.attributeEntry = Registries.ATTRIBUTE.getEntry(WitcherAttributes.SIGN_INTENSITY);
+        AARD.attributeEntry = Registries.ATTRIBUTE.getEntry(WitcherAttributes.AARD_INTENSITY);
+        AXII.attributeEntry = Registries.ATTRIBUTE.getEntry(WitcherAttributes.AXII_INTENSITY);
+        IGNI.attributeEntry = Registries.ATTRIBUTE.getEntry(WitcherAttributes.IGNI_INTENSITY);
+        QUEN.attributeEntry = Registries.ATTRIBUTE.getEntry(WitcherAttributes.QUEN_INTENSITY);
+        YRDEN.attributeEntry = Registries.ATTRIBUTE.getEntry(WitcherAttributes.YRDEN_INTENSITY);
+        WITCHER_MELEE.attributeEntry = Registries.ATTRIBUTE.getEntry(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+    }
 
     public static void initialize() {
+        bindAttributes();
         int adrenaline_crit_damage_div = 3;
         int adrenaline_crit_chance_div = 10;
-        final Identifier SPELL_POWER = Identifier.of(SpellPowerMod.ID, "spell_power");
+        final Identifier SPELL_POWER = new Identifier(SpellPowerMod.ID, "spell_power");
 
         SIGN.addSource(SpellSchool.Trait.POWER, SpellSchool.Apply.ADD, query -> {
             var power = query.entity().getAttributeValue(WitcherAttributes.SIGN_INTENSITY);
             var world = query.entity().getWorld();
-            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getOrEmpty(SPELL_POWER);
             if (spellpower.isPresent()) {
                 var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
                 power *= 1 + (0.05 * level);
@@ -102,7 +118,7 @@ public class WitcherSpellSchools {
             var power2 = query.entity().getAttributeValue(SpellSchools.LIGHTNING.attributeEntry);
             power *= power2 + 1 ;
             var world = query.entity().getWorld();
-            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getOrEmpty(SPELL_POWER);
             if (spellpower.isPresent()) {
                 var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
                 power *= 1 + (0.05 * level);
@@ -138,7 +154,7 @@ public class WitcherSpellSchools {
             var power2 = query.entity().getAttributeValue(SpellSchools.SOUL.attributeEntry);
             power *= power2 + 1 ;
             var world = query.entity().getWorld();
-            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getOrEmpty(SPELL_POWER);
             if (spellpower.isPresent()) {
                 var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
                 power *= 1 + (0.05 * level);
@@ -174,7 +190,7 @@ public class WitcherSpellSchools {
             var power2 = query.entity().getAttributeValue(SpellSchools.FIRE.attributeEntry);
             power *= power2 + 1 ;
             var world = query.entity().getWorld();
-            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getOrEmpty(SPELL_POWER);
             if (spellpower.isPresent()) {
                 var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
                 power *= 1 + (0.05 * level);
@@ -210,7 +226,7 @@ public class WitcherSpellSchools {
             var power2 = query.entity().getAttributeValue(SpellSchools.LIGHTNING.attributeEntry);
             power *= power2 + 1 ;
             var world = query.entity().getWorld();
-            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getOrEmpty(SPELL_POWER);
             if (spellpower.isPresent()) {
                 var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
                 power *= 1 + (0.05 * level);
@@ -246,7 +262,7 @@ public class WitcherSpellSchools {
             var power2 = query.entity().getAttributeValue(SpellSchools.ARCANE.attributeEntry);
             power *= power2 + 1 ;
             var world = query.entity().getWorld();
-            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(SPELL_POWER);
+            var spellpower = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getOrEmpty(SPELL_POWER);
             if (spellpower.isPresent()) {
                 var level = EnchantmentHelper.getLevel(spellpower.get(), query.entity().getMainHandStack());
                 power *= 1 + (0.05 * level);

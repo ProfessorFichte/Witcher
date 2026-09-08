@@ -19,6 +19,7 @@ import net.spell_engine.api.spell.fx.ParticleGroup;
 import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.witcher_rpg.util.SpellLookup;
 import net.spell_engine.internals.SpellExecution;
 import net.spell_engine.internals.impact.SpellImpacts;
 import net.spell_engine.internals.target.EntityRelations;
@@ -34,11 +35,11 @@ import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned {
     public static EntityType<YrdenMagicTrapEntity > ENTITY_TYPE;
-    public static final ParticleGroup yrden_damage_circle = ParticleGroupBuilder.of(Identifier.of(MOD_ID, "yrden_cloud"))
+    public static final ParticleGroup yrden_damage_circle = ParticleGroupBuilder.of(new Identifier(MOD_ID, "yrden_cloud"))
             .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
                     .count(15)
                     .speed(0.001F, 0.02F));
-    public static final ParticleGroup yrden_damage_spehre = ParticleGroupBuilder.of(Identifier.of(MOD_ID, "yrden_cloud"))
+    public static final ParticleGroup yrden_damage_spehre = ParticleGroupBuilder.of(new Identifier(MOD_ID, "yrden_cloud"))
             .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
                     .count(15)
                     .speed(0.001F, 0.02F));
@@ -47,7 +48,7 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
     private Identifier spellId;
     private int timeToLive = 20;
     private int ownerId;
-    public static final Identifier yrdenSoundId = Identifier.of(MOD_ID, "yrden_sign");
+    public static final Identifier yrdenSoundId = new Identifier(MOD_ID, "yrden_sign");
     public static final SoundEvent yrdenSound = SoundEvent.of(yrdenSoundId);
 
     public YrdenMagicTrapEntity(EntityType<?> type, World world) {
@@ -103,10 +104,10 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
 
 
     @Override
-    protected void initDataTracker(DataTracker.Builder builder) {
-        builder.add(SPELL_ID_TRACKER, "");
-        builder.add(OWNER_ID_TRACKER, 0);
-        builder.add(TIME_TO_LIVE_TRACKER, 0);
+    protected void initDataTracker() {
+        this.getDataTracker().startTracking(SPELL_ID_TRACKER, "");
+        this.getDataTracker().startTracking(OWNER_ID_TRACKER, 0);
+        this.getDataTracker().startTracking(TIME_TO_LIVE_TRACKER, 0);
     }
 
     @Override
@@ -114,7 +115,7 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
         super.onTrackedDataSet(data);
         var rawSpellId = this.getDataTracker().get(SPELL_ID_TRACKER);
         if (rawSpellId != null && !rawSpellId.isEmpty()) {
-            this.spellId = Identifier.of(rawSpellId);
+            this.spellId = new Identifier(rawSpellId);
         }
         this.timeToLive = this.getDataTracker().get(TIME_TO_LIVE_TRACKER);
         this.calculateDimensions();
@@ -136,7 +137,7 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
-        this.spellId = Identifier.of(nbt.getString(NBTKey.SPELL_ID.key));
+        this.spellId = new Identifier(nbt.getString(NBTKey.SPELL_ID.key));
         this.ownerId = nbt.getInt(NBTKey.OWNER_ID.key);
         this.timeToLive = nbt.getInt(NBTKey.TIME_TO_LIVE.key);
         this.getDataTracker().set(SPELL_ID_TRACKER, this.spellId.toString());
@@ -197,7 +198,7 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
                     if (entity instanceof LivingEntity livingEntity) {
                         if (!isProtected(livingEntity)) {
                             if(this.age % checkDamageInterval == 0){
-                                RegistryEntry<Spell> yrdenGlyphSpellImpact = SpellRegistry.from(owner.getWorld()).getEntry(Identifier.of(MOD_ID, "yrden_glyph_impact")).get();
+                                RegistryEntry<Spell> yrdenGlyphSpellImpact = SpellLookup.entry(owner.getWorld(), new Identifier(MOD_ID, "yrden_glyph_impact"));
                                 SpellImpacts.performImpacts(owner.getWorld(), owner, livingEntity, livingEntity, yrdenGlyphSpellImpact,
                                         yrdenGlyphSpellImpact.value().impacts, new SpellExecution.ImpactContext().power(SpellPower.getSpellPower(WitcherSpellSchools.YRDEN, owner)).position(livingEntity.getPos()));
                                 livingEntity.playSound(yrdenSound,1F,1F);
@@ -231,7 +232,7 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
     }
 
     @Nullable public RegistryEntry<Spell> getSpellEntry() {
-        return SpellRegistry.from(this.getWorld()).getEntry(this.spellId).orElse(null);
+        return SpellLookup.entry(this.getWorld(), this.spellId);
     }
 
     public int getTimeToLive() {

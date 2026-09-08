@@ -1,6 +1,7 @@
 package net.witcher_rpg.effect;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.server.world.ServerWorld;
@@ -22,20 +23,20 @@ public class AxiiPuppetEffect extends ControlEnemyStatusEffect {
     }
 
     @Override
-    public void onApplied(LivingEntity entity, int amplifier) {
-        super.onApplied(entity, amplifier);
-        if (entity.hasStatusEffect(WitcherStatusEffects.AXII_PUPPET.entry)) {
+    public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+        super.onApplied(entity, attributes, amplifier);
+        if (entity.hasStatusEffect(WitcherStatusEffects.AXII_PUPPET.effect)) {
             popIcon(entity);
         }
     }
 
+    // 1.20.1: `applyUpdateEffect` returns void.
     @Override
-    public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
-        boolean result = super.applyUpdateEffect(entity, amplifier);
+    public void applyUpdateEffect(LivingEntity entity, int amplifier) {
+        super.applyUpdateEffect(entity, amplifier);
         if (entity.age % ICON_REFRESH_INTERVAL_TICKS == 0) {
             popIcon(entity);
         }
-        return result;
     }
 
     private static void popIcon(LivingEntity entity) {
@@ -53,12 +54,12 @@ public class AxiiPuppetEffect extends ControlEnemyStatusEffect {
 
     @Override
     protected void onImmune(LivingEntity entity) {
-        entity.removeStatusEffect(WitcherStatusEffects.AXII_PUPPET.entry);
+        entity.removeStatusEffect(WitcherStatusEffects.AXII_PUPPET.effect);
     }
 
     @Override
     protected void onControlledNonMob(LivingEntity entity) {
-        entity.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.AXII.entry, 40, 0, false, false, true));
-        entity.removeStatusEffect(WitcherStatusEffects.AXII_PUPPET.entry);
+        entity.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.AXII.effect, 40, 0, false, false, true));
+        entity.removeStatusEffect(WitcherStatusEffects.AXII_PUPPET.effect);
     }
 }

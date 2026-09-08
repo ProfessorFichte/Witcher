@@ -1,7 +1,7 @@
 package net.witcher_rpg.mixin;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipData;
+import net.minecraft.client.item.TooltipData;
 import net.minecraft.registry.Registries;
 import net.witcher_rpg.item.armor.Armors;
 import net.witcher_rpg.item.component.GlyphSlots;
@@ -26,7 +26,7 @@ public abstract class ItemStackTooltipMixin {
         ItemStack stack = (ItemStack) (Object) this;
 
         boolean isGlyphAttachable = stack.isIn(WitcherItemTags.GLYPH_ATTACHABLE);
-        GlyphSlots glyphSlots = stack.get(WitcherDataComponents.GLYPH_SLOTS);
+        GlyphSlots glyphSlots = WitcherDataComponents.getGlyphSlots(stack);
 
         if (isGlyphAttachable) {
             if (glyphSlots == null) {
@@ -41,7 +41,7 @@ public abstract class ItemStackTooltipMixin {
         }
 
         boolean isRunestoneAttachable = stack.isIn(WitcherItemTags.RUNESTONE_ATTACHABLE);
-        RunestoneSlots runestoneSlots = stack.get(WitcherDataComponents.RUNESTONE_SLOTS);
+        RunestoneSlots runestoneSlots = WitcherDataComponents.getRunestoneSlots(stack);
 
         if (isRunestoneAttachable) {
             if (runestoneSlots == null) {

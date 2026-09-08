@@ -9,6 +9,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.witcher_rpg.util.SpellLookup;
 import net.spell_engine.internals.casting.SpellCasterEntity;
 import net.spell_engine.internals.container.SpellContainerSource;
 import net.witcher_rpg.effect.WitcherStatusEffects;
@@ -35,7 +36,7 @@ public class PersistentProjectileEntityMixin {
         if (!caster.isCastingSpell()) return;
 
         var process = caster.getSpellCastProcess();
-        if (process == null || !process.id().equals(Identifier.of(MOD_ID, "defensive_witcher_mechanics"))) return;
+        if (process == null || !process.id().equals(new Identifier(MOD_ID, "defensive_witcher_mechanics"))) return;
 
         if (playerEntity.getWorld().isClient()) return;
 
@@ -44,8 +45,7 @@ public class PersistentProjectileEntityMixin {
         if (!(arrow.getOwner() instanceof LivingEntity shooter)) return;
 
         // Only deflect if the player has the arrow_deflection passive spell unlocked
-        var arrowDeflectionEntry = SpellRegistry.from(playerEntity.getWorld())
-                .getEntry(WitcherModifiers.arrow_deflection.id()).orElse(null);
+        var arrowDeflectionEntry = SpellLookup.entry(playerEntity.getWorld(), WitcherModifiers.arrow_deflection.id());
         var playerSpells = SpellContainerSource.getSpellsOf(playerEntity);
         boolean hasArrowDeflection = arrowDeflectionEntry != null &&
                 (playerSpells.passives().contains(arrowDeflectionEntry) || playerSpells.modifiers().contains(arrowDeflectionEntry));
@@ -70,8 +70,7 @@ public class PersistentProjectileEntityMixin {
         arrow.prevPitch = arrow.getPitch();
 
         // Apply cooldown so client re-cast packets are rejected by attemptCasting()
-        var spellEntry = SpellRegistry.from(playerEntity.getWorld())
-                .getEntry(Identifier.of(MOD_ID, "defensive_witcher_mechanics")).orElse(null);
+        var spellEntry = SpellLookup.entry(playerEntity.getWorld(), new Identifier(MOD_ID, "defensive_witcher_mechanics"));
         if (spellEntry != null) {
             int cooldownTicks = Math.round(spellEntry.value().cost.cooldown.duration * 20);
             caster.getCooldownManager().set(spellEntry, cooldownTicks);
@@ -98,7 +97,7 @@ public class PersistentProjectileEntityMixin {
         Entity hit = entityHitResult.getEntity();
 
         if (hit instanceof PlayerEntity player
-                && player.hasStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry)) {
+                && player.hasStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.effect)) {
 
             if ((Object)this instanceof PersistentProjectileEntity arrow) {
                 ci.cancel();

@@ -28,8 +28,11 @@ public final class FabricClient implements ClientModInitializer {
         });
         WitcherClient.init();
 
-        ClientPlayNetworking.registerGlobalReceiver(ExposedGlowPayload.ID, (payload, context) ->
-                context.client().execute(() -> WitcherExposedClient.setActive(payload.entityId(), payload.active())));
+        // Fabric API 0.92: raw-buffer receiver, decoded with the packet's own `read`.
+        ClientPlayNetworking.registerGlobalReceiver(ExposedGlowPayload.ID, (client, handler, buf, responseSender) -> {
+            var payload = ExposedGlowPayload.read(buf);
+            client.execute(() -> WitcherExposedClient.setActive(payload.entityId(), payload.active()));
+        });
 
         TooltipComponentCallback.EVENT.register(data -> {
             if (data instanceof GlyphTooltipComponent component) {

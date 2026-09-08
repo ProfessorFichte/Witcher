@@ -1,6 +1,5 @@
 package net.witcher_rpg.anvil;
 
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -28,7 +27,7 @@ public class RunestoneAnvilHandler {
     }
 
     private static GlyphAnvilHandler.AnvilResult handleRunestoneAttachment(ItemStack weapon, ItemStack runestone, String newName) {
-        RunestoneSlots slots = weapon.get(WitcherDataComponents.RUNESTONE_SLOTS);
+        RunestoneSlots slots = WitcherDataComponents.getRunestoneSlots(weapon);
 
         if (slots == null) {
             boolean shouldInitialize = weapon.isIn(WitcherItemTags.RUNESTONE_ATTACHABLE);
@@ -46,10 +45,10 @@ public class RunestoneAnvilHandler {
         ItemStack result = weapon.copy();
 
         RunestoneSlots newSlots = slots.withRunestone(runestone);
-        result.set(WitcherDataComponents.RUNESTONE_SLOTS, newSlots);
+        WitcherDataComponents.setRunestoneSlots(result, newSlots);
 
         if (newName != null && !newName.isEmpty()) {
-            result.set(DataComponentTypes.CUSTOM_NAME, Text.literal(newName));
+            result.setCustomName(Text.literal(newName));
         }
 
         int xpCost = calculateRunestoneXPCost(runestone);
@@ -60,15 +59,15 @@ public class RunestoneAnvilHandler {
     private static GlyphAnvilHandler.AnvilResult handleRunestoneRemoval(ItemStack weapon, String newName) {
         ItemStack result = weapon.copy();
 
-        RunestoneSlots slots = result.get(WitcherDataComponents.RUNESTONE_SLOTS);
+        RunestoneSlots slots = WitcherDataComponents.getRunestoneSlots(result);
         if (slots == null || slots.attachedRunestones().isEmpty()) {
             return GlyphAnvilHandler.AnvilResult.PASS;
         }
 
-        result.set(WitcherDataComponents.RUNESTONE_SLOTS, slots.removeAllRunestones());
+        WitcherDataComponents.setRunestoneSlots(result, slots.removeAllRunestones());
 
         if (newName != null && !newName.isEmpty()) {
-            result.set(DataComponentTypes.CUSTOM_NAME, Text.literal(newName));
+            result.setCustomName(Text.literal(newName));
         }
 
         return new GlyphAnvilHandler.AnvilResult(result, 0, 1);
@@ -88,7 +87,7 @@ public class RunestoneAnvilHandler {
     }
 
     private static boolean isRunestoneAttachable(ItemStack stack) {
-        RunestoneSlots slots = stack.get(WitcherDataComponents.RUNESTONE_SLOTS);
+        RunestoneSlots slots = WitcherDataComponents.getRunestoneSlots(stack);
         if (slots != null && slots.maxSlots() > 0) {
             return true;
         }
@@ -108,7 +107,7 @@ public class RunestoneAnvilHandler {
     }
 
     private static boolean hasRunestones(ItemStack stack) {
-        RunestoneSlots slots = stack.get(WitcherDataComponents.RUNESTONE_SLOTS);
+        RunestoneSlots slots = WitcherDataComponents.getRunestoneSlots(stack);
         return slots != null && !slots.attachedRunestones().isEmpty();
     }
 

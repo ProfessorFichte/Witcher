@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mastercrafted_diagram": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "witcher_rpg:mastercrafted_diagram"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "witcher_rpg:mastercrafted_diagram"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_mastercrafted_diagram",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "witcher_rpg:mastercrafted_diagram"
+    ]
+  },
+  "sends_telemetry_event": false
+}

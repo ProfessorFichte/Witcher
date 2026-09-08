@@ -33,84 +33,84 @@ public class WitcherMaterials {
         return entry;
     }
     public static final Entry SILVER_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "silver_ingot"),
+            new Identifier(MOD_ID, "silver_ingot"),
             "Silver Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry SILVER_NUGGET = add(new Entry(
-            Identifier.of(MOD_ID, "silver_nugget"),
+            new Identifier(MOD_ID, "silver_nugget"),
             "Silver Nugger",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry METEORITE_SILVER_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "meteorite_silver_ingot"),
+            new Identifier(MOD_ID, "meteorite_silver_ingot"),
             "Meteorite Silver Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry DARK_STEEL_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "dark_steel_ingot"),
+            new Identifier(MOD_ID, "dark_steel_ingot"),
             "Dark Steel Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry STEEL_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "steel_ingot"),
+            new Identifier(MOD_ID, "steel_ingot"),
             "Steel Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry STEEL_NUGGET = add(new Entry(
-            Identifier.of(MOD_ID, "steel_nugget"),
+            new Identifier(MOD_ID, "steel_nugget"),
             "Steel Nugget",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry RAW_SILVER = add(new Entry(
-            Identifier.of(MOD_ID, "raw_silver"),
+            new Identifier(MOD_ID, "raw_silver"),
             "Raw Silver",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry METEORITE = add(new Entry(
-            Identifier.of(MOD_ID, "meteorite"),
+            new Identifier(MOD_ID, "meteorite"),
             "Meteorite",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry METEORITE_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "meteorite_ingot"),
+            new Identifier(MOD_ID, "meteorite_ingot"),
             "Meteorite Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry DARK_IRON_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "dark_iron_ingot"),
+            new Identifier(MOD_ID, "dark_iron_ingot"),
             "Dark Iron Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry RAW_DARK_IRON = add(new Entry(
-            Identifier.of(MOD_ID, "raw_dark_iron"),
+            new Identifier(MOD_ID, "raw_dark_iron"),
             "Raw Dark Iron",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry DIMERITIUM_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "dimeritium_ingot"),
+            new Identifier(MOD_ID, "dimeritium_ingot"),
             "Dimeritium Ingot",
             settings -> new UpgradeItem(settings, "item.witcher_rpg.dimeritium_ingot.applies_to"),
             new Item.Settings()
@@ -129,7 +129,7 @@ public class WitcherMaterials {
             Registry.register(Registries.ITEM, e.id(), item);
         }
         MASTER_BOOK_CONTAINER.item = new MasterSpellBook(new Item.Settings().maxCount(1));
-        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "master_spell_book"), MASTER_BOOK());
+        Registry.register(Registries.ITEM, new Identifier(MOD_ID, "master_spell_book"), MASTER_BOOK());
         PlatformEvents.onItemGroupModify(WitcherGroup.WITCHER_KEY, (content, context) -> {
             for (Entry e : ENTRIES) {
                 content.add(e.item());

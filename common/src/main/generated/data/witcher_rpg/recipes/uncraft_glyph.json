@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "witcher_rpg:glyphs_1"
+    }
+  ],
+  "result": {
+    "item": "minecraft:stone"
+  }
+}

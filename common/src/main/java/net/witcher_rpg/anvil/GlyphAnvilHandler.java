@@ -1,17 +1,11 @@
 package net.witcher_rpg.anvil;
 
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.spell_engine.api.spell.SpellDataComponents;
+import net.spell_engine.api.item.SpellItemData;
 import net.spell_engine.api.spell.container.SpellContainer;
 import net.witcher_rpg.item.component.GlyphSlots;
 import net.witcher_rpg.item.component.WitcherDataComponents;
@@ -35,7 +29,7 @@ public class GlyphAnvilHandler {
     }
 
     private static AnvilResult handleGlyphAttachment(ItemStack armor, ItemStack glyph, String newName) {
-        GlyphSlots slots = armor.get(WitcherDataComponents.GLYPH_SLOTS);
+        GlyphSlots slots = WitcherDataComponents.getGlyphSlots(armor);
 
         if (slots == null) {
             boolean shouldInitialize = armor.isIn(WitcherItemTags.GLYPH_ATTACHABLE);
@@ -57,12 +51,12 @@ public class GlyphAnvilHandler {
         ItemStack result = armor.copy();
 
         GlyphSlots newSlots = slots.withGlyph(glyph);
-        result.set(WitcherDataComponents.GLYPH_SLOTS, newSlots);
+        WitcherDataComponents.setGlyphSlots(result, newSlots);
 
         rebuildAllSpellContainers(result, newSlots.attachedGlyphs());
 
         if (newName != null && !newName.isEmpty()) {
-            result.set(DataComponentTypes.CUSTOM_NAME, Text.literal(newName));
+            result.setCustomName(Text.literal(newName));
         }
 
         int xpCost = calculateGlyphXPCost(glyph);
@@ -73,16 +67,16 @@ public class GlyphAnvilHandler {
     private static AnvilResult handleGlyphRemoval(ItemStack armor, String newName) {
         ItemStack result = armor.copy();
 
-        GlyphSlots slots = result.get(WitcherDataComponents.GLYPH_SLOTS);
+        GlyphSlots slots = WitcherDataComponents.getGlyphSlots(result);
         if (slots == null || slots.attachedGlyphs().isEmpty()) {
             return AnvilResult.PASS;
         }
 
-        result.set(WitcherDataComponents.GLYPH_SLOTS, slots.removeAllGlyphs());
+        WitcherDataComponents.setGlyphSlots(result, slots.removeAllGlyphs());
         removeGlyphSpellContainers(result, slots.attachedGlyphs());
 
         if (newName != null && !newName.isEmpty()) {
-            result.set(DataComponentTypes.CUSTOM_NAME, Text.literal(newName));
+            result.setCustomName(Text.literal(newName));
         }
 
         return new AnvilResult(result, 0, 1);
@@ -93,83 +87,38 @@ public class GlyphAnvilHandler {
         Set<String> uniqueSpellIds = new LinkedHashSet<>();
 
         for (ItemStack glyph : glyphs) {
-            SpellContainer container = glyph.get(SpellDataComponents.SPELL_CONTAINER);
+            SpellContainer container = SpellItemData.getSpellContainer(glyph);
             if (container != null) {
                 uniqueSpellIds.addAll(extractSpellIds(container));
             }
         }
 
         if (uniqueSpellIds.isEmpty()) {
-            armor.remove(SpellDataComponents.SPELL_CONTAINER);
+            SpellItemData.removeSpellContainer(armor);
             return;
         }
 
         SpellContainer merged = createSpellContainer(new ArrayList<>(uniqueSpellIds));
         if (merged != null) {
-            armor.set(SpellDataComponents.SPELL_CONTAINER, merged);
+            SpellItemData.setSpellContainer(armor, merged);
         }
     }
 
-    @SuppressWarnings("unchecked")
+    /// 1.20.1 has no data-component registry to round-trip through: `SpellContainer` is a record,
+    /// so the spell ids come straight off the accessor.
     private static List<String> extractSpellIds(SpellContainer container) {
-        try {
-            var componentType = Registries.DATA_COMPONENT_TYPE.get(Identifier.of("spell_engine", "spell_container"));
-            if (componentType != null) {
-                var rawCodec = componentType.getCodec();
-                if (rawCodec != null) {
-                    var codec = (com.mojang.serialization.Codec<SpellContainer>) rawCodec;
-                    var result = codec.encodeStart(NbtOps.INSTANCE, container);
-                    if (result.isSuccess()) {
-                        NbtElement nbt = result.getOrThrow();
-                        if (nbt instanceof NbtCompound compound) {
-                            if (compound.contains("spell_ids", NbtElement.LIST_TYPE)) {
-                                NbtList list = compound.getList("spell_ids", NbtElement.STRING_TYPE);
-                                List<String> ids = new ArrayList<>();
-                                for (int i = 0; i < list.size(); i++) {
-                                    ids.add(list.getString(i));
-                                }
-                                return ids;
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            // If extraction fails, return empty list
-        }
-        return new ArrayList<>();
+        return new ArrayList<>(container.spell_ids());
     }
 
-    @SuppressWarnings("unchecked")
+    /// Reproduces exactly what the 1.21 code produced: the NBT it decoded carried `spell_ids` plus a
+    /// `content` key that is **not** a field of `SpellContainer.CODEC` (the field is `access`), so the
+    /// container came out with the codec defaults for everything but the ids. Kept as-is on purpose.
     private static SpellContainer createSpellContainer(List<String> spellIds) {
-        try {
-            NbtCompound compound = new NbtCompound();
-            NbtList list = new NbtList();
-            for (String id : spellIds) {
-                list.add(NbtString.of(id));
-            }
-            compound.put("spell_ids", list);
-            compound.putString("content", "ANY");
-
-            var componentType = Registries.DATA_COMPONENT_TYPE.get(Identifier.of("spell_engine", "spell_container"));
-            if (componentType != null) {
-                var rawCodec = componentType.getCodec();
-                if (rawCodec != null) {
-                    var codec = (com.mojang.serialization.Codec<SpellContainer>) rawCodec;
-                    var result = codec.decode(NbtOps.INSTANCE, compound);
-                    if (result.isSuccess()) {
-                        return result.getOrThrow().getFirst();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            // If creation fails, return null
-        }
-        return null;
+        return new SpellContainer(SpellContainer.ContentType.NONE, "", "", "", 0, List.copyOf(spellIds), 0);
     }
 
     private static boolean hasDuplicateSpell(List<ItemStack> existingGlyphs, ItemStack newGlyph) {
-        SpellContainer newContainer = newGlyph.get(SpellDataComponents.SPELL_CONTAINER);
+        SpellContainer newContainer = SpellItemData.getSpellContainer(newGlyph);
         if (newContainer == null) {
             return false;
         }
@@ -180,7 +129,7 @@ public class GlyphAnvilHandler {
         }
 
         for (ItemStack existingGlyph : existingGlyphs) {
-            SpellContainer existingContainer = existingGlyph.get(SpellDataComponents.SPELL_CONTAINER);
+            SpellContainer existingContainer = SpellItemData.getSpellContainer(existingGlyph);
             if (existingContainer != null) {
                 List<String> existingSpellIds = extractSpellIds(existingContainer);
                 for (String newSpellId : newSpellIds) {
@@ -197,10 +146,10 @@ public class GlyphAnvilHandler {
     private static void removeGlyphSpellContainers(ItemStack armor, java.util.List<ItemStack> glyphs) {
         if (glyphs.isEmpty()) return;
 
-        SpellContainer current = armor.get(SpellDataComponents.SPELL_CONTAINER);
+        SpellContainer current = SpellItemData.getSpellContainer(armor);
         if (current == null) return;
 
-        armor.remove(SpellDataComponents.SPELL_CONTAINER);
+        SpellItemData.removeSpellContainer(armor);
     }
 
     private static int calculateGlyphXPCost(ItemStack glyph) {
@@ -217,7 +166,7 @@ public class GlyphAnvilHandler {
     }
 
     private static boolean isGlyphAttachable(ItemStack stack) {
-        GlyphSlots slots = stack.get(WitcherDataComponents.GLYPH_SLOTS);
+        GlyphSlots slots = WitcherDataComponents.getGlyphSlots(stack);
         return (slots != null && slots.maxSlots() > 0) || stack.isIn(WitcherItemTags.GLYPH_ATTACHABLE);
     }
 
@@ -234,7 +183,7 @@ public class GlyphAnvilHandler {
     }
 
     private static boolean hasGlyphs(ItemStack stack) {
-        GlyphSlots slots = stack.get(WitcherDataComponents.GLYPH_SLOTS);
+        GlyphSlots slots = WitcherDataComponents.getGlyphSlots(stack);
         return slots != null && !slots.attachedGlyphs().isEmpty();
     }
 

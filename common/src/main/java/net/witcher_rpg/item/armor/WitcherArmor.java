@@ -3,9 +3,10 @@ package net.witcher_rpg.item.armor;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.spell_engine.rpg_series.item.Armor;
@@ -17,23 +18,23 @@ import java.util.List;
 import java.util.Optional;
 
 public class WitcherArmor extends Armor.CustomItem {
-    public WitcherArmor(RegistryEntry<ArmorMaterial> material, Type slot, Settings settings) {
+    public WitcherArmor(ArmorMaterial material, Type slot, Settings settings) {
         super(material, slot, addGlyphSlots(settings, slot, Armors.TIER1_GLYPH_SLOTS));
     }
 
     private static Settings addGlyphSlots(Settings settings, Type slot, int glyphSlots) {
         if (slot == Type.CHESTPLATE) {
-            settings.component(WitcherDataComponents.GLYPH_SLOTS, new GlyphSlots(glyphSlots, List.of()));
+            WitcherDataComponents.defaults(settings).glyphSlots( new GlyphSlots(glyphSlots, List.of()));
         }
         return settings;
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
+    public void appendTooltip(ItemStack stack,  World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
 
         if (this.getType() == Type.CHESTPLATE) {
-            GlyphSlots slots = stack.get(WitcherDataComponents.GLYPH_SLOTS);
+            GlyphSlots slots = WitcherDataComponents.getGlyphSlots(stack);
             if (slots != null && slots.maxSlots() > 0) {
                 // Add glyph attribute bonuses to tooltip
                 addGlyphAttributesTooltip(slots, tooltip);
@@ -81,7 +82,7 @@ public class WitcherArmor extends Armor.CustomItem {
                 double value = entry.getValue();
 
                 // Get attribute name
-                var attribute = Registries.ATTRIBUTE.get(Identifier.of(attrId));
+                var attribute = Registries.ATTRIBUTE.get(new Identifier(attrId));
                 if (attribute == null) continue;
 
                 // Format: " +2.0 Quen Intensity"
@@ -95,9 +96,9 @@ public class WitcherArmor extends Armor.CustomItem {
     }
 
     @Override
-    public Optional<net.minecraft.item.tooltip.TooltipData> getTooltipData(ItemStack stack) {
+    public Optional<net.minecraft.client.item.TooltipData> getTooltipData(ItemStack stack) {
         if (this.getType() == Type.CHESTPLATE) {
-            GlyphSlots slots = stack.get(WitcherDataComponents.GLYPH_SLOTS);
+            GlyphSlots slots = WitcherDataComponents.getGlyphSlots(stack);
             if (slots != null && slots.maxSlots() > 0) {
                 return Optional.of(new GlyphTooltipComponent(slots));
             }

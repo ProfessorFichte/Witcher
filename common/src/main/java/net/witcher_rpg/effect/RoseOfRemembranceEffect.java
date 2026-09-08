@@ -9,11 +9,12 @@ public class RoseOfRemembranceEffect extends StatusEffect {
         super(statusEffectCategory, color);
     }
 
-    public boolean applyUpdateEffect(LivingEntity livingEntity, int pAmplifier) {
+    // 1.20.1: `applyUpdateEffect` returns void (the 1.21 `boolean` return that ends the effect early
+    // does not exist).
+    public void applyUpdateEffect(LivingEntity livingEntity, int pAmplifier) {
         if (livingEntity.getHealth() < livingEntity.getMaxHealth()) {
             livingEntity.heal(livingEntity.getMaxHealth()*0.05F);
         }
-        return true;
     }
     @Override
     public boolean canApplyUpdateEffect(int duration, int amplifier) {

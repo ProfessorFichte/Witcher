@@ -50,7 +50,7 @@ public class WitcherPassives {
     /// GENERIC PASSIVE WITCHER TRAITS
     public static final Entry griffin_school_technique = add(griffin_school_technique());
     private static Entry griffin_school_technique() {
-        var id = Identifier.of(MOD_ID, "passives/griffin_school_technique");
+        var id = new Identifier(MOD_ID, "passives/griffin_school_technique");
         var title = "Griffin School Technique";
         var description = "Casting Signs halves the active cooldowns of all signs.";
         var spell = SpellBuilder.createSpellPassive();
@@ -118,7 +118,7 @@ public class WitcherPassives {
     }
     public static final Entry cat_school_technique = add(cat_school_technique());
     private static Entry cat_school_technique() {
-        var id = Identifier.of(MOD_ID, "passives/cat_school_technique");
+        var id = new Identifier(MOD_ID, "passives/cat_school_technique");
         var title = "Cat School Technique";
         var description = "Hitting targets with bad effects inflicts extra damage, dealing more damage the less health the target has.";
         var spell = SpellBuilder.createSpellPassive();
@@ -159,7 +159,7 @@ public class WitcherPassives {
     }
     public static final Entry bear_school_technique = add(bear_school_technique());
     private static Entry bear_school_technique() {
-        var id = Identifier.of(MOD_ID, "passives/bear_school_technique");
+        var id = new Identifier(MOD_ID, "passives/bear_school_technique");
         var title = "Bear School Technique";
         var effect = WitcherStatusEffects.BEAR_SCHOOL_MEDALLION;
         // Single modifier, so the token's blank-attribute fallback is unambiguous. `ABS` because the
@@ -192,7 +192,7 @@ public class WitcherPassives {
     }
     public static final Entry wolf_school_technique = add(wolf_school_technique());
     private static Entry wolf_school_technique() {
-        var id = Identifier.of(MOD_ID, "passives/wolf_school_technique");
+        var id = new Identifier(MOD_ID, "passives/wolf_school_technique");
         var title = "Wolf School Technique";
         var effect = WitcherStatusEffects.WOLF_SCHOOL_MEDALLION;
         var description = "After casting a sign, you deal {damage} magical damage per melee attack for {stash_duration} sec.";
@@ -236,7 +236,7 @@ public class WitcherPassives {
     //// WITCHER RELIC SPELLS
     public static final Entry ROSE_OF_REMEMBRANCE = add(rose_of_remembrance());
     private static Entry rose_of_remembrance() {
-        var id = Identifier.of(MOD_ID, "trinket_passives/rose_of_remembrance");
+        var id = new Identifier(MOD_ID, "trinket_passives/rose_of_remembrance");
         var effect = WitcherStatusEffects.ROSE_OF_REMEMBRANCE;
         var title = "Rose of Remembrance";
         var description = "On taking damage: {trigger_chance} chance, to heal yourself for 5%% of your max health for {effect_duration} seconds..";
@@ -249,7 +249,7 @@ public class WitcherPassives {
         trigger_damage_taken.target_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger_damage_taken);
 
-        var debuff = createEffectImpact(Identifier.of(effect.id.toString()),10);
+        var debuff = createEffectImpact(new Identifier(effect.id.toString()),10);
         debuff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.SET;
         debuff.action.status_effect.amplifier = 1;
         debuff.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
@@ -262,7 +262,7 @@ public class WitcherPassives {
     }
     public static Entry crystal_skull = add(crystal_skull());
     private static Entry crystal_skull() {
-        var id = Identifier.of(MOD_ID, "trinket_passives/crystal_skull");
+        var id = new Identifier(MOD_ID, "trinket_passives/crystal_skull");
         var description = "On melee hit: {trigger_chance} to shoot crystal shards, dealing {damage} to enemies.";
         var title = "Crystal Skull";
 
@@ -307,7 +307,7 @@ public class WitcherPassives {
     }
     public static Entry pure_silver = add(pure_silver());
     private static Entry pure_silver() {
-        var id = Identifier.of(MOD_ID, "trinket_passives/pure_silver");
+        var id = new Identifier(MOD_ID, "trinket_passives/pure_silver");
         var description = "On melee hit: Sets silver vulnerable targets on fire.";
         var title = "Pure Silver";
 
@@ -336,7 +336,7 @@ public class WitcherPassives {
     /// GRANDMASTER SET PASSIVES
     public static final Entry grandmaster_feline = add(grandmaster_feline());
     private static Entry grandmaster_feline() {
-        var id = Identifier.of(MOD_ID, "equipment_set_passives/grandmaster_feline");
+        var id = new Identifier(MOD_ID, "equipment_set_passives/grandmaster_feline");
         var effect = WitcherStatusEffects.FELINE_INJURY_MASTER;
         var title = "Grandmaster Feline Technique";
         // The effect carries two modifiers of equal magnitude (damage taken +20%, movement speed
@@ -373,7 +373,7 @@ public class WitcherPassives {
     }
     public static final Entry grandmaster_wolven = add(grandmaster_wolven());
     private static Entry grandmaster_wolven() {
-        var id = Identifier.of(MOD_ID, "equipment_set_passives/grandmaster_wolven");
+        var id = new Identifier(MOD_ID, "equipment_set_passives/grandmaster_wolven");
         var title = "Grandmaster Wolven Technique";
         var description = "Targets in the yrden circle, receive extra {damage} damage with aard signs.";
         var spell = SpellBuilder.createSpellPassive();
@@ -410,7 +410,7 @@ public class WitcherPassives {
     }
     public static final Entry grandmaster_ursine = add(grandmaster_ursine());
     private static Entry grandmaster_ursine() {
-        var id = Identifier.of(MOD_ID, "equipment_set_passives/grandmaster_ursine");
+        var id = new Identifier(MOD_ID, "equipment_set_passives/grandmaster_ursine");
         var title = "Grandmaster Ursine Technique";
         var description = "Taking Damage has {trigger_chance} chance to apply a quen shield.";
         var spell = SpellBuilder.createSpellPassive();
@@ -446,7 +446,7 @@ public class WitcherPassives {
     /// SWORD PASSIVE SPELLS
     public static final Entry AERONDIGHT_PASSIVE = add(aerondight_passive());
     public static Entry aerondight_passive() {
-        var id = Identifier.of(MOD_ID, "weapon_passives/aerondight_passive");
+        var id = new Identifier(MOD_ID, "weapon_passives/aerondight_passive");
         var title = "Aerondight";
         var description = "Each hit deals bonus arcane damage and builds up charges, increasing damage.";
         var spell = passiveSpellBase();
@@ -501,7 +501,7 @@ public class WitcherPassives {
     }
     public static final Entry IRIS_PASSIVE = add(iris_passive());
     public static Entry iris_passive() {
-        var id = Identifier.of(MOD_ID, "weapon_passives/iris_passive");
+        var id = new Identifier(MOD_ID, "weapon_passives/iris_passive");
         var title = "Iris";
         var description = "Each hit builds up charges, increasing physical damage.";
         var spell = passiveSpellBase();
@@ -556,7 +556,7 @@ public class WitcherPassives {
     }
     public static final Entry SILVER_SWORD_PASSIVE = add(silver_sword_passive());
     public static Entry silver_sword_passive() {
-        var id = Identifier.of(MOD_ID, "weapon_passives/silver_sword_passive");
+        var id = new Identifier(MOD_ID, "weapon_passives/silver_sword_passive");
         var title = "Silver Sword";
         var description = "Deals bonus damage to silver vulnerable targets.";
         var spell = passiveSpellBase();
@@ -594,7 +594,7 @@ public class WitcherPassives {
     }
     public static final Entry REACH_OF_THE_DAMNED_PASSIVE = add(reach_of_the_damned_passive());
     private static Entry reach_of_the_damned_passive() {
-        var id = Identifier.of(MOD_ID, "weapon_passives/reach_of_the_damned_passive");
+        var id = new Identifier(MOD_ID, "weapon_passives/reach_of_the_damned_passive");
         var title = "Reach of the Damned";
         var description = "Deals massive bonus damage to targets below 50%% health.";
         var spell = passiveSpellBase();
@@ -634,7 +634,7 @@ public class WitcherPassives {
     /// ROLL & COMBAT PASSIVES
     public static final Entry strong_crippling_strikes = add(strong_crippling_strikes());
     private static Entry strong_crippling_strikes() {
-        var id = Identifier.of(MOD_ID, "passives/strong_crippling_strikes");
+        var id = new Identifier(MOD_ID, "passives/strong_crippling_strikes");
         var title = "Crippling Strikes";
         var description = "On melee and Witcher melee spell damage: {trigger_chance} chance to stack Bleeding on the target.";
         var spell = passiveSpellBase();
@@ -657,7 +657,7 @@ public class WitcherPassives {
     }
     public static final Entry strong_sunder_armor = add(strong_sunder_armor());
     private static Entry strong_sunder_armor() {
-        var id = Identifier.of(MOD_ID, "passives/strong_sunder_armor");
+        var id = new Identifier(MOD_ID, "passives/strong_sunder_armor");
         var title = "Sunder Armor";
         var description = "On melee and Witcher melee spell damage: {trigger_chance} chance to stack a debuff reducing enemy armor by {effect_amplifier_cap} stacks max.";
         var spell = passiveSpellBase();
@@ -680,7 +680,7 @@ public class WitcherPassives {
     }
     public static final Entry yrden_roll = add(yrden_roll());
     private static Entry yrden_roll() {
-        var id = Identifier.of(MOD_ID, "passives/yrden_roll");
+        var id = new Identifier(MOD_ID, "passives/yrden_roll");
         var title = "Yrden Roll";
         var description = "On Roll: {trigger_chance} chance to place a small Yrden Circle.";
         var spell = passiveSpellBase();
@@ -706,7 +706,7 @@ public class WitcherPassives {
     }
     public static final Entry igni_roll = add(igni_roll());
     private static Entry igni_roll() {
-        var id = Identifier.of(MOD_ID, "passives/igni_roll");
+        var id = new Identifier(MOD_ID, "passives/igni_roll");
         var title = "Igni Roll";
         var description = "On Roll: Casts a 360 degree damaging area Igni sign that also burns enemies.";
         var spell = passiveSpellBase();
@@ -730,7 +730,7 @@ public class WitcherPassives {
     }
     public static final Entry footwork = add(footwork());
     private static Entry footwork() {
-        var id = Identifier.of(MOD_ID, "passives/footwork");
+        var id = new Identifier(MOD_ID, "passives/footwork");
         var title = "Footwork";
         var description = "On Roll: {trigger_chance} chance to gain increased Evasion Chance and Movement Speed for {effect_duration} seconds.";
         var spell = passiveSpellBase();
@@ -741,7 +741,7 @@ public class WitcherPassives {
         spell.passive.triggers = List.of(trigger);
         spell.target.type = Spell.Target.Type.CASTER;
 
-        spell.impacts = List.of(createEffectImpact(Identifier.of(WitcherStatusEffects.FOOTWORK.id.toString()), 5F));
+        spell.impacts = List.of(createEffectImpact(new Identifier(WitcherStatusEffects.FOOTWORK.id.toString()), 5F));
 
         configureCooldown(spell, 10F);
 
@@ -749,7 +749,7 @@ public class WitcherPassives {
     }
     public static final Entry flood_of_anger = add(flood_of_anger());
     private static Entry flood_of_anger() {
-        var id = Identifier.of(MOD_ID, "passives/flood_of_anger");
+        var id = new Identifier(MOD_ID, "passives/flood_of_anger");
         var title = "Flood of Anger";
         var effect = WitcherStatusEffects.FLOOD_OF_ANGER;
         var description = "On Roll: Small chance to instantly gain Adrenaline Level 5 and "
@@ -763,7 +763,7 @@ public class WitcherPassives {
         spell.target.type = Spell.Target.Type.CASTER;
 
         var adrenaline = SpellBuilder.Impacts.effectSet(WitcherStatusEffects.ADRENALINE_GAIN.id.toString(), 10F, 5);
-        var attackDamage = createEffectImpact(Identifier.of(effect.id.toString()), 5F);
+        var attackDamage = createEffectImpact(new Identifier(effect.id.toString()), 5F);
         spell.impacts = List.of(adrenaline, attackDamage);
 
         configureCooldown(spell, 30F);

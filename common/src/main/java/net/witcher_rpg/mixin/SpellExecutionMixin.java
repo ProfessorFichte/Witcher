@@ -8,6 +8,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.witcher_rpg.util.SpellLookup;
 import net.spell_engine.internals.SpellExecution;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.casting.SpellCasterEntity;
@@ -34,10 +35,10 @@ public abstract class SpellExecutionMixin {
     private static void witcherQuenActiveShield(World world, PlayerEntity player, RegistryEntry<Spell> spellEntry, SpellTarget.SearchResult targetResult, SpellCast.Action action, float progress, CallbackInfo callbackInfo) {
         if (!player.isSpectator()&& player instanceof SpellCasterEntity spellCasterEntity) {
             var spell = spellCasterEntity.getCurrentSpell();
-            var spellEntryQuen = SpellRegistry.from(player.getWorld()).getEntry(Identifier.of(MOD_ID, "quen_active_shield")).orElse(null);
+            var spellEntryQuen = SpellLookup.entry(player.getWorld(), new Identifier(MOD_ID, "quen_active_shield"));
             if (spell != null) {
                 if(action == SpellCast.Action.RELEASE && Objects.equals(spell, spellEntryQuen.value())){
-                    player.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry);
+                    player.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.effect);
                 }
             }
         }
@@ -57,15 +58,15 @@ public abstract class SpellExecutionMixin {
                 int adrenaline_duration_multiplier = value1 * 3;
 
                 int durationSeconds = 20 + adrenaline_duration_multiplier;
-                if(player.hasStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry)){
-                    int actualDuration = player.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry).getDuration()*20;
+                if(player.hasStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect)){
+                    int actualDuration = player.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect).getDuration()*20;
                     durationSeconds = durationSeconds + actualDuration;
                     if(durationSeconds > (tweaksConfig.value.adrenaline_max_seconds_duration *20)){
                         durationSeconds = (tweaksConfig.value.adrenaline_max_seconds_duration *20);
                     }
                 }
 
-                applyStatusEffect(player,0,durationSeconds, WitcherStatusEffects.ADRENALINE_GAIN.entry,tweaksConfig.value.adrenaline_max_amplifier-1,
+                applyStatusEffect(player,0,durationSeconds, WitcherStatusEffects.ADRENALINE_GAIN.effect,tweaksConfig.value.adrenaline_max_amplifier-1,
                         true,true,false,0);
             }
         }

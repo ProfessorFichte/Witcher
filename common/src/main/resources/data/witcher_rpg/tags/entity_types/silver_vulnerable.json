@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#witcher_rpg:undead",
+    {
+      "id": "#tcots-witcher:necrophages",
+      "required": false
+    },
+    {
+      "id": "#tcots-witcher:ogroids",
+      "required": false
+    }
+  ]
+}

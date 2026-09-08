@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "group": "silver",
+  "ingredient": {
+    "item": "witcher_rpg:raw_silver"
+  },
+  "result": "witcher_rpg:silver_ingot"
+}

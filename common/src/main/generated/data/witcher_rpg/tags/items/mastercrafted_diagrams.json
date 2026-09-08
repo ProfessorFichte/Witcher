@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "witcher_rpg:mastercrafted_diagram",
+      "required": false
+    }
+  ]
+}

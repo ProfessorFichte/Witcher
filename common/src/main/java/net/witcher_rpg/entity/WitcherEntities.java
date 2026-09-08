@@ -12,9 +12,9 @@ public class WitcherEntities {
     public static void register() {
         YrdenEntity.ENTITY_TYPE = Registry.register(
                 Registries.ENTITY_TYPE,
-                Identifier.of(MOD_ID, "yrden"),
+                new Identifier(MOD_ID, "yrden"),
                 EntityType.Builder.<YrdenEntity>create(YrdenEntity::new, SpawnGroup.MISC)
-                        .dimensions(6F, 0.5F)
+                        .setDimensions(6F, 0.5F)
                         .makeFireImmune()
                         .maxTrackingRange(128)
                         .trackingTickInterval(20)
@@ -22,9 +22,9 @@ public class WitcherEntities {
         );
         YrdenMagicTrapEntity.ENTITY_TYPE = Registry.register(
                 Registries.ENTITY_TYPE,
-                Identifier.of(MOD_ID, "yrden_magical_trap"),
+                new Identifier(MOD_ID, "yrden_magical_trap"),
                 EntityType.Builder.<YrdenMagicTrapEntity>create(YrdenMagicTrapEntity::new, SpawnGroup.MISC)
-                        .dimensions(6F, 0.5F)
+                        .setDimensions(6F, 0.5F)
                         .makeFireImmune()
                         .maxTrackingRange(128)
                         .trackingTickInterval(20)

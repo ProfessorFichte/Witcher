@@ -7,8 +7,8 @@ import net.minecraft.util.Identifier;
 import net.witcher_rpg.WitcherClassMod;
 
 public class WitcherGroup {
-    public static Identifier ID = Identifier.of(WitcherClassMod.MOD_ID, "generic");
-    public static RegistryKey<ItemGroup> WITCHER_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(),Identifier.of(WitcherClassMod.MOD_ID,"generic"));
+    public static Identifier ID = new Identifier(WitcherClassMod.MOD_ID, "generic");
+    public static RegistryKey<ItemGroup> WITCHER_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(),new Identifier(WitcherClassMod.MOD_ID,"generic"));
     public static ItemGroup WITCHER;
 
 

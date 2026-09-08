@@ -33,15 +33,15 @@ public class WitcherArmorDiagrams {
     }
 
     public static final List<Identifier> BASE_ITEMS = List.of(
-            Identifier.of("item/empty_slot_sword"),
-            Identifier.of("item/empty_armor_slot_helmet"),
-            Identifier.of("item/empty_armor_slot_chestplate"),
-            Identifier.of("item/empty_armor_slot_leggings"),
-            Identifier.of("item/empty_armor_slot_boots")
+            new Identifier("item/empty_slot_sword"),
+            new Identifier("item/empty_armor_slot_helmet"),
+            new Identifier("item/empty_armor_slot_chestplate"),
+            new Identifier("item/empty_armor_slot_leggings"),
+            new Identifier("item/empty_armor_slot_boots")
     );
 
     public static final List<Identifier> INGREDIENT_ITEMS_WITCHER_ARMOR = List.of(
-            Identifier.of("item/empty_slot_ingot")
+            new Identifier("item/empty_slot_ingot")
     );
 
     private static final String[] KEYS = {
@@ -51,7 +51,7 @@ public class WitcherArmorDiagrams {
     static {
         for (String key : KEYS) {
             add(new Entry(
-                    Identifier.of(MOD_ID, key + "_diagram"),
+                    new Identifier(MOD_ID, key + "_diagram"),
                     settings -> new SmithingTemplateItem(
                             Text.translatable("smithing_template.witcher_rpg." + key + ".applies_to").formatted(Formatting.DARK_GREEN),
                             Text.translatable("smithing_template.witcher_rpg." + key + ".ingredients").formatted(Formatting.DARK_GREEN),

@@ -1,6 +1,7 @@
 package net.witcher_rpg.effect;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -19,7 +20,7 @@ import static net.more_rpg_classes.util.CustomMethods.clearNegativeEffects;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class QuenActiveEffect extends StatusEffect {
-    public static final Identifier QUEN_BREAK_ID = Identifier.of(MOD_ID, "quen_sign_break");
+    public static final Identifier QUEN_BREAK_ID = new Identifier(MOD_ID, "quen_sign_break");
     public static final SoundEvent QUEN_BREAK = SoundEvent.of(QUEN_BREAK_ID );
     private final int healthPerStack;
     public static final ParticleGroup quen_break = ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_A)
@@ -35,18 +36,19 @@ public class QuenActiveEffect extends StatusEffect {
         this.healthPerStack = 6;
     }
 
-    public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
+    // 1.20.1: `applyUpdateEffect` returns void. The explicit self-removal below (present upstream too)
+    // is what actually ends the shield when the absorption is gone.
+    public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         if (!entity.getWorld().isClient) {
             float currentAbsorption = entity.getAbsorptionAmount();
             if(currentAbsorption == 0 ){
-                entity.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry);
+                entity.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.effect);
             }
         }
-        return entity.getAbsorptionAmount() > 0.0F || entity.getWorld().isClient;
     }
 
-    public void onApplied(LivingEntity entity, int amplifier) {
-        super.onApplied(entity, amplifier);
+    public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+        super.onApplied(entity, attributes, amplifier);
         clearNegativeEffects(entity,false);
         entity.setAbsorptionAmount(Math.max(entity.getAbsorptionAmount(), (float)(healthPerStack * (1 + amplifier))));
     }
@@ -59,7 +61,7 @@ public class QuenActiveEffect extends StatusEffect {
     public static void onRemove(LivingEntity entity) {
         float currentAbsorption = entity.getAbsorptionAmount();
         if(currentAbsorption == 0 ){
-            entity.addStatusEffect(new StatusEffectInstance(SpellEngineEffects.STUN.entry,5,0,false,false,false));
+            entity.addStatusEffect(new StatusEffectInstance(SpellEngineEffects.STUN.effect,5,0,false,false,false));
         }
         if (!entity.getWorld().isClient()) {
             entity.getWorld().playSoundFromEntity(null, entity, QUEN_BREAK, SoundCategory.PLAYERS, 1F, 1F);

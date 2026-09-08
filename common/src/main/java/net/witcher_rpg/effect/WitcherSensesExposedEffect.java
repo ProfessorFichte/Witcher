@@ -1,6 +1,7 @@
 package net.witcher_rpg.effect;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.server.world.ServerWorld;
 import net.more_rpg_classes.client.particle.MoreParticles;
@@ -12,8 +13,8 @@ public class WitcherSensesExposedEffect extends CustomStatusEffect {
         super(category, color);
     }
 
-    public void onApplied(LivingEntity livingEntity, int amplifier) {
-        super.onApplied(livingEntity, amplifier);
+    public void onApplied(LivingEntity livingEntity, AttributeContainer attributes, int amplifier) {
+        super.onApplied(livingEntity, attributes, amplifier);
         if (livingEntity.getWorld() instanceof ServerWorld serverWorld) {
             serverWorld.spawnParticles(
                     new PopupParticleEffect(MoreParticles.POPUP, WitcherStatusEffects.WITCHER_SENSES_EXPOSED.id, false, livingEntity.getId()),

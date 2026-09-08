@@ -20,6 +20,9 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.spell_engine.utils.AttributeModifierUtil;
+import net.spell_power.api.ModifierDefinitions;
+import net.witcher_rpg.util.SpellLookup;
 import net.spell_engine.compat.CriticalStrikeCompat;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.casting.SpellCasterEntity;
@@ -29,6 +32,7 @@ import net.witcher_rpg.effect.WitcherExposed;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
 import net.witcher_rpg.network.ExposedGlowPayload;
+import net.witcher_rpg.network.WitcherNetworking;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.component.GlyphSlots;
 import net.witcher_rpg.item.component.RunestoneSlots;
@@ -56,12 +60,12 @@ public abstract class LivingEntityMixin {
     public abstract ItemStack getEquippedStack(EquipmentSlot slot);
 
     @Shadow
-    public abstract EntityAttributeInstance getAttributeInstance(RegistryEntry<EntityAttribute> attribute);
+    public abstract EntityAttributeInstance getAttributeInstance(EntityAttribute attribute);
 
     @Unique
-    private static final Identifier RUNESTONE_MODIFIER_BASE = Identifier.of("witcher_rpg", "runestone_bonus");
+    private static final Identifier RUNESTONE_MODIFIER_BASE = new Identifier("witcher_rpg", "runestone_bonus");
     @Unique
-    private static final Identifier GLYPH_MODIFIER_BASE = Identifier.of("witcher_rpg", "glyph_bonus");
+    private static final Identifier GLYPH_MODIFIER_BASE = new Identifier("witcher_rpg", "glyph_bonus");
 
     @Unique
     private ItemStack witcher$lastMainHand = ItemStack.EMPTY;
@@ -112,26 +116,26 @@ public abstract class LivingEntityMixin {
     private void witcher$updateAllAttributeModifiers(ItemStack mainHand, ItemStack chestplate) {
         // STEP 1: Remove all previously tracked modifiers
         for (String attrId : witcher$trackedRunestoneAttributes) {
-            RegistryEntry<EntityAttribute> attribute = Registries.ATTRIBUTE.getEntry(Identifier.of(attrId)).orElse(null);
+            EntityAttribute attribute = Registries.ATTRIBUTE.get(new Identifier(attrId));
             if (attribute != null) {
                 EntityAttributeInstance instance = this.getAttributeInstance(attribute);
                 if (instance != null) {
-                    instance.removeModifier(RUNESTONE_MODIFIER_BASE);
-                    Identifier percentModifierId = Identifier.of(RUNESTONE_MODIFIER_BASE.getNamespace(), RUNESTONE_MODIFIER_BASE.getPath() + "_percent");
-                    instance.removeModifier(percentModifierId);
+                    instance.removeModifier(ModifierDefinitions.uuid(RUNESTONE_MODIFIER_BASE));
+                    Identifier percentModifierId = new Identifier(RUNESTONE_MODIFIER_BASE.getNamespace(), RUNESTONE_MODIFIER_BASE.getPath() + "_percent");
+                    instance.removeModifier(ModifierDefinitions.uuid(percentModifierId));
                 }
             }
         }
         witcher$trackedRunestoneAttributes.clear();
 
         for (String attrId : witcher$trackedGlyphAttributes) {
-            RegistryEntry<EntityAttribute> attribute = Registries.ATTRIBUTE.getEntry(Identifier.of(attrId)).orElse(null);
+            EntityAttribute attribute = Registries.ATTRIBUTE.get(new Identifier(attrId));
             if (attribute != null) {
                 EntityAttributeInstance instance = this.getAttributeInstance(attribute);
                 if (instance != null) {
-                    instance.removeModifier(GLYPH_MODIFIER_BASE);
-                    Identifier percentModifierId = Identifier.of(GLYPH_MODIFIER_BASE.getNamespace(), GLYPH_MODIFIER_BASE.getPath() + "_percent");
-                    instance.removeModifier(percentModifierId);
+                    instance.removeModifier(ModifierDefinitions.uuid(GLYPH_MODIFIER_BASE));
+                    Identifier percentModifierId = new Identifier(GLYPH_MODIFIER_BASE.getNamespace(), GLYPH_MODIFIER_BASE.getPath() + "_percent");
+                    instance.removeModifier(ModifierDefinitions.uuid(percentModifierId));
                 }
             }
         }
@@ -145,7 +149,7 @@ public abstract class LivingEntityMixin {
 
         // Process runestones
         if (mainHand != null && !mainHand.isEmpty()) {
-            RunestoneSlots slots = mainHand.get(WitcherDataComponents.RUNESTONE_SLOTS);
+            RunestoneSlots slots = WitcherDataComponents.getRunestoneSlots(mainHand);
             if (slots != null && !slots.attachedRunestones().isEmpty()) {
                 for (ItemStack runestone : slots.attachedRunestones()) {
                     Identifier runestoneId = Registries.ITEM.getId(runestone.getItem());
@@ -165,7 +169,7 @@ public abstract class LivingEntityMixin {
 
                     for (var attrModifier : config.attributes) {
                         if (attrModifier.attribute == null) continue;
-                        if (attrModifier.operation == EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE) {
+                        if (attrModifier.operation == EntityAttributeModifier.Operation.MULTIPLY_BASE) {
                             runestonePercent.merge(attrModifier.attribute, (double) attrModifier.value, Double::sum);
                         } else {
                             runestoneFlat.merge(attrModifier.attribute, (double) attrModifier.value, Double::sum);
@@ -177,7 +181,7 @@ public abstract class LivingEntityMixin {
 
         // Process glyphs
         if (chestplate != null && !chestplate.isEmpty()) {
-            GlyphSlots slots = chestplate.get(WitcherDataComponents.GLYPH_SLOTS);
+            GlyphSlots slots = WitcherDataComponents.getGlyphSlots(chestplate);
             if (slots != null && !slots.attachedGlyphs().isEmpty()) {
                 for (ItemStack glyph : slots.attachedGlyphs()) {
                     Identifier glyphId = Registries.ITEM.getId(glyph.getItem());
@@ -197,7 +201,7 @@ public abstract class LivingEntityMixin {
 
                     for (var attrModifier : config.attributes) {
                         if (attrModifier.attribute == null) continue;
-                        if (attrModifier.operation == EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE) {
+                        if (attrModifier.operation == EntityAttributeModifier.Operation.MULTIPLY_BASE) {
                             glyphPercent.merge(attrModifier.attribute, (double) attrModifier.value, Double::sum);
                         } else {
                             glyphFlat.merge(attrModifier.attribute, (double) attrModifier.value, Double::sum);
@@ -233,26 +237,26 @@ public abstract class LivingEntityMixin {
 
     @Unique
     private void witcher$applyAttributeModifier(String attrId, double flatBonus, double percentBonus, Identifier modifierBase) {
-        RegistryEntry<EntityAttribute> attribute = Registries.ATTRIBUTE.getEntry(Identifier.of(attrId)).orElse(null);
+        EntityAttribute attribute = Registries.ATTRIBUTE.get(new Identifier(attrId));
         if (attribute == null) return;
 
         EntityAttributeInstance instance = this.getAttributeInstance(attribute);
         if (instance == null) return;
 
         if (flatBonus != 0.0) {
-            instance.addTemporaryModifier(new EntityAttributeModifier(
+            instance.addTemporaryModifier(AttributeModifierUtil.modifier(
                     modifierBase,
                     flatBonus,
-                    EntityAttributeModifier.Operation.ADD_VALUE
+                    EntityAttributeModifier.Operation.ADDITION
             ));
         }
 
         if (percentBonus != 0.0) {
-            Identifier percentModifierId = Identifier.of(modifierBase.getNamespace(), modifierBase.getPath() + "_percent");
-            instance.addTemporaryModifier(new EntityAttributeModifier(
+            Identifier percentModifierId = new Identifier(modifierBase.getNamespace(), modifierBase.getPath() + "_percent");
+            instance.addTemporaryModifier(AttributeModifierUtil.modifier(
                     percentModifierId,
                     percentBonus,
-                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                    EntityAttributeModifier.Operation.MULTIPLY_BASE
             ));
         }
     }
@@ -265,12 +269,11 @@ public abstract class LivingEntityMixin {
         if (!caster.isCastingSpell()) return;
 
         var process = caster.getSpellCastProcess();
-        if (process == null || !process.id().equals(Identifier.of(MOD_ID, "defensive_witcher_mechanics"))) return;
+        if (process == null || !process.id().equals(new Identifier(MOD_ID, "defensive_witcher_mechanics"))) return;
         if (source.isIn(DamageTypeTags.BYPASSES_SHIELD)) return;
 
         var playerSpells = SpellContainerSource.getSpellsOf(player);
-        var counterattackEntry = SpellRegistry.from(player.getWorld())
-                .getEntry(Identifier.of(MOD_ID, "counterattack")).orElse(null);
+        var counterattackEntry = SpellLookup.entry(player.getWorld(), new Identifier(MOD_ID, "counterattack"));
         boolean hasCounterattack = counterattackEntry != null &&
                 (playerSpells.passives().contains(counterattackEntry) || playerSpells.modifiers().contains(counterattackEntry));
 
@@ -282,8 +285,7 @@ public abstract class LivingEntityMixin {
         }
 
         // Apply cooldown immediately so client re-cast packets are rejected by attemptCasting()
-        var spellEntry = SpellRegistry.from(player.getWorld())
-                .getEntry(Identifier.of(MOD_ID, "defensive_witcher_mechanics")).orElse(null);
+        var spellEntry = SpellLookup.entry(player.getWorld(), new Identifier(MOD_ID, "defensive_witcher_mechanics"));
         if (spellEntry != null) {
             int cooldownTicks = Math.round(spellEntry.value().cost.cooldown.duration * 20);
             caster.getCooldownManager().set(spellEntry, cooldownTicks);
@@ -305,13 +307,13 @@ public abstract class LivingEntityMixin {
         Identifier spellId = process.id();
 
         // Witcher Reflexes: block the next hit while the player is casting
-        if (spellId.equals(Identifier.of(MOD_ID, "defensive_witcher_mechanics"))) {
+        if (spellId.equals(new Identifier(MOD_ID, "defensive_witcher_mechanics"))) {
             info.setReturnValue(true);
             return;
         }
 
         // Whirl: stay in blocking state while casting
-        if (spellId.equals(Identifier.of(MOD_ID, "whirl"))) {
+        if (spellId.equals(new Identifier(MOD_ID, "whirl"))) {
             info.setReturnValue(true);
         }
     }
@@ -319,13 +321,13 @@ public abstract class LivingEntityMixin {
     @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"))
     private void applyQuenHealBeforeDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity damagedTarget = ((LivingEntity) (Object) this);
-        if(damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry) && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)){
+        if(damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.effect) && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)){
             damagedTarget.heal(amount/2);
         }
     }
 
     @Unique
-    private static final Identifier CRITICAL_STRIKE_DAMAGE_ATTRIBUTE_ID = Identifier.of("critical_strike", "damage");
+    private static final Identifier CRITICAL_STRIKE_DAMAGE_ATTRIBUTE_ID = new Identifier("critical_strike", "damage");
     @Unique
     private static final float DEFAULT_EXPOSED_CRIT_MULTIPLIER = 1.5F;
 
@@ -333,7 +335,7 @@ public abstract class LivingEntityMixin {
     private float witcher$guaranteedCritOnExposed(DamageSource source, float amount) {
         LivingEntity target = (LivingEntity) (Object) this;
         if (target.getWorld().isClient()) return amount;
-        if (!target.hasStatusEffect(WitcherStatusEffects.WITCHER_SENSES_EXPOSED.entry)) return amount;
+        if (!target.hasStatusEffect(WitcherStatusEffects.WITCHER_SENSES_EXPOSED.effect)) return amount;
         if (!source.isOf(DamageTypes.PLAYER_ATTACK)) return amount;
         if (!(source.getAttacker() instanceof PlayerEntity attacker)) return amount;
         UUID exposedSource = WitcherExposed.get(target.getUuid());
@@ -341,7 +343,7 @@ public abstract class LivingEntityMixin {
         if (CriticalStrikeCompat.isCriticalStrike(source)) return amount;
 
         float multiplier = DEFAULT_EXPOSED_CRIT_MULTIPLIER;
-        var critDamageAttribute = Registries.ATTRIBUTE.getEntry(CRITICAL_STRIKE_DAMAGE_ATTRIBUTE_ID).orElse(null);
+        var critDamageAttribute = Registries.ATTRIBUTE.get(CRITICAL_STRIKE_DAMAGE_ATTRIBUTE_ID);
         if (critDamageAttribute != null) {
             var instance = attacker.getAttributeInstance(critDamageAttribute);
             if (instance != null) {
@@ -357,29 +359,29 @@ public abstract class LivingEntityMixin {
     private void witcher$captureExposedSource(StatusEffectInstance effect, Entity source, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity self = (LivingEntity) (Object) this;
         if (self.getWorld().isClient()) return;
-        if (effect.getEffectType().value() != WitcherStatusEffects.WITCHER_SENSES_EXPOSED.effect) return;
+        if (effect.getEffectType() != WitcherStatusEffects.WITCHER_SENSES_EXPOSED.effect) return;
         if (!(source instanceof ServerPlayerEntity player)) return;
         WitcherExposed.set(self.getUuid(), player.getUuid());
-        Platform.util().networkS2C_Send(player, new ExposedGlowPayload(self.getId(), true));
+        WitcherNetworking.sendToPlayer(player, new ExposedGlowPayload(self.getId(), true));
     }
 
     @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"))
     private void decreaseAdrenalineAmplifierOnDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity damagedTarget = ((LivingEntity) (Object) this);
-        if(damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry)){
-            int adrenaline_effect_amplifier = damagedTarget.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry).getAmplifier();
-            int adrenaline_effect_duration = damagedTarget.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry).getDuration();
+        if(damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect)){
+            int adrenaline_effect_amplifier = damagedTarget.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect).getAmplifier();
+            int adrenaline_effect_duration = damagedTarget.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect).getDuration();
             float adrenaline_attribute_player = (float) (damagedTarget.getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER)-100.0F);
             float random = new Random().nextFloat(100);
             if(adrenaline_effect_amplifier != 0){
                 if(random > adrenaline_attribute_player){
-                    damagedTarget.removeStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry);
-                    damagedTarget.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.ADRENALINE_GAIN.entry,
+                    damagedTarget.removeStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect);
+                    damagedTarget.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.ADRENALINE_GAIN.effect,
                             adrenaline_effect_duration,adrenaline_effect_amplifier-1,false,false,true));
                 }
 
             }else{
-                damagedTarget.removeStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.entry);
+                damagedTarget.removeStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect);
             }
         }
     }

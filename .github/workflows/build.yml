@@ -11,8 +11,9 @@ jobs:
     strategy:
       matrix:
         # Use these Java versions
+        # Architectury Loom 1.17 needs a JDK 21+ Gradle JVM (unpick 3.0.0-beta requires it);
+        # Java 17 is only the *bytecode* target, set via `options.release = 17`.
         java: [
-          17,    # Current Java LTS & minimum supported by Minecraft
           21,    # Current Java LTS
         ]
         # and run on both Linux and Windows

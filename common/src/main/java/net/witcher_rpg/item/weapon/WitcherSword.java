@@ -3,7 +3,9 @@ package net.witcher_rpg.item.weapon;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.spell_engine.api.item.weapon.SpellSwordItem;
@@ -24,8 +26,8 @@ public class WitcherSword extends SpellSwordItem {
     }
 
     public WitcherSword(ToolMaterial material, Settings settings, int runestoneSlots) {
-        super(material, settings.component(WitcherDataComponents.RUNESTONE_SLOTS,
-            new RunestoneSlots(runestoneSlots, List.of())));
+        super(material, settings);
+        WitcherDataComponents.defaults(this).runestoneSlots(new RunestoneSlots(runestoneSlots, List.of()));
         this.runestoneSlots = runestoneSlots;
     }
 
@@ -43,9 +45,9 @@ public class WitcherSword extends SpellSwordItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
-        super.appendTooltip(stack, context, tooltip, type);
-        RunestoneSlots slots = stack.get(WitcherDataComponents.RUNESTONE_SLOTS);
+    public void appendTooltip(ItemStack stack,  World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+        RunestoneSlots slots = WitcherDataComponents.getRunestoneSlots(stack);
         if (slots != null && slots.maxSlots() > 0) {
             addRunestoneAttributesTooltip(slots, tooltip);
             tooltip.add(Text.empty());
@@ -76,7 +78,7 @@ public class WitcherSword extends SpellSwordItem {
 
             for (var attrModifier : config.attributes) {
                 if (attrModifier.attribute == null) continue;
-                if (attrModifier.operation == net.minecraft.entity.attribute.EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE) {
+                if (attrModifier.operation == net.minecraft.entity.attribute.EntityAttributeModifier.Operation.MULTIPLY_BASE) {
                     percentageAttributes.merge(attrModifier.attribute, (double) attrModifier.value, Double::sum);
                 } else {
                     flatAttributes.merge(attrModifier.attribute, (double) attrModifier.value, Double::sum);
@@ -91,7 +93,7 @@ public class WitcherSword extends SpellSwordItem {
                 String attrId = entry.getKey();
                 double value = entry.getValue();
 
-                var attribute = Registries.ATTRIBUTE.get(net.minecraft.util.Identifier.of(attrId));
+                var attribute = Registries.ATTRIBUTE.get(new net.minecraft.util.Identifier(attrId));
                 if (attribute == null) continue;
 
                 String sign = value > 0 ? "+" : "";
@@ -105,7 +107,7 @@ public class WitcherSword extends SpellSwordItem {
                 String attrId = entry.getKey();
                 double value = entry.getValue() * 100;
 
-                var attribute = Registries.ATTRIBUTE.get(net.minecraft.util.Identifier.of(attrId));
+                var attribute = Registries.ATTRIBUTE.get(new net.minecraft.util.Identifier(attrId));
                 if (attribute == null) continue;
 
                 String sign = value > 0 ? "+" : "";
@@ -118,8 +120,8 @@ public class WitcherSword extends SpellSwordItem {
     }
 
     @Override
-    public Optional<net.minecraft.item.tooltip.TooltipData> getTooltipData(ItemStack stack) {
-        RunestoneSlots slots = stack.get(WitcherDataComponents.RUNESTONE_SLOTS);
+    public Optional<net.minecraft.client.item.TooltipData> getTooltipData(ItemStack stack) {
+        RunestoneSlots slots = WitcherDataComponents.getRunestoneSlots(stack);
         if (slots != null && slots.maxSlots() > 0) {
             return Optional.of(new RunestoneTooltipComponent(slots));
         }
