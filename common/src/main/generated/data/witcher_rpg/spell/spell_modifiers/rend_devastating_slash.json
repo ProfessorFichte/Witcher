@@ -1,5 +1,5 @@
 {
-  "school": "spell_power:yrden",
+  "school": "spell_power:witcher_melee",
   "range": 0.0,
   "tier": 1,
   "tooltip": {
@@ -15,12 +15,10 @@
   "type": "MODIFIER",
   "modifiers": [
     {
-      "impact_filters": [
-        {
-          "school": "spell_power:yrden"
-        }
-      ],
-      "spawn_duration_add": 2.0
+      "spell_pattern": "witcher_rpg:rend",
+      "power_modifier": {
+        "critical_chance_bonus": 0.35
+      }
     }
   ]
 }

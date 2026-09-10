@@ -1,3 +1,7 @@
+# 3.1.2 - 1.21.1
+- Created and Modified a lot of Passives and Modifiers for the upcoming Skill Tree Update
+- Fixed and Improved the whole Adrenaline Gain & Loss Mechanic
+
 # 3.1.1 - 1.21.1
 - Drop Forgified Fabric API (FFAPI) as a required dependency
 - Replace AzurelibArmor with Armor Model API

@@ -153,6 +153,8 @@ public class WitcherSpells {
             SpellEntityPredicates.hasEffectOptimized(Identifier.of("witcher_rpg", "yrden_circle"));
     public static final SpellEntityPredicates.Entry HAS_WITCHER_SENSES_EXPOSED =
             SpellEntityPredicates.hasEffectOptimized(Identifier.of(MOD_ID, "witcher_senses_exposed"));
+    public static final SpellEntityPredicates.Entry HAS_BATTLE_TRANCE =
+            SpellEntityPredicates.hasEffectOptimized(Identifier.of(MOD_ID, "battle_trance"));
     static final float BATTLE_TRANCE_DURATION_SECONDS = 5F;
 
     public static class TargetConditions {

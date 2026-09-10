@@ -18,7 +18,7 @@
       "required_piece_count": 4,
       "spells": {
         "spell_ids": [
-          "witcher_rpg:improved_yrden"
+          "witcher_rpg:equipment_set_modifiers/improved_yrden"
         ]
       }
     },
@@ -26,7 +26,7 @@
       "required_piece_count": 5,
       "spells": {
         "spell_ids": [
-          "witcher_rpg:grandmaster_griffin"
+          "witcher_rpg:equipment_set_modifiers/grandmaster_griffin"
         ]
       }
     }
