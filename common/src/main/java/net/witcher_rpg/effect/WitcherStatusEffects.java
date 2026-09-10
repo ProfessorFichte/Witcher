@@ -1,6 +1,7 @@
 package net.witcher_rpg.effect;
 
 import net.spell_engine.Platform;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectCategory;
@@ -10,13 +11,16 @@ import net.minecraft.util.Identifier;
 import net.spell_engine.client.util.Color;
 import net.witcher_rpg.network.ExposedGlowPayload;
 
+import java.util.Random;
 import java.util.UUID;
 import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
+import net.more_rpg_classes.util.CustomMethods;
 import net.spell_engine.rpg_series.config.AttributeModifier;
 import net.spell_engine.rpg_series.config.ConfigFile;
 import net.spell_engine.rpg_series.config.EffectConfig;
 import net.spell_engine.api.effect.*;
 import net.spell_engine.api.entity.SpellEngineAttributes;
+import net.spell_engine.api.event.CombatEvents;
 import net.spell_power.api.SpellPowerMechanics;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
@@ -552,6 +556,20 @@ public class WitcherStatusEffects {
             )
     ));
 
+    public static boolean rollAdrenaline(LivingEntity entity) {
+        double bonus = entity.getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER) - 100.0;
+        return bonus > 0 && new Random().nextFloat(100) < bonus;
+    }
+
+    public static void tryGainAdrenaline(LivingEntity entity) {
+        if (!rollAdrenaline(entity)) {
+            return;
+        }
+        int bonus = (int) (entity.getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER) - 100.0);
+        CustomMethods.applyStatusEffect(entity, 0, 20 + bonus * 3, ADRENALINE_GAIN.entry,
+                tweaksConfig.value.adrenaline_max_amplifier - 1, true, true, false, 0);
+    }
+
     public static void register(ConfigFile.Effects config) {
         BATTLE_TRANCE.config().attributes().get(0).value = tweaksConfig.value.battle_trance_attack_damage_bonus;
         ADRENALINE_GAIN.config().attributes().get(0).value = tweaksConfig.value.battle_trance_damage_per_adrenaline_level;
@@ -590,6 +608,20 @@ public class WitcherStatusEffects {
             }
             if (context.entity().hasStatusEffect(QUEN_DISCHARGE.entry)) {
                 context.entity().removeStatusEffect(QUEN_DISCHARGE.entry);
+            }
+        });
+
+        CombatEvents.ENTITY_DAMAGE_TAKEN.register((args) -> {
+            if (args.source().getAttacker() instanceof LivingEntity attacker
+                    && attacker.hasStatusEffect(COUNTERATTACK_READY.entry)) {
+                attacker.removeStatusEffect(COUNTERATTACK_READY.entry);
+            }
+        });
+
+        CombatEvents.PLAYER_MELEE_ATTACK.register((args) -> {
+            var player = args.player();
+            if (!player.getWorld().isClient()) {
+                tryGainAdrenaline(player);
             }
         });
 
