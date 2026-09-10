@@ -10,7 +10,9 @@ import net.witcher_rpg.item.misc.MasterSpellBook;
 import net.witcher_rpg.item.misc.UpgradeItem;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
@@ -122,20 +124,38 @@ public class WitcherMaterials {
         return (MasterSpellBook) MASTER_BOOK_CONTAINER.item;
     }
 
-    public static void registerModItems() {
+    private static boolean created = false;
+
+    /// Creation only, and idempotent: builds every material item plus the master spell book, fills the
+    /// entry containers and installs the creative-tab hook. Forge's `ITEM` `RegisterEvent` window feeds
+    /// the returned map to its own `RegisterHelper`.
+    ///
+    /// The armour diagrams are a separate class with its own `itemsToRegister()`; the Fabric path chains
+    /// them from {@link #registerModItems()}, Forge calls both explicitly.
+    public static Map<Identifier, Item> itemsToRegister() {
+        if (created) {
+            return Map.of();
+        }
+        created = true;
+        var map = new LinkedHashMap<Identifier, Item>();
         for (Entry e : ENTRIES) {
             Item item = e.factory().apply(e.settings());
             e.container.item = item;
-            Registry.register(Registries.ITEM, e.id(), item);
+            map.put(e.id(), item);
         }
         MASTER_BOOK_CONTAINER.item = new MasterSpellBook(new Item.Settings().maxCount(1));
-        Registry.register(Registries.ITEM, new Identifier(MOD_ID, "master_spell_book"), MASTER_BOOK());
+        map.put(new Identifier(MOD_ID, "master_spell_book"), MASTER_BOOK());
         PlatformEvents.onItemGroupModify(WitcherGroup.WITCHER_KEY, (content, context) -> {
             for (Entry e : ENTRIES) {
                 content.add(e.item());
             }
             content.add(MASTER_BOOK());
         });
+        return map;
+    }
+
+    public static void registerModItems() {
+        itemsToRegister().forEach((id, item) -> Registry.register(Registries.ITEM, id, item));
 
         WitcherArmorDiagrams.register();
         WitcherClassMod.LOGGER.info("Registered Witcher Items");

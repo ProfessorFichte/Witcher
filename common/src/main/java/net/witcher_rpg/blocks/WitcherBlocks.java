@@ -18,6 +18,8 @@ import net.witcher_rpg.WitcherClassMod;
 import net.witcher_rpg.item.WitcherGroup;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class WitcherBlocks {
     public record Entry(String name, String translatedName ,Block block, BlockItem item) {
@@ -133,25 +135,39 @@ public class WitcherBlocks {
     ));
 
 
+    /// Creation only - the blocks already exist as static fields, so this is just the id-keyed view
+    /// Forge's `BLOCK` `RegisterEvent` window feeds to its own `RegisterHelper`.
+    public static Map<Identifier, Block> blocksToRegister() {
+        var map = new LinkedHashMap<Identifier, Block>();
+        for (var entry : all) {
+            map.put(new Identifier(WitcherClassMod.MOD_ID, entry.name), entry.block);
+        }
+        return map;
+    }
+
     /// Blocks only. Forge 47 locks every registry outside its own `RegisterEvent` window, so the block
     /// items cannot be registered from here - they go through {@link #registerItems()}.
     public static void register() {
-        for (var entry : all) {
-            Registry.register(Registries.BLOCK, new Identifier(WitcherClassMod.MOD_ID, entry.name), entry.block);
-        }
+        blocksToRegister().forEach((id, block) -> Registry.register(Registries.BLOCK, id, block));
     }
 
-    /// Block items and the creative-tab hook; must run inside the `ITEM` registration window.
-    public static void registerItems() {
+    /// Block items, plus the creative-tab hook (installed here so both loaders install it exactly once).
+    /// Must run inside the `ITEM` registration window on Forge.
+    public static Map<Identifier, Item> blockItemsToRegister() {
+        var map = new LinkedHashMap<Identifier, Item>();
         for (var entry : all) {
-            Registry.register(Registries.ITEM, new Identifier(WitcherClassMod.MOD_ID, entry.name), entry.item());
+            map.put(new Identifier(WitcherClassMod.MOD_ID, entry.name), entry.item());
         }
         PlatformEvents.onItemGroupModify(WitcherGroup.WITCHER_KEY, (content, context) -> {
             for (var entry : all) {
                 content.add(entry.item());
             }
         });
+        return map;
     }
 
-
+    /// Block items and the creative-tab hook; must run inside the `ITEM` registration window.
+    public static void registerItems() {
+        blockItemsToRegister().forEach((id, item) -> Registry.register(Registries.ITEM, id, item));
+    }
 }

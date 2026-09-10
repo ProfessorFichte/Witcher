@@ -41,15 +41,19 @@ public class WitcherEnchantments {
             SIGN_INTENSITY_ID, SIGN_INTENSITY
     ));
 
-    private static boolean registered = false;
+    private static boolean claimed = false;
+
+    /// Idempotent view of {@link #all} for the registering caller. Forge's `ENCHANTMENT`
+    /// `RegisterEvent` window feeds it to its own `RegisterHelper`.
+    public static Map<Identifier, Enchantment> enchantmentsToRegister() {
+        if (claimed) {
+            return Map.of();
+        }
+        claimed = true;
+        return all;
+    }
 
     public static void register() {
-        if (registered) {
-            return;
-        }
-        registered = true;
-        for (var entry : all.entrySet()) {
-            Registry.register(Registries.ENCHANTMENT, entry.getKey(), entry.getValue());
-        }
+        enchantmentsToRegister().forEach((id, enchantment) -> Registry.register(Registries.ENCHANTMENT, id, enchantment));
     }
 }

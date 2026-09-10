@@ -26,6 +26,7 @@ import net.witcher_rpg.spell.WitcherModifiers;
 import net.witcher_rpg.spell.WitcherPassives;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.LinkedHashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -522,7 +523,10 @@ public class WitcherTrinkets {
             );
 
 
-    public static void register(Map<String, TrinketConfig.Entry> config) {
+    /// Creation only: applies the config to every entry (or seeds the config from the entry defaults),
+    /// then installs the creative-tab hook and returns the enabled items keyed by registration id.
+    /// Forge's `ITEM` `RegisterEvent` window feeds the map to its own `RegisterHelper`.
+    public static Map<Identifier, Item> itemsToRegister(Map<String, TrinketConfig.Entry> config) {
         for (var entry : entries) {
             var key = entry.id().toString();
             var configEntry = config.get(key);
@@ -533,9 +537,10 @@ public class WitcherTrinkets {
             }
         }
 
+        var map = new LinkedHashMap<Identifier, Item>();
         for(var entry: entries) {
             if (entry.isEnabled()) {
-                Registry.register(Registries.ITEM, entry.id(), entry.item().get());
+                map.put(entry.id(), entry.item().get());
             }
         }
         PlatformEvents.onItemGroupModify(WitcherGroup.WITCHER_KEY, (content, context) -> {
@@ -545,5 +550,10 @@ public class WitcherTrinkets {
                 }
             }
         });
+        return map;
+    }
+
+    public static void register(Map<String, TrinketConfig.Entry> config) {
+        itemsToRegister(config).forEach((id, item) -> Registry.register(Registries.ITEM, id, item));
     }
 }

@@ -162,12 +162,14 @@ public class WitcherClassMod {
 	public static void registerEntities() {
 		WitcherEntities.register();
 	}
+	/// The creative tab itself. Forge registers this from the `ITEM_GROUP` `RegisterEvent` window
+	/// (event 65), *not* from the `ITEM` window (event 7) - an item group written during the item pass
+	/// vanishes with no error at all.
+	public static void registerItemGroup() {
+		Registry.register(Registries.ITEM_GROUP, WitcherGroup.WITCHER_KEY, WitcherGroup.create());
+	}
 	public static void registerItems() {
-		WitcherGroup.WITCHER = new ItemGroup.Builder(ItemGroup.Row.TOP, 0)
-				.icon(() -> new ItemStack(WitcherTrinkets.WOLF_SCHOOL_MEDALLION.item().get()))
-				.displayName(Text.translatable("itemGroup." + MOD_ID + ".general"))
-				.build();
-		Registry.register(Registries.ITEM_GROUP, WitcherGroup.WITCHER_KEY, WitcherGroup.WITCHER);
+		registerItemGroup();
 		WitcherGroup.registerItemGroups();
 		WitcherMaterials.registerModItems();
 		WeaponsRegister.register(itemConfig.value.weapons);

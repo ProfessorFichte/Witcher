@@ -4,6 +4,7 @@ import net.spell_engine.Platform;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -26,6 +27,7 @@ import net.witcher_rpg.entity.attribute.WitcherAttributes;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.List;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
@@ -548,7 +550,17 @@ public class WitcherStatusEffects {
             )
     ));
 
-    public static void register(ConfigFile.Effects config) {
+    private static boolean configured = false;
+
+    /// Everything {@link #register(ConfigFile.Effects)} does *before* handing the entries to Spell
+    /// Engine: config-driven attribute values, the impairing / removal / glow behaviours and the
+    /// synchronisation flag. Split out so Forge's `STATUS_EFFECT` `RegisterEvent` window can run it
+    /// ahead of its own registration loop. Idempotent.
+    public static void configure() {
+        if (configured) {
+            return;
+        }
+        configured = true;
         BATTLE_TRANCE.config().attributes().get(0).value = tweaksConfig.value.battle_trance_attack_damage_bonus;
         ADRENALINE_GAIN.config().attributes().get(0).value = tweaksConfig.value.battle_trance_damage_per_adrenaline_level;
 
@@ -593,6 +605,18 @@ public class WitcherStatusEffects {
             Synchronized.configure(entry.effect, true);
         }
 
+    }
+
+    /// Creation only - Forge's `STATUS_EFFECT` `RegisterEvent` window feeds the returned map to its own
+    /// `RegisterHelper`, then calls `Effects.linkEntries(entries)` (the helper returns void where
+    /// `Registry.registerReference` returned the `RegistryEntry` the Fabric path stores).
+    public static Map<Identifier, StatusEffect> effectsToRegister(ConfigFile.Effects config) {
+        configure();
+        return Effects.effectsToRegister(entries, config.effects);
+    }
+
+    public static void register(ConfigFile.Effects config) {
+        configure();
         Effects.register(entries, config.effects);
     }
 

@@ -2,6 +2,7 @@ package net.witcher_rpg.item.armor;
 
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
@@ -1062,6 +1063,12 @@ public class Armors {
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT5)
                                     ))),10,commonSettings(SetBonuses.grandmaster_ursine.id(), TIER5_GLYPH_SLOTS)).armorSet()
                     .translate(  "§2Grandmaster§r Ursine Band", "§2Grandmaster§r Ursine Suit", "§2Grandmaster§r Ursine Pants", "§2Grandmaster§r Ursine Boots");
+
+    /// Creation only - Forge's `ITEM` `RegisterEvent` window feeds the returned map to its own
+    /// `RegisterHelper`.
+    public static Map<Identifier, Item> itemsToRegister(Map<String, ArmorSetConfig> configs) {
+        return Armor.itemsToRegister(configs, entries, WitcherGroup.WITCHER_KEY);
+    }
 
     public static void register(Map<String,  ArmorSetConfig> configs) {
         Armor.register(configs, entries, WitcherGroup.WITCHER_KEY);

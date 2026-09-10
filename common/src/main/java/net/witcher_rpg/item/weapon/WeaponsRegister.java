@@ -200,7 +200,16 @@ public class WeaponsRegister {
     private static final String AETHER = "aether";
     private static final String ARSENAL = "arsenal";
     //Registration
-    public static void register(Map<String, WeaponConfig> configs) {
+    private static boolean conditionalsBuilt = false;
+
+    /// The mod-gated weapons append themselves to {@link #entries} here, *before* any Spell Engine
+    /// helper reads the list. Calling `Weapon.itemsToRegister(...)` straight from Forge would silently
+    /// drop these swords, so both loaders go through this first. Idempotent.
+    private static void buildConditionalWeapons() {
+        if (conditionalsBuilt) {
+            return;
+        }
+        conditionalsBuilt = true;
         if(Platform.util().isModLoaded(BETTER_NETHER) || WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
             var repair = ingredient("betternether:nether_ruby", Platform.util().isModLoaded(BETTER_NETHER), Items.NETHERITE_INGOT);
             witcherswords( "ruby_witcher_sword",
@@ -277,6 +286,17 @@ public class WeaponsRegister {
                     .withAdditionalSpell(WitcherPassives.iris_passive().id().toString())
                     .rarity = Rarity.EPIC;
         }
+    }
+
+    /// Creation only - Forge's `ITEM` `RegisterEvent` window feeds the returned map to its own
+    /// `RegisterHelper`.
+    public static Map<Identifier, Item> itemsToRegister(Map<String, WeaponConfig> configs) {
+        buildConditionalWeapons();
+        return Weapon.itemsToRegister(configs, entries, WitcherGroup.WITCHER_KEY);
+    }
+
+    public static void register(Map<String, WeaponConfig> configs) {
+        buildConditionalWeapons();
         Weapon.register(configs, entries, WitcherGroup.WITCHER_KEY);
     }
 }

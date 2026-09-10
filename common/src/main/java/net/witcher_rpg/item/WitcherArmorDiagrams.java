@@ -10,7 +10,9 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
@@ -66,11 +68,21 @@ public class WitcherArmorDiagrams {
         }
     }
 
-    public static void register() {
+    private static boolean created = false;
+
+    /// Creation only, and idempotent: builds every smithing template, fills the entry containers and
+    /// installs the creative-tab hook. Forge's `ITEM` `RegisterEvent` window feeds the returned map to
+    /// its own `RegisterHelper`.
+    public static Map<Identifier, Item> itemsToRegister() {
+        if (created) {
+            return Map.of();
+        }
+        created = true;
+        var map = new LinkedHashMap<Identifier, Item>();
         for (Entry entry : ENTRIES) {
             Item item = entry.factory().apply(entry.settings());
             entry.container.item = item;
-            Registry.register(Registries.ITEM, entry.id(), item);
+            map.put(entry.id(), item);
         }
 
         PlatformEvents.onItemGroupModify(WitcherGroup.WITCHER_KEY, (content, context) -> {
@@ -78,5 +90,10 @@ public class WitcherArmorDiagrams {
                 content.add(entry.item());
             }
         });
+        return map;
+    }
+
+    public static void register() {
+        itemsToRegister().forEach((id, item) -> Registry.register(Registries.ITEM, id, item));
     }
 }

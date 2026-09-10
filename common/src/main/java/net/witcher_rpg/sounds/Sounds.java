@@ -7,7 +7,9 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
@@ -73,6 +75,17 @@ public class Sounds {
     public static final Entry REND_SPELL = add(new Entry("rend_spell"));
     public static final Entry WHIRL = add(new Entry("whirl"));
     public static final Entry WITCHER_SENSES_EXPOSED = add(new Entry("witcher_senses_exposed"));
+
+    /// Creation only. Forge's `SOUND_EVENT` `RegisterEvent` window feeds this map to its own
+    /// `RegisterHelper`; no `linkEntries()` sibling exists because nothing outside this class reads
+    /// {@link Entry#entry()} - the `RegistryEntry` the Fabric path stores is write-only here.
+    public static Map<Identifier, SoundEvent> soundsToRegister() {
+        var map = new LinkedHashMap<Identifier, SoundEvent>();
+        for (var entry: entries) {
+            map.put(entry.id(), entry.soundEvent());
+        }
+        return map;
+    }
 
     public static void register() {
         for (var entry: entries) {
