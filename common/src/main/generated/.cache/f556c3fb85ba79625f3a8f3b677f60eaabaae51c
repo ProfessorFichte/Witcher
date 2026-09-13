@@ -1,4 +1,4 @@
-// 1.20.1	2026-09-08T12:50:33.819726	Witcher Class Mod/Model Definitions
+// 1.20.1	2026-09-13T19:25:04.01853	Witcher Class Mod/Model Definitions
 c855af4a4508c8d8e6cc254fdef54c014905cde7 assets/witcher_rpg/models/item/netherite_witcher_sword.json
 7d891d41136dcc57d6b1ba6f260e11111c222209 assets/witcher_rpg/models/item/enhanced_wolven_feet.json
 a56b13e1789ed6a8afe6b4763e52e2eb699cb639 assets/witcher_rpg/models/item/enhanced_diagram.json
@@ -32,10 +32,10 @@ d7f605c48164fc21bb1a1c059f8dc2dd13075eb2 assets/witcher_rpg/models/item/axii_gly
 9952e55f11e09dc9566fa03d089de0c6245ab0e6 assets/witcher_rpg/models/item/triglav_runestone.json
 1e5be8ae663f85c82c66af2f91ed48fe3149e4cc assets/witcher_rpg/models/item/aether_witcher_sword.json
 3874eb78d54fa48e00926c126d753c9aa4d26748 assets/witcher_rpg/models/item/witcher_chest.json
+f5e8bc705b30f5d1f72d5c74818bdace6864a225 assets/witcher_rpg/models/item/lesser_axii_glyph.json
 3f4df4b1fa4bca426aab96e3f470dbab44f74f20 assets/witcher_rpg/models/item/superior_feline_head.json
 21dc34b9ebcd1ef4d797087546ef02877759c1e1 assets/witcher_rpg/models/item/mastercrafted_ursine_legs.json
 dd2634ab266027a25ac8e7133e3c7381859bf435 assets/witcher_rpg/models/item/reach_of_the_damned_sword.json
-f5e8bc705b30f5d1f72d5c74818bdace6864a225 assets/witcher_rpg/models/item/lesser_axii_glyph.json
 ed67cd4f6cb02e1a3e1ac9bf9f72ca42142f71a9 assets/witcher_rpg/models/item/grandmaster_feline_feet.json
 c3727a75081ce13897a82696083cc5e0b8b17497 assets/witcher_rpg/models/item/greater_morana_runestone.json
 eefe6ab6d9f1d567453d19fa151b0e3774b30c4d assets/witcher_rpg/models/item/mastercrafted_feline_legs.json
@@ -99,8 +99,8 @@ b46ec873d3b97261c38ac03eadae655c963464cb assets/witcher_rpg/models/item/grandmas
 b3de4ed062d52956902b0bc757756e1e7ebdfc04 assets/witcher_rpg/models/item/greater_yrden_glyph.json
 c4979a7f84992f7820807df3c77a0d7df59e2f78 assets/witcher_rpg/models/item/lesser_svarog_runestone.json
 473bff8524499b10808fba66c59012ced1c1db46 assets/witcher_rpg/models/item/lesser_perun_runestone.json
-8c965026d0b05cc9ff6e3eb2e60f4adb5aa8378a assets/witcher_rpg/models/item/greater_dazhbog_runestone.json
 23c3cac7cc9e785c3c75b6637fef6f3bf17aec6e assets/witcher_rpg/models/item/grandmaster_feline_chest.json
+8c965026d0b05cc9ff6e3eb2e60f4adb5aa8378a assets/witcher_rpg/models/item/greater_dazhbog_runestone.json
 98e9670d0124473750152ef004eabfcf2325017b assets/witcher_rpg/models/item/lesser_zoria_runestone.json
 124d05e82c721b0c40813ac5341b988af0961078 assets/witcher_rpg/models/item/griffin_feet.json
 9456c71e6874b7a4b45ab2f21fb9d56d86f436f5 assets/witcher_rpg/models/item/lesser_aard_glyph.json

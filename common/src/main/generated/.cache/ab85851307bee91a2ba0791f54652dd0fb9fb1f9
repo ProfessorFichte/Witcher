@@ -1,17 +1,17 @@
-// 1.20.1	2026-09-08T12:50:33.820795	Witcher Class Mod/Tags for minecraft:item
+// 1.20.1	2026-09-13T19:25:04.019554	Witcher Class Mod/Tags for minecraft:item
 aa9162a8ea2a7b8052f9b80704acedf306282c33 data/rpg_series/tags/items/armor_type/melee.json
 a797f3d92b7aac36cc0c4f150a83bd1d51127d89 data/rpg_series/tags/items/loot_theme/golden.json
 8d41a408ed98ee73a94b54da5e3066bbfa96fe53 data/minecraft/tags/items/trimmable_armor.json
 cb602849f6eacc97a67bc65f437ee07211c05aea data/witcher_rpg/tags/items/relic_swords_2.json
-6ae8d732993714c16600fac3693fbc1f7322c1dc data/rpg_series/tags/items/loot_tier/tier_3_weapons.json
 02d265fa8b178cede6fabb9d0368df8c4f234b6a data/rpg_series/tags/items/loot_theme/aether.json
+6ae8d732993714c16600fac3693fbc1f7322c1dc data/rpg_series/tags/items/loot_tier/tier_3_weapons.json
 b25c4f8645931823eac79600ac5d546661048b09 data/rpg_series/tags/items/loot_tier/tier_2_weapons.json
 d2028fee669af7c81c9c49e0fdb94c0aabbc8331 data/rpg_series/tags/items/loot_tier/tier_1_weapons.json
 fc9de20945d08c649724baad5542b67122a7e643 data/witcher_rpg/tags/items/trinkets_1.json
 1a5ca7869ff32da01573a1f57edaebff4059bf13 data/witcher_rpg/tags/items/enhanced_diagrams.json
 bba3e9b43c96cbdae7f91931352bd85c18fcb872 data/witcher_rpg/tags/items/glyphs_1.json
-c778a6764327825bf94a86430ff68abbcc77d62d data/witcher_rpg/tags/items/runestones_1.json
 9e8bdeed0aa0bb3029b3a95f50d0da7de0e62cd1 data/witcher_rpg/tags/items/runestones_2.json
+c778a6764327825bf94a86430ff68abbcc77d62d data/witcher_rpg/tags/items/runestones_1.json
 d03c53e19984e491c6618f1e0c7e8c3c9861c523 data/rpg_series/tags/items/loot_tier/tier_10_armors.json
 ec77a6a723f63e3136b5e595c88a3584fcfa1c55 data/witcher_rpg/tags/items/superior_diagrams.json
 3cc313c2718780688b010214179939b6421a47f5 data/witcher_rpg/tags/items/glyphs_0.json

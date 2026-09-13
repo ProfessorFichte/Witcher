@@ -1,0 +1,42 @@
+{
+  "school": "spell_power:witcher_melee",
+  "range": 0.0,
+  "tier": 1,
+  "tooltip": {
+    "show_activation": false
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "target_override": "CASTER",
+        "type": "DAMAGE_TAKEN",
+        "target_conditions": [
+          {
+            "health_percent_below": 0.2
+          },
+          {
+            "entity_predicate_id": "has_effect_optimized:witcher_rpg.battle_trance"
+          }
+        ]
+      }
+    ]
+  },
+  "impacts": [
+    {
+      "attribute": "minecraft:generic.max_health",
+      "action": {
+        "type": "HEAL",
+        "heal": {
+          "spell_power_coefficient": 0.5
+        }
+      }
+    }
+  ],
+  "cost": {
+    "durability": 0,
+    "cooldown": {
+      "duration": 20.0
+    }
+  }
+}

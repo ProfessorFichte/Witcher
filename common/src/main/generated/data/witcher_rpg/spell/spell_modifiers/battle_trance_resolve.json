@@ -1,0 +1,34 @@
+{
+  "school": "spell_power:witcher_melee",
+  "range": 0.0,
+  "tier": 1,
+  "tooltip": {
+    "show_activation": false
+  },
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "target_override": "CASTER",
+        "type": "SPELL_CAST",
+        "spell": {
+          "id": "witcher_rpg:battle_trance"
+        }
+      }
+    ]
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "witcher_rpg:resolve",
+          "duration": 4.0
+        }
+      }
+    }
+  ],
+  "cost": {
+    "durability": 0
+  }
+}

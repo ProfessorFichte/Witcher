@@ -1,5 +1,12 @@
+# 3.1.1.003 - 1.20.1
+- Catch up with the 1.21.1 line through 3.1.2 (Skill Tree passives/modifiers, Adrenaline rework)
+
 # 3.1.1.001 - 1.20.1
 - Backport to Minecraft 1.20.1 (Fabric + Forge 47, no Forgified Fabric API)
+
+# 3.1.2 - 1.21.1
+- Created and Modified a lot of Passives and Modifiers for the upcoming Skill Tree Update
+- Fixed and Improved the whole Adrenaline Gain & Loss Mechanic
 
 # 3.1.1 - 1.21.1
 - Drop Forgified Fabric API (FFAPI) as a required dependency

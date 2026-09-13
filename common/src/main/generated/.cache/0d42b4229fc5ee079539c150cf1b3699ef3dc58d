@@ -1,4 +1,4 @@
-// 1.20.1	2026-09-08T12:50:33.821356	Witcher Class Mod/Recipes
+// 1.20.1	2026-09-13T19:25:04.020196	Witcher Class Mod/Recipes
 33e355a99bfddc4f0ad86968b431d3b06b18e4bc data/witcher_rpg/recipes/meteorite_silver_witcher_sword.json
 55900e187de9a1cb0c3f471e5a827d97e184cc59 data/witcher_rpg/recipes/stribog_runestone.json
 7cc14f7c933d025f30d07fe961f09b70fc467236 data/witcher_rpg/recipes/silver_witcher_sword.json
@@ -324,8 +324,8 @@ c00120dc1a81e0f064429790c321fa81cf09796a data/witcher_rpg/advancements/recipes/m
 3bff3a3a313ad7ce3168d913537f7c223f3251e9 data/witcher_rpg/recipes/silver_nugget.json
 930e322e950516e4c05a4960f02308dc15bb00de data/witcher_rpg/advancements/recipes/misc/steel_nugget_from_blasting_steel_witcher_sword.json
 0874dd6de902ab47501ae0cc283ea75f527053ff data/witcher_rpg/recipes/uncraft_lesser_runestone.json
-6a64190d4b3891ea9d112a10edf1532c7408874c data/witcher_rpg/recipes/steel_nugget_from_smelting_feline_legs.json
 af4a64aabe704bbc35bbe0a2d12ab895e85b3d8e data/witcher_rpg/advancements/recipes/misc/steel_nugget_from_smelting_feline_chest.json
+6a64190d4b3891ea9d112a10edf1532c7408874c data/witcher_rpg/recipes/steel_nugget_from_smelting_feline_legs.json
 671612681907130c9478a53032e08a74ba3cc9f5 data/witcher_rpg/recipes/witcher_chest.json
 377a3e2c6a10c8bd96c675ca6a96da0db495131b data/witcher_rpg/recipes/griffin_school_medallion.json
 da78963b30191d03ce2451e306d2812a550521b8 data/witcher_rpg/recipes/ursine_legs.json

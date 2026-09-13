@@ -18,6 +18,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.utils.AttributeModifierUtil;
@@ -48,7 +49,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
@@ -271,17 +271,17 @@ public abstract class LivingEntityMixin {
         var process = caster.getSpellCastProcess();
         if (process == null || !process.id().equals(new Identifier(MOD_ID, "defensive_witcher_mechanics"))) return;
         if (source.isIn(DamageTypeTags.BYPASSES_SHIELD)) return;
+        if (!witcher$isFrontalDamage(player, source)) return;
 
         var playerSpells = SpellContainerSource.getSpellsOf(player);
-        var counterattackEntry = SpellLookup.entry(player.getWorld(), new Identifier(MOD_ID, "counterattack"));
+        var counterattackEntry = SpellLookup.entry(player.getWorld(), new Identifier(MOD_ID, "spell_modifiers/counterattack"));
         boolean hasCounterattack = counterattackEntry != null &&
                 (playerSpells.passives().contains(counterattackEntry) || playerSpells.modifiers().contains(counterattackEntry));
 
+        AnimationHelper.sendAnimation(player, Platform.tracking(player),
+                SpellCast.Animation.MISC, PlayerAnimation.of("witcher_rpg:witcher_reflexes_release"), 1F);
         if (hasCounterattack) {
-            // TODO: Add counterattack animation and damage impact here
-        } else {
-            AnimationHelper.sendAnimation(player, Platform.tracking(player),
-                    SpellCast.Animation.MISC, PlayerAnimation.of("witcher_rpg:witcher_reflexes_release"), 1F);
+            player.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.COUNTERATTACK_READY.effect, 100, 0, false, false, true));
         }
 
         // Apply cooldown immediately so client re-cast packets are rejected by attemptCasting()
@@ -292,6 +292,18 @@ public abstract class LivingEntityMixin {
         }
         caster.getInteractor().requestClear();
         cir.setReturnValue(false);
+    }
+
+    @Unique
+    private static boolean witcher$isFrontalDamage(PlayerEntity player, DamageSource source) {
+        Entity origin = source.getSource() != null ? source.getSource() : source.getAttacker();
+        Vec3d originPos = origin != null ? origin.getPos() : source.getPosition();
+        if (originPos == null) return true;
+        Vec3d toSource = originPos.subtract(player.getPos());
+        toSource = new Vec3d(toSource.x, 0, toSource.z);
+        if (toSource.lengthSquared() < 1.0E-4) return true;
+        Vec3d facing = Vec3d.fromPolar(0, player.getYaw());
+        return toSource.normalize().dotProduct(facing) >= 0;
     }
 
     @Inject(at = @At("HEAD"), method = "isBlocking", cancellable = true)
@@ -368,20 +380,16 @@ public abstract class LivingEntityMixin {
     @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"))
     private void decreaseAdrenalineAmplifierOnDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity damagedTarget = ((LivingEntity) (Object) this);
-        if(damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect)){
-            int adrenaline_effect_amplifier = damagedTarget.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect).getAmplifier();
-            int adrenaline_effect_duration = damagedTarget.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect).getDuration();
-            float adrenaline_attribute_player = (float) (damagedTarget.getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER)-100.0F);
-            float random = new Random().nextFloat(100);
-            if(adrenaline_effect_amplifier != 0){
-                if(random > adrenaline_attribute_player){
-                    damagedTarget.removeStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect);
-                    damagedTarget.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.ADRENALINE_GAIN.effect,
-                            adrenaline_effect_duration,adrenaline_effect_amplifier-1,false,false,true));
-                }
-
-            }else{
-                damagedTarget.removeStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect);
+        if (damagedTarget.isPlayer() && damagedTarget.hasStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect)) {
+            if (WitcherStatusEffects.rollAdrenaline(damagedTarget)) {
+                return;
+            }
+            int amplifier = damagedTarget.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect).getAmplifier();
+            int duration = damagedTarget.getStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect).getDuration();
+            damagedTarget.removeStatusEffect(WitcherStatusEffects.ADRENALINE_GAIN.effect);
+            if (amplifier > 0) {
+                damagedTarget.addStatusEffect(new StatusEffectInstance(WitcherStatusEffects.ADRENALINE_GAIN.effect,
+                        duration, amplifier - 1, false, false, true));
             }
         }
     }
