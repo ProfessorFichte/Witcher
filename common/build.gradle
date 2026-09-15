@@ -29,15 +29,19 @@ dependencies {
     // Everything Fabric-API-shaped (datagen, worldgen registration) lives in fabric/ instead.
 
     modImplementation("me.shedaniel.cloth:cloth-config-${platform}:${project.cloth_config_version}")
-    modImplementation("net.rpg_foundation:armor_model_api-${platform}:${project.armor_model_api_version}") { transitive = false }
-    modImplementation("net.tiny_config:tiny_config-${platform}:${project.tiny_config_version}") { transitive = false }
+    // Ecosystem libraries: resolved from the Modrinth maven. Modrinth serves only the per-loader
+    // jars, so `common` keeps compiling against the `-fabric` flavour (this module's dummy platform).
+    modImplementation("maven.modrinth:armor-model-api:${project.armor_model_api_version}-${platform}") { transitive = false }
+    modImplementation("maven.modrinth:tiny-config:${project.tiny_config_version}-${platform}") { transitive = false }
 
-    modImplementation("net.spell_power:spell_power-${platform}:${project.spell_power_version}") { transitive = false }
-    modImplementation("net.spell_engine:spell_engine-${platform}:${project.spell_engine_version}") { transitive = false }
+    modImplementation("maven.modrinth:spell-power:${project.spell_power_version}-${platform}") { transitive = false }
+    modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}-${platform}") { transitive = false }
+    // More RPG Library stays on mavenLocal - Fichte's Modrinth project has no 1.20.1 build of this
+    // line. Becomes `maven.modrinth:more-rpg-library:...-${platform}` once Fichte publishes it.
     modImplementation("net.more_rpg_classes:more_rpg_library-${platform}:${project.more_rpg_library_version}") { transitive = false }
 
     // Compatibility
-    modCompileOnly("net.critical_strike:critical_strike-${platform}:${project.critical_strike_version}") { transitive = false }
+    modCompileOnly("maven.modrinth:critical-strike:${project.critical_strike_version}-${platform}") { transitive = false }
     // No slot-mod (Trinkets / Curios) dependency here on purpose -- `common` stays slot-mod
     // agnostic; the integration lives behind the per-platform `CompatFeatures` seam.
 }
