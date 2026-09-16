@@ -365,7 +365,6 @@ public abstract class LivingEntityMixin {
         if (critDamageAttribute != null) {
             var instance = attacker.getAttributeInstance(critDamageAttribute);
             if (instance != null) {
-                // critical_strike's damage attribute is baseline-100 (100 = no bonus); can't import CriticalStrikeAttributes.asMultiplier here, a mixin can't reference an optional dep's class even behind a null check
                 multiplier = (float) (instance.getValue() / 100.0);
             }
         }

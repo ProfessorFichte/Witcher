@@ -37,9 +37,6 @@ public abstract class SpellExecutionMixin {
                 if (action == SpellCast.Action.RELEASE) {
                     player.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry);
                 } else if (action == SpellCast.Action.CHANNEL) {
-                    // Discharge/Exploding Shield only listen for the engine's own SPELL_CAST trigger,
-                    // which performSpell otherwise only fires on RELEASE - replaying it here too gives
-                    // those modifiers coverage for the whole channel, not just the moment it finishes.
                     var entities = targetResult.entities();
                     SpellTriggers.onSpellCast(player, spellEntryQuen, entities != null ? entities : List.of());
                 }
