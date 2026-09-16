@@ -4,18 +4,13 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.more_rpg_classes.effect.MRPGCEffects;
+import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
 import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.effect.SpellEngineEffects;
 import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.render.LightEmission;
 import net.spell_engine.api.spell.Spell;
-import net.spell_engine.api.spell.fx.Fx;
-import net.spell_engine.api.spell.fx.ModelEffect;
-import net.spell_engine.api.spell.fx.ModelEffectBuilder;
-import net.spell_engine.api.spell.fx.ParticleGroup;
-import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
-import net.spell_engine.api.spell.fx.PlayerAnimation;
-import net.spell_engine.api.spell.fx.Sound;
+import net.spell_engine.api.spell.fx.*;
 import net.spell_engine.api.util.TriState;
 import net.spell_engine.api.entity.SpellEngineAttributes;
 import net.spell_engine.api.spell.tooltip.TooltipTokens;
@@ -23,6 +18,7 @@ import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_engine.internals.target.SpellTarget;
+import net.spell_power.api.SpellPowerMechanics;
 import net.spell_power.api.SpellSchools;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.effect.WitcherStatusEffects;
@@ -195,7 +191,7 @@ public class WitcherPassives {
         var id = Identifier.of(MOD_ID, "passives/wolf_school_technique");
         var title = "Wolf School Technique";
         var effect = WitcherStatusEffects.WOLF_SCHOOL_MEDALLION;
-        var description = "After casting a sign, you deal {damage} magical damage per melee attack for {stash_duration} sec.";
+        var description = "After casting a sign, you deal {damage} magical damage per melee attack for 8 sec.";
         var spell = SpellBuilder.createSpellPassive();
         spell.school = WitcherSpellSchools.SIGN;
         spell.range = 0;
@@ -412,7 +408,8 @@ public class WitcherPassives {
     private static Entry grandmaster_ursine() {
         var id = Identifier.of(MOD_ID, "equipment_set_passives/grandmaster_ursine");
         var title = "Grandmaster Ursine Technique";
-        var description = "Taking Damage has {trigger_chance} chance to apply a quen shield.";
+        var description = "Taking Damage has {trigger_chance} chance to apply a Quen Shield, granting "
+                + TooltipTokens.effect(WitcherStatusEffects.QUEN_SHIELD.id) + " absorption for {effect_duration} seconds.";
         var spell = SpellBuilder.createSpellPassive();
         spell.school = WitcherSpellSchools.QUEN;
         spell.range = 0;
@@ -448,7 +445,12 @@ public class WitcherPassives {
     public static Entry aerondight_passive() {
         var id = Identifier.of(MOD_ID, "weapon_passives/aerondight_passive");
         var title = "Aerondight";
-        var description = "Each hit deals bonus arcane damage and builds up charges, increasing damage.";
+        var effect = WitcherStatusEffects.AERONDIGHT_CHARGE;
+        var description = "Each hit deals bonus arcane damage and builds up a charge, granting "
+                + TooltipTokens.effect(effect.id, 0, SpellPowerMechanics.CRITICAL_CHANCE.id) + " spell critical chance, "
+                + TooltipTokens.effect(effect.id, 1, SpellPowerMechanics.CRITICAL_DAMAGE.id) + " spell critical damage and "
+                + TooltipTokens.effect(effect.id, 2, Identifier.of(WitcherAttributes.SIGN_INTENSITY.getIdAsString()))
+                + " Sign Intensity per stack, up to {effect_amplifier_cap} stacks, each lasting {effect_duration} seconds.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
         spell.tier = 8;
@@ -503,7 +505,12 @@ public class WitcherPassives {
     public static Entry iris_passive() {
         var id = Identifier.of(MOD_ID, "weapon_passives/iris_passive");
         var title = "Iris";
-        var description = "Each hit builds up charges, increasing physical damage.";
+        var effect = WitcherStatusEffects.IRIS_CHARGE;
+        var description = "Each hit deals bonus physical damage and builds up a charge, granting "
+                + TooltipTokens.effect(effect.id, 0, Identifier.of("minecraft:generic.attack_damage"))
+                + " attack damage and "
+                + TooltipTokens.effect(effect.id, 1, Identifier.of(MRPGCEntityAttributes.LIFESTEAL_MODIFIER.getIdAsString()))
+                + " lifesteal per stack, up to {effect_amplifier_cap} stacks, each lasting {effect_duration} seconds.";
         var spell = passiveSpellBase();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
         spell.tier = 8;
@@ -636,7 +643,7 @@ public class WitcherPassives {
     private static Entry strong_crippling_strikes() {
         var id = Identifier.of(MOD_ID, "passives/strong_crippling_strikes");
         var title = "Crippling Strikes";
-        var description = "On melee and Witcher melee spell damage: {trigger_chance} chance to stack Bleeding on the target.";
+        var description = "On melee and Witcher melee spell damage: {trigger_chance} chance to stack Bleeding on the target, up to {effect_amplifier_cap} stacks, each lasting {effect_duration} seconds.";
         var spell = passiveSpellBase();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
 
@@ -659,7 +666,11 @@ public class WitcherPassives {
     private static Entry strong_sunder_armor() {
         var id = Identifier.of(MOD_ID, "passives/strong_sunder_armor");
         var title = "Sunder Armor";
-        var description = "On melee and Witcher melee spell damage: {trigger_chance} chance to stack a debuff reducing enemy armor by {effect_amplifier_cap} stacks max.";
+        var description = "On melee and Witcher melee spell damage: {trigger_chance} chance to stack a debuff reducing enemy armor by "
+                + TooltipTokens.effect(MRPGCEffects.CARVE.id, 0, null, TooltipTokens.Format.ABS)
+                + " and increasing damage taken by "
+                + TooltipTokens.effect(MRPGCEffects.CARVE.id, 1, SpellEngineAttributes.DAMAGE_TAKEN.id)
+                + " per stack, up to {effect_amplifier_cap} stacks.";
         var spell = passiveSpellBase();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
 
@@ -686,21 +697,63 @@ public class WitcherPassives {
         var spell = passiveSpellBase();
         spell.school = WitcherSpellSchools.YRDEN;
 
+
         var trigger = SpellBuilder.Triggers.roll();
         trigger.chance = 0.2F;
         spell.passive.triggers = List.of(trigger);
-        spell.target.type = Spell.Target.Type.CASTER;
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var spawn = new Spell.Impact();
-        spawn.action = new Spell.Impact.Action();
-        spawn.action.type = Spell.Impact.Action.Type.SPAWN;
-        var spawnData = new Spell.Impact.Action.Spawn();
-        spawnData.entity_type_id = "witcher_rpg:yrden_magical_trap";
-        spawnData.time_to_live_seconds = 10;
-        spawn.action.spawns = List.of(spawnData);
-        spell.impacts = List.of(spawn);
+        spell.deliver.type = Spell.Delivery.Type.CLOUD;
+        var cloud = new Spell.Delivery.Cloud();
+        cloud.volume.radius = 3.0F;
+        cloud.volume.area.vertical_range_multiplier = 1.5F;
+        cloud.impact_tick_interval = 10;
+        cloud.time_to_live_seconds = 10;
+        cloud.spawn_ticks = 10;
+        cloud.despawn_ticks = 10;
+        var yrdenCircleTotalTicks = cloud.spawn_ticks + Math.round(cloud.time_to_live_seconds * 20F) + cloud.despawn_ticks;
+        cloud.client_data = new Spell.Delivery.Cloud.ClientData();
+        cloud.client_data.light_level = 14;
+        cloud.client_data.model_fx = List.of(
+                ModelEffectBuilder.create("witcher_rpg:spell_effect/yrden_circle")
+                        .light(LightEmission.RADIATE)
+                        .positioning(0F)
+                        .scale(3.0F)
+                        .initialTranslateY(0.2F)
+                        .duration(yrdenCircleTotalTicks)
+                        .scaleIn(0, cloud.spawn_ticks, Easing.EASE_OUT_CUBIC)
+                        .scaleOut(yrdenCircleTotalTicks - cloud.despawn_ticks, yrdenCircleTotalTicks, Easing.EASE_IN_CUBIC)
+                        .build()
+        );
+        cloud.client_data.particles = List.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.ground_glow)
+                        .scale(3.25F)
+                        .color(Color.ARCANE.alpha(0.25F).toRGBA())
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .anchor(ParticleGroup.Anchor.GROUND)
+                                .count(1F).speed(0F, 0F)));
+        cloud.placement.force_onto_ground = true;
+        cloud.placement.location_offset_y = 0;
+        spell.deliver.clouds = List.of(cloud);
 
-        configureCooldown(spell, 15F);
+        var debuff = SpellBuilder.Impacts.effectSet(WitcherStatusEffects.YRDEN_CIRCLE.id.toString(), 1,0);
+        debuff.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("witcher_rpg:yrden_cloud")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(2F).speed(0.05F, 0.2F)));
+        debuff.action.status_effect.amplifier_power_multiplier = 0.3F;
+        debuff.sound = Sound.withRandomness(Identifier.of("witcher_rpg:yrden_sign"),0.2F);
+        var damage = SpellBuilder.Impacts.damage(0.1F,0);
+        yrdenAllow(damage);
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_arcane, ParticleGroup.Motion.BURST)
+                        .color(Color.ARCANE.toRGBA())
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(15F).speed(0.1F, 0.3F)
+                                .extent(0.5F)));
+        spell.impacts = List.of(debuff,damage);
+
+        configureCooldown(spell, 5F);
 
         return new Entry(id, spell, title, description);
     }
@@ -716,15 +769,29 @@ public class WitcherPassives {
         trigger.chance = 1.0F;
         spell.passive.triggers = List.of(trigger);
 
-        spell.target.type = Spell.Target.Type.AREA;
-        spell.target.area = new Spell.Target.Area();
-        spell.target.area.angle_degrees = 360;
+        var stashEffect = WitcherStatusEffects.IGNI_ROLL;
+        var stashTrigger = SpellBuilder.Triggers.effectTick(stashEffect.id.toString());
+        SpellBuilder.Deliver.stash(spell, stashEffect.id.toString(), 1.0F, List.of(stashTrigger));
+        spell.deliver.stash_effect.consume = 0;
 
         var damage = SpellBuilder.Impacts.damage(0.4F, 0F);
+        damage.sound = new Sound("block.blastfurnace.fire_crackle");
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("lava")
+                        .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                                .count(1F).speed(0.5F, 3F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_spark)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(10F).speed(0.08F, 0.2F)));
         var fire = SpellBuilder.Impacts.fire(3);
         spell.impacts = List.of(damage, fire);
 
-        configureCooldown(spell, 12F);
+        var areaImpact = new Spell.AreaImpact();
+        areaImpact.radius = 3F;
+        areaImpact.force_indirect = true;
+        spell.area_impact = areaImpact;
+
+        configureCooldown(spell, 6F);
 
         return new Entry(id, spell, title, description);
     }
@@ -732,14 +799,17 @@ public class WitcherPassives {
     private static Entry footwork() {
         var id = Identifier.of(MOD_ID, "passives/footwork");
         var title = "Footwork";
-        var description = "On Roll: {trigger_chance} chance to gain increased Evasion Chance and Movement Speed for {effect_duration} seconds.";
-        var spell = passiveSpellBase();
+        var description = "On Roll: {trigger_chance} chance to gain "
+                + TooltipTokens.effect(WitcherStatusEffects.FOOTWORK.id, 0, SpellEngineAttributes.EVASION_CHANCE.id)
+                + " Evasion Chance and "
+                + TooltipTokens.effect(WitcherStatusEffects.FOOTWORK.id, 1, Identifier.of("minecraft:generic.movement_speed"))
+                + " Movement Speed for {effect_duration} seconds.";
+        var spell = SpellBuilder.createSpellPassive();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
 
         var trigger = SpellBuilder.Triggers.roll();
         trigger.chance = 0.3F;
         spell.passive.triggers = List.of(trigger);
-        spell.target.type = Spell.Target.Type.CASTER;
 
         spell.impacts = List.of(createEffectImpact(Identifier.of(WitcherStatusEffects.FOOTWORK.id.toString()), 5F));
 
@@ -752,15 +822,14 @@ public class WitcherPassives {
         var id = Identifier.of(MOD_ID, "passives/flood_of_anger");
         var title = "Flood of Anger";
         var effect = WitcherStatusEffects.FLOOD_OF_ANGER;
-        var description = "On Roll: Small chance to instantly gain Adrenaline Level 5 and "
-                + TooltipTokens.effect(effect.id) + " increased Attack Damage for a short duration.";
-        var spell = passiveSpellBase();
+        var description = "On Roll: {trigger_chance} chance to instantly gain Adrenaline Level 5 and "
+                + TooltipTokens.effect(effect.id) + " increased Attack Damage for 5 seconds.";
+        var spell = SpellBuilder.createSpellPassive();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
 
         var trigger = SpellBuilder.Triggers.roll();
-        trigger.chance = 0.05F;
+        trigger.chance = 0.1F;
         spell.passive.triggers = List.of(trigger);
-        spell.target.type = Spell.Target.Type.CASTER;
 
         var adrenaline = SpellBuilder.Impacts.effectSet(WitcherStatusEffects.ADRENALINE_GAIN.id.toString(), 10F, 5);
         var attackDamage = createEffectImpact(Identifier.of(effect.id.toString()), 5F);

@@ -3,26 +3,52 @@
   "range": 0.0,
   "tier": 1,
   "tooltip": {
-    "show_header": false,
-    "name": {
-      "show_in_compact": false,
-      "show_in_details": false
-    },
-    "description": {
-      "color": "gray"
-    }
+    "show_activation": false
   },
-  "type": "MODIFIER",
-  "modifiers": [
+  "type": "PASSIVE",
+  "passive": {
+    "triggers": [
+      {
+        "type": "SPELL_IMPACT_SPECIFIC",
+        "chance": 0.25,
+        "spell": {
+          "school": "spell_power:yrden",
+          "type": "ACTIVE"
+        },
+        "impact": {
+          "impact_type": "DAMAGE"
+        }
+      }
+    ]
+  },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "impacts": [
     {
-      "impact_filters": [
+      "target_modifiers": [
         {
-          "school": "spell_power:yrden"
+          "conditions": [
+            {
+              "entity_type": "#minecraft:undead"
+            }
+          ],
+          "execute": "ALLOW"
         }
       ],
-      "power_modifier": {
-        "power_multiplier": 0.15
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "spell_engine:stun",
+          "duration": 3.0
+        }
       }
     }
-  ]
+  ],
+  "cost": {
+    "durability": 0,
+    "cooldown": {
+      "duration": 6.0
+    }
+  }
 }

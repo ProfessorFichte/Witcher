@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.internals.SpellExecution;
+import net.spell_engine.internals.SpellTriggers;
 import net.spell_engine.internals.casting.SpellCast;
 import net.spell_engine.internals.casting.SpellCasterEntity;
 import net.spell_engine.internals.target.SpellTarget;
@@ -29,12 +30,18 @@ public abstract class SpellExecutionMixin {
 
     @Inject(at = @At("HEAD"), method = "performSpell", cancellable = true)
     private static void witcherQuenActiveShield(World world, PlayerEntity player, RegistryEntry<Spell> spellEntry, SpellTarget.SearchResult targetResult, SpellCast.Action action, float progress, CallbackInfo callbackInfo) {
-        if (!player.isSpectator()&& player instanceof SpellCasterEntity spellCasterEntity) {
+        if (!player.isSpectator() && player instanceof SpellCasterEntity spellCasterEntity) {
             var spell = spellCasterEntity.getCurrentSpell();
             var spellEntryQuen = SpellRegistry.from(player.getWorld()).getEntry(Identifier.of(MOD_ID, "quen_active_shield")).orElse(null);
-            if (spell != null) {
-                if(action == SpellCast.Action.RELEASE && Objects.equals(spell, spellEntryQuen.value())){
+            if (spell != null && spellEntryQuen != null && Objects.equals(spell, spellEntryQuen.value())) {
+                if (action == SpellCast.Action.RELEASE) {
                     player.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry);
+                } else if (action == SpellCast.Action.CHANNEL) {
+                    // Discharge/Exploding Shield only listen for the engine's own SPELL_CAST trigger,
+                    // which performSpell otherwise only fires on RELEASE - replaying it here too gives
+                    // those modifiers coverage for the whole channel, not just the moment it finishes.
+                    var entities = targetResult.entities();
+                    SpellTriggers.onSpellCast(player, spellEntryQuen, entities != null ? entities : List.of());
                 }
             }
         }

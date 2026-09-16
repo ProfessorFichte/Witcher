@@ -21,14 +21,152 @@
       }
     ]
   },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
+  "deliver": {
+    "type": "CLOUD",
+    "clouds": [
+      {
+        "spawn_ticks": 10,
+        "despawn_ticks": 10,
+        "volume": {
+          "radius": 3.0,
+          "area": {
+            "vertical_range_multiplier": 1.5
+          }
+        },
+        "time_to_live_seconds": 10.0,
+        "impact_tick_interval": 10,
+        "client_data": {
+          "light_level": 14,
+          "particles": [
+            {
+              "id": "spell_engine:ground_glow",
+              "appearance": {
+                "color": 4284940095,
+                "scale": 3.25
+              },
+              "batch": {
+                "count": 1.0,
+                "shape": "CIRCLE",
+                "anchor": "GROUND"
+              }
+            }
+          ],
+          "model_fx": [
+            {
+              "model_id": "witcher_rpg:spell_effect/yrden_circle",
+              "light_emission": "RADIATE",
+              "scale": 3.0,
+              "duration": 220,
+              "positioning": {
+                "vertical": 0.0
+              },
+              "initial": [
+                {
+                  "operation": "scale",
+                  "x": -1.0,
+                  "y": -1.0,
+                  "z": -1.0
+                },
+                {
+                  "operation": "translate",
+                  "x": 0.0,
+                  "y": 0.2,
+                  "z": 0.0
+                }
+              ],
+              "animations": [
+                {
+                  "start": 0,
+                  "end": 10,
+                  "easing": "EASE_OUT_CUBIC",
+                  "operation": "scale",
+                  "x": 1.0,
+                  "y": 1.0,
+                  "z": 1.0
+                },
+                {
+                  "start": 210,
+                  "end": 220,
+                  "easing": "EASE_IN_CUBIC",
+                  "operation": "scale",
+                  "x": -1.0,
+                  "y": -1.0,
+                  "z": -1.0
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
   "impacts": [
     {
       "action": {
-        "type": "SPAWN",
-        "spawns": [
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "effect_id": "witcher_rpg:yrden_circle",
+          "duration": 1.0,
+          "amplifier_power_multiplier": 0.3
+        }
+      },
+      "visuals": {
+        "particles": [
           {
-            "entity_type_id": "witcher_rpg:yrden_magical_trap",
-            "time_to_live_seconds": 10
+            "id": "witcher_rpg:yrden_cloud",
+            "appearance": {},
+            "batch": {
+              "count": 2.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.05,
+              "max_speed": 0.2
+            }
+          }
+        ]
+      },
+      "sound": {
+        "id": "witcher_rpg:yrden_sign",
+        "randomness": 0.2
+      }
+    },
+    {
+      "target_modifiers": [
+        {
+          "conditions": [
+            {
+              "entity_type": "#witcher_rpg:yrden_vulnerable"
+            }
+          ],
+          "execute": "ALLOW"
+        }
+      ],
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.1,
+          "knockback": 0.0
+        }
+      },
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:magic_arcane",
+            "appearance": {
+              "color": 4284940287,
+              "motion": "BURST"
+            },
+            "batch": {
+              "count": 15.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.1,
+              "max_speed": 0.3,
+              "extent": 0.5
+            }
           }
         ]
       }
@@ -36,7 +174,7 @@
   ],
   "cost": {
     "cooldown": {
-      "duration": 15.0
+      "duration": 5.0
     }
   }
 }

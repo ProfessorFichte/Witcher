@@ -1,6 +1,6 @@
 {
   "school": "spell_power:frost",
-  "range": 0.0,
+  "range": 5.5,
   "tier": 1,
   "tooltip": {
     "show_activation": false
@@ -21,11 +21,51 @@
     ]
   },
   "target": {
-    "type": "FROM_TRIGGER"
+    "type": "AREA",
+    "area": {
+      "distance_dropoff": "SQUARED"
+    }
   },
   "impacts": [
     {
-      "chance": 0.2,
+      "attribute": "witcher_rpg:aard_intensity",
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.35,
+          "knockback": 0.0
+        }
+      },
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:snowflake",
+            "appearance": {},
+            "batch": {
+              "count": 30.0,
+              "shape": "CIRCLE",
+              "anchor": "ENTITY",
+              "vertical_origin": 0.1,
+              "min_speed": 0.4,
+              "max_speed": 0.4
+            }
+          },
+          {
+            "id": "spell_engine:frost_shard",
+            "appearance": {},
+            "batch": {
+              "count": 20.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.4,
+              "max_speed": 0.6
+            }
+          }
+        ]
+      }
+    },
+    {
+      "chance": 0.1,
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {

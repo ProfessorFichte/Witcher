@@ -1,0 +1,117 @@
+{
+  "school": "spell_power:quen",
+  "range": 3.5,
+  "tier": 0,
+  "learn": {},
+  "active": {},
+  "release": {
+    "visuals": {
+      "particles": [
+        {
+          "id": "spell_engine:lightning_arc_a",
+          "appearance": {
+            "playback_speed": 0.41,
+            "lifetime_variance": 0.55,
+            "color": 4294928127,
+            "scale": 0.75,
+            "drag": 0.96,
+            "collides": true
+          },
+          "batch": {
+            "count": 3.0,
+            "shape": "SPHERE",
+            "anchor": "LAUNCH_POINT",
+            "min_speed": 0.01,
+            "max_speed": 0.05,
+            "extent": 1.5
+          }
+        },
+        {
+          "id": "spell_engine:lightning_arc_b",
+          "appearance": {
+            "playback_speed": 0.41,
+            "lifetime_variance": 0.55,
+            "color": 4294928127,
+            "scale": 0.75,
+            "drag": 0.96,
+            "collides": true
+          },
+          "batch": {
+            "count": 5.0,
+            "shape": "PILLAR",
+            "anchor": "ENTITY",
+            "vertical_origin": 0.1,
+            "min_speed": 0.01,
+            "max_speed": 0.05,
+            "extent": 2.0
+          }
+        },
+        {
+          "id": "witcher_rpg:quen_sign_cast",
+          "appearance": {},
+          "batch": {
+            "count": 3.0,
+            "shape": "PIPE",
+            "anchor": "LAUNCH_POINT",
+            "min_speed": 0.01,
+            "max_speed": 0.1
+          }
+        },
+        {
+          "id": "spell_engine:area_effect_293",
+          "appearance": {
+            "color": 4294928127,
+            "scale_with": "RANGE"
+          },
+          "batch": {
+            "count": 1.0,
+            "shape": "NONE",
+            "anchor": "GROUND"
+          }
+        }
+      ]
+    },
+    "sound": {
+      "id": "entity.lightning_bolt.thunder"
+    }
+  },
+  "target": {
+    "type": "AREA",
+    "area": {
+      "angle_degrees": 360.0
+    }
+  },
+  "impacts": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "spell_power_coefficient": 0.2,
+          "knockback": 1.2
+        }
+      },
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:lightning_arc_a",
+            "appearance": {
+              "playback_speed": 0.41,
+              "lifetime_variance": 0.55,
+              "color": 4294928127,
+              "scale": 0.75,
+              "drag": 0.96,
+              "collides": true
+            },
+            "batch": {
+              "count": 15.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.15,
+              "max_speed": 0.2
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

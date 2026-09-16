@@ -16,11 +16,11 @@
   "modifiers": [
     {
       "spell_pattern": "witcher_rpg:aard",
-      "range_add": 2.0
+      "range_add": 4.0
     },
     {
       "spell_pattern": "witcher_rpg:aard_sweep",
-      "range_add": 2.0
+      "range_add": 4.0
     }
   ]
 }

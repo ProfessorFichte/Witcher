@@ -12,12 +12,15 @@
           "action": {
             "type": "DAMAGE",
             "damage": {
-              "spell_power_coefficient": 0.2,
+              "spell_power_coefficient": 0.1,
               "knockback": 0.0
             }
           }
         }
       ]
+    },
+    {
+      "spell_pattern": "witcher_rpg:passives/yrden_roll"
     }
   ]
 }

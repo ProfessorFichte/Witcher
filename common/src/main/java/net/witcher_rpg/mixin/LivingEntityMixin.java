@@ -18,6 +18,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.registry.SpellRegistry;
@@ -106,6 +107,11 @@ public abstract class LivingEntityMixin {
             witcher$lastMainHand = currentMainHand.copy();
             witcher$lastChestplate = currentChestplate.copy();
         }
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void witcher$igniRollVisuals(CallbackInfo ci) {
+        WitcherStatusEffects.tickIgniRollVisuals((LivingEntity) (Object) this);
     }
 
     @Unique
@@ -340,6 +346,8 @@ public abstract class LivingEntityMixin {
     private static final Identifier CRITICAL_STRIKE_DAMAGE_ATTRIBUTE_ID = Identifier.of("critical_strike", "damage");
     @Unique
     private static final float DEFAULT_EXPOSED_CRIT_MULTIPLIER = 1.5F;
+    @Unique
+    private static final float EXPOSED_CRIT_MULTIPLIER_CEILING = 4.0F;
 
     @ModifyArg(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"), index = 1)
     private float witcher$guaranteedCritOnExposed(DamageSource source, float amount) {
@@ -357,9 +365,11 @@ public abstract class LivingEntityMixin {
         if (critDamageAttribute != null) {
             var instance = attacker.getAttributeInstance(critDamageAttribute);
             if (instance != null) {
-                multiplier = (float) instance.getValue();
+                // critical_strike's damage attribute is baseline-100 (100 = no bonus); can't import CriticalStrikeAttributes.asMultiplier here, a mixin can't reference an optional dep's class even behind a null check
+                multiplier = (float) (instance.getValue() / 100.0);
             }
         }
+        multiplier = MathHelper.clamp(multiplier, 1.0F, EXPOSED_CRIT_MULTIPLIER_CEILING);
 
         CriticalStrikeCompat.setCriticalStrike(source, multiplier);
         return amount * multiplier;

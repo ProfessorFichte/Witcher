@@ -1,14 +1,28 @@
 package net.witcher_rpg.effect;
 
 import net.spell_engine.Platform;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.fx.ParticleGroup;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
+import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.client.util.Color;
+import net.spell_engine.fx.ParticleHelper;
+import net.spell_engine.fx.SpellEngineParticles;
+import net.spell_engine.fx.ReleaseFx;
+import net.spell_engine.internals.SpellExecution;
+import net.spell_engine.internals.container.SpellContainerSource;
+import net.spell_engine.internals.impact.SpellImpacts;
+import net.spell_engine.utils.TargetHelper;
+import net.spell_power.api.SpellPower;
 import net.witcher_rpg.network.ExposedGlowPayload;
 
 import java.util.Random;
@@ -403,7 +417,7 @@ public class WitcherStatusEffects {
                     List.of(
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(),
-                                    -0.1F,
+                                    -0.2F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
@@ -467,7 +481,7 @@ public class WitcherStatusEffects {
     ));
 
     public static Effects.Entry COUNTERATTACK_READY = add(new Effects.Entry(Identifier.of(MOD_ID,"counterattack_ready"),
-            "Counterattack Ready",
+            "Counterattack",
             "Your next melee attack deals massively increased damage.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.WITCHER_MELEE.color),
             new EffectConfig(
@@ -555,6 +569,47 @@ public class WitcherStatusEffects {
                     )
             )
     ));
+    public static Effects.Entry IGNI_ROLL = add(new Effects.Entry(Identifier.of(MOD_ID,"igni_roll"),
+            "Igni Roll",
+            "Ignites the ground around you.",
+            new TickingStatusEffect(StatusEffectCategory.BENEFICIAL, WitcherSpellSchools.IGNI.color).interval(10),
+            new EffectConfig(
+                    List.of()
+            )
+    ));
+    public static final ParticleGroup IGNI_ROLL_RING = ParticleGroupBuilder.of("lava")
+            .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                    .extent(3F)
+                    .count(6F)
+                    .speed(0.01F, 0.04F));
+    public static final ParticleGroup IGNI_ROLL_EMBERS = ParticleGroupBuilder.of(SpellEngineParticles.flame_spark)
+            .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
+                    .extent(3F)
+                    .count(3F)
+                    .speed(0.05F, 0.15F));
+
+    public static void tickIgniRollVisuals(LivingEntity entity) {
+        if (entity.getWorld().isClient() || !entity.hasStatusEffect(IGNI_ROLL.entry)) {
+            return;
+        }
+        if (entity.age % 3 == 0) {
+            ParticleHelper.sendBatches(entity.getPos(), entity, List.of(IGNI_ROLL_RING, IGNI_ROLL_EMBERS));
+        }
+    }
+    public static Effects.Entry MONSTER_EXPERT = add(new Effects.Entry(Identifier.of(MOD_ID,"monster_expert"),
+            "Monster Expert",
+            "Increases damage taken, stacking per hit on Exposed targets.",
+            new CustomStatusEffect(StatusEffectCategory.HARMFUL, WitcherSpellSchools.WITCHER_MELEE.color),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellEngineAttributes.DAMAGE_TAKEN.id,
+                                    0.08F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
 
     public static boolean rollAdrenaline(LivingEntity entity) {
         double bonus = entity.getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER) - 100.0;
@@ -568,6 +623,31 @@ public class WitcherStatusEffects {
         int bonus = (int) (entity.getAttributeValue(WitcherAttributes.ADRENALINE_MODIFIER) - 100.0);
         CustomMethods.applyStatusEffect(entity, 0, 20 + bonus * 3, ADRENALINE_GAIN.entry,
                 tweaksConfig.value.adrenaline_max_amplifier - 1, true, true, false, 0);
+    }
+
+    private static boolean hasSpell(PlayerEntity player, String path) {
+        var entry = SpellRegistry.from(player.getWorld()).getEntry(Identifier.of(MOD_ID, path)).orElse(null);
+        if (entry == null) {
+            return false;
+        }
+        var spells = SpellContainerSource.getSpellsOf(player);
+        return spells.passives().contains(entry) || spells.modifiers().contains(entry);
+    }
+
+    private static void triggerQuenExplosiveShieldBurst(PlayerEntity wearer) {
+        var world = wearer.getWorld();
+        if (world.isClient()) {
+            return;
+        }
+        var helperEntry = SpellRegistry.from(world).getEntry(Identifier.of(MOD_ID, "helpers/quen_explosive_shield_burst")).orElse(null);
+        if (helperEntry == null) {
+            return;
+        }
+        ReleaseFx.send(world, wearer, helperEntry, 1.0F);
+        var ctx = new SpellExecution.ImpactContext().power(SpellPower.getSpellPower(WitcherSpellSchools.QUEN, wearer)).position(wearer.getPos());
+        for (Entity target : TargetHelper.targetsFromArea(wearer, helperEntry.value().range, helperEntry.value().target.area, e -> e != wearer)) {
+            SpellImpacts.performImpacts(world, wearer, target, target, helperEntry, helperEntry.value().impacts, ctx);
+        }
     }
 
     public static void register(ConfigFile.Effects config) {
@@ -600,6 +680,9 @@ public class WitcherStatusEffects {
             if (context.entity().hasStatusEffect(QUEN_DISCHARGE.entry)) {
                 context.entity().removeStatusEffect(QUEN_DISCHARGE.entry);
             }
+            if (context.entity() instanceof PlayerEntity wearer && hasSpell(wearer, "spell_modifiers/quen_exploding_shield")) {
+                triggerQuenExplosiveShieldBurst(wearer);
+            }
         });
         OnRemoval.configure(QUEN_ACTIVE.effect, (context) -> {
             QuenActiveEffect.onRemove(context.entity());
@@ -608,6 +691,9 @@ public class WitcherStatusEffects {
             }
             if (context.entity().hasStatusEffect(QUEN_DISCHARGE.entry)) {
                 context.entity().removeStatusEffect(QUEN_DISCHARGE.entry);
+            }
+            if (context.entity() instanceof PlayerEntity wearer && hasSpell(wearer, "spell_modifiers/quen_exploding_shield")) {
+                triggerQuenExplosiveShieldBurst(wearer);
             }
         });
 
@@ -622,6 +708,15 @@ public class WitcherStatusEffects {
             var player = args.player();
             if (!player.getWorld().isClient()) {
                 tryGainAdrenaline(player);
+            }
+        });
+
+        CombatEvents.ENTITY_DAMAGE_TAKEN.register((args) -> {
+            if (!args.entity().getWorld().isClient()
+                    && args.source().getAttacker() instanceof PlayerEntity attacker
+                    && args.entity().hasStatusEffect(WITCHER_SENSES_EXPOSED.entry)
+                    && hasSpell(attacker, "spell_modifiers/witcher_senses_monster_expert")) {
+                CustomMethods.applyStatusEffect(args.entity(), 0, 6, MONSTER_EXPERT.entry, 4, true, true, false, 0);
             }
         });
 

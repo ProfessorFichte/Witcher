@@ -17,7 +17,7 @@
     {
       "spell_pattern": "witcher_rpg:fast_attack",
       "power_modifier": {
-        "critical_damage_bonus": 0.5
+        "critical_chance_bonus": 0.08
       }
     }
   ]

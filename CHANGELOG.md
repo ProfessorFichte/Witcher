@@ -1,3 +1,11 @@
+# 3.1.3 - 1.21.1
+- Add missing Curios data files for Witcher Medallion - Necklace Slots (Neoforge)
+- Fixed a damaging miscalculation for the Witcher Senses Exposed effect, resulting in absurdly high damage numbers
+- The Yrden Cloud now does not deal damage to undead entities anymore
+- There is a Spell Modifier to choose in the Skill Tree soon, that will give the yrden cloud the ability to damage entities.
+- Improved Tooltip-Descriptions for Spells, that inflict status effects.
+- Added missing witcher status effect textures
+
 # 3.1.2 - 1.21.1
 - Created and Modified a lot of Passives and Modifiers for the upcoming Skill Tree Update
 - Fixed and Improved the whole Adrenaline Gain & Loss Mechanic

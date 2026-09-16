@@ -22,6 +22,9 @@
       }
     ]
   },
+  "target": {
+    "type": "FROM_TRIGGER"
+  },
   "impacts": [
     {
       "attribute": "minecraft:generic.max_health",

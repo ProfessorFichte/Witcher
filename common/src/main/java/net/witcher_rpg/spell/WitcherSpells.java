@@ -332,7 +332,9 @@ public class WitcherSpells {
     private static Entry yrden() {
         var id = Identifier.of(MOD_ID, "yrden");
         var title = "Yrden";
-        var description = "Slows enemies for {cloud_duration} seconds, dealing {damage} to undead entities.";
+        var description = "Slows enemies in the circle by "
+                + TooltipTokens.effect(WitcherStatusEffects.YRDEN_CIRCLE.id, 0, null, TooltipTokens.Format.ABS)
+                + ", lasting for {cloud_duration} seconds.";
         var spell = activeSpellBase();
         spell.school = WitcherSpellSchools.YRDEN;
         spell.range = 0;
@@ -389,15 +391,8 @@ public class WitcherSpells {
                                 .count(2F).speed(0.05F, 0.2F)));
         debuff.action.status_effect.amplifier_power_multiplier = 0.3F;
         debuff.sound = Sound.withRandomness(Identifier.of("witcher_rpg:yrden_sign"),0.2F);
-        var damage = SpellBuilder.Impacts.damage(0.1F,0);
-        yrdenAllow(damage);
-        damage.visuals = Fx.Visuals.of(
-                ParticleGroupBuilder.magic(SpellEngineParticles.magic_arcane, ParticleGroup.Motion.BURST)
-                        .color(Color.ARCANE.toRGBA())
-                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
-                                .count(15F).speed(0.1F, 0.3F)
-                                .extent(0.5F)));
-        spell.impacts = List.of(debuff,damage);
+
+        spell.impacts = List.of(debuff);
 
         configureCooldown(spell, 15);
         spell.cost.exhaust = 0.4F;
@@ -409,7 +404,8 @@ public class WitcherSpells {
     private static Entry axii() {
         var id = Identifier.of(MOD_ID, "axii");
         var title = "Axii";
-        var description = "Charms the target for {effect_duration} seconds, causing them to stop attacking.";
+        var description = "Charms the target for {effect_duration} seconds, causing them to stop attacking and take "
+                + TooltipTokens.effect(WitcherStatusEffects.AXII.id) + " increased damage.";
         var spell = activeSpellBase();
         spell.school = WitcherSpellSchools.AXII;
         spell.range = 10;
@@ -464,7 +460,8 @@ public class WitcherSpells {
     private static Entry quen() {
         var id = Identifier.of(MOD_ID, "quen");
         var title = "Quen";
-        var description = "Creates a protective shield that absorbs damage for {effect_duration} seconds.";
+        var description = "Creates a protective shield granting " + TooltipTokens.effect(WitcherStatusEffects.QUEN_SHIELD.id)
+                + " absorption for {effect_duration} seconds.";
         var spell = activeSpellBase();
         spell.school = WitcherSpellSchools.QUEN;
         spell.range = 0;
@@ -693,7 +690,8 @@ public class WitcherSpells {
     private static Entry axii_puppet() {
         var id = Identifier.of(MOD_ID, "axii_puppet");
         var title = "Axii Puppet";
-        var description = "Dominates the target for {effect_duration} seconds, turning them into an ally.";
+        var description = "Dominates the target for {effect_duration} seconds, turning them into an ally with "
+                + TooltipTokens.effect(WitcherStatusEffects.AXII_PUPPET.id) + " increased attack damage.";
         var spell = activeSpellBase();
         spell.school = WitcherSpellSchools.AXII;
         spell.range = 10;
@@ -747,7 +745,8 @@ public class WitcherSpells {
     private static Entry quen_active_shield() {
         var id = Identifier.of(MOD_ID, "quen_active_shield");
         var title = "Quen Active Shield";
-        var description = "Creates an active protective shield that absorbs damage and heals the caster.";
+        var description = "Creates an active protective shield granting " + TooltipTokens.effect(WitcherStatusEffects.QUEN_ACTIVE.id)
+                + " absorption and heals the caster.";
         var spell = activeSpellBase();
         spell.school = WitcherSpellSchools.QUEN;
         spell.range = 0;
@@ -942,7 +941,8 @@ public class WitcherSpells {
     private static Entry battle_trance() {
         var id = Identifier.of(MOD_ID, "battle_trance");
         var title = "Battle Trance";
-        var description = "Enters a battle trance for {effect_duration} seconds, enhancing combat abilities.";
+        var description = "Enters a battle trance for {effect_duration} seconds, gaining "
+                + TooltipTokens.effect(WitcherStatusEffects.BATTLE_TRANCE.id) + " attack damage.";
         var spell = activeSpellBase();
         spell.school = WitcherSpellSchools.WITCHER_MELEE;
         spell.range = 0;
@@ -1066,10 +1066,12 @@ public class WitcherSpells {
     /// ACTIVE SPELL HELPER IMPACTS
     public static final Entry yrden_glyph_impact = add(yrden_glyph_impact());
     private static Entry yrden_glyph_impact() {
-        var id = Identifier.of(MOD_ID, "yrden_glyph_impact");
+        var id = Identifier.of(MOD_ID, "helpers/yrden_glyph_impact");
         var spell = activeSpellBase();
         var title = "Yrden Glyph Impact";
-        var description = "The yrden glyph deals {damage} damage and slows nearby targets by {effect_duration} sec.";
+        var description = "The yrden glyph deals {damage} damage and slows nearby targets by "
+                + TooltipTokens.effect(WitcherStatusEffects.YRDEN_GLYPH.id, 0, null, TooltipTokens.Format.ABS)
+                + " for {effect_duration} sec.";
         spell.school = WitcherSpellSchools.YRDEN;
         spell.range = 100;
         spell.tier = 1;
@@ -1104,6 +1106,53 @@ public class WitcherSpells {
 
         return new Entry(id, spell, title, description);
     }
+    public static Entry quen_explosive_shield_burst = add(quen_explosive_shield_burst());
+    private static Entry quen_explosive_shield_burst() {
+        var id = Identifier.of(MOD_ID, "helpers/quen_explosive_shield_burst");
+        var description = "Quen Explosive Shield Burst";
+        var title = "Quen Explosive Shield Burst";
+        var spell = SpellBuilder.createSpellActive();
+
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_A)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(3F).speed(0.01F, 0.05F)
+                                .extent(1.5F)),
+                ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_B)
+                        .batch(b -> b.shape(ParticleGroup.Shape.PILLAR)
+                                .verticalOrigin(ParticleGroupBuilder.Batches.FEET)
+                                .count(5F).speed(0.01F, 0.05F)
+                                .extent(2F)),
+                ParticleGroupBuilder.of("witcher_rpg:quen_sign_cast")
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
+                                .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
+                                .count(3F).speed(0.01F, 0.1F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.area_effect_293)
+                        .scaleWith(Fx.ScaleWith.RANGE)
+                        .color(Color.ELECTRIC)
+                        .batch(ParticleGroupBuilder.Batches.ground(1))
+        );
+        spell.release.sound = new Sound("entity.lightning_bolt.thunder");
+
+        spell.tier = 0;
+        spell.school = WitcherSpellSchools.QUEN;
+        spell.range = 3.5F;
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+        spell.target.area.angle_degrees = 360;
+
+        var damage = SpellBuilder.Impacts.damage(0.2F, 3.5F);
+        damage.action.damage.knockback = 1.2F;
+        damage.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_A)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                                .count(15).speed(0.15F, 0.2F)));
+        spell.impacts = List.of(damage);
+        configureCooldown(spell, 0);
+
+        return new Entry(id, spell, title, description);
+    }
     /// WEAPON SKILLS
     public static final Entry defensive_witcher_mechanics = add(defensive_witcher_mechanics());
     private static Entry defensive_witcher_mechanics() {
@@ -1128,8 +1177,6 @@ public class WitcherSpells {
     private static Entry sunstone() {
         var id = Identifier.of(MOD_ID, "sunstone");
         var effect = WitcherStatusEffects.SUNSTONE;
-        // Sunstone carries a single attribute modifier, so the token's blank-attribute fallback is
-        // unambiguous.
         var description = "Use: Increases sign intensity by "
                 + TooltipTokens.effect(effect.id)
                 + " for {effect_duration} seconds.";

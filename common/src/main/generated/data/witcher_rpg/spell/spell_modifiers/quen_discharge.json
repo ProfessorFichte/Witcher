@@ -38,8 +38,8 @@
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "spell_power_coefficient": 0.25,
-          "knockback": 0.1
+          "spell_power_coefficient": 0.3,
+          "knockback": 0.0
         }
       },
       "visuals": {

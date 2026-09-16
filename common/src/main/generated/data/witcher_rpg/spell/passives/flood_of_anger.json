@@ -1,23 +1,12 @@
 {
   "school": "spell_power:witcher_melee",
-  "range": 0.0,
-  "tier": 7,
-  "tooltip": {
-    "show_header": false,
-    "name": {
-      "show_in_compact": false,
-      "show_in_details": false
-    },
-    "description": {
-      "color": "dark_green"
-    }
-  },
+  "tier": 1,
   "type": "PASSIVE",
   "passive": {
     "triggers": [
       {
         "type": "ROLL",
-        "chance": 0.05
+        "chance": 0.1
       }
     ]
   },
@@ -42,6 +31,7 @@
     }
   ],
   "cost": {
+    "durability": 0,
     "cooldown": {
       "duration": 30.0
     }

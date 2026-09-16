@@ -16,39 +16,17 @@
   "modifiers": [
     {
       "spell_pattern": "witcher_rpg:aard",
-      "mutate_impacts": "APPEND",
-      "impacts": [
-        {
-          "action": {
-            "type": "DAMAGE",
-            "damage": {
-              "spell_power_coefficient": 0.0,
-              "knockback": 2.5
-            }
-          }
-        }
-      ],
       "power_modifier": {
-        "critical_chance_bonus": 0.3
-      }
+        "critical_chance_bonus": 0.1
+      },
+      "knockback_multiply_base": 1.0
     },
     {
       "spell_pattern": "witcher_rpg:aard_sweep",
-      "mutate_impacts": "APPEND",
-      "impacts": [
-        {
-          "action": {
-            "type": "DAMAGE",
-            "damage": {
-              "spell_power_coefficient": 0.0,
-              "knockback": 2.5
-            }
-          }
-        }
-      ],
       "power_modifier": {
-        "critical_chance_bonus": 0.3
-      }
+        "critical_chance_bonus": 0.1
+      },
+      "knockback_multiply_base": 1.0
     }
   ]
 }
