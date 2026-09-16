@@ -70,8 +70,6 @@ repositories {
     maven { url 'https://maven.fabricmc.net' }
     // For Curios
     maven { url 'https://maven.theillusivec4.top/' }
-
-    mavenLocal()
 }
 
 dependencies {
@@ -85,9 +83,8 @@ dependencies {
     modImplementation("maven.modrinth:tiny-config:${project.tiny_config_version}-${platform}") { transitive = false }
     modImplementation("maven.modrinth:spell-power:${project.spell_power_version}-${platform}") { transitive = false }
     modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}-${platform}") { transitive = false }
-    // More RPG Library stays on mavenLocal - Fichte's Modrinth project has no 1.20.1 build of this
-    // line. Becomes `maven.modrinth:more-rpg-library:...-${platform}` once Fichte publishes it.
-    modImplementation("net.more_rpg_classes:more_rpg_library-${platform}:${project.more_rpg_library_version}") { transitive = false }
+    // More RPG Library: resolves from the Modrinth maven once Fichte's release tier 1 publishes it.
+    modImplementation("maven.modrinth:more-rpg-library:${project.more_rpg_library_version}-${platform}") { transitive = false }
 
     // Curios 5.x (1.20.1) - https://docs.illusivesoulworks.com/category/curios
     // This module compiles against `ICurioItem`; Curios 9.x pinned upstream is 1.21-only.
