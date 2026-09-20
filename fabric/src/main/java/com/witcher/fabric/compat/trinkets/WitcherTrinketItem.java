@@ -3,37 +3,48 @@ package com.witcher.fabric.compat.trinkets;
 import com.google.common.collect.Multimap;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketItem;
-import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.Registries;
+import net.spell_engine.api.item.ItemAttributeModifiers;
+import net.witcher_rpg.compat.WitcherModifierIds;
 import org.jetbrains.annotations.Nullable;
 
-public class WitcherTrinketItem extends TrinketItem {
-    private AttributeModifiersComponent customAttributes = AttributeModifiersComponent.builder().build();
+import java.util.UUID;
 
-    public WitcherTrinketItem(Settings settings, @Nullable AttributeModifiersComponent customAttributes) {
+public class WitcherTrinketItem extends TrinketItem {
+    private ItemAttributeModifiers customAttributes = ItemAttributeModifiers.builder().build();
+
+    public WitcherTrinketItem(Settings settings, @Nullable ItemAttributeModifiers customAttributes) {
         super(settings);
         if (customAttributes != null) {
             this.customAttributes = customAttributes;
         }
     }
 
-    public Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, Identifier slotIdentifier) {
-        var modifiers = super.getModifiers(stack, slot, entity, slotIdentifier);
+    @Override
+    public Multimap<EntityAttribute, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, UUID uuid) {
+        var modifiers = super.getModifiers(stack, slot, entity, uuid);
+        var itemPath = Registries.ITEM.getId(stack.getItem()).getPath();
+        var modifierUuid = WitcherModifierIds.perSlotAndItem(uuid, itemPath);
+        var modifierName = WitcherModifierIds.name(itemPath);
         for (var entry : this.customAttributes.modifiers()) {
-            modifiers.put(entry.attribute(),
-                    new EntityAttributeModifier(slotIdentifier, entry.modifier().value(), entry.modifier().operation()));
+            var attribute = entry.attributeValue();
+            if (attribute == null) {
+                continue;
+            }
+            modifiers.put(attribute,
+                    new EntityAttributeModifier(modifierUuid, modifierName,
+                            entry.modifier().getValue(), entry.modifier().getOperation()));
         }
         return modifiers;
     }
 
-    public void setConfigurableModifiers(AttributeModifiersComponent component) {
-        this.customAttributes = component;
+    public void setConfigurableModifiers(ItemAttributeModifiers modifiers) {
+        this.customAttributes = modifiers;
     }
 
     @Override

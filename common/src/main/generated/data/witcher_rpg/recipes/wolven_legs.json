@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "P": {
+      "item": "witcher_rpg:silver_ingot"
+    },
+    "S": {
+      "item": "more_rpg_classes:hardened_leather"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "S S",
+    "P P"
+  ],
+  "result": {
+    "item": "witcher_rpg:wolven_legs"
+  },
+  "show_notification": true
+}

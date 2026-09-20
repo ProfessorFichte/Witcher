@@ -1,5 +1,7 @@
 package com.witcher.fabric.client;
 
+import net.minecraft.client.item.ClampedModelPredicateProvider;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
@@ -26,10 +28,13 @@ public final class FabricClient implements ClientModInitializer {
                 ParticleFactoryRegistry.getInstance().register(type, factory::create);
             }
         });
-        WitcherClient.init();
+        WitcherClient.init((item, id, provider) ->
+                ModelPredicateProviderRegistry.register(item, id, (ClampedModelPredicateProvider) provider::call));
 
-        ClientPlayNetworking.registerGlobalReceiver(ExposedGlowPayload.ID, (payload, context) ->
-                context.client().execute(() -> WitcherExposedClient.setActive(payload.entityId(), payload.active())));
+        ClientPlayNetworking.registerGlobalReceiver(ExposedGlowPayload.ID, (client, handler, buf, responseSender) -> {
+            var payload = ExposedGlowPayload.read(buf);
+            client.execute(() -> WitcherExposedClient.setActive(payload.entityId(), payload.active()));
+        });
 
         TooltipComponentCallback.EVENT.register(data -> {
             if (data instanceof GlyphTooltipComponent component) {

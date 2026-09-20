@@ -10,7 +10,9 @@ import net.witcher_rpg.item.misc.MasterSpellBook;
 import net.witcher_rpg.item.misc.UpgradeItem;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
@@ -33,84 +35,84 @@ public class WitcherMaterials {
         return entry;
     }
     public static final Entry SILVER_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "silver_ingot"),
+            new Identifier(MOD_ID, "silver_ingot"),
             "Silver Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry SILVER_NUGGET = add(new Entry(
-            Identifier.of(MOD_ID, "silver_nugget"),
+            new Identifier(MOD_ID, "silver_nugget"),
             "Silver Nugger",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry METEORITE_SILVER_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "meteorite_silver_ingot"),
+            new Identifier(MOD_ID, "meteorite_silver_ingot"),
             "Meteorite Silver Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry DARK_STEEL_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "dark_steel_ingot"),
+            new Identifier(MOD_ID, "dark_steel_ingot"),
             "Dark Steel Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry STEEL_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "steel_ingot"),
+            new Identifier(MOD_ID, "steel_ingot"),
             "Steel Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry STEEL_NUGGET = add(new Entry(
-            Identifier.of(MOD_ID, "steel_nugget"),
+            new Identifier(MOD_ID, "steel_nugget"),
             "Steel Nugget",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry RAW_SILVER = add(new Entry(
-            Identifier.of(MOD_ID, "raw_silver"),
+            new Identifier(MOD_ID, "raw_silver"),
             "Raw Silver",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry METEORITE = add(new Entry(
-            Identifier.of(MOD_ID, "meteorite"),
+            new Identifier(MOD_ID, "meteorite"),
             "Meteorite",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry METEORITE_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "meteorite_ingot"),
+            new Identifier(MOD_ID, "meteorite_ingot"),
             "Meteorite Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry DARK_IRON_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "dark_iron_ingot"),
+            new Identifier(MOD_ID, "dark_iron_ingot"),
             "Dark Iron Ingot",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry RAW_DARK_IRON = add(new Entry(
-            Identifier.of(MOD_ID, "raw_dark_iron"),
+            new Identifier(MOD_ID, "raw_dark_iron"),
             "Raw Dark Iron",
             Item::new,
             new Item.Settings()
     ));
 
     public static final Entry DIMERITIUM_INGOT = add(new Entry(
-            Identifier.of(MOD_ID, "dimeritium_ingot"),
+            new Identifier(MOD_ID, "dimeritium_ingot"),
             "Dimeritium Ingot",
             settings -> new UpgradeItem(settings, "item.witcher_rpg.dimeritium_ingot.applies_to"),
             new Item.Settings()
@@ -122,20 +124,32 @@ public class WitcherMaterials {
         return (MasterSpellBook) MASTER_BOOK_CONTAINER.item;
     }
 
-    public static void registerModItems() {
+    private static boolean created = false;
+
+    public static Map<Identifier, Item> itemsToRegister() {
+        if (created) {
+            return Map.of();
+        }
+        created = true;
+        var map = new LinkedHashMap<Identifier, Item>();
         for (Entry e : ENTRIES) {
             Item item = e.factory().apply(e.settings());
             e.container.item = item;
-            Registry.register(Registries.ITEM, e.id(), item);
+            map.put(e.id(), item);
         }
         MASTER_BOOK_CONTAINER.item = new MasterSpellBook(new Item.Settings().maxCount(1));
-        Registry.register(Registries.ITEM, Identifier.of(MOD_ID, "master_spell_book"), MASTER_BOOK());
+        map.put(new Identifier(MOD_ID, "master_spell_book"), MASTER_BOOK());
         PlatformEvents.onItemGroupModify(WitcherGroup.WITCHER_KEY, (content, context) -> {
             for (Entry e : ENTRIES) {
                 content.add(e.item());
             }
             content.add(MASTER_BOOK());
         });
+        return map;
+    }
+
+    public static void registerModItems() {
+        itemsToRegister().forEach((id, item) -> Registry.register(Registries.ITEM, id, item));
 
         WitcherArmorDiagrams.register();
         WitcherClassMod.LOGGER.info("Registered Witcher Items");

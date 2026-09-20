@@ -11,6 +11,6 @@ public class ModBiomeTags {
     public static final TagKey<Biome> HAS_METEORITE = of("has_meteorite");
 
     private static TagKey<Biome> of(String id) {
-        return TagKey.of(RegistryKeys.BIOME, Identifier.of(MOD_ID, id));
+        return TagKey.of(RegistryKeys.BIOME, new Identifier(MOD_ID, id));
     }
 }

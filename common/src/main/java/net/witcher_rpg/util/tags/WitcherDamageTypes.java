@@ -17,7 +17,7 @@ public class WitcherDamageTypes {
     public static final TagKey<DamageType> QUEN = register("quen");
     public static final TagKey<DamageType> SIGNS = register("signs");
 
-    public RegistryKey<DamageType> MAGIC = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(WitcherClassMod.MOD_ID,"magic"));
+    public RegistryKey<DamageType> MAGIC = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, new Identifier(WitcherClassMod.MOD_ID,"magic"));
 
     private static TagKey<DamageType> register(String id) {
         return TagKey.of(RegistryKeys.DAMAGE_TYPE, WitcherClassMod.id(id));

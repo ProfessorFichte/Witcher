@@ -1,12 +1,13 @@
 package net.witcher_rpg.config;
 
 import net.witcher_rpg.item.WitcherMaterials;
-import net.witcher_rpg.item.WitcherTrinkets;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 
 public class LootInjectionConfig {
+    private static final String PURE_SILVER_ID = "witcher_rpg:pure_silver";
+
     public record Item(String itemId, int weight, int minAmount,int maxAmount) {  }
     public record Entry(float rolls, List<Item> items) { }
     public LinkedHashMap<String, Entry> entries = new LinkedHashMap<>();
@@ -24,11 +25,11 @@ public class LootInjectionConfig {
         loot.entries.put(
                 "witcher_rpg:blocks/silver_ore",
                 new Entry(0.025f, List.of(
-                        new Item(WitcherTrinkets.PURE_SILVER.id().toString(), 1,1,1))));
+                        new Item(PURE_SILVER_ID, 1,1,1))));
         loot.entries.put(
                 "witcher_rpg:blocks/deepslate_silver_ore",
                 new Entry(0.025f, List.of(
-                        new Item(WitcherTrinkets.PURE_SILVER.id().toString(), 1,1,1))));
+                        new Item(PURE_SILVER_ID, 1,1,1))));
         return loot;
     }
 }

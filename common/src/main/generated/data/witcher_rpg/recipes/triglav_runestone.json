@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:lesser_triglav_runestone"
+    },
+    {
+      "item": "witcher_rpg:lesser_triglav_runestone"
+    },
+    {
+      "item": "witcher_rpg:lesser_triglav_runestone"
+    },
+    {
+      "item": "witcher_rpg:lesser_triglav_runestone"
+    }
+  ],
+  "result": {
+    "item": "witcher_rpg:triglav_runestone"
+  }
+}

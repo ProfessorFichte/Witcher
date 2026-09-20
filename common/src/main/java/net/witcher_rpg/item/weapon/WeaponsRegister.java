@@ -36,7 +36,7 @@ public class WeaponsRegister {
     }
 
     private static Supplier<Ingredient> ingredient(String idString, boolean requirement, Item fallback) {
-        var id = Identifier.of(idString);
+        var id = new Identifier(idString);
         if (requirement) {
             return () -> {
                 return Ingredient.ofItems(fallback);
@@ -51,28 +51,28 @@ public class WeaponsRegister {
     }
 
     /// MINECRAFT ATTRIBUTES
-    private static final Identifier ATTACK_DAMAGE = Identifier.ofVanilla("generic.attack_damage");
-    private static final Identifier ATTACK_SPEED = Identifier.ofVanilla("generic.attack_speed");
+    private static final Identifier ATTACK_DAMAGE = new Identifier("generic.attack_damage");
+    private static final Identifier ATTACK_SPEED = new Identifier("generic.attack_speed");
     /// WITCHER ATTRIBUTES
-    private static final Identifier ADRENALINE = Identifier.of("witcher_rpg:adrenaline_modifier");
-    private static final Identifier AARD_INTENSITY = Identifier.of("witcher_rpg:aard_intensity");
-    private static final Identifier AXII_INTENSITY = Identifier.of("witcher_rpg:axii_intensity");
-    private static final Identifier IGNI_INTENSITY = Identifier.of("witcher_rpg:igni_intensity");
-    private static final Identifier QUEN_INTENSITY = Identifier.of("witcher_rpg:quen_intensity");
-    private static final Identifier YRDEN_INTENSITY = Identifier.of("witcher_rpg:yrden_intensity");
-    private static final Identifier SIGN_INTENSITY = Identifier.of("witcher_rpg:sign_intensity");
+    private static final Identifier ADRENALINE = new Identifier("witcher_rpg:adrenaline_modifier");
+    private static final Identifier AARD_INTENSITY = new Identifier("witcher_rpg:aard_intensity");
+    private static final Identifier AXII_INTENSITY = new Identifier("witcher_rpg:axii_intensity");
+    private static final Identifier IGNI_INTENSITY = new Identifier("witcher_rpg:igni_intensity");
+    private static final Identifier QUEN_INTENSITY = new Identifier("witcher_rpg:quen_intensity");
+    private static final Identifier YRDEN_INTENSITY = new Identifier("witcher_rpg:yrden_intensity");
+    private static final Identifier SIGN_INTENSITY = new Identifier("witcher_rpg:sign_intensity");
     /// CRITICAL STRIKE MOD ATTRIBUTES
     private static final String CRIT_MOD_ID = "critical_strike";
-    private static final Identifier CRIT_CHANCE_ID = Identifier.of(CRIT_MOD_ID, "chance");
-    private static final Identifier CRIT_DAMAGE_ID = Identifier.of(CRIT_MOD_ID, "damage");
+    private static final Identifier CRIT_CHANCE_ID = new Identifier(CRIT_MOD_ID, "chance");
+    private static final Identifier CRIT_DAMAGE_ID = new Identifier(CRIT_MOD_ID, "damage");
     /// MRPG-LIB ATTRIBUTES
-    private static final Identifier ARMOR_PIERCING = Identifier.of("more_rpg_classes:armor_piercing");
-    private static final Identifier BLEEDING_CHANCE = Identifier.of("more_rpg_classes:bleeding_chance");
-    private static final Identifier BURNING_CHANCE = Identifier.of("more_rpg_classes:burning_chance");
-    private static final Identifier FREEZE_CHANCE = Identifier.of("more_rpg_classes:freeze_chance");
-    private static final Identifier POISON_CHANCE = Identifier.of("more_rpg_classes:poison_chance");
-    private static final Identifier STAGGER_CHANCE = Identifier.of("more_rpg_classes:stagger_chance");
-    private static final Identifier STUN_CHANCE = Identifier.of("more_rpg_classes:stun_chance");
+    private static final Identifier ARMOR_PIERCING = new Identifier("more_rpg_classes:armor_piercing");
+    private static final Identifier BLEEDING_CHANCE = new Identifier("more_rpg_classes:bleeding_chance");
+    private static final Identifier BURNING_CHANCE = new Identifier("more_rpg_classes:burning_chance");
+    private static final Identifier FREEZE_CHANCE = new Identifier("more_rpg_classes:freeze_chance");
+    private static final Identifier POISON_CHANCE = new Identifier("more_rpg_classes:poison_chance");
+    private static final Identifier STAGGER_CHANCE = new Identifier("more_rpg_classes:stagger_chance");
+    private static final Identifier STUN_CHANCE = new Identifier("more_rpg_classes:stun_chance");
 
 
     public static float witcher_sword_attackSpeed = -2.4f;
@@ -103,9 +103,9 @@ public class WeaponsRegister {
 
     ///WITCHER PASSIVES
     public static Identifier silver_sword = WitcherPassives.silver_sword_passive().id();
-    public static Identifier aerondight_passive = Identifier.of(MOD_ID, "aerondight_passive");
+    public static Identifier aerondight_passive = new Identifier(MOD_ID, "aerondight_passive");
     public static Identifier reach_of_the_damned_passive = WitcherPassives.REACH_OF_THE_DAMNED_PASSIVE.id();
-    public static Identifier iris_passive = Identifier.of(MOD_ID, "iris_passive");
+    public static Identifier iris_passive = new Identifier(MOD_ID, "iris_passive");
 
 
     private static Weapon.Entry witcherswords(String name, Weapon.CustomMaterial material, float damage) {
@@ -200,7 +200,13 @@ public class WeaponsRegister {
     private static final String AETHER = "aether";
     private static final String ARSENAL = "arsenal";
     //Registration
-    public static void register(Map<String, WeaponConfig> configs) {
+    private static boolean conditionalsBuilt = false;
+
+    private static void buildConditionalWeapons() {
+        if (conditionalsBuilt) {
+            return;
+        }
+        conditionalsBuilt = true;
         if(Platform.util().isModLoaded(BETTER_NETHER) || WitcherClassMod.tweaksConfig.value.ignore_items_required_mods){
             var repair = ingredient("betternether:nether_ruby", Platform.util().isModLoaded(BETTER_NETHER), Items.NETHERITE_INGOT);
             witcherswords( "ruby_witcher_sword",
@@ -277,6 +283,15 @@ public class WeaponsRegister {
                     .withAdditionalSpell(WitcherPassives.iris_passive().id().toString())
                     .rarity = Rarity.EPIC;
         }
+    }
+
+    public static Map<Identifier, Item> itemsToRegister(Map<String, WeaponConfig> configs) {
+        buildConditionalWeapons();
+        return Weapon.itemsToRegister(configs, entries, WitcherGroup.WITCHER_KEY);
+    }
+
+    public static void register(Map<String, WeaponConfig> configs) {
+        buildConditionalWeapons();
         Weapon.register(configs, entries, WitcherGroup.WITCHER_KEY);
     }
 }

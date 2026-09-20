@@ -24,6 +24,7 @@ import net.witcher_rpg.custom.CustomSpellImpacts;
 import net.witcher_rpg.custom.WitcherSchoolWeakness;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.effect.WitcherStatusEffects;
+import net.witcher_rpg.enchantment.WitcherEnchantments;
 import net.witcher_rpg.entity.WitcherEntities;
 import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
@@ -34,7 +35,6 @@ import net.witcher_rpg.item.armor.Armors;
 import net.tiny_config.ConfigManager;
 import net.witcher_rpg.item.WitcherGroup;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
-import net.witcher_rpg.worldgen.map.ModMapDecorations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.witcher_rpg.util.loot.Defaults;
@@ -101,7 +101,6 @@ public class WitcherClassMod {
 		if (Platform.util().isDevelopmentEnvironment()) {
 			tweaksConfig.value.ignore_items_required_mods = true;
 		}
-		WitcherSpellSchools.initialize();
 		CustomSpellImpacts.registerCustomImpacts();
 		/// SPECIFIC LOOT INJECTIONS
 		PlatformEvents.onLootTableModify(context -> {
@@ -109,12 +108,12 @@ public class WitcherClassMod {
 			if (!lootInjectionConfig.value.entries.containsKey(tableId)) {
 				return;
 			}
-			WitcherLootInjector.configure(context.registries(), context.tableId(), context::addPool);
+			WitcherLootInjector.configure(context.tableId(), context::addPool);
 		});
 		/// TAG BASED LOOT INJECTION
 		LootHelper.TAG_CACHE.refresh();
 		PlatformEvents.onLootTableModify(context -> {
-			LootHelper.configure(context.registries(), context.tableId(), context::existingPools, context::addPool, lootEquipmentConfig.value, "witcher_rpg");
+			LootHelper.configure(context.tableId(), context::existingPools, context::addPool, lootEquipmentConfig.value, "witcher_rpg");
 		});
 		PlatformEvents.onServerStarted((server) -> {
 			LootHelper.updateTagCache(lootEquipmentConfig.value);
@@ -130,7 +129,7 @@ public class WitcherClassMod {
 			if (!caster.isCastingSpell()) return;
 
 			var process = caster.getSpellCastProcess();
-			if (process == null || !process.id().equals(Identifier.of(MOD_ID, "defensive_witcher_mechanics"))) return;
+			if (process == null || !process.id().equals(new Identifier(MOD_ID, "defensive_witcher_mechanics"))) return;
 
 			AnimationHelper.sendAnimation(serverPlayer, Platform.tracking(serverPlayer),
 					SpellCast.Animation.MISC, PlayerAnimation.of("witcher_rpg:witcher_reflexes"), 1F);
@@ -138,12 +137,19 @@ public class WitcherClassMod {
 		});
 	}
 
-	public static void registerMapDecorations() {
-		ModMapDecorations.register();
+	public static void registerSpellSchools() {
+		WitcherSpellSchools.initialize();
+	}
+
+	public static void registerEnchantments() {
+		WitcherEnchantments.register();
 	}
 
 	public static void registerBlocks() {
 		WitcherBlocks.register();
+	}
+	public static void registerBlockItems() {
+		WitcherBlocks.registerItems();
 	}
 	public static void registerSounds() {
 		Sounds.register();
@@ -151,12 +157,11 @@ public class WitcherClassMod {
 	public static void registerEntities() {
 		WitcherEntities.register();
 	}
+	public static void registerItemGroup() {
+		Registry.register(Registries.ITEM_GROUP, WitcherGroup.WITCHER_KEY, WitcherGroup.create());
+	}
 	public static void registerItems() {
-		WitcherGroup.WITCHER = new ItemGroup.Builder(ItemGroup.Row.TOP, 0)
-				.icon(() -> new ItemStack(WitcherTrinkets.WOLF_SCHOOL_MEDALLION.item().get()))
-				.displayName(Text.translatable("itemGroup." + MOD_ID + ".general"))
-				.build();
-		Registry.register(Registries.ITEM_GROUP, WitcherGroup.WITCHER_KEY, WitcherGroup.WITCHER);
+		registerItemGroup();
 		WitcherGroup.registerItemGroups();
 		WitcherMaterials.registerModItems();
 		WeaponsRegister.register(itemConfig.value.weapons);
@@ -170,6 +175,6 @@ public class WitcherClassMod {
 		effectConfig.save();
 	}
 	public static Identifier id(String path) {
-		return Identifier.of(MOD_ID, path);
+		return new Identifier(MOD_ID, path);
 	}
 }

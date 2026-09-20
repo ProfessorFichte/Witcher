@@ -28,28 +28,28 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
         ItemStack inputItem = this.input.getStack(1);
         if (inputItem.isEmpty()) return result;
 
-        GlyphSlots oldGlyphSlots = inputItem.get(WitcherDataComponents.GLYPH_SLOTS);
-        GlyphSlots newGlyphSlots = result.get(WitcherDataComponents.GLYPH_SLOTS);
+        GlyphSlots oldGlyphSlots = WitcherDataComponents.getGlyphSlots(inputItem);
+        GlyphSlots newGlyphSlots = WitcherDataComponents.getGlyphSlots(result);
 
         if (oldGlyphSlots != null && newGlyphSlots != null) {
             if (!oldGlyphSlots.attachedGlyphs().isEmpty() ||
                 oldGlyphSlots.maxSlots() != newGlyphSlots.maxSlots()) {
                 ItemStack modifiedResult = result.copy();
                 GlyphSlots mergedSlots = new GlyphSlots(newGlyphSlots.maxSlots(), oldGlyphSlots.attachedGlyphs());
-                modifiedResult.set(WitcherDataComponents.GLYPH_SLOTS, mergedSlots);
+                WitcherDataComponents.setGlyphSlots(modifiedResult, mergedSlots);
                 return modifiedResult;
             }
         }
 
-        RunestoneSlots oldRunestoneSlots = inputItem.get(WitcherDataComponents.RUNESTONE_SLOTS);
-        RunestoneSlots newRunestoneSlots = result.get(WitcherDataComponents.RUNESTONE_SLOTS);
+        RunestoneSlots oldRunestoneSlots = WitcherDataComponents.getRunestoneSlots(inputItem);
+        RunestoneSlots newRunestoneSlots = WitcherDataComponents.getRunestoneSlots(result);
 
         if (oldRunestoneSlots != null && newRunestoneSlots != null) {
             if (!oldRunestoneSlots.attachedRunestones().isEmpty() ||
                 oldRunestoneSlots.maxSlots() != newRunestoneSlots.maxSlots()) {
                 ItemStack modifiedResult = result.copy();
                 RunestoneSlots mergedSlots = new RunestoneSlots(newRunestoneSlots.maxSlots(), oldRunestoneSlots.attachedRunestones());
-                modifiedResult.set(WitcherDataComponents.RUNESTONE_SLOTS, mergedSlots);
+                WitcherDataComponents.setRunestoneSlots(modifiedResult, mergedSlots);
                 return modifiedResult;
             }
         }

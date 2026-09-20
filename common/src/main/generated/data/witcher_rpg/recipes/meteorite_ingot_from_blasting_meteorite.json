@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1.0,
+  "group": "meteorite",
+  "ingredient": {
+    "item": "witcher_rpg:meteorite"
+  },
+  "result": "witcher_rpg:meteorite_ingot"
+}

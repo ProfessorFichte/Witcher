@@ -1,6 +1,8 @@
 package net.witcher_rpg.spell;
 
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.more_rpg_classes.effect.MRPGCEffects;
@@ -32,6 +34,10 @@ import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 import static net.witcher_rpg.spell.WitcherSpells.*;
 
 public class WitcherModifiers {
+    private static String attributeId(EntityAttribute attribute) {
+        return Registries.ATTRIBUTE.getId(attribute).toString();
+    }
+
     public static final List<Entry> entries = new ArrayList<>();
 
     private static Entry add(Entry entry) {
@@ -42,7 +48,7 @@ public class WitcherModifiers {
     /// GEMERIC WITCHER MEDALLION PASSIVE
     public static final Entry increased_medallion_senses = add(increased_medallion_senses());
     private static Entry increased_medallion_senses() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/increased_medallion_senses");
+        var id = new Identifier(MOD_ID, "spell_modifiers/increased_medallion_senses");
         var title = "Medallion's Humming";
         var description = "Increases the range of Witcher Senses by {range_add}.";
         var spell = modifierSpellBase();
@@ -58,7 +64,7 @@ public class WitcherModifiers {
     ///GLYPH MODIFERS
     public static final Entry GREATER_AARD_GLYPH = add(greater_aard_glyph());
     private static Entry greater_aard_glyph() {
-        var id = Identifier.of(MOD_ID, "glyph_modifiers/greater_aard_glyph");
+        var id = new Identifier(MOD_ID, "glyph_modifiers/greater_aard_glyph");
         var title = "Greater Aard Glyph";
         var description = "Increases critical chance of Aard Signs by {critical_chance_bonus}";
         var spell = modifierSpellBase();
@@ -77,7 +83,7 @@ public class WitcherModifiers {
     }
     public static final Entry GREATER_AXII_GLYPH = add(greater_axii_glyph());
     private static Entry greater_axii_glyph() {
-        var id = Identifier.of(MOD_ID, "glyph_modifiers/greater_axii_glyph");
+        var id = new Identifier(MOD_ID, "glyph_modifiers/greater_axii_glyph");
         var title = "Greater Axii Glyph";
         var description = "Increases duration of Axii Sign Effects by {effect_duration_add} sec";
         var spell = modifierSpellBase();
@@ -95,7 +101,7 @@ public class WitcherModifiers {
     }
     public static final Entry GREATER_IGNI_GLYPH = add(greater_igni_glyph());
     private static Entry greater_igni_glyph() {
-        var id = Identifier.of(MOD_ID, "glyph_modifiers/greater_igni_glyph");
+        var id = new Identifier(MOD_ID, "glyph_modifiers/greater_igni_glyph");
         var title = "Greater Igni Glyph";
         var description = "Increases critical damage of Igni Signs by {critical_damage_bonus}";
         var spell = modifierSpellBase();
@@ -114,7 +120,7 @@ public class WitcherModifiers {
     }
     public static final Entry GREATER_QUEN_GLYPH = add(greater_quen_glyph());
     private static Entry greater_quen_glyph() {
-        var id = Identifier.of(MOD_ID, "glyph_modifiers/greater_quen_glyph");
+        var id = new Identifier(MOD_ID, "glyph_modifiers/greater_quen_glyph");
         var title = "Greater Quen Glyph";
         var description = "Quen Signs get {power_multiplier} more power bonus.";
         var spell = modifierSpellBase();
@@ -133,7 +139,7 @@ public class WitcherModifiers {
     }
     public static final Entry GREATER_YRDEN_GLYPH = add(greater_yrden_glyph());
     private static Entry greater_yrden_glyph() {
-        var id = Identifier.of(MOD_ID, "glyph_modifiers/greater_yrden_glyph");
+        var id = new Identifier(MOD_ID, "glyph_modifiers/greater_yrden_glyph");
         var title = "Greater Yrden Glyph";
         var description = "Increases the duration Yrden Signs by {spawn_duration_add} sec.";
         var spell = modifierSpellBase();
@@ -151,7 +157,7 @@ public class WitcherModifiers {
     ///EQUIPMENT SET MODIFERS
     public static Entry improved_whirl = add(improved_whirl());
     private static Entry improved_whirl() {
-        var id = Identifier.of(MOD_ID, "equipment_set_modifiers/improved_whirl");
+        var id = new Identifier(MOD_ID, "equipment_set_modifiers/improved_whirl");
         var title = "Improved Whirl";
         var description = "Reduces cooldown of Whirl by {cooldown_duration_deduct} sec";
         var spell = modifierSpellBase();
@@ -166,7 +172,7 @@ public class WitcherModifiers {
     }
     public static Entry improved_yrden = add(improved_yrden());
     private static Entry improved_yrden() {
-        var id = Identifier.of(MOD_ID, "equipment_set_modifiers/improved_yrden");
+        var id = new Identifier(MOD_ID, "equipment_set_modifiers/improved_yrden");
         var title = "Improved Yrden";
         var description = "Reduces cooldown of the Yrden Sign by {cooldown_duration_deduct} sec";
         var spell = modifierSpellBase();
@@ -181,7 +187,7 @@ public class WitcherModifiers {
     }
     public static Entry improved_aard = add(improved_aard());
     private static Entry improved_aard() {
-        var id = Identifier.of(MOD_ID, "equipment_set_modifiers/improved_aard");
+        var id = new Identifier(MOD_ID, "equipment_set_modifiers/improved_aard");
         var title = "Improved Aard";
         var description = "Reduces cooldown of the Aard Sign by {cooldown_duration_deduct} sec";
         var spell = modifierSpellBase();
@@ -196,7 +202,7 @@ public class WitcherModifiers {
     }
     public static Entry improved_rend = add(improved_rend());
     private static Entry improved_rend() {
-        var id = Identifier.of(MOD_ID, "equipment_set_modifiers/improved_rend");
+        var id = new Identifier(MOD_ID, "equipment_set_modifiers/improved_rend");
         var title = "Improved Rend";
         var description = "Increases critical chance of Rend by {critical_chance_bonus}";
         var spell = modifierSpellBase();
@@ -213,7 +219,7 @@ public class WitcherModifiers {
     //// SKILL TREE MODIFERS
     public static final Entry aard_far_reach = add(aard_far_reach());
     private static Entry aard_far_reach() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/aard_far_reach");
+        var id = new Identifier(MOD_ID, "spell_modifiers/aard_far_reach");
         var title = "Far-Reaching Aard";
         var description = "Increases the range of Aard Signs by {range_add_1}.";
         var spell = modifierSpellBase();
@@ -231,7 +237,7 @@ public class WitcherModifiers {
     }
     public static Entry aard_shockwave = add(aard_shockwave());
     private static Entry aard_shockwave() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/aard_shockwave");
+        var id = new Identifier(MOD_ID, "spell_modifiers/aard_shockwave");
         var title = "Shockwave";
         var description = "Aard impacts now have a {trigger_chance} chance to stun the target for {effect_duration} seconds.";
         var spell = createModifierAlikePassiveSpell();
@@ -250,7 +256,7 @@ public class WitcherModifiers {
     }
     public static Entry aard_whirlwind = add(aard_whirlwind());
     private static Entry aard_whirlwind() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/aard_whirlwind");
+        var id = new Identifier(MOD_ID, "spell_modifiers/aard_whirlwind");
         var title = "Aard Whirlwind";
         var description = "Aard Signs have {knockback_multiply_base_1} extra knockback and increased {critical_chance_bonus_1} critical chance.";
         var spell = modifierSpellBase();
@@ -275,7 +281,7 @@ public class WitcherModifiers {
     }
     public static Entry aard_frostbite = add(aard_frostbite());
     private static Entry aard_frostbite() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/aard_frostbite");
+        var id = new Identifier(MOD_ID, "spell_modifiers/aard_frostbite");
         var title = "Frostbite";
         var description = "Aard signs now deal additional frost {damage} damage and have {impact_chance} chance to freeze the target solid"
                 + " for {effect_duration} seconds.";
@@ -293,7 +299,7 @@ public class WitcherModifiers {
         spell.target.area.distance_dropoff = Spell.Target.Area.DropoffCurve.SQUARED;
 
         var damage = SpellBuilder.Impacts.damage(0.35F,0);
-        damage.attribute = WitcherAttributes.AARD_INTENSITY.getIdAsString();
+        damage.attribute = WitcherAttributes.AARD_INTENSITY_ID.toString();
         damage.visuals = Fx.Visuals.of(
                 ParticleGroupBuilder.of(SpellEngineParticles.snowflake)
                         .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
@@ -312,7 +318,7 @@ public class WitcherModifiers {
     /// AXII MODIFIERS
     public static final Entry axii_lethargy = add(axii_lethargy());
     private static Entry axii_lethargy() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/axii_lethargy");
+        var id = new Identifier(MOD_ID, "spell_modifiers/axii_lethargy");
         var title = "Lethargy";
         // Lethargy has a single modifier (movement speed -10%); `ABS` matches the "slowing ... by" prose.
         var description = "Axii signs inflict Lethargy slowing the target by "
@@ -340,7 +346,7 @@ public class WitcherModifiers {
     }
     public static Entry axii_link = add(axii_link());
     private static Entry axii_link() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/axii_link");
+        var id = new Identifier(MOD_ID, "spell_modifiers/axii_link");
         var title = "Link";
         var description = "{trigger_chance} chance that the Axii sign spreads around the target.";
         var spell = createModifierAlikePassiveSpell();
@@ -375,7 +381,7 @@ public class WitcherModifiers {
     }
     public static Entry axii_domination = add(axii_domination());
     private static Entry axii_domination() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/axii_domination");
+        var id = new Identifier(MOD_ID, "spell_modifiers/axii_domination");
         var title = "Domination";
         var description = "Reinforces the Axii sign's hold, stunning the target and applying "
                 + TooltipTokens.effect(WitcherStatusEffects.AXII.id) + " increased damage taken.";
@@ -403,7 +409,7 @@ public class WitcherModifiers {
     /// IGNI MODIFIERS
     public static Entry igni_melt_armor = add(igni_melt_armor());
     private static Entry igni_melt_armor() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/igni_melt_armor");
+        var id = new Identifier(MOD_ID, "spell_modifiers/igni_melt_armor");
         var title = "Molten Armor";
         var description = "Igni Signs now reduce the targets armor by "
                 + TooltipTokens.effect(MRPGCEffects.MOLTEN_ARMOR.id, 0, null, TooltipTokens.Format.ABS)
@@ -425,7 +431,7 @@ public class WitcherModifiers {
     }
     public static Entry igni_combustion = add(igni_combustion());
     private static Entry igni_combustion() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/igni_combustion");
+        var id = new Identifier(MOD_ID, "spell_modifiers/igni_combustion");
         var title = "Combustion";
         var description = "Igni impacts on burning targets spread fire around them.";
         var spell = createModifierAlikePassiveSpell();
@@ -457,7 +463,7 @@ public class WitcherModifiers {
     }
     public static final Entry igni_pyromaniac = add(igni_pyromaniac());
     private static Entry igni_pyromaniac() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/igni_pyromaniac");
+        var id = new Identifier(MOD_ID, "spell_modifiers/igni_pyromaniac");
         var title = "Pyromaniac";
         var description = "Increases the critical damage of Igni Signs by {critical_damage_bonus_1}.";
         var spell = modifierSpellBase();
@@ -479,7 +485,7 @@ public class WitcherModifiers {
     }
     public static Entry igni_firestreams = add(igni_firestreams());
     private static Entry igni_firestreams() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/igni_firestreams");
+        var id = new Identifier(MOD_ID, "spell_modifiers/igni_firestreams");
         var title = "Firestreams";
         var description = "All Igni Signs reduce the movement speed of damaged targets by "
                 + TooltipTokens.effect(WitcherStatusEffects.SCORCHED.id, 0, null, TooltipTokens.Format.ABS)
@@ -487,7 +493,7 @@ public class WitcherModifiers {
         var spell = modifierSpellBase();
         spell.school = WitcherSpellSchools.IGNI;
 
-        var slow = createEffectImpact(Identifier.of(WitcherStatusEffects.SCORCHED.id.toString()), 3F);
+        var slow = createEffectImpact(new Identifier(WitcherStatusEffects.SCORCHED.id.toString()), 3F);
 
         var modifierIgni = new Spell.Modifier();
         modifierIgni.spell_pattern = "witcher_rpg:igni";
@@ -506,7 +512,7 @@ public class WitcherModifiers {
     /// QUEN MODIFIERS
     public static final Entry quen_exploding_shield = add(quen_exploding_shield());
     private static Entry quen_exploding_shield() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/quen_exploding_shield");
+        var id = new Identifier(MOD_ID, "spell_modifiers/quen_exploding_shield");
         var effect = WitcherStatusEffects.QUEN_EXPLOSIVE;
         var title = effect.title;
         var description = "Quen shields now knock back attackers.";
@@ -536,7 +542,7 @@ public class WitcherModifiers {
     }
     public static final Entry quen_discharge = add(quen_discharge());
     private static Entry quen_discharge() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/quen_discharge");
+        var id = new Identifier(MOD_ID, "spell_modifiers/quen_discharge");
         var effect = WitcherStatusEffects.QUEN_DISCHARGE;
         var title = effect.title;
         var description = "Quen shields now reflect {damage} to the attacker.";
@@ -567,7 +573,7 @@ public class WitcherModifiers {
     /// FAST ATTACK MODIFIERS
     public static final Entry muscle_memory = add(muscle_memory());
     private static Entry muscle_memory() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/muscle_memory");
+        var id = new Identifier(MOD_ID, "spell_modifiers/muscle_memory");
         var effect = WitcherStatusEffects.MUSCLE_MEMORY;
         var description = "Increasing melee attack speed by "
                 + TooltipTokens.effect(effect.id)
@@ -599,7 +605,7 @@ public class WitcherModifiers {
     /// STRONG ATTACK MODIFIERS
     public static final Entry strength_training = add(strength_training());
     private static Entry strength_training() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/strength_training");
+        var id = new Identifier(MOD_ID, "spell_modifiers/strength_training");
         var effect = WitcherStatusEffects.STRENGTH_TRAINING;
         var description = "Increasing melee attack damage by "
                 + TooltipTokens.effect(effect.id)
@@ -630,7 +636,7 @@ public class WitcherModifiers {
     }
     public static Entry counterattack = add(counterattack());
     private static Entry counterattack() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/counterattack");
+        var id = new Identifier(MOD_ID, "spell_modifiers/counterattack");
         var title = "Counterattack";
         var description = "After blocking, your next melee attack deals "
                 + TooltipTokens.effect(WitcherStatusEffects.COUNTERATTACK_READY.id)
@@ -648,7 +654,7 @@ public class WitcherModifiers {
     }
     public static final Entry quen_warding_shield = add(quen_warding_shield());
     private static Entry quen_warding_shield() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/quen_warding_shield");
+        var id = new Identifier(MOD_ID, "spell_modifiers/quen_warding_shield");
         var title = "Warding Shield";
         var description = "The Quen Signs stays up longer for {effect_duration_add} sec.";
         var spell = modifierSpellBase();
@@ -664,7 +670,7 @@ public class WitcherModifiers {
     /// YRDEN MODIFIERS
     public static final Entry yrden_sustained_glyphs = add(yrden_sustained_glyphs());
     private static Entry yrden_sustained_glyphs() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/yrden_sustained_glyphs");
+        var id = new Identifier(MOD_ID, "spell_modifiers/yrden_sustained_glyphs");
         var title = "Sustained Glyphs";
         var description = "Increases the Yrden Circles radius by {radius_add}.";
         var spell = modifierSpellBase();
@@ -681,7 +687,7 @@ public class WitcherModifiers {
     }
     public static final Entry yrden_binding_glyphs = add(yrden_binding_glyphs());
     private static Entry yrden_binding_glyphs() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/yrden_binding_glyphs");
+        var id = new Identifier(MOD_ID, "spell_modifiers/yrden_binding_glyphs");
         var title = "Binding Glyphs";
         var description = "Hitting an Undead target with a Yrden Sign has {trigger_chance} chance to stun it for 3 seconds.";
         var spell = createModifierAlikePassiveSpell();
@@ -703,7 +709,7 @@ public class WitcherModifiers {
     }
     public static final Entry yrden_supercharged_glyphs = add(yrden_supercharged_glyphs());
     private static Entry yrden_supercharged_glyphs() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/yrden_supercharged_glyphs");
+        var id = new Identifier(MOD_ID, "spell_modifiers/yrden_supercharged_glyphs");
         var title = "Super Charged Glyphs";
         var description = "The Yrden circle now also deals {damage} damage to all entities inside it, scaling with your Yrden Sign Power.";
         var spell = SpellBuilder.createSpellModifier();
@@ -725,7 +731,7 @@ public class WitcherModifiers {
     /// DEFENSE MODIFIERS
     public static Entry witcher_reflexes_boost_a = add(witcher_reflexes_boost_a());
     private static Entry witcher_reflexes_boost_a() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/witcher_reflexes_boost_a");
+        var id = new Identifier(MOD_ID, "spell_modifiers/witcher_reflexes_boost_a");
         var title = "Superhuman Reflexes";
         var description = "Increases the amount of Blocks by {effect_amplifier_add} for Witcher Reflexes.";
         var spell = modifierSpellBase();
@@ -740,7 +746,7 @@ public class WitcherModifiers {
     }
     public static Entry arrow_deflection = add(arrow_deflection());
     private static Entry arrow_deflection() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/arrow_deflection");
+        var id = new Identifier(MOD_ID, "spell_modifiers/arrow_deflection");
         var title = "Arrow Deflection";
         var description = "While blocking Arrows with Witcher Reflexes, you send the Arrow back to the shooter.";
         var spell = modifierSpellBase();
@@ -757,7 +763,7 @@ public class WitcherModifiers {
     /// SKILL TREE ADD-ON MODIFIERS
     public static Entry fast_precise_blows = add(fast_precise_blows());
     private static Entry fast_precise_blows() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/fast_precise_blows");
+        var id = new Identifier(MOD_ID, "spell_modifiers/fast_precise_blows");
         var title = "Precise Blows";
         var description = "Increases the Critical Chance of Fast Attack by {critical_chance_bonus}";
         var spell = modifierSpellBase();
@@ -773,7 +779,7 @@ public class WitcherModifiers {
     }
     public static Entry strong_crushing_blows = add(strong_crushing_blows());
     private static Entry strong_crushing_blows() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/strong_crushing_blows");
+        var id = new Identifier(MOD_ID, "spell_modifiers/strong_crushing_blows");
         var title = "Crushing Blows";
         var description = "Increases the Critical Damage of Strong Attack by {critical_damage_bonus}";
         var spell = modifierSpellBase();
@@ -789,7 +795,7 @@ public class WitcherModifiers {
     }
     public static Entry rend_devastating_slash = add(rend_devastating_slash());
     private static Entry rend_devastating_slash() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/rend_devastating_slash");
+        var id = new Identifier(MOD_ID, "spell_modifiers/rend_devastating_slash");
         var title = "Devastating Slash";
         var description = "Highly increases Rend's critical damage by {critical_damage_bonus}.";
         var spell = modifierSpellBase();
@@ -805,7 +811,7 @@ public class WitcherModifiers {
     }
     public static Entry whirl_quick_hands = add(whirl_quick_hands());
     private static Entry whirl_quick_hands() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/whirl_quick_hands");
+        var id = new Identifier(MOD_ID, "spell_modifiers/whirl_quick_hands");
         var title = "Quick Hands";
         var description = "Whirl releases {channel_ticks_add} additional times during its full cast.";
         var spell = modifierSpellBase();
@@ -820,7 +826,7 @@ public class WitcherModifiers {
     }
     public static Entry rend_heavy_swing = add(rend_heavy_swing());
     private static Entry rend_heavy_swing() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/rend_heavy_swing");
+        var id = new Identifier(MOD_ID, "spell_modifiers/rend_heavy_swing");
         var title = "Heavy Swing";
         var description = "Rend has {trigger_chance} chance to stun the hit target(s) for 3 seconds.";
         var spell = createModifierAlikePassiveSpell();
@@ -840,7 +846,7 @@ public class WitcherModifiers {
     }
     public static Entry whirl_precise_slasher = add(whirl_precise_slasher());
     private static Entry whirl_precise_slasher() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/whirl_precise_slasher");
+        var id = new Identifier(MOD_ID, "spell_modifiers/whirl_precise_slasher");
         var title = "Precise Slasher";
         var description = "Whirl's damage impacts have {trigger_chance} chance to deal an additional 3%% of the target's maximum health, or 1%% against Bosses.";
         var spell = createModifierAlikePassiveSpell();
@@ -855,7 +861,7 @@ public class WitcherModifiers {
         var notBoss = createImpactModifier("#c:bosses");
         notBoss.execute = TriState.DENY;
         var damageNormal = new Spell.Impact();
-        damageNormal.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        damageNormal.attribute = attributeId(EntityAttributes.GENERIC_MAX_HEALTH);
         damageNormal.attribute_from_target = true;
         damageNormal.action = new Spell.Impact.Action();
         damageNormal.action.type = Spell.Impact.Action.Type.DAMAGE;
@@ -866,7 +872,7 @@ public class WitcherModifiers {
         var onlyBoss = createImpactModifier("#c:bosses");
         onlyBoss.execute = TriState.ALLOW;
         var damageBoss = new Spell.Impact();
-        damageBoss.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        damageBoss.attribute = attributeId(EntityAttributes.GENERIC_MAX_HEALTH);
         damageBoss.attribute_from_target = true;
         damageBoss.action = new Spell.Impact.Action();
         damageBoss.action.type = Spell.Impact.Action.Type.DAMAGE;
@@ -881,7 +887,7 @@ public class WitcherModifiers {
     }
     public static Entry witcher_senses_monster_expert = add(witcher_senses_monster_expert());
     private static Entry witcher_senses_monster_expert() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/witcher_senses_monster_expert");
+        var id = new Identifier(MOD_ID, "spell_modifiers/witcher_senses_monster_expert");
         var title = "Monster Expert";
         var description = "Damaging an Exposed target stacks "
                 + TooltipTokens.effect(WitcherStatusEffects.MONSTER_EXPERT.id, 0, SpellEngineAttributes.DAMAGE_TAKEN.id, TooltipTokens.Format.ABS)
@@ -893,7 +899,7 @@ public class WitcherModifiers {
     }
     public static Entry witcher_senses_enemy_knowledge = add(witcher_senses_enemy_knowledge());
     private static Entry witcher_senses_enemy_knowledge() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/witcher_senses_enemy_knowledge");
+        var id = new Identifier(MOD_ID, "spell_modifiers/witcher_senses_enemy_knowledge");
         var title = "Enemy Knowledge";
         var effect = WitcherStatusEffects.ENEMY_KNOWLEDGE;
         var description = "After being hit by an enemy affected by Exposed, reduce damage taken by "
@@ -912,14 +918,15 @@ public class WitcherModifiers {
         trigger.target_conditions = List.of(exposedCondition);
         spell.passive.triggers = List.of(trigger);
 
-        spell.impacts = List.of(createEffectImpact(Identifier.of(effect.id.toString()), 4F));
+        spell.target.type = Spell.Target.Type.CASTER;
+        spell.impacts = List.of(createEffectImpact(new Identifier(effect.id.toString()), 4F));
 
         SpellBuilder.Cost.cooldown(spell, 3F);
         return new Entry(id, spell, title, description);
     }
     public static Entry battle_trance_resolve = add(battle_trance_resolve());
     private static Entry battle_trance_resolve() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/battle_trance_resolve");
+        var id = new Identifier(MOD_ID, "spell_modifiers/battle_trance_resolve");
         var title = "Resolve";
         var effect = WitcherStatusEffects.RESOLVE;
         var description = "Casting Battle Trance grants Resolve, reducing incoming damage by "
@@ -935,13 +942,13 @@ public class WitcherModifiers {
         spell.passive.triggers = List.of(trigger);
 
         spell.target.type = Spell.Target.Type.CASTER;
-        spell.impacts = List.of(createEffectImpact(Identifier.of(effect.id.toString()), 4F));
+        spell.impacts = List.of(createEffectImpact(new Identifier(effect.id.toString()), 4F));
 
         return new Entry(id, spell, title, description);
     }
     public static Entry battle_trance_undying = add(battle_trance_undying());
     private static Entry battle_trance_undying() {
-        var id = Identifier.of(MOD_ID, "spell_modifiers/battle_trance_undying");
+        var id = new Identifier(MOD_ID, "spell_modifiers/battle_trance_undying");
         var title = "Undying";
         var description = "While Battle Trance is active, if you fall below 20%% health you heal for 50%% of your max health.";
         var spell = createModifierAlikePassiveSpell();
@@ -960,7 +967,7 @@ public class WitcherModifiers {
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
         var heal = new Spell.Impact();
-        heal.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        heal.attribute = attributeId(EntityAttributes.GENERIC_MAX_HEALTH);
         heal.action = new Spell.Impact.Action();
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
@@ -973,11 +980,11 @@ public class WitcherModifiers {
 
     public static final Entry grandmaster_griffin = add(grandmaster_griffin());
     private static Entry grandmaster_griffin() {
-        var id = Identifier.of(MOD_ID, "equipment_set_modifiers/grandmaster_griffin");
+        var id = new Identifier(MOD_ID, "equipment_set_modifiers/grandmaster_griffin");
         var title = "Grandmaster Griffin Technique";
         var effect = WitcherStatusEffects.YRDEN_GRIFFIN_MASTER;
         var description = "The Yrden circle increases the sign intensity of the caster by "
-                + TooltipTokens.effect(effect.id, 0, Identifier.of(WitcherAttributes.SIGN_INTENSITY.getIdAsString()))
+                + TooltipTokens.effect(effect.id, 0, new Identifier(WitcherAttributes.SIGN_INTENSITY_ID.toString()))
                 + " & reduces incoming damage by "
                 + TooltipTokens.effect(effect.id, 0, SpellEngineAttributes.DAMAGE_TAKEN.id, TooltipTokens.Format.ABS)
                 + ".";

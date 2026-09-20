@@ -7,7 +7,9 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
@@ -24,7 +26,7 @@ public class Sounds {
         }
 
         public Entry(String name) {
-            this(Identifier.of(MOD_ID, name));
+            this(new Identifier(MOD_ID, name));
         }
 
         public Entry(Identifier id) {
@@ -73,6 +75,14 @@ public class Sounds {
     public static final Entry REND_SPELL = add(new Entry("rend_spell"));
     public static final Entry WHIRL = add(new Entry("whirl"));
     public static final Entry WITCHER_SENSES_EXPOSED = add(new Entry("witcher_senses_exposed"));
+
+    public static Map<Identifier, SoundEvent> soundsToRegister() {
+        var map = new LinkedHashMap<Identifier, SoundEvent>();
+        for (var entry: entries) {
+            map.put(entry.id(), entry.soundEvent());
+        }
+        return map;
+    }
 
     public static void register() {
         for (var entry: entries) {

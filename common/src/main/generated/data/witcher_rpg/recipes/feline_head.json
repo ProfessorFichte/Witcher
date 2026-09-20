@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "P": {
+      "item": "witcher_rpg:steel_ingot"
+    },
+    "S": {
+      "item": "minecraft:white_wool"
+    },
+    "X": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    "PSP",
+    "X X"
+  ],
+  "result": {
+    "item": "witcher_rpg:feline_head"
+  },
+  "show_notification": true
+}

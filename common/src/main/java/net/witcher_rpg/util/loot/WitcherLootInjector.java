@@ -8,14 +8,13 @@ import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.LootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.witcher_rpg.WitcherClassMod;
 
 import java.util.function.Consumer;
 
 public class WitcherLootInjector {
-    public static void configure(RegistryWrapper.WrapperLookup registries, Identifier id, Consumer<LootPool> poolAdder) {
+    public static void configure(Identifier id, Consumer<LootPool> poolAdder) {
         var config = WitcherClassMod.lootInjectionConfig.value;
         var tableId = id.toString();
         var pool = config.entries.get(tableId);
@@ -39,7 +38,7 @@ public class WitcherLootInjector {
             if (entryId == null || entryId.isEmpty()) {
                 continue;
             }
-            var item = Registries.ITEM.get(Identifier.of(entryId));
+            var item = Registries.ITEM.get(new Identifier(entryId));
             if (item == null) {
                 continue;
             }

@@ -10,7 +10,9 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
@@ -33,15 +35,15 @@ public class WitcherArmorDiagrams {
     }
 
     public static final List<Identifier> BASE_ITEMS = List.of(
-            Identifier.of("item/empty_slot_sword"),
-            Identifier.of("item/empty_armor_slot_helmet"),
-            Identifier.of("item/empty_armor_slot_chestplate"),
-            Identifier.of("item/empty_armor_slot_leggings"),
-            Identifier.of("item/empty_armor_slot_boots")
+            new Identifier("item/empty_slot_sword"),
+            new Identifier("item/empty_armor_slot_helmet"),
+            new Identifier("item/empty_armor_slot_chestplate"),
+            new Identifier("item/empty_armor_slot_leggings"),
+            new Identifier("item/empty_armor_slot_boots")
     );
 
     public static final List<Identifier> INGREDIENT_ITEMS_WITCHER_ARMOR = List.of(
-            Identifier.of("item/empty_slot_ingot")
+            new Identifier("item/empty_slot_ingot")
     );
 
     private static final String[] KEYS = {
@@ -51,7 +53,7 @@ public class WitcherArmorDiagrams {
     static {
         for (String key : KEYS) {
             add(new Entry(
-                    Identifier.of(MOD_ID, key + "_diagram"),
+                    new Identifier(MOD_ID, key + "_diagram"),
                     settings -> new SmithingTemplateItem(
                             Text.translatable("smithing_template.witcher_rpg." + key + ".applies_to").formatted(Formatting.DARK_GREEN),
                             Text.translatable("smithing_template.witcher_rpg." + key + ".ingredients").formatted(Formatting.DARK_GREEN),
@@ -66,11 +68,18 @@ public class WitcherArmorDiagrams {
         }
     }
 
-    public static void register() {
+    private static boolean created = false;
+
+    public static Map<Identifier, Item> itemsToRegister() {
+        if (created) {
+            return Map.of();
+        }
+        created = true;
+        var map = new LinkedHashMap<Identifier, Item>();
         for (Entry entry : ENTRIES) {
             Item item = entry.factory().apply(entry.settings());
             entry.container.item = item;
-            Registry.register(Registries.ITEM, entry.id(), item);
+            map.put(entry.id(), item);
         }
 
         PlatformEvents.onItemGroupModify(WitcherGroup.WITCHER_KEY, (content, context) -> {
@@ -78,5 +87,10 @@ public class WitcherArmorDiagrams {
                 content.add(entry.item());
             }
         });
+        return map;
+    }
+
+    public static void register() {
+        itemsToRegister().forEach((id, item) -> Registry.register(Registries.ITEM, id, item));
     }
 }

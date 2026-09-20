@@ -1,24 +1,26 @@
 package net.witcher_rpg.network;
 
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import net.spell_engine.network.Packets;
 
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
-public record ExposedGlowPayload(int entityId, boolean active) implements CustomPayload {
-    public static final CustomPayload.Id<ExposedGlowPayload> ID =
-            new CustomPayload.Id<>(Identifier.of(MOD_ID, "exposed_glow"));
-
-    public static final PacketCodec<RegistryByteBuf, ExposedGlowPayload> CODEC = PacketCodec.tuple(
-            PacketCodecs.INTEGER, ExposedGlowPayload::entityId,
-            PacketCodecs.BOOL, ExposedGlowPayload::active,
-            ExposedGlowPayload::new);
+public record ExposedGlowPayload(int entityId, boolean active) implements Packets.Payload {
+    public static final Identifier ID = new Identifier(MOD_ID, "exposed_glow");
 
     @Override
-    public Id<? extends CustomPayload> getId() {
+    public Identifier id() {
         return ID;
+    }
+
+    @Override
+    public void write(PacketByteBuf buffer) {
+        buffer.writeInt(entityId);
+        buffer.writeBoolean(active);
+    }
+
+    public static ExposedGlowPayload read(PacketByteBuf buffer) {
+        return new ExposedGlowPayload(buffer.readInt(), buffer.readBoolean());
     }
 }

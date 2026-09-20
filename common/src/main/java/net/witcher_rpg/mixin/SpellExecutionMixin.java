@@ -7,6 +7,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.witcher_rpg.util.SpellLookup;
 import net.spell_engine.internals.SpellExecution;
 import net.spell_engine.internals.SpellTriggers;
 import net.spell_engine.internals.casting.SpellCast;
@@ -32,10 +33,10 @@ public abstract class SpellExecutionMixin {
     private static void witcherQuenActiveShield(World world, PlayerEntity player, RegistryEntry<Spell> spellEntry, SpellTarget.SearchResult targetResult, SpellCast.Action action, float progress, CallbackInfo callbackInfo) {
         if (!player.isSpectator() && player instanceof SpellCasterEntity spellCasterEntity) {
             var spell = spellCasterEntity.getCurrentSpell();
-            var spellEntryQuen = SpellRegistry.from(player.getWorld()).getEntry(Identifier.of(MOD_ID, "quen_active_shield")).orElse(null);
+            var spellEntryQuen = SpellLookup.entry(player.getWorld(), new Identifier(MOD_ID, "quen_active_shield"));
             if (spell != null && spellEntryQuen != null && Objects.equals(spell, spellEntryQuen.value())) {
                 if (action == SpellCast.Action.RELEASE) {
-                    player.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry);
+                    player.removeStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.effect);
                 } else if (action == SpellCast.Action.CHANNEL) {
                     var entities = targetResult.entities();
                     SpellTriggers.onSpellCast(player, spellEntryQuen, entities != null ? entities : List.of());

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "witcher_rpg:stribog_runestone"
+    },
+    {
+      "item": "witcher_rpg:stribog_runestone"
+    },
+    {
+      "item": "witcher_rpg:stribog_runestone"
+    },
+    {
+      "item": "witcher_rpg:stribog_runestone"
+    }
+  ],
+  "result": {
+    "item": "witcher_rpg:greater_stribog_runestone"
+  }
+}

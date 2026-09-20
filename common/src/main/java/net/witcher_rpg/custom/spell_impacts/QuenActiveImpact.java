@@ -7,6 +7,7 @@ import net.minecraft.util.Identifier;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.event.SpellHandlers;
 import net.spell_engine.api.spell.registry.SpellRegistry;
+import net.witcher_rpg.util.SpellLookup;
 import net.spell_engine.internals.SpellExecution;
 import net.spell_engine.internals.impact.SpellImpacts;
 import net.spell_power.api.SpellPower;
@@ -27,8 +28,8 @@ public class QuenActiveImpact implements SpellHandlers.CustomImpact {
             SpellExecution.ImpactContext context
     ) {
         if (!caster.getWorld().isClient) {
-            if(!caster.hasStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.entry)){
-                RegistryEntry<Spell> helper_spell = SpellRegistry.from(caster.getWorld()).getEntry(Identifier.of(MOD_ID, "quen_active_helper")).get();
+            if(!caster.hasStatusEffect(WitcherStatusEffects.QUEN_ACTIVE.effect)){
+                RegistryEntry<Spell> helper_spell = SpellLookup.entry(caster.getWorld(), new Identifier(MOD_ID, "quen_active_helper"));
                 SpellImpacts.performImpacts(caster.getWorld(), caster, target, target, helper_spell,
                         helper_spell.value().impacts, new SpellExecution.ImpactContext().power(SpellPower.getSpellPower(WitcherSpellSchools.QUEN, caster)).position(target.getPos()));
             }

@@ -1,13 +1,12 @@
 package net.witcher_rpg.spell;
 
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.spell_engine.api.item.ItemAttributeModifiers;
 import net.spell_engine.api.item.set.EquipmentSet;
+import net.spell_engine.utils.AttributeModifierUtil;
 import net.spell_engine.api.spell.container.SpellContainers;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
 import net.witcher_rpg.item.WitcherTrinkets;
@@ -28,17 +27,13 @@ public class SetBonuses {
         return entry;
     }
 
-    private static AttributeModifiersComponent attribute(RegistryEntry<EntityAttribute> attribute, double value, EntityAttributeModifier.Operation operation, Identifier id) {
-        return new AttributeModifiersComponent(
+    private static ItemAttributeModifiers attribute(EntityAttribute attribute, double value, EntityAttributeModifier.Operation operation, Identifier id) {
+        return new ItemAttributeModifiers(
                 List.of(
-                        new AttributeModifiersComponent.Entry(
+                        new ItemAttributeModifiers.Entry(
                                 attribute,
-                                new EntityAttributeModifier(
-                                        id,
-                                        value,
-                                        operation
-                                ),
-                                AttributeModifierSlot.ARMOR)
+                                AttributeModifierUtil.modifier(id, value, operation),
+                                ItemAttributeModifiers.Slot.ARMOR)
                 ),
                 true
         );
@@ -85,7 +80,7 @@ public class SetBonuses {
     };
     public static Entry mastercrafted_feline = add(mastercrafted_feline());
     private static Entry mastercrafted_feline() {
-        var id = Identifier.of(NAMESPACE, "mastercrafted_feline");
+        var id = new Identifier(NAMESPACE, "mastercrafted_feline");
         return new Entry(id,
                 "Feline School Master",
                 mastercraftedFelineItems,
@@ -93,7 +88,7 @@ public class SetBonuses {
                         EquipmentSet.Bonus.withAttributes(2, attribute(
                                 EntityAttributes.GENERIC_ATTACK_DAMAGE,
                                 felineAttributeBonus/2,
-                                EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                EntityAttributeModifier.Operation.MULTIPLY_BASE,
                                 id)
                         ),
                         EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_whirl.id()))
@@ -102,7 +97,7 @@ public class SetBonuses {
     }
     public static Entry grandmaster_feline = add(grandmaster_feline());
     private static Entry grandmaster_feline() {
-        var id = Identifier.of(NAMESPACE, "grandmaster_feline");
+        var id = new Identifier(NAMESPACE, "grandmaster_feline");
         return new Entry(id,
                 "Feline School Grandmaster",
                 grandmasterFelineItems,
@@ -110,7 +105,7 @@ public class SetBonuses {
                         EquipmentSet.Bonus.withAttributes(2, attribute(
                                 EntityAttributes.GENERIC_ATTACK_DAMAGE,
                                 felineAttributeBonus,
-                                EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                EntityAttributeModifier.Operation.MULTIPLY_BASE,
                                 id)
                         ),
                         EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_whirl.id())),
@@ -120,7 +115,7 @@ public class SetBonuses {
     }
     public static Entry mastercrafted_griffin = add(mastercrafted_griffin());
     private static Entry mastercrafted_griffin() {
-        var id = Identifier.of(NAMESPACE, "mastercrafted_griffin");
+        var id = new Identifier(NAMESPACE, "mastercrafted_griffin");
         return new Entry(id,
                 "Griffin School Master",
                 mastercraftedGriffinItems,
@@ -128,7 +123,7 @@ public class SetBonuses {
                         EquipmentSet.Bonus.withAttributes(2, attribute(
                                 WitcherAttributes.SIGN_INTENSITY,
                                 griffinAttributeBonus /2,
-                                EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                EntityAttributeModifier.Operation.MULTIPLY_BASE,
                                 id)
                         ),
                         EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_yrden.id()))
@@ -137,7 +132,7 @@ public class SetBonuses {
     }
     public static Entry grandmaster_griffin = add(grandmaster_griffin());
     private static Entry grandmaster_griffin() {
-        var id = Identifier.of(NAMESPACE, "grandmaster_griffin");
+        var id = new Identifier(NAMESPACE, "grandmaster_griffin");
         return new Entry(id,
                 "Griffin School Grandmaster",
                 grandmasterGriffinItems,
@@ -145,7 +140,7 @@ public class SetBonuses {
                         EquipmentSet.Bonus.withAttributes(2, attribute(
                                 WitcherAttributes.SIGN_INTENSITY,
                                 griffinAttributeBonus,
-                                EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                EntityAttributeModifier.Operation.MULTIPLY_BASE,
                                 id)
                         ),
                         EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_yrden.id())),
@@ -155,7 +150,7 @@ public class SetBonuses {
     }
     public static Entry mastercrafted_wolven= add(mastercrafted_wolven());
     private static Entry mastercrafted_wolven() {
-        var id = Identifier.of(NAMESPACE, "mastercrafted_wolven");
+        var id = new Identifier(NAMESPACE, "mastercrafted_wolven");
         return new Entry(id,
                 "Wolven School Master",
                 mastercraftedWolvenItems,
@@ -163,7 +158,7 @@ public class SetBonuses {
                         EquipmentSet.Bonus.withAttributes(2, attribute(
                                 EntityAttributes.GENERIC_ATTACK_DAMAGE,
                                 wolvenAttributeBonus /2,
-                                EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                EntityAttributeModifier.Operation.MULTIPLY_BASE,
                                 id)
                         ),
                         EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_aard.id()))
@@ -172,7 +167,7 @@ public class SetBonuses {
     }
     public static Entry grandmaster_wolven = add(grandmaster_wolven());
     private static Entry grandmaster_wolven() {
-        var id = Identifier.of(NAMESPACE, "grandmaster_wolven");
+        var id = new Identifier(NAMESPACE, "grandmaster_wolven");
         return new Entry(id,
                 "Wolven School Grandmaster",
                 grandmasterWolvenItems,
@@ -180,7 +175,7 @@ public class SetBonuses {
                         EquipmentSet.Bonus.withAttributes(2, attribute(
                                 EntityAttributes.GENERIC_ATTACK_DAMAGE,
                                 wolvenAttributeBonus,
-                                EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE,
+                                EntityAttributeModifier.Operation.MULTIPLY_BASE,
                                 id)
                         ),
                         EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_aard.id())),
@@ -190,7 +185,7 @@ public class SetBonuses {
     }
     public static Entry mastercrafted_ursine= add(mastercrafted_ursine());
     private static Entry mastercrafted_ursine() {
-        var id = Identifier.of(NAMESPACE, "mastercrafted_ursine");
+        var id = new Identifier(NAMESPACE, "mastercrafted_ursine");
         return new Entry(id,
                 "Ursine School Master",
                 mastercraftedUrsineItems,
@@ -198,7 +193,7 @@ public class SetBonuses {
                         EquipmentSet.Bonus.withAttributes(2, attribute(
                                 EntityAttributes.GENERIC_MAX_HEALTH,
                                 ursineAttributeBonus /2,
-                                EntityAttributeModifier.Operation.ADD_VALUE,
+                                EntityAttributeModifier.Operation.ADDITION,
                                 id)
                         ),
                         EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_rend.id()))
@@ -207,7 +202,7 @@ public class SetBonuses {
     }
     public static Entry grandmaster_ursine = add(grandmaster_ursine());
     private static Entry grandmaster_ursine() {
-        var id = Identifier.of(NAMESPACE, "grandmaster_ursine");
+        var id = new Identifier(NAMESPACE, "grandmaster_ursine");
         return new Entry(id,
                 "Ursine School Grandmaster",
                 grandmasterUrsineItems,
@@ -215,7 +210,7 @@ public class SetBonuses {
                         EquipmentSet.Bonus.withAttributes(2, attribute(
                                 EntityAttributes.GENERIC_MAX_HEALTH,
                                 ursineAttributeBonus,
-                                EntityAttributeModifier.Operation.ADD_VALUE,
+                                EntityAttributeModifier.Operation.ADDITION,
                                 id)
                         ),
                         EquipmentSet.Bonus.withSpells(4, SpellContainers.forModifier(WitcherModifiers.improved_rend.id())),

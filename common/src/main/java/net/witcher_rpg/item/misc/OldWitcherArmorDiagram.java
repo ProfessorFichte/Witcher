@@ -4,15 +4,15 @@ public class OldWitcherArmorDiagram {
     /*
     public static final List<Identifier> BASE_ITEMS = Util.make(new ArrayList<>(),
             identifiers -> {
-                identifiers.add(Identifier.of("item/empty_slot_sword"));
-                identifiers.add(Identifier.of("item/empty_armor_slot_helmet"));
-                identifiers.add(Identifier.of("item/empty_armor_slot_chestplate"));
-                identifiers.add(Identifier.of("item/empty_armor_slot_leggings"));
-                identifiers.add(Identifier.of("empty_armor_slot_boots"));
+                identifiers.add(new Identifier("item/empty_slot_sword"));
+                identifiers.add(new Identifier("item/empty_armor_slot_helmet"));
+                identifiers.add(new Identifier("item/empty_armor_slot_chestplate"));
+                identifiers.add(new Identifier("item/empty_armor_slot_leggings"));
+                identifiers.add(new Identifier("empty_armor_slot_boots"));
             });
     public static final List<Identifier> INGREDIENT_ITEMS_WITCHER_ARMOR = Util.make(new ArrayList<>(),
             identifiers -> {
-                identifiers.add(Identifier.of("item/empty_slot_ingot"));
+                identifiers.add(new Identifier("item/empty_slot_ingot"));
             });
 
     ///ENHANCED WITCHER GEAR
@@ -98,15 +98,15 @@ public class OldWitcherArmorDiagram {
     );
 
     public static void registerWitcherArmorDiagrams(){
-        Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"enhanced_feline_diagram"),ENHANCED_FELINE_SCHOOL_DIAGRAM);
-        Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"enhanced_griffin_diagram"),ENHANCED_GRIFFIN_SCHOOL_DIAGRAM);
-        Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"enhanced_wolven_diagram"),ENHANCED_WOLVEN_SCHOOL_DIAGRAM);
-        Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"enhanced_ursine_diagram"),ENHANCED_URSINE_SCHOOL_DIAGRAM);
+        Registry.register(Registries.ITEM,new Identifier(MOD_ID,"enhanced_feline_diagram"),ENHANCED_FELINE_SCHOOL_DIAGRAM);
+        Registry.register(Registries.ITEM,new Identifier(MOD_ID,"enhanced_griffin_diagram"),ENHANCED_GRIFFIN_SCHOOL_DIAGRAM);
+        Registry.register(Registries.ITEM,new Identifier(MOD_ID,"enhanced_wolven_diagram"),ENHANCED_WOLVEN_SCHOOL_DIAGRAM);
+        Registry.register(Registries.ITEM,new Identifier(MOD_ID,"enhanced_ursine_diagram"),ENHANCED_URSINE_SCHOOL_DIAGRAM);
 
-        Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"superior_feline_diagram"),SUPERIOR_FELINE_SCHOOL_DIAGRAM);
-        Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"superior_griffin_diagram"),SUPERIOR_GRIFFIN_SCHOOL_DIAGRAM);
-        Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"superior_wolven_diagram"),SUPERIOR_WOLVEN_SCHOOL_DIAGRAM);
-        Registry.register(Registries.ITEM,Identifier.of(MOD_ID,"superior_ursine_diagram"),SUPERIOR_URSINE_SCHOOL_DIAGRAM);
+        Registry.register(Registries.ITEM,new Identifier(MOD_ID,"superior_feline_diagram"),SUPERIOR_FELINE_SCHOOL_DIAGRAM);
+        Registry.register(Registries.ITEM,new Identifier(MOD_ID,"superior_griffin_diagram"),SUPERIOR_GRIFFIN_SCHOOL_DIAGRAM);
+        Registry.register(Registries.ITEM,new Identifier(MOD_ID,"superior_wolven_diagram"),SUPERIOR_WOLVEN_SCHOOL_DIAGRAM);
+        Registry.register(Registries.ITEM,new Identifier(MOD_ID,"superior_ursine_diagram"),SUPERIOR_URSINE_SCHOOL_DIAGRAM);
 
         ItemGroupEvents.modifyEntriesEvent(WitcherGroup.WITCHER_KEY).register((content) -> {
             content.add(ENHANCED_FELINE_SCHOOL_DIAGRAM);

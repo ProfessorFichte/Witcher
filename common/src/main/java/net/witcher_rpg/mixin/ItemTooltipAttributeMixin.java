@@ -4,7 +4,9 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -30,7 +32,7 @@ import java.util.Map;
 public abstract class ItemTooltipAttributeMixin {
 
     @Inject(method = "getTooltip", at = @At("RETURN"))
-    private void addAttributeTooltipForExternalItems(Item.TooltipContext context, PlayerEntity player, TooltipType type, CallbackInfoReturnable<List<Text>> cir) {
+    private void addAttributeTooltipForExternalItems(@Nullable PlayerEntity player, TooltipContext context, CallbackInfoReturnable<List<Text>> cir) {
         ItemStack stack = (ItemStack) (Object) this;
         Item item = stack.getItem();
 
@@ -42,13 +44,13 @@ public abstract class ItemTooltipAttributeMixin {
         List<Text> tooltip = cir.getReturnValue();
 
         // Check for runestones (weapons)
-        RunestoneSlots runestoneSlots = stack.get(WitcherDataComponents.RUNESTONE_SLOTS);
+        RunestoneSlots runestoneSlots = WitcherDataComponents.getRunestoneSlots(stack);
         if (runestoneSlots != null && runestoneSlots.maxSlots() > 0 && !runestoneSlots.attachedRunestones().isEmpty()) {
             addRunestoneAttributesTooltip(runestoneSlots, tooltip);
         }
 
         // Check for glyphs (armor)
-        GlyphSlots glyphSlots = stack.get(WitcherDataComponents.GLYPH_SLOTS);
+        GlyphSlots glyphSlots = WitcherDataComponents.getGlyphSlots(stack);
         if (glyphSlots != null && glyphSlots.maxSlots() > 0 && !glyphSlots.attachedGlyphs().isEmpty()) {
             addGlyphAttributesTooltip(glyphSlots, tooltip);
         }
@@ -78,7 +80,7 @@ public abstract class ItemTooltipAttributeMixin {
 
             for (var attrModifier : config.attributes) {
                 if (attrModifier.attribute == null) continue;
-                if (attrModifier.operation == EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE) {
+                if (attrModifier.operation == EntityAttributeModifier.Operation.MULTIPLY_BASE) {
                     percentageAttributes.merge(attrModifier.attribute, (double) attrModifier.value, Double::sum);
                 } else {
                     flatAttributes.merge(attrModifier.attribute, (double) attrModifier.value, Double::sum);
@@ -99,7 +101,7 @@ public abstract class ItemTooltipAttributeMixin {
                 String attrId = entry.getKey();
                 double value = entry.getValue();
 
-                var attribute = Registries.ATTRIBUTE.get(Identifier.of(attrId));
+                var attribute = Registries.ATTRIBUTE.get(new Identifier(attrId));
                 if (attribute == null) continue;
 
                 String sign = value > 0 ? "+" : "";
@@ -113,7 +115,7 @@ public abstract class ItemTooltipAttributeMixin {
                 String attrId = entry.getKey();
                 double value = entry.getValue() * 100;
 
-                var attribute = Registries.ATTRIBUTE.get(Identifier.of(attrId));
+                var attribute = Registries.ATTRIBUTE.get(new Identifier(attrId));
                 if (attribute == null) continue;
 
                 String sign = value > 0 ? "+" : "";
@@ -165,7 +167,7 @@ public abstract class ItemTooltipAttributeMixin {
                 String attrId = entry.getKey();
                 double value = entry.getValue();
 
-                var attribute = Registries.ATTRIBUTE.get(Identifier.of(attrId));
+                var attribute = Registries.ATTRIBUTE.get(new Identifier(attrId));
                 if (attribute == null) continue;
 
                 String sign = value > 0 ? "+" : "";

@@ -1,0 +1,37 @@
+{
+  "parent": "witcher_rpg:equipment/witcher_armor_set",
+  "criteria": {
+    "has_required_items": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "witcher_rpg:steel_swords"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.witcher_rpg.equipment.steel_sword.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "witcher_rpg:steel_witcher_sword",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.witcher_rpg.equipment.steel_sword.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_required_items"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

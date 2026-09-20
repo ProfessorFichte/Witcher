@@ -1,11 +1,12 @@
 {
   "required": true,
+  "minVersion": "0.8",
   "package": "net.witcher_rpg.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AnvilScreenHandlerMixin",
     "AttributeMixin",
-    "EntityAttributesMixin",
+    "ItemDefaultsMixin",
     "LivingEntityMixin",
     "PersistentProjectileEntityMixin",
     "SmithingRecipeMixin",

@@ -1,6 +1,7 @@
 package net.witcher_rpg.effect;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.sound.SoundCategory;
@@ -18,7 +19,7 @@ import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class QuenShieldEffect extends StatusEffect {
     private final int healthPerStack;
-    public static final Identifier QUEN_BREAK_ID = Identifier.of(MOD_ID, "quen_sign_break");
+    public static final Identifier QUEN_BREAK_ID = new Identifier(MOD_ID, "quen_sign_break");
     public static final SoundEvent QUEN_BREAK = SoundEvent.of(QUEN_BREAK_ID );
     public static final ParticleGroup quen_break = ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_A)
             .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
@@ -32,16 +33,15 @@ public class QuenShieldEffect extends StatusEffect {
         this.healthPerStack = 4;
     }
 
-    public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
-        return entity.getAbsorptionAmount() > 0.0F || entity.getWorld().isClient;
+    public void applyUpdateEffect(LivingEntity entity, int amplifier) {
     }
 
     public boolean canApplyUpdateEffect(int duration, int amplifier) {
         return true;
     }
 
-    public void onApplied(LivingEntity entity, int amplifier) {
-        super.onApplied(entity, amplifier);
+    public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+        super.onApplied(entity, attributes, amplifier);
         clearNegativeEffects(entity,false);
         entity.setAbsorptionAmount(Math.max(entity.getAbsorptionAmount(), (float)(healthPerStack * (1 + amplifier))));
     }

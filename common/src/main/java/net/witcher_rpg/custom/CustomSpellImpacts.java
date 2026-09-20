@@ -10,7 +10,7 @@ public class CustomSpellImpacts {
 
     public static void registerCustomImpacts(){
         SpellHandlers.registerCustomImpact(
-                Identifier.of(MOD_ID, "quen_active"),
+                new Identifier(MOD_ID, "quen_active"),
                 new QuenActiveImpact()
         );
     }

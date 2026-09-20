@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "P": {
+      "item": "witcher_rpg:silver_ingot"
+    },
+    "S": {
+      "item": "minecraft:leather"
+    },
+    "X": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    "PSP",
+    "X X"
+  ],
+  "result": {
+    "item": "witcher_rpg:griffin_head"
+  },
+  "show_notification": true
+}

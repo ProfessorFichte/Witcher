@@ -1,354 +1,42 @@
-# 3.1.3 - 1.21.1
-- Add missing Curios data files for Witcher Medallion - Necklace Slots (Neoforge)
-- Fixed a damaging miscalculation for the Witcher Senses Exposed effect, resulting in absurdly high damage numbers
-- The Yrden Cloud now does not deal damage to undead entities anymore
-- There is a Spell Modifier to choose in the Skill Tree soon, that will give the yrden cloud the ability to damage entities.
-- Improved Tooltip-Descriptions for Spells, that inflict status effects.
-- Added missing witcher status effect textures
+# 3.1.2+1.20.1
 
-# 3.1.2 - 1.21.1
-- Created and Modified a lot of Passives and Modifiers for the upcoming Skill Tree Update
-- Fixed and Improved the whole Adrenaline Gain & Loss Mechanic
+> ### ⚠️ Read this before updating
+>
+> This release is a **major technical overhaul and is not backwards compatible.**
+>
+> - **Requires the matching Spell Engine and More RPG Library releases.** This version will not run on
+>   Spell Engine **0.9.x**, and mods built against 0.9.x will not work alongside it.
+> - **Update the whole set together.** Spell Engine, More RPG Library and every RPG Series mod must be on
+>   matching versions. Mixing in an older add-on will break at startup or misbehave in play.
+> - **Spell books must be re-obtained.** Spell books from an older world no longer carry valid
+>   spell data. Re-craft them, or re-bind their spells at the Spell Binding Table.
+>
+> **Back up your world before updating.**
 
-# 3.1.1 - 1.21.1
-- Drop Forgified Fabric API (FFAPI) as a required dependency
-- Replace AzurelibArmor with Armor Model API
+- Thanks to Daedelus for the PR!
+- Ported to Minecraft 1.20.1 (Fabric + Forge 47). NeoForge is replaced by Forge on this line; the same
+  Forge jar also loads on NeoForge 1.20.1.
+- Content-equivalent to the 1.21.1 3.1.2 release: the Skill Tree passive/modifier expansion and the
+  reworked Adrenaline gain & loss are both included.
+- Requires the matching 1.20.1 releases of Spell Engine (1.10.5), Spell Power (1.6.0), More RPG Library
+  (2.7.2) and Armor Model API (1.0.0).
+- Every registry write goes through Forge's `RegisterEvent` window, so the mod also boots on Forge
+  47.0-47.3 and on NeoForge 1.20.1, which never unlock the vanilla registries.
+- Glyph and runestone slots are stored as item NBT instead of data components (1.20.1 has none).
+  Existing 1.21 items do not carry over, but slots behave the same in game.
+- Accessory slots use Trinkets 3.7.2 on Fabric and Curios 5.x on Forge.
 
-# 3.1.0 - 1.21.1
-- Adopt Spell Engine 1.10 - Thanks Daedelus for the PR!
-- Skill Tree Prep with Modifiers & Passives!
+### Accepted 1.20.1 limitations
 
-# 3.0.0 - 1.21.1
-- Adapt to Spell Engine 1.9.10+ API Changes
-**Spell Expansion**
-- T3 Witcher Senses: Reveals all enemies within range, making them Glow and exposing their weaknesses. 
-- Critical hits against exposed enemies deal more damage and are more likely to land.
-- The exposing glow and increased Critical Hits for Melee attacks only works for the caster of the effect.
-**Balancing & Internal Changes:**
-- Code Clean Up
-- Battle Trance now 100% stacks Adrenaline with every Melee Hit
-- Reduced Amount of Extra Damage from Battle Trance
-- Rend is now a charged Spell, the longer you hold the stronger and further the hit goes.
-- Slightly Improved Rend's Animations
-- Wolf School Technique, Aerondight- & Iris Charge now use Spell Engine's GlowingItemStatusEffect Renderer
-- The Yrden Circle Model received a new Animation with the new Spell Engine API functions
-- Added a small Easter Egg for the Witcher Medallion's Trinkets, increasing a certain Spell :)
-
-# 2.8.1 - 1.21.1
-- Remove debugging Loggers from the GlyphAnvilHandler I forgot Github issue #14
-
-# 2.8.0 - 1.21.1
-**Update to use Spell Engine 1.9.0**
-- DISCLAIMER: All spell books and spell scrolls will be reset, due to major API changes.
-**Witcher Signs**
-- The Witcher Sign Spell Book now contains all signs including their alternate sign spells and you can bind 4 signs
-- Aard & Igni are Tier 1 Choices
-- Axii, Quen & Yrden are Tier 2 Choices
-- Igni Firestream & Aard Sweep are Tier 3 Choices
-- Quen Active Shield, Axii Puppet & Yrden Magic Trap are Tier 4 Choices
-- Same signs from the same group share cooldowns, for example Aard & Aard Sweep.
-- This was added as a small drawback, due to the Witcher having 4 available spells in one spell book
-- Many Sign Spell Cooldowns where lowered, to match them more towards Wizard Spell Cooldowns
-**Witcher Fencing Skills**
-- The Witcher Fencing Book now only contains 3 spells
-- **Witcher Reflexes** are now the Weapon Skill for all the Witcher Swords
-- Added the new Fast Attack & Strong Attack Melee Skills as Tier 2 Choices
-- Battle Trance is now a Tier 3 Spell
-- Rend & Whirl are now Tier 4 Choices for the Fencing Book
-- Rend was changed to the 
-**Other Fixes and Changes**
-- The Witcher Reflexes Weapon Skill is now channeled and blocks the next Hit and Arrow Show like a shield
-- In the Master Witcher Spell Book you still can choose between a mix of Sign and Fencing Spells
-- It now can contain 5 spells max and can bind multiple spells from a tier
-- Fixed Witcher Armor Diagram Smithing Upgrades always using Silver or Steel Ingots
-
-# 2.7.2 - 1.21.1
-- Fix Sign particles not working
-- add more glyph slot base numbers via id string search
-- add more runestone slot base numbers via id string search
-- The Project is now completely working with datagen (item models, spells, lang-file, etc.)
-- re-structure advancements
-
-# 2.7.1 - 1.21.1
-- Trying to fix crucial crash on Neoforge
-- Add Witcher Swords to Spell Blade Weapon Type so they can use Spell Crit Damage Enchantments
-- Fix runestones getting added to glyph tags
-- Fix some Loot Table Injections
-- Add missing sunstone spell icon
-
-# 2.7.0 - 1.21.1
-## New Content! Runestone & Glyph Attachement
-- Glyphs can now be added on Witcher Armor Chestplates (Amount of Glyph Slots Increases with every Armor-Tier)
-- New Runestones can now be added on Witcher Swords (Amount of Runestone Slots Increases with every Weapon-Tier, Relic Swords have the highest Slot Amount)
-- Compatibility for other items can be added via Item Tags
-- Slot Amounts can be set via Data Components
-- Glyphs and Runestones can be removed in the Anvil with a Minecraft Vanilla Stone Block
-## Internal Changes and Fixes
-- Remove Passive Spells from Greater Glyphs (would be to op)
-- Add Critical Strike Compat for the Melee Witcher School
-- Add Conditional Crit Damage Mod Attributes to Feline & Ursine Armor
-- Nerfed Specific Sign Glyph Attributes
-- Re-Balance some Sword Attributes!
-- Fix some Armor Model Clipping
-- add global elemental weaknesses for WitcherSpellSchools
-- Scavenger Hunt Maps to Underground Witcher Hideouts can now be found in Old Ruins & Witcher Graves
-- There is a small chance that Silver Ore drops the "Pure Silver" item
-
-# 2.6.3 - 1.21.1
-- Update to newest MRPG-Lib Version
-- fix mismatched Kaer Morhen Model (Boots and Pants were switched)
-
-# 2.6.2 - 1.21.1
-- forgot to register Witcher Particles in neo environment
-- update azurelib
-- fix some armor item values
-
-# 2.6.1 - 1.21.1
-- fix lang files
-
-# 2.6.0 - 1.21.1
-- NeoForge Beta!
-**Content Update**
-- [New Witcher School Armor Tiers] T4 Mastercrafted & T5 Grandmaster
-- Each new Armor Tier comes with special equipment set bonuses
-- These armor sets can be upgraded with new Diagrams
-- Added Dimeritium Ingot as upgrade material for Grandmaster Armor Sets
-**Visual Changes**
-- New Mod Icon
-- Improve Sign Particle Visuals
-- Changed Spell Book Textures to be more in line with the RPG-Series Books
-**Internal Changes**
-- Added many spell modifiers & passives for the skill tree and future content (More will be added)
-- Improve how the Quen Active Shield works
-- Improve how Witcher Reflexes work, it's now an activated status effect that blocks the next incoming arrow or melee hit
-- Witcher Reflexes cannot be executed, if the player casts a spell, uses an item or does not have an item in the main hand in the #minecraft:sword tag
-- Removed Witcher Medallion Passives, would be too much with the new Set Equipment Bonuses
-- Inject Witcher Upgrade Diagrams in more Vanilla Structures
-
-# 2.5.2 - 1.21.1
-- Update Spell Textures
-- Update Mob Effect Textures
-- Fix Crash without Trinkets
-
-# 2.5.1 - 1.21.1
-- Spell Engine & other Dependency Update
-- Fix Iris Sword Passive
-- Fix Some Item Models
-
-# 2.5.0 - 1.21.1
-### NEW CONTENT
-**New Relic Swords:**
-- [DISCLAIMER] The Swords are only registered if the Arsenal (RPG Series) Mod is installed
-- Azure Wrath (Silver Sword - Tier 4)
-- Chance to inflict Effect that Blocks Healing
-- Reach of the Damned (Silver Sword - Tier 4)
-- Deals extra magic damage, when the target is below 50% health
-- Iris (Steel Sword - Tier 5)
-- The Sword Charges itself up every attack (Aerondight Steel Sword counterpart)
-**New Additional Equipment**
-- Add Witcher School Medallions (Necklace Trinket Slot)
-- Added some Sign Glyphs
-- Added new Relic Items
-### TECHNICAL & INTERNAL CHANGES
-- Sign Intensity Enchantment now only goes on Witcher Armor
-- Swords also use Spell Power Enchantment, which now also boosts Witcher Signs Damage
-- Add Spell Datagen
-- Add Loot Injection via Tags
-- Removed specific Witcher Armor School Gear and Relic Swords from RPG Series Loot Tag
-- Fix Witcher Melee spell school double counting sharpness enchantment
-
-# 2.4.11 - 1.21.1
-- MRPGLib 2.3 Update
-- Aard Signs now can deflect arrows, if timed perfectly
-
-# 2.4.10 - 1.21.1
-### TECHNICAL CHANGES
-- reset config for equipment -> v2
-- Spell Engine 1.7
-### BALANCING CHANGES
-- Decrease Winter's Blade Passive Cooldown
-
-# 2.4.9 - 1.21.1
-[DISCLAIMER]
-- This is also an early hotfix:
-- 1. fixing the crash with the Quen Sign.
-- 2. fixing false attack speed and range values
-- Some new added content is not available yet because of that
-- It will be added in the next update soon (2.5.0 - 1.21.1)
-### VISUAL CHANGES
-- Update Spell Book & Scrolls Textures
-- Update Witcher Metal & Ore Textures
-- Update some Witcher Sword Color Palette
-### BALANCING CHANGES
-- Aard-, Axii-, Igni-, Yrden- & Quen Intensity got removed
-- Sign Intensity is now an enchantment for witcher swords and the armor
-- this was done to reduce the amount of enchantments
-- Increase Steel Sword Passive Chance
-- Rend now works like a short ranged projectile, that pierces through all targets
-- Rend now applies the Grievous Wounds Effect
-- increase Better Combat Attack Range
-- Fix wrong attack speed values for witcher swords
-### NEW CONTENT
-- Added Silver & Steel Nuggets
-- Added Blocks for the Witcher Metals
-- Added Raw Silver Block
-### TECHNICAL CHANGES
-- The Stagger Effect was moved to the More RPG Lib Mod
-- Change Effect registration to SpellEngine API register
-
-# 2.4.8 - 1.21.1
-- fix witcher grave spawning in the sky
-
-# 2.4.7 - 1.21.1
-- fix server crash because of two registered aerondight swords
-- nerf Aerondight Sword
-
-# 2.4.6 - 1.21.1
-- fix some target modifiers in Passive Spell Impact
-- fix some passive spells
-- add some target modifiers to existing spells
-- The Yrden Circle now deals damage to undead and yrden vulnerable entities
-
-# 2.4.5 - 1.21.1
-- fix advancement error
-- Update for newest Spell Engine API
-- add some biomes to the witcher grave list
-- The special Witcher Swords now use the new Spell Engine Passive System
-- The special Witcher Swords are only available if the "Arsenal - RPG Series" Mod is installed
-- this can be ignored with the tweaks config
-- fix lootable scrolls not having the witcher spell scroll texture and name
-
-# 2.4.4 - 1.21.1
-- Add Spell Scroll Textures
-- Renamed signs_spell_book to base_signs_spell_book
-
-# 2.4.3 - 1.21.1
-- Spell Engine 1.6 Update
-- changed some tags
-- Update Better Combat Weapon Attribute
-
-# 2.4.2 - 1.21.1
-- add new Bettercombat animations, created by Tenebris Mors, Thanks!
-
-# 2.4.1 - 1.21.1
-- Add TweaksConfig, so special Weapons can also be used without Better End & Nether and the Aether
-- Fix fabric.mod.json
-
-# 2.4.0 - 1.21.1
-- Spell Engine 1.5 Update
-- fix Attribute Registry
-- changed some cooldowns and casting times
-- Add Dark Oak Forest Witcher Grave Structure
-- Igni & Aard are now Tier 1 Spells
-- Yrden, Axii & Quen stay at Tier 2
-- New Fencing Spell Tier-list: 1.Witcher Reflexes 2.Battle Trance 3.Rend 4.Whirl
-- added Witcher Related Spell Scrolls to the Witcher Grave-Loot Tables
-- Reduce Rend Cooldown & Cast Duration
-- Update to Fabric Loom 1.9
-- Add Particles To the Axii Puppet Effect
-- Fixed Axii Puppet effect, that the affected mob targets other mobs
-- remove Aard-Spells ability to block arrows
-
-
-# 2.3.1 - 1.21.1
-- fixed crash -> forgot ServerWorld Check on Yrden particle effect spawner
-
-# 2.3.0 - 1.21.1
-**- Spell Engine 1.4 Update!**
-- AzureLib Armor 3.0 Update!
-- Rend & Whirl range now matching the melee weapon distance
-- Buffed the Range for the Axii Puppet spell
-
-### 2.2.4 - 1.21
-- Fixed some errors regarding Witcher Ores
-
-2.2.3 - 1.21
-- Fix: Witcher Spell Books uncraftable since 2.2.2 #6
-
-2.2.2 - 1.21
-- ### **Spell Scroll Update**
-- **Spell Allocation**
-- The Alternate Signs can be found via the new loot-able Spell Scrolls
-- The Alternate Signs can be added to the Master Witcher Spell Book
-- This can be done on the Spell Binding Table
-- The Master Witcher Spell Book can only contain 7 Spells
-- **BALANCING**
-- Whirl cast duration was reduced to 2.5 from 3.5
-- Witcher Reflexes cast duration was increased to 0.5 from 0.25
-- **GENERAL**
-- added the missing sign intensity & adrenaline burst effect (Attribute Boosting Effect)
-- renamed the spell book item ids
-
-2.2.1 - 1.21
-- fixed a issue with the wolven armor crafting recipe
-
-2.2.0 - 1.21
-- Spell Engine 1.2 Update
-- added the Heavenly Witcher Sword (Aether Variant)
-
-2.1.0 - 1.21
-**WITCHER SCHOOLS ARMOR UPDATE**
-**INTERNAL CHANGES**
-- BREAKING FOR TEXTURE PACKS: Changed the paths for textures in the model files
-- CONFIG RESET: Your custom item Configs got reset, the config file is now called: "items_v5"
-- Added magic damage types for each sign school and silver
-- Added entity type tags for targets that are vulnerable to a specific sign
-- Added Entity Type for Axii Immunity (Mostly for Bosses)
-- If a target is vulnerable to a specific sign, the damage gets increased
-- Cleaned up the code of relic witcher swords
-- Added a tweaks config file
-- Added a Witcher Grave Structure for Witcher Related Loot
-- Relic Witcher Swords can only be found in Witcher Related structure chests now and in the future (LNE Witcher Add On)
-
-**BALANCING**
-- Rend Spell damage now scales with adrenaline effect amplifier
-- Casting damaging signs (aard & igni) increases your adrenaline now
-- Added the Stagger Effect
-- Made the passive for all relic swords configurable
-- The ultimatum sword applies stagger instead of fire
-- Added missing textures of status effects
-- The Kaer Morhen Set now acts as an early- to mid-game armor choice
-- Changed Armor Set Bonuses
-
-**ADDITIONS**
-- You now can level up your Witcher School Armor!
-- Added "smithing template" diagrams for each witcher school armor (Enhanced & Superior Tier)
-- New Armor: Wolven Witcher-School Armor
-- Wolven Gear is a hybrid medium armor type
-- Superior witcher gear is fireproof like Netherite gear
-
-2.0.5 - 1.21
-- forgot "has_meteorite" worldgen tag for the new meteorite "geode" feature
-
-2.0.4 - 1.21
-- **CONFIG** Your effects config got overwritten, use effects_v1 now
-- forgot to add silver & steel swords to their tags
-- added more configured_feature variants for the witcher ores
-- tweaked some numbers for the ores
-- made the dark iron ore brighter
-- added a meteorite like geode
-- added netherrack dark iron ore
-- adrenaline effect amplifier now gets decreased on receiving damage (like in TW3 game)
-
-2.0.3
-- Ice And Fire Fabric Silver Ingot Compat
-
-2.0.2
-- Griffin School Armor used Ursine Armor texture, oops
-
-2.0.1
-- Spell Engine API Update (1.1.0 + 1.21.1)
-- Updated SpellHelperMixin
-- QuenActiveShield now stuns you for a short amount when removed, because it explodes in TW3 and knocks you back
-- fixed tooltips for some witcher swords
-- made the Master Witcher Book not stack able
-
-2.0.0
--  1.21.x update
-- alternate sign mode is disabled for 1.21 version, will be enabled later
-- the alternate signs can still be found in the Master Witcher Spell Book
-- Sign Intensity Enchant is for Weapons, added specific sign intensity enchants for all Sign-Forms for the armor
-- new particles for the aard signs
-- new Spell School Witcher_Melee, that the melee spells also benefit from adrenaline, to crit more & higher
-- Rend now stuns blocking entities and adds grievous wounds effect
-- nerfed Whirl & Rend cooldown
+- No custom map markers: the Witcher hideout and Feline scavenger-hunt maps use the vanilla red X
+  marker, because 1.20.1 has no `map_decoration_type` registry.
+- `sign_intensity` is registered from Java instead of shipping as a data-driven enchantment (1.20.1 has
+  none). It boosts the Sign school exactly as before, but it no longer shows as an attribute line on the
+  item tooltip and it cannot be overridden from a datapack.
+- Quen Shield always runs its full duration - on 1.20.1 a status effect cannot end itself early once its
+  absorption is used up. Quen Active is unaffected.
+- There is no max-absorption attribute on 1.20.1, so the +8 / +4 absorption-cap modifiers on Quen Active
+  and Quen Shield are dropped. The absorption both effects grant is unchanged.
+- `#minecraft:undead` does not exist on 1.20.1, so silver and Yrden vulnerability use an explicit
+  `#witcher_rpg:undead` list of the vanilla undead. Modded undead that only opt into the 1.21 vanilla tag
+  are not covered.

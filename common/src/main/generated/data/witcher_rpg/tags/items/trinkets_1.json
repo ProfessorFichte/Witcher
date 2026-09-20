@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "witcher_rpg:sunstone",
+      "required": false
+    }
+  ]
+}

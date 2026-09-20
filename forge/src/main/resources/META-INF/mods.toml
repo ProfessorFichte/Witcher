@@ -1,0 +1,63 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+#issueTrackerURL = ""
+license = "ARR"
+
+[[mods]]
+modId = "witcher_rpg"
+version = "${version}"
+displayName = "Witcher"
+authors = "Fichte"
+description = '''
+Slay monsters like a Witcher! Spell Engine Add-On
+'''
+#logoFile = ""
+
+[[dependencies.witcher_rpg]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "spell_engine"
+mandatory = true
+versionRange = "[1.10.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "spell_power"
+mandatory = true
+versionRange = "[1.6.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "armor_model_api"
+mandatory = true
+versionRange = "[1.0.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "more_rpg_classes"
+mandatory = true
+versionRange = "[2.7.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.witcher_rpg]]
+modId = "curios"
+mandatory = false
+versionRange = "[5,)"
+ordering = "AFTER"
+side = "BOTH"

@@ -40,7 +40,7 @@ public class WitcherSchoolWeakness {
 
         var exposedCondition = new Spell.TargetCondition();
         exposedCondition.entity_predicate_id = SpellEntityPredicates.hasEffectOptimized(
-                Identifier.of(MOD_ID, "witcher_senses_exposed")).id().toString();
+                new Identifier(MOD_ID, "witcher_senses_exposed")).id().toString();
         var exposedWeakness = new Spell.Impact.TargetModifier();
         exposedWeakness.conditions = List.of(exposedCondition);
         exposedWeakness.modifier = new Spell.Impact.Modifier();

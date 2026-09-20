@@ -29,8 +29,8 @@ import net.minecraft.client.particle.DragonBreathParticle;
 
 public class WitcherClient{
 
-    public static void  init(){
-        WitcherModelPredicates.registerModelPredicates();
+    public static void  init(WitcherModelPredicates.Registrar modelPredicates){
+        WitcherModelPredicates.registerModelPredicates(modelPredicates);
 
         CustomParticleStatusEffect.register(
                 WitcherStatusEffects.AXII.effect,

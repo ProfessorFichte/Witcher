@@ -32,7 +32,7 @@ public class YrdenMagicTrapRenderer<T extends YrdenMagicTrapEntity> extends Enti
     public Identifier getTexture(T entity) {
         return null;
     }
-    public static final Identifier modelId = Identifier.of(WitcherClassMod.MOD_ID, "spell_effect/magic_trap_yrden");
+    public static final Identifier modelId = new Identifier(WitcherClassMod.MOD_ID, "spell_effect/magic_trap_yrden");
     private static final RenderLayer layer =  CustomLayers.spellEffect(LightEmission.RADIATE, false);
 
     private static final int spawnTicks = 5;

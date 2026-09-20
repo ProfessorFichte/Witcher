@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "group": "steel",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": "witcher_rpg:steel_ingot"
+}

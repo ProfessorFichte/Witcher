@@ -1,20 +1,21 @@
 package net.witcher_rpg.item;
 
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.annotation.Nullable;
-import net.minecraft.component.type.AttributeModifiersComponent;
+import net.spell_engine.api.item.ItemAttributeModifiers;
+import net.spell_engine.utils.AttributeModifierUtil;
 import net.minecraft.item.Item;
 
 import java.util.function.Function;
 
 public class WitcherFactory {
-    public record ItemArgs(Item.Settings settings, @Nullable AttributeModifiersComponent attributes, @Nullable String lore, @Nullable String slot) { }
+    public record ItemArgs(Item.Settings settings, @Nullable ItemAttributeModifiers attributes, @Nullable String lore, @Nullable String slot) { }
 
     public static Function<ItemArgs, Item> factory = args -> {
-        var settings = args.settings;
+        var item = new Item(args.settings);
         if (args.attributes != null) {
-            settings.attributeModifiers(args.attributes);
+            AttributeModifierUtil.setItemModifiers(item, args.attributes);
         }
-        return new Item(settings);
+        return item;
     };
     public static Function<ItemArgs, Item> getFactory() { return factory; }
 }
