@@ -1,3 +1,6 @@
+# 3.1.4 - 1.21.1
+- Fixed the invisible Kaer Morhen Armor Set Model
+
 # 3.1.3 - 1.21.1
 - Add missing Curios data files for Witcher Medallion - Necklace Slots (Neoforge)
 - Fixed a damaging miscalculation for the Witcher Senses Exposed effect, resulting in absurdly high damage numbers
