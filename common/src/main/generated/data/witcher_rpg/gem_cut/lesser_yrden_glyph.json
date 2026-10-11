@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "witcher_rpg:yrden_intensity",
+    "operation": "add_value",
+    "value": 0.25
+  },
+  "color": "#4A1F7A",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/lesser_yrden_glyph"
+}

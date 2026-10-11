@@ -20,8 +20,6 @@ import net.spell_power.api.SpellPowerMechanics;
 import net.witcher_rpg.item.WitcherGroup;
 import net.spell_engine.rpg_series.item.Armor;
 import net.witcher_rpg.item.WitcherMaterials;
-import net.witcher_rpg.item.component.GlyphSlots;
-import net.witcher_rpg.item.component.WitcherDataComponents;
 import net.witcher_rpg.spell.SetBonuses;
 
 import java.util.ArrayList;
@@ -32,11 +30,6 @@ import java.util.function.Supplier;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class Armors {
-    public static final int TIER1_GLYPH_SLOTS = 1;
-    public static final int TIER2_GLYPH_SLOTS = 1;
-    public static final int TIER3_GLYPH_SLOTS = 2;
-    public static final int TIER4_GLYPH_SLOTS = 2;
-    public static final int TIER5_GLYPH_SLOTS = 3;
     private static final Supplier<Ingredient> WITCHER_INGREDIENTS = () -> Ingredient.ofItems(
             Items.LEATHER, WitcherMaterials.SILVER_INGOT.item()
     );
@@ -53,19 +46,20 @@ public class Armors {
             Items.CHAIN, WitcherMaterials.STEEL_INGOT.item(), WitcherMaterials.DARK_IRON_INGOT.item(), WitcherMaterials.DARK_STEEL_INGOT.item()
     );
 
-    private static Armor.ItemSettingsTweaker commonSettings(Identifier equipmentSetId) {
-        return commonSettings(equipmentSetId, 0);
+    public static int glyphSlots(String materialName, ArmorItem.Type slot) {
+        boolean chest = slot == ArmorItem.Type.CHESTPLATE;
+        if (materialName.contains("grandmaster")) return chest ? 3 : 2;
+        if (materialName.contains("mastercrafted")) return chest ? 2 : 1;
+        if (materialName.contains("superior")) return 1;
+        if (materialName.contains("enhanced")) return chest ? 1 : 0;
+        return 0;
     }
 
-    private static Armor.ItemSettingsTweaker commonSettings(Identifier equipmentSetId, int glyphSlots) {
+    private static Armor.ItemSettingsTweaker commonSettings(Identifier equipmentSetId) {
         return Armor.ItemSettingsTweaker.standard(itemSettings -> {
             itemSettings
                     .component(SpellDataComponents.EQUIPMENT_SET, equipmentSetId)
                     .component(DataComponentTypes.RARITY, Rarity.RARE);
-            if (glyphSlots > 0) {
-                itemSettings.component(WitcherDataComponents.GLYPH_SLOTS,
-                    new GlyphSlots(glyphSlots, List.of()));
-            }
         });
     }
 
@@ -489,7 +483,7 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT4),
                                             AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT4),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT4)
-                                    ))),10,commonSettings(SetBonuses.mastercrafted_feline.id(), TIER4_GLYPH_SLOTS)).armorSet()
+                                    ))),10,commonSettings(SetBonuses.mastercrafted_feline.id())).armorSet()
                     .translate("§2Mastercrafted§r Feline Band","§2Mastercrafted§r Feline Suit","§2Mastercrafted§r Feline Legs","§2Mastercrafted§r Feline Boots");
     public static final Armor.Set grandmasterFelineSchoolArmorSet =
             create(
@@ -546,7 +540,7 @@ public class Armors {
                                             AttributeModifier.multiply(ATTACK_SPEED,felineAttackSpeedT5),
                                             AttributeModifier.multiply(CRIT_CHANCE_ID,felineCritChanceT5),
                                             AttributeModifier.multiply(COMBATROLL_RECHARGE,felineRollRechargeT5)
-                                    ))),10,commonSettings(SetBonuses.grandmaster_feline.id(), TIER5_GLYPH_SLOTS)).armorSet()
+                                    ))),10,commonSettings(SetBonuses.grandmaster_feline.id())).armorSet()
                     .translate("§2Grandmaster§r Feline Band","§2Grandmaster§r Feline Suit","§2Grandmaster§r Feline Legs","§2Grandmaster§r Feline Boots");
     //GRIFFIN SCHOOL ARMOR
     public static final Armor.Set griffinArmorSet =
@@ -661,7 +655,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,griffinSignT4),
                                             AttributeModifier.multiply(ADRENALINE,griffinAdrenalineT4),
                                             AttributeModifier.multiply(SpellPowerMechanics.HASTE.id,griffinHasteT4)
-                                    ))),10,commonSettings(SetBonuses.mastercrafted_griffin.id(), TIER4_GLYPH_SLOTS)).armorSet()
+                                    ))),10,commonSettings(SetBonuses.mastercrafted_griffin.id())).armorSet()
                     .translate("§2Mastercrafted§r Griffin Band","§2Mastercrafted§r Griffin Suit","§2Mastercrafted§r Griffin Pants","§2Mastercrafted§r Griffin Boots");
     public static final Armor.Set grandmasterGriffinArmorSet =
             create(
@@ -690,7 +684,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,griffinSignT5),
                                             AttributeModifier.multiply(ADRENALINE,griffinAdrenalineT5),
                                             AttributeModifier.multiply(SpellPowerMechanics.HASTE.id,griffinHasteT5)
-                                    ))),10,commonSettings(SetBonuses.grandmaster_griffin.id(), TIER5_GLYPH_SLOTS)).armorSet()
+                                    ))),10,commonSettings(SetBonuses.grandmaster_griffin.id())).armorSet()
                     .translate("§2Grandmaster§r Griffin Band","§2Grandmaster§r Griffin Suit","§2Grandmaster§r Griffin Pants","§2Grandmaster§r Griffin Boots");
 
     //WOLVEN SCHOOL ARMOR
@@ -804,7 +798,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,wolvenSignT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,wolvenAttackDamageT4),
                                             AttributeModifier.multiply(ADRENALINE,wolvenAdrenalineT4)
-                                    ))),10,commonSettings(SetBonuses.mastercrafted_wolven.id(), TIER4_GLYPH_SLOTS)).armorSet()
+                                    ))),10,commonSettings(SetBonuses.mastercrafted_wolven.id())).armorSet()
                     .translate(  "§2Mastercrafted§r Wolven Band", "§2Mastercrafted§r Wolven Suit", "§2Mastercrafted§r Wolven Legs", "§2Mastercrafted§r Wolven Boots");
     public static final Armor.Set grandmasterWolvenArmorSet =
             create(
@@ -833,7 +827,7 @@ public class Armors {
                                             AttributeModifier.multiply(SIGN_INTENSITY,wolvenSignT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,wolvenAttackDamageT5),
                                             AttributeModifier.multiply(ADRENALINE,wolvenAdrenalineT5)
-                                    ))),10,commonSettings(SetBonuses.grandmaster_wolven.id(), TIER5_GLYPH_SLOTS)).armorSet()
+                                    ))),10,commonSettings(SetBonuses.grandmaster_wolven.id())).armorSet()
                     .translate(  "§2Grandmaster§r Wolven Band", "§2Grandmaster§r Wolven Suit", "§2Grandmaster§r Wolven Legs", "§2Grandmaster§r Wolven Boots");
 
     //URSINE SCHOOL ARMOR
@@ -1003,7 +997,7 @@ public class Armors {
                                             AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT4),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT4),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT4)
-                                    ))),10,commonSettings(SetBonuses.mastercrafted_ursine.id(), TIER4_GLYPH_SLOTS)).armorSet()
+                                    ))),10,commonSettings(SetBonuses.mastercrafted_ursine.id())).armorSet()
                     .translate(  "§2Mastercrafted§r Ursine Band", "§2Mastercrafted§r Ursine Suit", "§2Mastercrafted§r Ursine Pants", "§2Mastercrafted§r Ursine Boots");
     public static final Armor.Set grandmasterUrsineArmorSet =
             create(
@@ -1061,7 +1055,7 @@ public class Armors {
                                             AttributeModifier.multiply(CRIT_DAMAGE_ID,ursineArmorCritDmgT5),
                                             AttributeModifier.multiply(ATTACK_DAMAGE,ursineAttackDamageT5),
                                             AttributeModifier.bonus(ARMOR_TOUGHNESS,ursineArmorToughnessT5)
-                                    ))),10,commonSettings(SetBonuses.grandmaster_ursine.id(), TIER5_GLYPH_SLOTS)).armorSet()
+                                    ))),10,commonSettings(SetBonuses.grandmaster_ursine.id())).armorSet()
                     .translate(  "§2Grandmaster§r Ursine Band", "§2Grandmaster§r Ursine Suit", "§2Grandmaster§r Ursine Pants", "§2Grandmaster§r Ursine Boots");
 
     public static void register(Map<String,  ArmorSetConfig> configs) {

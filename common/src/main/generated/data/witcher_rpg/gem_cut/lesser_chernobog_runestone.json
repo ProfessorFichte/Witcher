@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "minecraft:generic.attack_damage",
+    "operation": "add_multiplied_base",
+    "value": 0.02
+  },
+  "color": "#3D0000",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/lesser_chernobog_runestone"
+}

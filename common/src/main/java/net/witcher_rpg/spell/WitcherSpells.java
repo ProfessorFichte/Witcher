@@ -213,7 +213,7 @@ public class WitcherSpells {
                 ParticleGroupBuilder.of("witcher_rpg:aard_sign_cast")
                         .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
                                 .count(4F).speed(0.01F, 0.1F)),
-                ParticleGroupBuilder.of("more_rpg_classes:wind_vacuum")
+                ParticleGroupBuilder.of("mrpg_lib:wind_vacuum")
                         .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
                                 .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
                                 .count(1F).speed(0.1F, 1.0F)),
@@ -230,7 +230,7 @@ public class WitcherSpells {
         custom.action.custom = new Spell.Impact.Action.Custom();
         custom.action.type = Spell.Impact.Action.Type.CUSTOM;
         custom.action.custom.intent = SpellTarget.Intent.HARMFUL;
-        custom.action.custom.handler = "more_rpg_classes:stop_arrows";
+        custom.action.custom.handler = "mrpg_lib:stop_arrows";
 
         var damage = new Spell.Impact();
         damage.action = new Spell.Impact.Action();
@@ -239,7 +239,7 @@ public class WitcherSpells {
         damage.action.damage.spell_power_coefficient = 0.75F;
         damage.action.damage.knockback = 5.0F;
         damage.visuals = Fx.Visuals.of(
-                ParticleGroupBuilder.of("more_rpg_classes:wind_vacuum")
+                ParticleGroupBuilder.of("mrpg_lib:wind_vacuum")
                         .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
                                 .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
                                 .count(1F).speed(0.1F, 1.0F)),
@@ -618,7 +618,7 @@ public class WitcherSpells {
         custom.action = new Spell.Impact.Action();
         custom.action.type = Spell.Impact.Action.Type.CUSTOM;
         custom.action.custom = new Spell.Impact.Action.Custom();
-        custom.action.custom.handler = "more_rpg_classes:stop_arrows";
+        custom.action.custom.handler = "mrpg_lib:stop_arrows";
         custom.action.custom.intent = SpellTarget.Intent.HARMFUL;
 
         var damage = new Spell.Impact();
@@ -628,7 +628,7 @@ public class WitcherSpells {
         damage.action.damage.spell_power_coefficient = 0.6F;
         damage.action.damage.knockback = 4.0F;
         damage.visuals = Fx.Visuals.of(
-                ParticleGroupBuilder.of("more_rpg_classes:wind_vacuum")
+                ParticleGroupBuilder.of("mrpg_lib:wind_vacuum")
                         .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
                                 .anchor(ParticleGroup.Anchor.LAUNCH_POINT)
                                 .alignment(ParticleGroup.Alignment.LOOK)
@@ -1053,7 +1053,7 @@ public class WitcherSpells {
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 1.35F;
         damage.action.damage.knockback = 0.3F;
-        damage.sound = Sound.withVolume(Identifier.of("more_rpg_classes:crippling_strike"), 0.2F);
+        damage.sound = Sound.withVolume(Identifier.of("mrpg_lib:crippling_strike"), 0.2F);
         spell.impacts = List.of(damage);
 
         configureCooldown(spell, 30);

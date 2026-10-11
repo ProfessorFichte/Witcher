@@ -23,7 +23,7 @@
           }
         },
         {
-          "id": "more_rpg_classes:wind_vacuum",
+          "id": "mrpg_lib:wind_vacuum",
           "appearance": {},
           "batch": {
             "count": 1.0,
@@ -68,7 +68,7 @@
       "visuals": {
         "particles": [
           {
-            "id": "more_rpg_classes:wind_vacuum",
+            "id": "mrpg_lib:wind_vacuum",
             "appearance": {},
             "batch": {
               "count": 1.0,
@@ -97,7 +97,7 @@
         "type": "CUSTOM",
         "custom": {
           "intent": "HARMFUL",
-          "handler": "more_rpg_classes:stop_arrows"
+          "handler": "mrpg_lib:stop_arrows"
         }
       }
     }

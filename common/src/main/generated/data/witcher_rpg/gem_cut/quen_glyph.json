@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "witcher_rpg:quen_intensity",
+    "operation": "add_value",
+    "value": 0.5
+  },
+  "color": "#FFEE00",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/quen_glyph"
+}

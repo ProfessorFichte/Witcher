@@ -13,7 +13,7 @@ import net.spell_engine.fx.SpellEngineParticles;
 
 import java.util.List;
 
-import static net.more_rpg_classes.util.CustomMethods.clearNegativeEffects;
+import static com.mrpg_lib.util.CustomMethods.clearNegativeEffects;
 import static net.witcher_rpg.WitcherClassMod.MOD_ID;
 
 public class QuenShieldEffect extends StatusEffect {

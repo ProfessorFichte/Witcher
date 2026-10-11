@@ -69,7 +69,7 @@
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {
-          "effect_id": "more_rpg_classes:frosted",
+          "effect_id": "mrpg_lib:frosted",
           "duration": 3.0
         }
       }

@@ -27,7 +27,9 @@ repositories {
     maven { url 'https://maven.su5ed.dev/releases' }
     maven { url 'https://maven.fabricmc.net' }
 
-    mavenLocal()
+    mavenLocal {
+        content { excludeModule('maven.modrinth', 'more-rpg-library') }
+    }
 }
 
 dependencies {
@@ -49,6 +51,8 @@ dependencies {
 
     // Compatibility
     modCompileOnly("maven.modrinth:critical-strike:${project.critical_strike_version}-${platform}")
+    modCompileOnly("maven.modrinth:jewelry:${project.jewelry_version}-${platform}")
+    modCompileOnly "dev.emi:emi-${platform}:${project.emi_version}:api"
     // No slot-mod (Trinkets / Curios) dependency here on purpose -- `common` stays slot-mod
     // agnostic; the integration lives behind the per-platform `CompatFeatures` seam.
 }

@@ -15,7 +15,6 @@ public class WitcherItemTags {
     public static final TagKey<Item> WITCHER_ARMOR = register("witcher_armor");
     public static final TagKey<Item> WITCHER_MEDALLIONS = register("witcher_medallions");
     public static final TagKey<Item> WITCHER_CHESTPLATES = register("witcher_chestplates");
-    public static final TagKey<Item> GLYPH_ATTACHABLE = register("glyph_attachable");
     public static final TagKey<Item> SIGN_INTENSITY_ENCHANTABLE = register("enchantable/sign_intensity");
 
     public static final TagKey<Item> GLYPHS_0 = register("glyphs_0");
@@ -25,7 +24,6 @@ public class WitcherItemTags {
     public static final TagKey<Item> RUNESTONES_0 = register("runestones_0");
     public static final TagKey<Item> RUNESTONES_1 = register("runestones_1");
     public static final TagKey<Item> RUNESTONES_2 = register("runestones_2");
-    public static final TagKey<Item> RUNESTONE_ATTACHABLE = register("runestone_attachable");
 
     public static final TagKey<Item> RELIC_SWORDS_0 = register("relic_swords_0");
     public static final TagKey<Item> RELIC_SWORDS_1 = register("relic_swords_1");

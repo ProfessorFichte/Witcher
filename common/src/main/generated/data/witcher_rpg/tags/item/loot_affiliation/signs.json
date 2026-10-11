@@ -1,0 +1,9 @@
+{
+  "values": [
+    {
+      "id": "#witcher_rpg:witcher_swords",
+      "required": false
+    },
+    "#witcher_rpg:armor_type/witcher_gear"
+  ]
+}

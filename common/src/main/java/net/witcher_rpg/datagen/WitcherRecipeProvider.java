@@ -14,11 +14,14 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.spell_engine.rpg_series.item.Armor;
 import net.witcher_rpg.blocks.WitcherBlocks;
+import net.witcher_rpg.compat.jewelry.WitcherGlyphRunestones;
 import net.witcher_rpg.item.WitcherArmorDiagrams;
 import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.armor.Armors;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
+import net.witcher_rpg.recipe.GemCutCraftingRecipe;
+import net.witcher_rpg.recipe.GemCutUpgradeRecipe;
 import net.witcher_rpg.util.tags.WitcherItemTags;
 
 import java.util.List;
@@ -53,6 +56,34 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         // TRINKET RECIPES (Medallions and Glyphs)
         generateTrinketRecipes(exporter);
 
+        // GEM CUT TIER UPGRADE (cut-preserving Glyph/Runestone tier upgrade)
+        ComplexRecipeJsonBuilder.create(GemCutUpgradeRecipe::new)
+                .offerTo(exporter, "gem_cut_upgrade");
+
+        // GEM CUT CRAFTING (raw item + catalyst -> cut, bypassing Jewelry's cutting table)
+        ComplexRecipeJsonBuilder.create(GemCutCraftingRecipe::new)
+                .offerTo(exporter, "gem_cut_crafting");
+
+        // LESSER RUNESTONE / LESSER GLYPH OF INFUSION (base items; items only exist if Jewelry is installed,
+        // so these recipes are harmlessly skipped by the recipe manager otherwise)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherGlyphRunestones.LESSER_RUNESTONE.item().get())
+                .pattern(" S ")
+                .pattern("SGS")
+                .pattern(" S ")
+                .input('S', Items.STONE)
+                .input('G', Items.GLOWSTONE_DUST)
+                .criterion(hasItem(Items.GLOWSTONE_DUST), conditionsFromItem(Items.GLOWSTONE_DUST))
+                .offerTo(exporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherGlyphRunestones.LESSER_GLYPH_OF_INFUSION.item().get())
+                .pattern("SSS")
+                .pattern("SQS")
+                .pattern("SSS")
+                .input('S', Items.STONE)
+                .input('Q', Items.QUARTZ)
+                .criterion(hasItem(Items.QUARTZ), conditionsFromItem(Items.QUARTZ))
+                .offerTo(exporter);
+
         // DISASSEMBLY RECIPES (Smelting armor/weapons back into materials)
         generateDisassemblyRecipes(exporter);
 
@@ -71,7 +102,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         createSwordRecipe(exporter, WeaponsRegister.golden_witcher_sword.item(), Items.GOLD_INGOT);
 
         // Diamond Witcher Sword
-        var hardenedLeather = getOrFallback(Identifier.of("more_rpg_classes", "hardened_leather"), Items.LEATHER);
+        var hardenedLeather = getOrFallback(Identifier.of("mrpg_lib", "hardened_leather"), Items.LEATHER);
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, WeaponsRegister.diamond_witcher_sword.item())
                 .pattern(" W ")
                 .pattern("WWW")
@@ -149,7 +180,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
     }
 
     private void createSwordRecipe(RecipeExporter exporter, Item result, Item material) {
-        var hardenedLeather = getOrFallback(Identifier.of("more_rpg_classes", "hardened_leather"), Items.LEATHER);
+        var hardenedLeather = getOrFallback(Identifier.of("mrpg_lib", "hardened_leather"), Items.LEATHER);
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, result)
                 .pattern(" W ")
                 .pattern("WWW")
@@ -166,7 +197,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
     }
 
     private void generateSpellBookRecipes(RecipeExporter exporter) {
-        var hardenedLeather = getOrFallback(Identifier.of("more_rpg_classes", "hardened_leather"), Items.LEATHER);;
+        var hardenedLeather = getOrFallback(Identifier.of("mrpg_lib", "hardened_leather"), Items.LEATHER);;
 
         // Master Spell Book - combines base signs and fencing
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, WitcherMaterials.MASTER_BOOK())
@@ -182,7 +213,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
     }
 
     private void generateArmorRecipes(RecipeExporter exporter) {
-        var hardenedLeather = getOrFallback(Identifier.of("more_rpg_classes", "hardened_leather"), Items.LEATHER);
+        var hardenedLeather = getOrFallback(Identifier.of("mrpg_lib", "hardened_leather"), Items.LEATHER);
         // Base Witcher Armor - Tier 1
         createArmorSet(exporter, "witcher", Items.LEATHER, hardenedLeather,
                 Armors.witcherArmorSet);
@@ -258,7 +289,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
     }
     private void createDiagramRecipes(RecipeExporter exporter, String name, Item diagram) {
         var hardenedLeather = getOrFallback(
-                Identifier.of("more_rpg_classes", "hardened_leather"),
+                Identifier.of("mrpg_lib", "hardened_leather"),
                 Items.LEATHER
         );
 
@@ -504,80 +535,6 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                         conditionsFromItem(WitcherTrinkets.PURE_SILVER.item().get()))
                 .offerTo(exporter);
 
-        // Glyph Combinations
-        createGlyphRecipe(exporter, WitcherTrinkets.AARD_GLYPH.item().get(),
-                WitcherTrinkets.LESSER_AARD_GLYPH.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.AXII_GLYPH.item().get(),
-                WitcherTrinkets.LESSER_AXII_GLYPH.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.IGNI_GLYPH.item().get(),
-                WitcherTrinkets.LESSER_IGNI_GLYPH.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.QUEN_GLYPH.item().get(),
-                WitcherTrinkets.LESSER_QUEN_GLYPH.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.YRDEN_GLYPH.item().get(),
-                WitcherTrinkets.LESSER_YRDEN_GLYPH.item().get());
-
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_AARD_GLYPH.item().get(),
-                WitcherTrinkets.AARD_GLYPH.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_AXII_GLYPH.item().get(),
-                WitcherTrinkets.AXII_GLYPH.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_IGNI_GLYPH.item().get(),
-                WitcherTrinkets.IGNI_GLYPH.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_QUEN_GLYPH.item().get(),
-                WitcherTrinkets.QUEN_GLYPH.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_YRDEN_GLYPH.item().get(),
-                WitcherTrinkets.YRDEN_GLYPH.item().get());
-        // Rune Combinations
-        createGlyphRecipe(exporter, WitcherTrinkets.DAZHBOG_RUNESTONE.item().get(),
-                WitcherTrinkets.LESSER_DAZHBOG_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.CHERNOBOG_RUNESTONE.item().get(),
-                WitcherTrinkets.LESSER_CHERNOBOG_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.STRIBOG_RUNESTONE.item().get(),
-                WitcherTrinkets.LESSER_STRIBOG_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.SVAROG_RUNESTONE.item().get(),
-                WitcherTrinkets.LESSER_SVAROG_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.TRIGLAV_RUNESTONE.item().get(),
-                WitcherTrinkets.LESSER_TRIGLAV_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.PERUN_RUNESTONE.item().get(),
-                WitcherTrinkets.LESSER_PERUN_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.VELES_RUNESTONE.item().get(),
-                WitcherTrinkets.LESSER_VELES_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.MORANA_RUNESTONE.item().get(),
-                WitcherTrinkets.LESSER_MORANA_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.ZORIA_RUNESTONE.item().get(),
-                WitcherTrinkets.LESSER_ZORIA_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.DEVANA_RUNESTONE.item().get(),
-                WitcherTrinkets.LESSER_DEVANA_RUNESTONE.item().get());
-
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_DAZHBOG_RUNESTONE.item().get(),
-                WitcherTrinkets.DAZHBOG_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_CHERNOBOG_RUNESTONE.item().get(),
-                WitcherTrinkets.CHERNOBOG_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_STRIBOG_RUNESTONE.item().get(),
-                WitcherTrinkets.STRIBOG_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_SVAROG_RUNESTONE.item().get(),
-                WitcherTrinkets.SVAROG_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_TRIGLAV_RUNESTONE.item().get(),
-                WitcherTrinkets.TRIGLAV_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_PERUN_RUNESTONE.item().get(),
-                WitcherTrinkets.PERUN_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_VELES_RUNESTONE.item().get(),
-                WitcherTrinkets.VELES_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_MORANA_RUNESTONE.item().get(),
-                WitcherTrinkets.MORANA_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_ZORIA_RUNESTONE.item().get(),
-                WitcherTrinkets.ZORIA_RUNESTONE.item().get());
-        createGlyphRecipe(exporter, WitcherTrinkets.GREATER_DEVANA_RUNESTONE.item().get(),
-                WitcherTrinkets.DEVANA_RUNESTONE.item().get());
-    }
-
-    private void createGlyphRecipe(RecipeExporter exporter, Item result, Item ingredient) {
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.COMBAT, result)
-                .input(ingredient)
-                .input(ingredient)
-                .input(ingredient)
-                .input(ingredient)
-                .criterion(hasItem(ingredient), conditionsFromItem(ingredient))
-                .offerTo(exporter);
     }
 
     private void generateDisassemblyRecipes(RecipeExporter exporter) {

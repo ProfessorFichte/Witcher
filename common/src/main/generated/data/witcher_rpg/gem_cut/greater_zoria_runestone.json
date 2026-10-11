@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "mrpg_lib:freeze_chance",
+    "operation": "add_multiplied_base",
+    "value": 0.075
+  },
+  "color": "#16215C",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/greater_zoria_runestone"
+}

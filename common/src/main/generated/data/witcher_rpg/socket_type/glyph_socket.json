@@ -1,0 +1,14 @@
+{
+  "accepts": "#witcher_rpg:glyph_cuts",
+  "empty": {
+    "color": "#9BB4C2",
+    "icon": "󸄀"
+  },
+  "fill": {
+    "color": "#4FD1C5",
+    "icon": "󸄀󸄄󸄁"
+  },
+  "title": {
+    "translate": "socket.witcher_rpg.glyph_socket"
+  }
+}

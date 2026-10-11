@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "witcher_rpg:aard_intensity",
+    "operation": "add_value",
+    "value": 0.25
+  },
+  "color": "#4FC3F7",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/lesser_aard_glyph"
+}

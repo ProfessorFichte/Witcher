@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "witcher_rpg:sign_intensity",
+    "operation": "add_multiplied_base",
+    "value": 0.03
+  },
+  "color": "#7FFFD4",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/veles_runestone"
+}

@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "mrpg_lib:burning_chance",
+    "operation": "add_multiplied_base",
+    "value": 0.075
+  },
+  "color": "#FF9500",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/greater_dazhbog_runestone"
+}

@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "witcher_rpg:adrenaline_modifier",
+    "operation": "add_multiplied_base",
+    "value": 0.05
+  },
+  "color": "#00CFFF",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/perun_runestone"
+}

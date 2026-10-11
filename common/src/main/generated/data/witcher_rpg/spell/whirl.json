@@ -38,7 +38,7 @@
         }
       },
       "sound": {
-        "id": "more_rpg_classes:crippling_strike",
+        "id": "mrpg_lib:crippling_strike",
         "volume": 0.2
       }
     }

@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#witcher_rpg:glyph_cuts",
+      "required": false
+    },
+    {
+      "id": "#witcher_rpg:runestone_cuts",
+      "required": false
+    }
+  ]
+}

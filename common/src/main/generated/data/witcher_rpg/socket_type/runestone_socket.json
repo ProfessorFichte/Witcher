@@ -1,0 +1,14 @@
+{
+  "accepts": "#witcher_rpg:runestone_cuts",
+  "empty": {
+    "color": "#4A5D73",
+    "icon": "󸄂"
+  },
+  "fill": {
+    "color": "#C9A24B",
+    "icon": "󸄂󸄄󸄃"
+  },
+  "title": {
+    "translate": "socket.witcher_rpg.runestone_socket"
+  }
+}

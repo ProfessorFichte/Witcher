@@ -1,5 +1,6 @@
 package net.witcher_rpg.entity;
 
+import com.mrpg_lib.util.AllyHelper;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.annotation.Nullable;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -21,7 +22,6 @@ import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.registry.SpellRegistry;
 import net.spell_engine.internals.SpellExecution;
 import net.spell_engine.internals.impact.SpellImpacts;
-import net.spell_engine.internals.target.EntityRelations;
 import net.spell_engine.fx.ParticleHelper;
 import net.spell_power.api.SpellPower;
 import net.witcher_rpg.custom.WitcherSpellSchools;
@@ -214,20 +214,11 @@ public class YrdenMagicTrapEntity extends Entity implements SpellEntity.Spawned 
     }
 
     public boolean isProtected(Entity other) {
-        var owner = this.getOwner();
-        if (owner == null) {
+        if (other == null) {
             return false;
         }
-        var relation = EntityRelations.getRelation(owner, other);
-        switch (relation) {
-            case ALLY, FRIENDLY -> {
-                return true;
-            }
-            case NEUTRAL, MIXED, HOSTILE -> {
-                return false;
-            }
-        }
-        return false;
+        var owner = this.getOwner();
+        return owner != null && AllyHelper.canHelp(owner, other);
     }
 
     @Nullable public RegistryEntry<Spell> getSpellEntry() {

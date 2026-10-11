@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "SQS",
+    "SSS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "witcher_rpg:lesser_glyph_of_infusion"
+  }
+}

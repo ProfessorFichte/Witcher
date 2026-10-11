@@ -45,7 +45,7 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.witcher_rpg]]
-modId = "more_rpg_classes"
+modId = "mrpg_lib"
 type = "required"
 versionRange = "[${more_rpg_library_version},)"
 ordering = "NONE"

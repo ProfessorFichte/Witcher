@@ -11,7 +11,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
 import net.spell_engine.rpg_series.config.AttributeModifier;
 import net.spell_engine.rpg_series.config.ConfigUtil;
 import net.spell_engine.api.spell.SpellDataComponents;
@@ -48,14 +47,6 @@ public class WitcherTrinkets {
         if (args.attributes != null) {
             settings.attributeModifiers(args.attributes);
         }
-
-        // Use custom item classes for glyphs and runestones
-        if (args.name.contains("glyph")) {
-            return new GlyphItem(settings);
-        } else if (args.name.contains("runestone")) {
-            return new RunestoneItem(settings);
-        }
-
         return new Item(settings);
     };
 
@@ -101,10 +92,6 @@ public class WitcherTrinkets {
                 }
 
                 if (name.contains("medallion")) settings = settings.rarity(Rarity.EPIC);
-                if (name.contains("lesser")) settings = settings.rarity(Rarity.COMMON);
-                if (!name.contains("lesser") && !name.contains("greater") && name.contains("glyph"))
-                    settings = settings.rarity(Rarity.UNCOMMON);
-                if (name.contains("greater")) settings = settings.rarity(Rarity.RARE);
                 if (name.contains("pure_silver") && name.contains("rose_of_remembrance") && name.contains("crystal_skull"))
                     settings = settings.rarity(Rarity.RARE);
                 if (name.contains("sunstone")) settings = settings.rarity(Rarity.EPIC);
@@ -150,8 +137,6 @@ public class WitcherTrinkets {
             settingsMutators.add(settings -> settings.component(type, value));
             return this;
         }
-
-        public boolean isEnabled() { return true; }
     }
 
 
@@ -160,18 +145,6 @@ public class WitcherTrinkets {
     public static float medallion_haste = 0.05F;
     public static float medallion_adrenaline = 0.1F;
     public static float medallion_health = 4.0F;
-    public static float lesser_glyph_power = 0.25F;
-    public static float glyph_power = 0.5F;
-    public static float greater_glyph_power = 1.0F;
-    public static float lesser_runestone_power = 0.02F;
-    public static float runestone_power = 0.03F;
-    public static float greater_runestone_power = 0.05F;
-    public static float lesser_runestone_effect_weak = 0.05F;
-    public static float runestone_effect_weak = 0.075F;
-    public static float greater_runestone_effect_weak = 0.1F;
-    public static float lesser_runestone_effect_strong = 0.035F;
-    public static float runestone_effect_strong = 0.05F;
-    public static float greater_runestone_effect_strong = 0.075F;
 
 
 
@@ -216,278 +189,6 @@ public class WitcherTrinkets {
             )
             .spell(SpellContainers.forRelic(WitcherModifiers.increased_medallion_senses.id()))
             .component(SpellDataComponents.EQUIPMENT_SET, SetBonuses.grandmaster_wolven.id());
-    ///GLYPHS
-    public static final Entry LESSER_AARD_GLYPH = add(new Entry(10, "lesser_aard_glyph", "Lesser Aard Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.AARD_INTENSITY.getIdAsString(), lesser_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry LESSER_AXII_GLYPH = add(new Entry(10, "lesser_axii_glyph", "Lesser Axii Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.AXII_INTENSITY.getIdAsString(), lesser_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry LESSER_IGNI_GLYPH = add(new Entry(10, "lesser_igni_glyph", "Lesser Igni Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.IGNI_INTENSITY.getIdAsString(), lesser_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry LESSER_QUEN_GLYPH = add(new Entry(10, "lesser_quen_glyph", "Lesser Quen Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.QUEN_INTENSITY.getIdAsString(), lesser_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry LESSER_YRDEN_GLYPH = add(new Entry(10, "lesser_yrden_glyph", "Lesser Yrden Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.YRDEN_INTENSITY.getIdAsString(), lesser_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry AARD_GLYPH = add(new Entry(10, "aard_glyph", "Aard Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.AARD_INTENSITY.getIdAsString(), glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry AXII_GLYPH = add(new Entry(10, "axii_glyph", "Axii Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.AXII_INTENSITY.getIdAsString(), glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry IGNI_GLYPH = add(new Entry(10, "igni_glyph", "Igni Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.IGNI_INTENSITY.getIdAsString(), glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry QUEN_GLYPH = add(new Entry(10, "quen_glyph", "Quen Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.QUEN_INTENSITY.getIdAsString(), glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry YRDEN_GLYPH = add(new Entry(10, "yrden_glyph", "Yrden Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.YRDEN_INTENSITY.getIdAsString(), glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry GREATER_AARD_GLYPH = add(new Entry(10, "greater_aard_glyph", "Greater Aard Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.AARD_INTENSITY.getIdAsString(), greater_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry GREATER_AXII_GLYPH = add(new Entry(10, "greater_axii_glyph", "Greater Axii Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.AXII_INTENSITY.getIdAsString(), greater_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry GREATER_IGNI_GLYPH = add(new Entry(10, "greater_igni_glyph", "Greater Igni Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.IGNI_INTENSITY.getIdAsString(), greater_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry GREATER_QUEN_GLYPH = add(new Entry(10, "greater_quen_glyph", "Greater Quen Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.QUEN_INTENSITY.getIdAsString(), greater_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    public static final Entry GREATER_YRDEN_GLYPH = add(new Entry(10, "greater_yrden_glyph", "Greater Yrden Glyph"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.YRDEN_INTENSITY.getIdAsString(), greater_glyph_power, EntityAttributeModifier.Operation.ADD_VALUE)
-                    ))
-            );
-    ///RUNESTONES
-    public static final Entry LESSER_DAZHBOG_RUNESTONE = add(new Entry(10, "lesser_dazhbog_runestone", "Lesser Dazhbog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.BURNING_CHANCE.getIdAsString(), lesser_runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry DAZHBOG_RUNESTONE = add(new Entry(10, "dazhbog_runestone", "Dazhbog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.BURNING_CHANCE.getIdAsString(), runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry GREATER_DAZHBOG_RUNESTONE = add(new Entry(10, "greater_dazhbog_runestone", "Greater Dazhbog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.BURNING_CHANCE.getIdAsString(), greater_runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry LESSER_CHERNOBOG_RUNESTONE = add(new Entry(10, "lesser_chernobog_runestone", "Lesser Chernobog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(), lesser_runestone_power, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry CHERNOBOG_RUNESTONE = add(new Entry(10, "chernobog_runestone", "Chernobog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(), runestone_power, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry GREATER_CHERNOBOG_RUNESTONE = add(new Entry(10, "greater_chernobog_runestone", "Greater Chernobog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(), greater_runestone_power, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry LESSER_STRIBOG_RUNESTONE = add(new Entry(10, "lesser_stribog_runestone", "Lesser Stribog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.STAGGER_CHANCE.getIdAsString(), lesser_runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry STRIBOG_RUNESTONE = add(new Entry(10, "stribog_runestone", "Stribog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.STAGGER_CHANCE.getIdAsString(), runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry GREATER_STRIBOG_RUNESTONE = add(new Entry(10, "greater_stribog_runestone", "Greater Stribog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.STAGGER_CHANCE.getIdAsString(), greater_runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry LESSER_SVAROG_RUNESTONE = add(new Entry(10, "lesser_svarog_runestone", "Lesser Svarog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.ARMOR_PIERCING.getIdAsString(), lesser_runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry SVAROG_RUNESTONE = add(new Entry(10, "svarog_runestone", "Svarog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.ARMOR_PIERCING.getIdAsString(), runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry GREATER_SVAROG_RUNESTONE = add(new Entry(10, "greater_svarog_runestone", "Greater Svarog Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.ARMOR_PIERCING.getIdAsString(), greater_runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry LESSER_TRIGLAV_RUNESTONE = add(new Entry(10, "lesser_triglav_runestone", "Lesser Triglav Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.STUN_CHANCE.getIdAsString(), lesser_runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry TRIGLAV_RUNESTONE = add(new Entry(10, "triglav_runestone", "Triglav Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.STUN_CHANCE.getIdAsString(), runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry GREATER_TRIGLAV_RUNESTONE = add(new Entry(10, "greater_triglav_runestone", "Greater Triglav Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.STUN_CHANCE.getIdAsString(), greater_runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry LESSER_PERUN_RUNESTONE = add(new Entry(10, "lesser_perun_runestone", "Lesser Perun Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.ADRENALINE_MODIFIER.getIdAsString(), lesser_runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry PERUN_RUNESTONE = add(new Entry(10, "perun_runestone", "Perun Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.ADRENALINE_MODIFIER.getIdAsString(), runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry GREATER_PERUN_RUNESTONE = add(new Entry(10, "greater_perun_runestone", "Greater Perun Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.ADRENALINE_MODIFIER.getIdAsString(), greater_runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry LESSER_VELES_RUNESTONE = add(new Entry(10, "lesser_veles_runestone", "Lesser Veles Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.SIGN_INTENSITY.getIdAsString(), lesser_runestone_power, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry VELES_RUNESTONE = add(new Entry(10, "veles_runestone", "Veles Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.SIGN_INTENSITY.getIdAsString(), runestone_power, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry GREATER_VELES_RUNESTONE = add(new Entry(10, "greater_veles_runestone", "Greater Veles Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(WitcherAttributes.SIGN_INTENSITY.getIdAsString(), greater_runestone_power, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry LESSER_MORANA_RUNESTONE = add(new Entry(10, "lesser_morana_runestone", "Lesser Morana Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.POISON_CHANCE.getIdAsString(), lesser_runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry MORANA_RUNESTONE = add(new Entry(10, "morana_runestone", "Morana Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.POISON_CHANCE.getIdAsString(), runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry GREATER_MORANA_RUNESTONE = add(new Entry(10, "greater_morana_runestone", "Greater Morana Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.POISON_CHANCE.getIdAsString(), greater_runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry LESSER_ZORIA_RUNESTONE = add(new Entry(10, "lesser_zoria_runestone", "Lesser Zoria Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.FREEZE_CHANCE.getIdAsString(), lesser_runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry ZORIA_RUNESTONE = add(new Entry(10, "zoria_runestone", "Zoria Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.FREEZE_CHANCE.getIdAsString(), runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry GREATER_ZORIA_RUNESTONE = add(new Entry(10, "greater_zoria_runestone", "Greater Zoria Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.FREEZE_CHANCE.getIdAsString(), greater_runestone_effect_strong, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry LESSER_DEVANA_RUNESTONE = add(new Entry(10, "lesser_devana_runestone", "Lesser Devana Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.BLEEDING_CHANCE.getIdAsString(), lesser_runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry DEVANA_RUNESTONE = add(new Entry(10, "devana_runestone", "Devana Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.BLEEDING_CHANCE.getIdAsString(), runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
-    public static final Entry GREATER_DEVANA_RUNESTONE = add(new Entry(10, "greater_devana_runestone", "Greater Devana Runestone"))
-            .config(new TrinketConfig.Entry()
-                    .withAttributes(List.of(
-                            new AttributeModifier(MRPGCEntityAttributes.BLEEDING_CHANCE.getIdAsString(), greater_runestone_effect_weak, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
-                    ))
-            );
     ///TRINKETS
     public static final Entry PURE_SILVER = add(new Entry(10, "pure_silver", "Pure Silver"))
             .spell(SpellContainers.forRelic(WitcherPassives.pure_silver.id()))
@@ -519,15 +220,11 @@ public class WitcherTrinkets {
         }
 
         for(var entry: entries) {
-            if (entry.isEnabled()) {
-                Registry.register(Registries.ITEM, entry.id(), entry.item().get());
-            }
+            Registry.register(Registries.ITEM, entry.id(), entry.item().get());
         }
         PlatformEvents.onItemGroupModify(WitcherGroup.WITCHER_KEY, (content, context) -> {
             for(var entry: entries) {
-                if (entry.isEnabled()) {
-                    content.add(entry.item().get());
-                }
+                content.add(entry.item().get());
             }
         });
     }

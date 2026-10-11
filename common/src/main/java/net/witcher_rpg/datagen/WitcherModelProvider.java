@@ -7,8 +7,11 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.item.Item;
+import net.jewelry.api.datagen.GemCutGenerator;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import net.witcher_rpg.compat.jewelry.WitcherGlyphRunestoneCuts;
+import net.witcher_rpg.compat.jewelry.WitcherGlyphRunestones;
 import net.witcher_rpg.item.WitcherArmorDiagrams;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.item.armor.Armors;
@@ -59,6 +62,20 @@ public class WitcherModelProvider extends FabricModelProvider {
             json.add("textures", textures);
             itemModelGenerator.writer.accept(modelId, () -> json);
         });
+        WitcherGlyphRunestones.entries.forEach(entry -> {
+            Item item = entry.item().get();
+            Identifier itemId = Registries.ITEM.getId(item);
+            Identifier modelId = Identifier.of(itemId.getNamespace(), "item/" + itemId.getPath());
+            JsonObject json = new JsonObject();
+            json.addProperty("parent", "item/generated");
+            JsonObject textures = new JsonObject();
+            textures.addProperty("layer0", "witcher_rpg:item/trinkets/" + entry.name());
+            json.add("textures", textures);
+            itemModelGenerator.writer.accept(modelId, () -> json);
+        });
+        WitcherGlyphRunestoneCuts.CUTS.forEach(cut ->
+                GemCutGenerator.generateItemModel(itemModelGenerator, cut.entry())
+        );
         Armors.entries.forEach(entry -> {
             Item item = entry.armorSet().head;
             Identifier itemId = Registries.ITEM.getId(item);

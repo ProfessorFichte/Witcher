@@ -66,13 +66,13 @@ public class WeaponsRegister {
     private static final Identifier CRIT_CHANCE_ID = Identifier.of(CRIT_MOD_ID, "chance");
     private static final Identifier CRIT_DAMAGE_ID = Identifier.of(CRIT_MOD_ID, "damage");
     /// MRPG-LIB ATTRIBUTES
-    private static final Identifier ARMOR_PIERCING = Identifier.of("more_rpg_classes:armor_piercing");
-    private static final Identifier BLEEDING_CHANCE = Identifier.of("more_rpg_classes:bleeding_chance");
-    private static final Identifier BURNING_CHANCE = Identifier.of("more_rpg_classes:burning_chance");
-    private static final Identifier FREEZE_CHANCE = Identifier.of("more_rpg_classes:freeze_chance");
-    private static final Identifier POISON_CHANCE = Identifier.of("more_rpg_classes:poison_chance");
-    private static final Identifier STAGGER_CHANCE = Identifier.of("more_rpg_classes:stagger_chance");
-    private static final Identifier STUN_CHANCE = Identifier.of("more_rpg_classes:stun_chance");
+    private static final Identifier ARMOR_PIERCING = Identifier.of("mrpg_lib:armor_piercing");
+    private static final Identifier BLEEDING_CHANCE = Identifier.of("mrpg_lib:bleeding_chance");
+    private static final Identifier BURNING_CHANCE = Identifier.of("mrpg_lib:burning_chance");
+    private static final Identifier FREEZE_CHANCE = Identifier.of("mrpg_lib:freeze_chance");
+    private static final Identifier POISON_CHANCE = Identifier.of("mrpg_lib:poison_chance");
+    private static final Identifier STAGGER_CHANCE = Identifier.of("mrpg_lib:stagger_chance");
+    private static final Identifier STUN_CHANCE = Identifier.of("mrpg_lib:stun_chance");
 
 
     public static float witcher_sword_attackSpeed = -2.4f;

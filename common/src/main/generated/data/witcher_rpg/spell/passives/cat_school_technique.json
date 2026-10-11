@@ -61,7 +61,7 @@
         "type": "CUSTOM",
         "custom": {
           "intent": "HARMFUL",
-          "handler": "more_rpg_classes:damage_according_to_missing_health"
+          "handler": "mrpg_lib:damage_according_to_missing_health"
         }
       },
       "visuals": {

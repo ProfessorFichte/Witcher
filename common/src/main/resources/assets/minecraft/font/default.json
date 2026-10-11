@@ -1,0 +1,36 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "witcher_rpg:font/glyph_socket_frame.png",
+      "ascent": 8,
+      "height": 9,
+      "chars": [ "\uDBA0\uDD00" ]
+    },
+    {
+      "type": "bitmap",
+      "file": "witcher_rpg:font/glyph_socket_fill.png",
+      "ascent": 8,
+      "height": 9,
+      "chars": [ "\uDBA0\uDD01" ]
+    },
+    {
+      "type": "bitmap",
+      "file": "witcher_rpg:font/runestone_socket_frame.png",
+      "ascent": 8,
+      "height": 9,
+      "chars": [ "\uDBA0\uDD02" ]
+    },
+    {
+      "type": "bitmap",
+      "file": "witcher_rpg:font/runestone_socket_fill.png",
+      "ascent": 8,
+      "height": 9,
+      "chars": [ "\uDBA0\uDD03" ]
+    },
+    {
+      "type": "space",
+      "advances": { "\uDBA0\uDD04": -10 }
+    }
+  ]
+}

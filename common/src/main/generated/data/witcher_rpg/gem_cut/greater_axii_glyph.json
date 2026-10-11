@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "witcher_rpg:axii_intensity",
+    "operation": "add_value",
+    "value": 1.0
+  },
+  "color": "#5FAD41",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/greater_axii_glyph"
+}

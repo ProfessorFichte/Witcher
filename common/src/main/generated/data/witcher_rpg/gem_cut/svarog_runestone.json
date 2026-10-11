@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "mrpg_lib:armor_piercing",
+    "operation": "add_multiplied_base",
+    "value": 0.075
+  },
+  "color": "#B8590A",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/svarog_runestone"
+}

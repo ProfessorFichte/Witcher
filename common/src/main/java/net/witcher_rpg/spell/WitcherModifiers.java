@@ -3,7 +3,7 @@ package net.witcher_rpg.spell;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import net.more_rpg_classes.effect.MRPGCEffects;
+import com.mrpg_lib.effect.MRPGCEffects;
 import net.spell_engine.api.util.TriState;
 import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.effect.SpellEngineEffects;

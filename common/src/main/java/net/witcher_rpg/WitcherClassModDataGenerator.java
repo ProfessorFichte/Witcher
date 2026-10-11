@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.jewelry.gems.GemCut;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.enchantment.Enchantment;
@@ -27,6 +28,10 @@ import net.spell_engine.rpg_series.item.Weapon;
 import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
 import net.spell_engine.rpg_series.tags.RPGSeriesItemTags;
 import net.witcher_rpg.blocks.WitcherBlocks;
+import net.witcher_rpg.compat.jewelry.WitcherGlyphRunestoneCutTagGenerator;
+import net.witcher_rpg.compat.jewelry.WitcherGlyphRunestoneCuts;
+import net.witcher_rpg.compat.jewelry.WitcherGlyphRunestones;
+import net.witcher_rpg.compat.jewelry.WitcherSocketTypes;
 import net.witcher_rpg.datagen.*;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.attribute.WitcherAttributes;
@@ -65,6 +70,9 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(WeaponAttributesGenerator::new);
 		pack.addProvider(WitcherAdvancementProvider::new);
 		pack.addProvider(WitcherVanillaAdvancementProvider::new);
+		pack.addProvider(WitcherSocketTypes::new);
+		pack.addProvider(WitcherGlyphRunestoneCuts::new);
+		pack.addProvider(WitcherGlyphRunestoneCutTagGenerator::new);
 	}
 
 	public static class SoundGen extends SimpleSoundGeneratorV2 {
@@ -125,23 +133,6 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			}
 		}
 
-		public void generateWitcherChestplateTag(List<Armor.Entry> armors, TagKey tagKey) {
-			Iterator var3 = armors.iterator();
-			while(var3.hasNext()) {
-				Armor.Entry armor = (Armor.Entry)var3.next();
-				FabricTagProvider<Item>.FabricTagBuilder tag = this.getOrCreateTagBuilder(tagKey);
-				Iterator var19 = armor.armorSet().pieceIds().iterator();
-
-				while(var19.hasNext()) {
-					Object id = var19.next();
-					Identifier identifier = (Identifier)id;
-					if (identifier.getPath().contains("_chest")) {
-						tag.addOptional(identifier);
-					}
-				}
-			}
-		}
-
 		List<String> relicSwords1Keywords = List.of("azure_wrath","reach_of_the_damned","ultimatum","winters");
 		List<String> relicSwords2Keywords = List.of("aerondight","iris");
 		List<String> silverSwordsKeywords = List.of("silver", "meteorite","aerondight","azure_wrath","reach_of_the_damned");
@@ -194,38 +185,51 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			generateWitcherArmorTag(
 					Armors.entries,WitcherItemTags.WITCHER_ARMOR
 			);
+			///LOOT AFFILIATION
+			var lootAffiliationArmor = Armors.entries.stream()
+					.filter(entry -> !entry.name().startsWith("mastercrafted") && !entry.name().startsWith("grandmaster"))
+					.toList();
+			var witcherGearTag = TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "armor_type/witcher_gear"));
+			generateWitcherArmorTag(lootAffiliationArmor, witcherGearTag);
+			for (var book : List.of("fencing", "signs")) {
+				var lootAffiliation = getOrCreateTagBuilder(
+						TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "loot_affiliation/" + book))
+				);
+				lootAffiliation.addOptionalTag(WitcherItemTags.WITCHER_SWORDS);
+				lootAffiliation.addTag(witcherGearTag);
+			}
 			///RELICS
 			var glyphs0 = getOrCreateTagBuilder(WitcherItemTags.GLYPHS_0);
-			WitcherTrinkets.entries.stream()
+			WitcherGlyphRunestones.entries.stream()
+					.filter(WitcherGlyphRunestones.Entry::isGlyph)
 					.filter(entry -> entry.name().toLowerCase().contains("lesser"))
-					.filter(entry -> entry.name().toLowerCase().contains("glyph"))
 					.forEach(entry -> glyphs0.addOptional(entry.id()));
 			var glyphs1 = getOrCreateTagBuilder(WitcherItemTags.GLYPHS_1);
-			WitcherTrinkets.entries.stream()
-					.filter(entry -> entry.name().toLowerCase().contains("glyph"))
+			WitcherGlyphRunestones.entries.stream()
+					.filter(WitcherGlyphRunestones.Entry::isGlyph)
 					.filter(entry -> !entry.name().toLowerCase().contains("greater"))
 					.filter(entry -> !entry.name().toLowerCase().contains("lesser"))
 					.forEach(entry -> glyphs1.addOptional(entry.id()));
 			var glyphs2 = getOrCreateTagBuilder(WitcherItemTags.GLYPHS_2);
-			WitcherTrinkets.entries.stream()
+			WitcherGlyphRunestones.entries.stream()
+					.filter(WitcherGlyphRunestones.Entry::isGlyph)
 					.filter(entry -> entry.name().toLowerCase().contains("greater"))
-					.filter(entry -> entry.name().toLowerCase().contains("glyph"))
 					.forEach(entry -> glyphs2.addOptional(entry.id()));
 			var runestones0 = getOrCreateTagBuilder(WitcherItemTags.RUNESTONES_0);
-			WitcherTrinkets.entries.stream()
+			WitcherGlyphRunestones.entries.stream()
+					.filter(entry -> !entry.isGlyph())
 					.filter(entry -> entry.name().toLowerCase().contains("lesser"))
-					.filter(entry -> entry.name().toLowerCase().contains("runestone"))
 					.forEach(entry -> runestones0.addOptional(entry.id()));
 			var runestones1 = getOrCreateTagBuilder(WitcherItemTags.RUNESTONES_1);
-			WitcherTrinkets.entries.stream()
-					.filter(entry -> entry.name().toLowerCase().contains("runestone"))
+			WitcherGlyphRunestones.entries.stream()
+					.filter(entry -> !entry.isGlyph())
 					.filter(entry -> !entry.name().toLowerCase().contains("greater"))
 					.filter(entry -> !entry.name().toLowerCase().contains("lesser"))
 					.forEach(entry -> runestones1.addOptional(entry.id()));
 			var runestones2 = getOrCreateTagBuilder(WitcherItemTags.RUNESTONES_2);
-			WitcherTrinkets.entries.stream()
+			WitcherGlyphRunestones.entries.stream()
+					.filter(entry -> !entry.isGlyph())
 					.filter(entry -> entry.name().toLowerCase().contains("greater"))
-					.filter(entry -> entry.name().toLowerCase().contains("runestone"))
 					.forEach(entry -> runestones2.addOptional(entry.id()));
 			var trinkets0 = getOrCreateTagBuilder(WitcherItemTags.TRINKETS_0);
 			WitcherTrinkets.entries.stream()
@@ -260,14 +264,6 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			WitcherMaterials.ENTRIES.stream()
 					.filter(entry -> entry.id().toString().toLowerCase().contains("dimeritium_ingot"))
 					.forEach(entry -> tier5ArmorTag.addOptional(entry.id()));
-
-			///GLYPH & RUNESTONE ATTACHABLE
-			// Glyph Attachable - all witcher chestplates
-			generateWitcherChestplateTag(Armors.entries, WitcherItemTags.GLYPH_ATTACHABLE);
-
-			// Runestone Attachable - all witcher swords
-			var runestoneAttachable = getOrCreateTagBuilder(WitcherItemTags.RUNESTONE_ATTACHABLE);
-			WeaponsRegister.entries.forEach(weapon -> runestoneAttachable.addOptional(weapon.id()));
 
 		}
 	}
@@ -320,6 +316,19 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			WitcherTrinkets.entries.forEach(entry ->
 					translationBuilder.add(entry.item().get().getTranslationKey(), entry.translatedName())
 			);
+			WitcherGlyphRunestones.entries.forEach(entry ->
+					translationBuilder.add(entry.item().get().getTranslationKey(), entry.translatedName())
+			);
+			WitcherGlyphRunestones.entries.stream()
+					.filter(entry -> entry.tooltipKey() != null)
+					.forEach(entry -> translationBuilder.add(entry.tooltipKey(),
+							"Infuse the empty " + (entry.isGlyph() ? "glyph" : "runestone") + " with certain materials."));
+			translationBuilder.add("emi.category.witcher_rpg.glyph_and_runestone_infusion", "Glyph & Runestone Infusion");
+			WitcherGlyphRunestoneCuts.CUTS.forEach(cut ->
+					translationBuilder.add(GemCut.translationKey(cut.id()), cut.translatedName())
+			);
+			translationBuilder.add("socket.witcher_rpg.glyph_socket", "Glyph Socket");
+			translationBuilder.add("socket.witcher_rpg.runestone_socket", "Runestone Socket");
 			WitcherMaterials.ENTRIES.forEach(entry ->
 							translationBuilder.add(entry.item().getTranslationKey(), entry.translatedName())
 					);
@@ -415,18 +424,6 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 			translationBuilder.add("filled_map.witcher_rpg.griffin_hideouts", "Scavenger Hunt: Griffin School Gear");
 			translationBuilder.add("filled_map.witcher_rpg.ursine_hideouts", "Scavenger Hunt: Bear School Gear");
 			translationBuilder.add("filled_map.witcher_rpg.wolven_hideouts", "Scavenger Hunt: Wolf School Gear");
-
-			translationBuilder.add("item.witcher_rpg.runestone.tooltip", "Attachable in the Anvil on Items with Runestone Slots.");
-			translationBuilder.add("item.witcher_rpg.glyph.tooltip", "Attachable in the Anvil on Items with Glyph Slots.");
-
-			translationBuilder.add("item.witcher_rpg.runestone_render.tooltip", "[Left Alt] for Runestone details");
-			translationBuilder.add("item.witcher_rpg.glyph_render.tooltip", "[Left Alt] for Glyph details");
-
-			translationBuilder.add("item.witcher_rpg.glyph_slots.tooltip", "Glyph Slots: ");
-			translationBuilder.add("item.witcher_rpg.runestone_slots.tooltip", "Runestone Slots: ");
-
-			translationBuilder.add("item.witcher_rpg.empty_glyph_slot", "Empty Glyph Slot");
-			translationBuilder.add("item.witcher_rpg.empty_runestone_slot", "Empty Runestone Slot");
 
 			translationBuilder.add("enchantment.witcher_rpg.sign_intensity", "Sign Intensity");
 			translationBuilder.add("enchantment.witcher_rpg.sign_intensity.desc", "Increases all kinds of sign spell damage you deal");

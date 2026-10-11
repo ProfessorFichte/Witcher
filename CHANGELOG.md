@@ -1,3 +1,31 @@
+# 3.2.0 - 1.21.1
+## Glyph & Runestone System: Switched to Jewelry Sockets
+Witcher's own Trinket/Curio-based Glyph & Runestone slot items have been fully replaced by Jewelry's socket system. 
+Glyphs and Runestones are no longer separate equipment-slot items you wear alongside your gear — they're now socketed directly into compatible Witcher armor and swords via Jewelry.
+- Glyphs and Runestones are crafted directly in a crafting grid (or Crafter) using a base item and a themed catalyst material:
+  - **Lesser Glyph of Infusion** + catalyst -> a Lesser Glyph with the matching Sign
+    - Lapis Lazuli -> Aard, Glowing Ink Sac -> Axii, Blaze Powder -> Igni, Turtle Scute -> Quen, Amethyst Shard -> Yrden
+  - **Lesser Runestone** + catalyst -> a Lesser Runestone with the matching effect
+    - Magma Cream -> Dazhbog, Netherite Scrap -> Chernobog, Spider Eye -> Devana, Pufferfish -> Morana, Rabbit's Foot -> Perun, Gunpowder -> Stribog, Ender Pearl -> Svarog, Echo Shard -> Triglav, Amethyst Shard -> Veles, Prismarine Crystals -> Zoria
+  - Both base items now show a tooltip hinting that they need to be infused with materials
+  - 4x identical Lesser Glyphs/Runestones can be combined into 1 Normal-tier Glyph/Runestone, and 4x identical Normal ones into 1 Greater-tier one
+- Added EMI support for both recipe types, under a new "Glyph & Runestone Infusion" category
+## DISCLAIMER for Modpack Developers & Existing Worlds
+- **Jewelry is required only for the Glyph & Runestone system.** 
+- Without Jewelry installed (or with it installed but the Glyph/Runestone feature config toggles turned off), none of the items, recipes, or sockets in this section are registered.
+- **The old Trinket/Curio-based Glyph & Runestone slot items are gone.** Previously, Glyphs and Runestones could be worn as separate accessory items. 
+- Any Glyph/Runestone trinket items sitting in players' equipped Trinket/Curio slots or inventories on existing worlds are now orphaned and will no longer function.
+- Compatible Witcher armor pieces and swords now need Jewelry sockets (via item components/tags) to hold Glyphs and Runestones.
+- **Item ID change**: `witcher_rpg:lesser_glyph` has been renamed to `witcher_rpg:lesser_glyph_of_infusion`.
+- Jewelry's Gem Cutting Table cant produce any Witcher glyphs/runestones.
+## Dependency Updates
+- Adopt Spell Engine 1.10.9 & More RPG Library 2.8.0
+- **BREAKING for modpack/datapack developers:** More RPG Library's namespace was renamed `more_rpg_classes` -> `mrpg_lib` (and its advancement root moved to `mrpg_lib:root`). If you have any data files, loot tables, tags or advancements that reference the old `more_rpg_classes:`/`more_rpg_content:` ids from this mod or MRPGL, update them to `mrpg_lib:`
+- Updated internal advancement parents, mod dependency declarations (fabric.mod.json, neoforge.mods.toml)
+- Added new optional dependencies: Jewelry 2.5.1 (required for the Glyph & Runestone socketing above).
+## Other Changes
+- Witcher equipment is now affiliated loot: it drops more often for players carrying the matching spell book
+
 # 3.1.4 - 1.21.1
 - Fixed the invisible Kaer Morhen Armor Set Model
 

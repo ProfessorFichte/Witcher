@@ -79,7 +79,9 @@ repositories {
     maven { url 'https://maven.su5ed.dev/releases' }
     maven { url 'https://maven.fabricmc.net' }
 
-    mavenLocal()
+    mavenLocal {
+        content { excludeModule('maven.modrinth', 'more-rpg-library') }
+    }
 }
 
 dependencies {
@@ -99,6 +101,8 @@ dependencies {
     modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}-${platform}")
     modImplementation("maven.modrinth:more-rpg-library:${project.more_rpg_library_version}-${platform}")
     modImplementation("maven.modrinth:ranged-weapon-api:${project.ranged_weapon_version}-${platform}")
+    modCompileOnly("maven.modrinth:jewelry:${project.jewelry_version}-${platform}")
+    modCompileOnly "dev.emi:emi-neoforge:${project.emi_version}:api"
 }
 
 processResources {

@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "mrpg_lib:poison_chance",
+    "operation": "add_multiplied_base",
+    "value": 0.05
+  },
+  "color": "#66CC00",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/lesser_morana_runestone"
+}

@@ -25,6 +25,8 @@ import net.witcher_rpg.custom.WitcherSchoolWeakness;
 import net.witcher_rpg.custom.WitcherSpellSchools;
 import net.witcher_rpg.effect.WitcherStatusEffects;
 import net.witcher_rpg.entity.WitcherEntities;
+import net.witcher_rpg.compat.jewelry.JewelrySocketFeature;
+import net.witcher_rpg.compat.jewelry.WitcherGlyphRunestones;
 import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.WitcherTrinkets;
 import net.witcher_rpg.sounds.Sounds;
@@ -34,6 +36,7 @@ import net.witcher_rpg.item.armor.Armors;
 import net.tiny_config.ConfigManager;
 import net.witcher_rpg.item.WitcherGroup;
 import net.witcher_rpg.item.weapon.WeaponsRegister;
+import net.witcher_rpg.recipe.WitcherRecipes;
 import net.witcher_rpg.worldgen.map.ModMapDecorations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,13 +48,13 @@ public class WitcherClassMod {
     public static final Logger LOGGER = LoggerFactory.getLogger("witcher_rpg");
 
 	public static ConfigManager<ConfigFile.Equipment> itemConfig = new ConfigManager<>
-			("equipment_v4", Default.itemConfig)
+			("equipment_v5", Default.itemConfig)
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)
 			.build();
 	public static ConfigManager<ConfigFile.Effects> effectConfig = new ConfigManager<>
-			("effects_v0", new ConfigFile.Effects())
+			("effects_v1", new ConfigFile.Effects())
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)
@@ -63,7 +66,7 @@ public class WitcherClassMod {
 			.sanitize(true)
 			.build();
 	public static ConfigManager<TrinketConfig> trinketConfig = new ConfigManager<>
-			("trinkets_v0", new TrinketConfig())
+			("trinkets_v1", new TrinketConfig())
 			.builder()
 			.setDirectory(MOD_ID)
 			.sanitize(true)
@@ -88,6 +91,12 @@ public class WitcherClassMod {
 			.setDirectory(MOD_ID)
 			.sanitize(true)
 			.build();
+	public static final ConfigManager<FeaturesConfig> featuresConfig = new ConfigManager<>
+			("features", new FeaturesConfig())
+			.builder()
+			.setDirectory(MOD_ID)
+			.sanitize(true)
+			.build();
 
 
 	public static void init() {
@@ -98,6 +107,7 @@ public class WitcherClassMod {
 		weaknessConfig.refresh();
 		tweaksConfig.refresh();
 		lootInjectionConfig.refresh();
+		featuresConfig.refresh();
 		if (Platform.util().isDevelopmentEnvironment()) {
 			tweaksConfig.value.ignore_items_required_mods = true;
 		}
@@ -114,7 +124,7 @@ public class WitcherClassMod {
 		/// TAG BASED LOOT INJECTION
 		LootHelper.TAG_CACHE.refresh();
 		PlatformEvents.onLootTableModify(context -> {
-			LootHelper.configure(context.registries(), context.tableId(), context::existingPools, context::addPool, lootEquipmentConfig.value, "witcher_rpg");
+			LootHelper.configure(context.registries(), context.tableId(), context.existingPools(), context::addPool, lootEquipmentConfig.value, "witcher_rpg");
 		});
 		PlatformEvents.onServerStarted((server) -> {
 			LootHelper.updateTagCache(lootEquipmentConfig.value);
@@ -148,6 +158,9 @@ public class WitcherClassMod {
 	public static void registerSounds() {
 		Sounds.register();
 	}
+	public static void registerRecipes() {
+		WitcherRecipes.register();
+	}
 	public static void registerEntities() {
 		WitcherEntities.register();
 	}
@@ -162,6 +175,9 @@ public class WitcherClassMod {
 		WeaponsRegister.register(itemConfig.value.weapons);
 		Armors.register(itemConfig.value.armor_sets);
 		WitcherTrinkets.register(trinketConfig.value.entries);
+		if (JewelrySocketFeature.isJewelryPresent()) {
+			WitcherGlyphRunestones.register();
+		}
 		itemConfig.save();
 		trinketConfig.save();
 	}

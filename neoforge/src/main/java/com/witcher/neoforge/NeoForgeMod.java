@@ -1,11 +1,14 @@
 package com.witcher.neoforge;
 
 import com.witcher.neoforge.compat.CompatFeatures;
+import com.witcher.neoforge.compat.jewelry.JewelryItemGroupCompat;
 import net.minecraft.registry.RegistryKeys;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.witcher_rpg.client.WitcherExposedClient;
+import net.witcher_rpg.compat.jewelry.JewelrySocketFeature;
 import net.witcher_rpg.network.ExposedGlowPayload;
 
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -19,6 +22,10 @@ public final class NeoForgeMod {
         WitcherClassMod.init();
         modBus.addListener(RegisterEvent.class, NeoForgeMod::register);
         modBus.addListener(RegisterPayloadHandlersEvent.class, NeoForgeMod::registerPayloads);
+
+        if (JewelrySocketFeature.isJewelryPresent()) {
+            modBus.addListener(BuildCreativeModeTabContentsEvent.class, JewelryItemGroupCompat::onBuildTabContents);
+        }
     }
 
     private static void registerPayloads(final RegisterPayloadHandlersEvent event) {
@@ -28,9 +35,6 @@ public final class NeoForgeMod {
     }
 
     public static void register(RegisterEvent event) {
-        event.register(RegistryKeys.DATA_COMPONENT_TYPE, reg -> {
-            net.witcher_rpg.item.component.WitcherDataComponents.register();
-        });
         event.register(RegistryKeys.MAP_DECORATION_TYPE, reg -> {
             WitcherClassMod.registerMapDecorations();
         });
@@ -51,6 +55,9 @@ public final class NeoForgeMod {
         });
         event.register(RegistryKeys.ENTITY_TYPE, reg -> {
             WitcherClassMod.registerEntities();
+        });
+        event.register(RegistryKeys.RECIPE_SERIALIZER, reg -> {
+            WitcherClassMod.registerRecipes();
         });
     }
 }

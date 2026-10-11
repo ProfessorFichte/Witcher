@@ -1,16 +1,23 @@
 package net.witcher_rpg.util.loot;
 
+import net.jewelry.gems.GemComponents;
+import net.jewelry.gems.GemCut;
+import net.jewelry.gems.GemCutRegistry;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.function.SetComponentsLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.BinomialLootNumberProvider;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.LootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.witcher_rpg.WitcherClassMod;
+import net.witcher_rpg.compat.jewelry.JewelrySocketFeature;
 
 import java.util.function.Consumer;
 
@@ -45,10 +52,24 @@ public class WitcherLootInjector {
             }
             var lootEntry = ItemEntry.builder(item)
                     .weight(weight);
+            var cutId = entry.cutId();
+            if (cutId != null && !cutId.isEmpty() && JewelrySocketFeature.isJewelryPresent()) {
+                var cutEntry = resolveCut(registries, Identifier.of(cutId));
+                if (cutEntry != null) {
+                    lootEntry.apply(SetComponentsLootFunction.builder(GemComponents.CUT, cutEntry));
+                }
+            }
             lootPoolBuilder.with(lootEntry);
             lootPoolBuilder.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(minAmount, maxAmount)));
         }
         poolAdder.accept(lootPoolBuilder.build());
+    }
+
+    private static RegistryEntry<GemCut> resolveCut(RegistryWrapper.WrapperLookup registries, Identifier cutId) {
+        return GemCutRegistry.from(registries)
+                .flatMap(registry -> registry.getOptional(RegistryKey.of(GemCutRegistry.KEY, cutId)))
+                .map(reference -> (RegistryEntry<GemCut>) reference)
+                .orElse(null);
     }
 
     private static LootNumberProvider numberProvider(float min, float max) {

@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "mrpg_lib:stun_chance",
+    "operation": "add_multiplied_base",
+    "value": 0.075
+  },
+  "color": "#E0F7FF",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/greater_triglav_runestone"
+}

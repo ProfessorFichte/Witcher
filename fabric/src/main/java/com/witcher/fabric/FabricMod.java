@@ -1,10 +1,12 @@
 package com.witcher.fabric;
 
 import com.witcher.fabric.compat.CompatFeatures;
+import com.witcher.fabric.compat.jewelry.JewelryItemGroupCompat;
 import com.witcher.fabric.worldgen.OreGeneration;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.witcher_rpg.WitcherClassMod;
+import net.witcher_rpg.compat.jewelry.JewelrySocketFeature;
 import net.witcher_rpg.network.ExposedGlowPayload;
 
 
@@ -13,7 +15,6 @@ public final class FabricMod implements ModInitializer {
     public void onInitialize() {
         CompatFeatures.init();
         PayloadTypeRegistry.playS2C().register(ExposedGlowPayload.ID, ExposedGlowPayload.CODEC);
-        net.witcher_rpg.item.component.WitcherDataComponents.register();
         WitcherClassMod.init();
 
         WitcherClassMod.registerMapDecorations();
@@ -22,7 +23,12 @@ public final class FabricMod implements ModInitializer {
         WitcherClassMod.registerItems();
         WitcherClassMod.registerEntities();
         WitcherClassMod.registerSounds();
+        WitcherClassMod.registerRecipes();
         OreGeneration.register();
         WitcherClassMod.registerBlocks();
+
+        if (JewelrySocketFeature.isJewelryPresent()) {
+            JewelryItemGroupCompat.init();
+        }
     }
 }

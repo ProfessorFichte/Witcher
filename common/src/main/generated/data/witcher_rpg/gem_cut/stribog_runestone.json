@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "mrpg_lib:stagger_chance",
+    "operation": "add_multiplied_base",
+    "value": 0.075
+  },
+  "color": "#9B30FF",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/stribog_runestone"
+}

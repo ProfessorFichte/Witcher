@@ -2,7 +2,7 @@ package net.witcher_rpg.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.util.Identifier;
-import net.more_rpg_classes.datagen.SmithingRecipeGenerator;
+import com.mrpg_lib.datagen.SmithingRecipeGenerator;
 import net.witcher_rpg.item.WitcherArmorDiagrams;
 import net.witcher_rpg.item.WitcherMaterials;
 import net.witcher_rpg.item.armor.Armors;

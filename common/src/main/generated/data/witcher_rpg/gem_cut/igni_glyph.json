@@ -1,0 +1,10 @@
+{
+  "bonus": {
+    "attribute": "witcher_rpg:igni_intensity",
+    "operation": "add_value",
+    "value": 0.5
+  },
+  "color": "#FF4500",
+  "gem": "witcher_rpg:cut_table_sentinel",
+  "model": "witcher_rpg:item/gem_cut/igni_glyph"
+}

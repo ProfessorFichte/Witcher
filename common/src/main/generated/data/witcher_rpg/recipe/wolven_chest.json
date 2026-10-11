@@ -6,7 +6,7 @@
       "item": "witcher_rpg:silver_ingot"
     },
     "S": {
-      "item": "more_rpg_classes:hardened_leather"
+      "item": "mrpg_lib:hardened_leather"
     },
     "X": {
       "tag": "witcher_rpg:silver_ingots"

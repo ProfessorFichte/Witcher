@@ -3,8 +3,8 @@ package net.witcher_rpg.spell;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import net.more_rpg_classes.effect.MRPGCEffects;
-import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
+import com.mrpg_lib.effect.MRPGCEffects;
+import com.mrpg_lib.entity.attribute.MRPGCEntityAttributes;
 import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.effect.SpellEngineEffects;
 import net.spell_engine.api.entity.SpellEntityPredicates;
@@ -137,7 +137,7 @@ public class WitcherPassives {
         custom.action.custom = new Spell.Impact.Action.Custom();
         custom.action.type = Spell.Impact.Action.Type.CUSTOM;
         custom.action.custom.intent = SpellTarget.Intent.HARMFUL;
-        custom.action.custom.handler = "more_rpg_classes:damage_according_to_missing_health";
+        custom.action.custom.handler = "mrpg_lib:damage_according_to_missing_health";
         custom.visuals = Fx.Visuals.of(
                 ParticleGroupBuilder.of(SpellEngineParticles.dripping_blood)
                         .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)

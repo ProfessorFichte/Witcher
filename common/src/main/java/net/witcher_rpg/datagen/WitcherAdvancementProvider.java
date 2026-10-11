@@ -8,7 +8,7 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.DataWriter;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
-import net.more_rpg_classes.datagen.SpellEngineAdvancementHelper;
+import com.mrpg_lib.datagen.SpellEngineAdvancementHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
@@ -68,7 +68,7 @@ public class WitcherAdvancementProvider implements DataProvider {
                 id("path_choose_fencing"),
                 "Student of Vesemir",
                 "Create the Witcher Techniques",
-                Identifier.of("more_rpg_content", "root"),
+                Identifier.of("mrpg_lib", "root"),
                 MOD_ID + ":item/spell_scroll/fencing",
                 AdvancementFrame.TASK,
                 true, true, false, null,
@@ -113,7 +113,7 @@ public class WitcherAdvancementProvider implements DataProvider {
                 id("path_choose_signs"),
                 "Complex Hand Gestures",
                 "Create the Witcher Sign Manual",
-                Identifier.of("more_rpg_content", "root"),
+                Identifier.of("mrpg_lib", "root"),
                 MOD_ID + ":item/spell_scroll/signs",
                 AdvancementFrame.TASK,
                 true, true, false, null,

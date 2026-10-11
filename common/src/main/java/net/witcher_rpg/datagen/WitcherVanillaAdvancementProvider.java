@@ -80,7 +80,7 @@ public class WitcherVanillaAdvancementProvider  extends FabricAdvancementProvide
                 id("equipment/witcher_armor_set"),
                 "From Kaer Morhen",
                 "Obtain all Kaer Morhen Set parts.",
-                Identifier.of("more_rpg_content", "root"),
+                Identifier.of("mrpg_lib", "root"),
                 witcher.chest,
                 AdvancementFrame.GOAL,
                 true, true, false, null,

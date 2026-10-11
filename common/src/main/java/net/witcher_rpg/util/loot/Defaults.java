@@ -29,6 +29,7 @@ public class Defaults {
         var WGD = "#witcher_rpg:grandmaster_diagrams";
 
         itemLootConfig = new LootConfig();
+        itemLootConfig.behavior = new LootConfig.Behavior();
         var items = itemLootConfig.injectors;
         var items_regex = itemLootConfig.regex_injectors;
 

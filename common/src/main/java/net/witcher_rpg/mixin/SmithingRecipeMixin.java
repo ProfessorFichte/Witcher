@@ -4,9 +4,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.SmithingTransformRecipe;
 import net.minecraft.recipe.input.SmithingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
-import net.witcher_rpg.item.component.GlyphSlots;
-import net.witcher_rpg.item.component.RunestoneSlots;
-import net.witcher_rpg.item.component.WitcherDataComponents;
+import net.witcher_rpg.compat.jewelry.JewelrySmithingSupport;
+import net.witcher_rpg.compat.jewelry.JewelrySocketFeature;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,39 +16,15 @@ public abstract class SmithingRecipeMixin {
 
     @Inject(method = "craft", at = @At("RETURN"), cancellable = true)
     private void preserveWitcherComponents(SmithingRecipeInput input, RegistryWrapper.WrapperLookup lookup, CallbackInfoReturnable<ItemStack> cir) {
+        if (!JewelrySocketFeature.isJewelryPresent()) return;
         ItemStack result = cir.getReturnValue();
         if (result.isEmpty()) return;
 
         ItemStack baseItem = input.base();
         if (baseItem.isEmpty()) return;
 
-        boolean modified = false;
-
-        GlyphSlots oldGlyphSlots = baseItem.get(WitcherDataComponents.GLYPH_SLOTS);
-        GlyphSlots resultGlyphSlots = result.get(WitcherDataComponents.GLYPH_SLOTS);
-
-        if (oldGlyphSlots != null && resultGlyphSlots != null) {
-            int correctMaxSlots = getCorrectGlyphSlots(result);
-            if (correctMaxSlots > 0 && (!oldGlyphSlots.attachedGlyphs().isEmpty() ||
-                oldGlyphSlots.maxSlots() != correctMaxSlots)) {
-                GlyphSlots mergedSlots = new GlyphSlots(correctMaxSlots, oldGlyphSlots.attachedGlyphs());
-                result.set(WitcherDataComponents.GLYPH_SLOTS, mergedSlots);
-                modified = true;
-            }
-        }
-
-        RunestoneSlots oldRunestoneSlots = baseItem.get(WitcherDataComponents.RUNESTONE_SLOTS);
-        RunestoneSlots newRunestoneSlots = result.get(WitcherDataComponents.RUNESTONE_SLOTS);
-
-        if (oldRunestoneSlots != null && newRunestoneSlots != null) {
-            int correctMaxSlots = getCorrectRunestoneSlots(result);
-            if (correctMaxSlots > 0 && (!oldRunestoneSlots.attachedRunestones().isEmpty() ||
-                oldRunestoneSlots.maxSlots() != correctMaxSlots)) {
-                RunestoneSlots mergedSlots = new RunestoneSlots(correctMaxSlots, oldRunestoneSlots.attachedRunestones());
-                result.set(WitcherDataComponents.RUNESTONE_SLOTS, mergedSlots);
-                modified = true;
-            }
-        }
+        boolean modified = JewelrySmithingSupport.preserveGlyphSockets(baseItem, result, getCorrectGlyphSlots(result));
+        modified |= JewelrySmithingSupport.preserveRunestoneSockets(baseItem, result, getCorrectRunestoneSlots(result));
 
         if (modified) {
             cir.setReturnValue(result);

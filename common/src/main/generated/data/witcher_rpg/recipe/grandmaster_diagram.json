@@ -9,7 +9,7 @@
       "item": "minecraft:diamond"
     },
     "C": {
-      "item": "more_rpg_classes:hardened_leather"
+      "item": "mrpg_lib:hardened_leather"
     }
   },
   "pattern": [

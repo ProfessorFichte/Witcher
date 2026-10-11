@@ -27,8 +27,8 @@ import net.witcher_rpg.network.ExposedGlowPayload;
 
 import java.util.Random;
 import java.util.UUID;
-import net.more_rpg_classes.entity.attribute.MRPGCEntityAttributes;
-import net.more_rpg_classes.util.CustomMethods;
+import com.mrpg_lib.entity.attribute.MRPGCEntityAttributes;
+import com.mrpg_lib.util.CustomMethods;
 import net.spell_engine.rpg_series.config.AttributeModifier;
 import net.spell_engine.rpg_series.config.ConfigFile;
 import net.spell_engine.rpg_series.config.EffectConfig;
