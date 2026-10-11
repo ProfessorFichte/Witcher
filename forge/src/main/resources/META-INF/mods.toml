@@ -30,7 +30,7 @@ side = "BOTH"
 [[dependencies.witcher_rpg]]
 modId = "spell_engine"
 mandatory = true
-versionRange = "[1.10.5,)"
+versionRange = "[1.10.10,)"
 ordering = "AFTER"
 side = "BOTH"
 

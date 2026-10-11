@@ -1,3 +1,6 @@
+# 3.1.5+1.20.1
+- fixed a crash due to Spell Engine Changes
+
 # 3.1.4+1.20.1
 - Fixed Better Combat Animations being in the wrong folder path
 

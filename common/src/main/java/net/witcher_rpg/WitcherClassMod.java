@@ -113,7 +113,7 @@ public class WitcherClassMod {
 		/// TAG BASED LOOT INJECTION
 		LootHelper.TAG_CACHE.refresh();
 		PlatformEvents.onLootTableModify(context -> {
-			LootHelper.configure(context.tableId(), context::existingPools, context::addPool, lootEquipmentConfig.value, "witcher_rpg");
+			LootHelper.configure(context.tableId(), context.existingPools(), context::addPool, lootEquipmentConfig.value, "witcher_rpg");
 		});
 		PlatformEvents.onServerStarted((server) -> {
 			LootHelper.updateTagCache(lootEquipmentConfig.value);

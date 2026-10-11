@@ -37,7 +37,7 @@
 		"java": ">=17",
 		"fabric-api": "*",
 		"armor_model_api": ">=1.0.0",
-		"spell_engine": ">=1.10.5",
+		"spell_engine": ">=1.10.10",
 		"spell_power": ">=1.6.0",
 		"more_rpg_classes": ">=2.7.2"
 	},
