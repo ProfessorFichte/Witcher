@@ -2,13 +2,15 @@
 	"schemaVersion": 1,
 	"id": "witcher_rpg",
 	"version": "${version}",
-	"name": "Witcher Class Mod",
+	"name": "Witcher",
 	"description": "Slay monsters like a Witcher! Spell Engine Add-On",
 	"authors": [
 		"Fichte"
 	],
 	"contact": {
-		"sources": "https://github.com/ProfessorFichte"
+		"homepage": "https://modrinth.com/mod/witcher-rpg-class",
+		"sources": "https://github.com/ProfessorFichte/Witcher",
+		"issues": "https://github.com/ProfessorFichte/Witcher/issues"
 	},
 	"license": "ARR",
 	"icon": "assets/witcher_rpg/icon.png",
@@ -36,7 +38,7 @@
 	"depends": {
 		"fabricloader": ">=${fabric_loader_compat_version}",
 		"minecraft": ">=${minecraft_compat_version}",
-		"java": ">=17",
+		"java": ">=21",
 		"fabric-api": "*",
 		"armor_model_api": ">=${armor_model_api_version}",
 		"spell_engine": ">=${spell_engine_version}",
@@ -44,14 +46,19 @@
 		"mrpg_lib": ">=${more_rpg_library_version}"
 	},
 	"suggests": {
-		"better_combat": "*",
+		"bettercombat": "*",
 		"jewelry": "*",
-		"emi": "*"
+		"emi": "*",
+		"arsenal": "*",
+		"mrpgc_skill_tree": "*"
 	},
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.gg/AShKd5XrTu"
+				"modmenu.discord": "https://discord.gg/AShKd5XrTu",
+				"modmenu.kofi": "https://ko-fi.com/fichteee",
+				"modmenu.modrinth": "https://modrinth.com/mod/witcher-rpg-class",
+				"modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/witcher-rpg-class"
 			}
 		}
 	}
