@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:uncraft_runestone"
+        "recipe": "witcher_rpg:uncraft_runestone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:uncraft_runestone"
+      "witcher_rpg:uncraft_runestone"
     ]
   }
 }

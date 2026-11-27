@@ -72,7 +72,7 @@
         ]
       },
       "sound": {
-        "id": "block.blastfurnace.fire_crackle"
+        "id": "minecraft:block.blastfurnace.fire_crackle"
       }
     },
     {

@@ -41,7 +41,7 @@ public class WitcherMaterials {
 
     public static final Entry SILVER_NUGGET = add(new Entry(
             Identifier.of(MOD_ID, "silver_nugget"),
-            "Silver Nugger",
+            "Silver Nugget",
             Item::new,
             new Item.Settings()
     ));

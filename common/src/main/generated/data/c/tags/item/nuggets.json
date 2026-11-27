@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:silver_nugget",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:steel_nugget",
+      "required": false
+    }
+  ]
+}

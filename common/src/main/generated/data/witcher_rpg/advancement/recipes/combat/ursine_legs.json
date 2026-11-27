@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:ursine_legs"
+        "recipe": "witcher_rpg:ursine_legs"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:ursine_legs"
+      "witcher_rpg:ursine_legs"
     ]
   }
 }

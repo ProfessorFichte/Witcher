@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:uncraft_lesser_glyph"
+        "recipe": "witcher_rpg:uncraft_lesser_glyph"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:uncraft_lesser_glyph"
+      "witcher_rpg:uncraft_lesser_glyph"
     ]
   }
 }

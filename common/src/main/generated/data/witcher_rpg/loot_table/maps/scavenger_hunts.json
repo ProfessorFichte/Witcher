@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "witcher_rpg:maps/feline_scavenger_hunt"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "witcher_rpg:maps/griffin_scavenger_hunt"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "witcher_rpg:maps/ursine_scavenger_hunt"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "witcher_rpg:maps/wolven_scavenger_hunt"
+        }
+      ],
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 1.0,
+        "min": 1.0
+      }
+    }
+  ]
+}

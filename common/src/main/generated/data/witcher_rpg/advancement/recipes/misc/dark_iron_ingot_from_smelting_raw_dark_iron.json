@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:dark_iron_ingot_from_smelting_raw_dark_iron"
+        "recipe": "witcher_rpg:dark_iron_ingot_from_smelting_raw_dark_iron"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:dark_iron_ingot_from_smelting_raw_dark_iron"
+      "witcher_rpg:dark_iron_ingot_from_smelting_raw_dark_iron"
     ]
   }
 }

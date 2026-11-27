@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:leather_from_smelting_witcher_head"
+        "recipe": "witcher_rpg:leather_from_smelting_witcher_head"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:leather_from_smelting_witcher_head"
+      "witcher_rpg:leather_from_smelting_witcher_head"
     ]
   }
 }

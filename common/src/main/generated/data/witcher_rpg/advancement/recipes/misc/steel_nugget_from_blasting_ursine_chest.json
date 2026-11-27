@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:steel_nugget_from_blasting_ursine_chest"
+        "recipe": "witcher_rpg:steel_nugget_from_blasting_ursine_chest"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:steel_nugget_from_blasting_ursine_chest"
+      "witcher_rpg:steel_nugget_from_blasting_ursine_chest"
     ]
   }
 }

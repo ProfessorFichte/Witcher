@@ -73,6 +73,8 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(WitcherSocketTypes::new);
 		pack.addProvider(WitcherGlyphRunestoneCuts::new);
 		pack.addProvider(WitcherGlyphRunestoneCutTagGenerator::new);
+		pack.addProvider(ModLootTableProvider.Chests::new);
+		pack.addProvider(ModBlockLootTableProvider::new);
 	}
 
 	public static class SoundGen extends SimpleSoundGeneratorV2 {
@@ -142,6 +144,18 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 		List<String> trinkets0Keywords = List.of("crystal_skull","rose_of_remembrance","pure_silver");
 		List<String> trinkets1Keywords = List.of("sunstone");
 
+		private void addMetalTags(String group, Object... pairs) {
+			var general = getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", group)));
+			for (int i = 0; i + 1 < pairs.length; i += 2) {
+				if (!(pairs[i] instanceof WitcherMaterials.Entry entry)) continue;
+				general.addOptional(entry.id());
+				if (pairs[i + 1] instanceof String metal) {
+					getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", group + "/" + metal)))
+							.addOptional(entry.id());
+				}
+			}
+		}
+
 		@Override
 		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 			///WEAPONS
@@ -198,6 +212,14 @@ public class WitcherClassModDataGenerator implements DataGeneratorEntrypoint {
 				lootAffiliation.addOptionalTag(WitcherItemTags.WITCHER_SWORDS);
 				lootAffiliation.addTag(witcherGearTag);
 			}
+			///METAL TAGS (NeoForge convention, old Fabric tags stay as data files)
+			addMetalTags("ingots", WitcherMaterials.SILVER_INGOT, "silver", WitcherMaterials.METEORITE_SILVER_INGOT, null,
+					WitcherMaterials.STEEL_INGOT, "steel", WitcherMaterials.DARK_STEEL_INGOT, null,
+					WitcherMaterials.METEORITE_INGOT, "meteorite", WitcherMaterials.DARK_IRON_INGOT, "dark_iron",
+					WitcherMaterials.DIMERITIUM_INGOT, "dimeritium");
+			addMetalTags("nuggets", WitcherMaterials.SILVER_NUGGET, "silver", WitcherMaterials.STEEL_NUGGET, "steel");
+			addMetalTags("raw_materials", WitcherMaterials.RAW_SILVER, "silver", WitcherMaterials.RAW_DARK_IRON, "dark_iron",
+					WitcherMaterials.METEORITE, "meteorite");
 			///RELICS
 			var glyphs0 = getOrCreateTagBuilder(WitcherItemTags.GLYPHS_0);
 			WitcherGlyphRunestones.entries.stream()

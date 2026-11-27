@@ -58,11 +58,11 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
 
         // GEM CUT TIER UPGRADE (cut-preserving Glyph/Runestone tier upgrade)
         ComplexRecipeJsonBuilder.create(GemCutUpgradeRecipe::new)
-                .offerTo(exporter, "gem_cut_upgrade");
+                .offerTo(exporter, id("gem_cut_upgrade"));
 
         // GEM CUT CRAFTING (raw item + catalyst -> cut, bypassing Jewelry's cutting table)
         ComplexRecipeJsonBuilder.create(GemCutCraftingRecipe::new)
-                .offerTo(exporter, "gem_cut_crafting");
+                .offerTo(exporter, id("gem_cut_crafting"));
 
         // LESSER RUNESTONE / LESSER GLYPH OF INFUSION (base items; items only exist if Jewelry is installed,
         // so these recipes are harmlessly skipped by the recipe manager otherwise)
@@ -191,6 +191,28 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter);
     }
 
+    private static Identifier id(String path) {
+        return Identifier.of(MOD_ID, path);
+    }
+
+    protected static void offerWitcherSmelting(RecipeExporter exporter, List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
+        for (ItemConvertible input : inputs) {
+            CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(input), category, output, experience, cookingTime)
+                    .group(group)
+                    .criterion(hasItem(input), conditionsFromItem(input))
+                    .offerTo(exporter, id(getItemPath(output) + "_from_smelting_" + getItemPath(input)));
+        }
+    }
+
+    protected static void offerWitcherBlasting(RecipeExporter exporter, List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
+        for (ItemConvertible input : inputs) {
+            CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(input), category, output, experience, cookingTime)
+                    .group(group)
+                    .criterion(hasItem(input), conditionsFromItem(input))
+                    .offerTo(exporter, id(getItemPath(output) + "_from_blasting_" + getItemPath(input)));
+        }
+    }
+
     private static Item getOrFallback(Identifier id, Item fallback) {
         var item = Registries.ITEM.get(id);
         return item != null && item != Items.AIR ? item : fallback;
@@ -244,7 +266,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .input('S', secondary)
                 .input('X', Items.STRING)
                 .criterion(hasItem(primary), conditionsFromItem(primary))
-                .offerTo(exporter, name + "_head");
+                .offerTo(exporter, id(name + "_head"));
 
         // Chestplate
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, (Item) armorSet.chest)
@@ -255,7 +277,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .input('S', secondary)
                 .input('X', WitcherItemTags.SILVER_INGOTS)
                 .criterion(hasItem(primary), conditionsFromItem(primary))
-                .offerTo(exporter, name + "_chest");
+                .offerTo(exporter, id(name + "_chest"));
 
         // Leggings
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, (Item) armorSet.legs)
@@ -265,7 +287,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .input('P', primary)
                 .input('S', secondary)
                 .criterion(hasItem(primary), conditionsFromItem(primary))
-                .offerTo(exporter, name + "_legs");
+                .offerTo(exporter, id(name + "_legs"));
 
         // Boots
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, (Item) armorSet.feet)
@@ -274,7 +296,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .input('P', primary)
                 .input('S', secondary)
                 .criterion(hasItem(primary), conditionsFromItem(primary))
-                .offerTo(exporter, name + "_feet");
+                .offerTo(exporter, id(name + "_feet"));
     }
     private void generateDiagramRecipes(RecipeExporter exporter) {
         var enhancedDiagram = getOrFallback(Identifier.of(MOD_ID, "enhanced_diagram"), Items.LEATHER);
@@ -301,7 +323,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .input('A', diagram)
                 .input('B', Items.DIAMOND)
                 .criterion(hasItem(diagram), conditionsFromItem(diagram))
-                .offerTo(exporter, Identifier.of(MOD_ID, name + "_diagram"));
+                .offerTo(exporter, id(name + "_diagram"));
     }
 
     private void generateMaterialRecipes(RecipeExporter exporter) {
@@ -317,13 +339,13 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.RAW_SILVER.item(), 9)
                 .input(Blocks.RAW_SILVER_BLOCK)
                 .criterion(hasItem(Blocks.RAW_SILVER_BLOCK), conditionsFromItem(Blocks.RAW_SILVER_BLOCK))
-                .offerTo(exporter, "raw_silver_from_block");
+                .offerTo(exporter, id("raw_silver_from_block"));
 
         // Silver Ingot Smelting from Raw Silver
-        offerSmelting(exporter, List.of(WitcherMaterials.RAW_SILVER.item()),
+        offerWitcherSmelting(exporter, List.of(WitcherMaterials.RAW_SILVER.item()),
                 RecipeCategory.MISC, WitcherMaterials.SILVER_INGOT.item(),
                 1.0f, 200, "silver");
-        offerBlasting(exporter, List.of(WitcherMaterials.RAW_SILVER.item()),
+        offerWitcherBlasting(exporter, List.of(WitcherMaterials.RAW_SILVER.item()),
                 RecipeCategory.MISC, WitcherMaterials.SILVER_INGOT.item(),
                 1.0f, 100, "silver");
 
@@ -338,7 +360,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.SILVER_INGOT.item(), 9)
                 .input(Blocks.SILVER_BLOCK)
                 .criterion(hasItem(Blocks.SILVER_BLOCK), conditionsFromItem(Blocks.SILVER_BLOCK))
-                .offerTo(exporter, "silver_ingot_from_block");
+                .offerTo(exporter, id("silver_ingot_from_block"));
 
         // Silver Ingot <-> Nuggets
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.SILVER_NUGGET.item(), 9)
@@ -351,11 +373,11 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .pattern("###")
                 .input('#', WitcherMaterials.SILVER_NUGGET.item())
                 .criterion(hasItem(WitcherMaterials.SILVER_NUGGET.item()), conditionsFromItem(WitcherMaterials.SILVER_NUGGET.item()))
-                .offerTo(exporter, "silver_ingot_from_nuggets");
+                .offerTo(exporter, id("silver_ingot_from_nuggets"));
 
         // ===== STEEL =====
         // Steel Ingot from Iron (blasting only)
-        offerBlasting(exporter, List.of(Items.IRON_INGOT),
+        offerWitcherBlasting(exporter, List.of(Items.IRON_INGOT),
                 RecipeCategory.MISC, WitcherMaterials.STEEL_INGOT.item(),
                 0.5f, 100, "steel");
 
@@ -370,7 +392,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.STEEL_INGOT.item(), 9)
                 .input(Blocks.STEEL_BLOCK)
                 .criterion(hasItem(Blocks.STEEL_BLOCK), conditionsFromItem(Blocks.STEEL_BLOCK))
-                .offerTo(exporter, "steel_ingot_from_block");
+                .offerTo(exporter, id("steel_ingot_from_block"));
 
         // Steel Ingot <-> Nuggets
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.STEEL_NUGGET.item(), 9)
@@ -383,14 +405,14 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 .pattern("###")
                 .input('#', WitcherMaterials.STEEL_NUGGET.item())
                 .criterion(hasItem(WitcherMaterials.STEEL_NUGGET.item()), conditionsFromItem(WitcherMaterials.STEEL_NUGGET.item()))
-                .offerTo(exporter, "steel_ingot_from_nuggets");
+                .offerTo(exporter, id("steel_ingot_from_nuggets"));
 
         // ===== DARK IRON =====
         // Dark Iron Ingot from Raw Dark Iron
-        offerSmelting(exporter, List.of(WitcherMaterials.RAW_DARK_IRON.item()),
+        offerWitcherSmelting(exporter, List.of(WitcherMaterials.RAW_DARK_IRON.item()),
                 RecipeCategory.MISC, WitcherMaterials.DARK_IRON_INGOT.item(),
                 1.0f, 200, "dark_iron");
-        offerBlasting(exporter, List.of(WitcherMaterials.RAW_DARK_IRON.item()),
+        offerWitcherBlasting(exporter, List.of(WitcherMaterials.RAW_DARK_IRON.item()),
                 RecipeCategory.MISC, WitcherMaterials.DARK_IRON_INGOT.item(),
                 1.0f, 100, "dark_iron");
 
@@ -405,7 +427,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.DARK_IRON_INGOT.item(), 9)
                 .input(Blocks.DARK_IRON_BLOCK)
                 .criterion(hasItem(Blocks.DARK_IRON_BLOCK), conditionsFromItem(Blocks.DARK_IRON_BLOCK))
-                .offerTo(exporter, "dark_iron_ingot_from_block");
+                .offerTo(exporter, id("dark_iron_ingot_from_block"));
 
         // ===== DARK STEEL =====
         // Dark Steel INGOT
@@ -430,14 +452,14 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.DARK_STEEL_INGOT.item(), 9)
                 .input(Blocks.DARK_STEEL_BLOCK)
                 .criterion(hasItem(Blocks.DARK_STEEL_BLOCK), conditionsFromItem(Blocks.DARK_STEEL_BLOCK))
-                .offerTo(exporter, "dark_steel_ingot_from_block");
+                .offerTo(exporter, id("dark_steel_ingot_from_block"));
 
         // ===== METEORITE =====
         // Meteorite Ingot from Meteorite (raw ore)
-        offerSmelting(exporter, List.of(WitcherMaterials.METEORITE.item()),
+        offerWitcherSmelting(exporter, List.of(WitcherMaterials.METEORITE.item()),
                 RecipeCategory.MISC, WitcherMaterials.METEORITE_INGOT.item(),
                 1.0f, 200, "meteorite");
-        offerBlasting(exporter, List.of(WitcherMaterials.METEORITE.item()),
+        offerWitcherBlasting(exporter, List.of(WitcherMaterials.METEORITE.item()),
                 RecipeCategory.MISC, WitcherMaterials.METEORITE_INGOT.item(),
                 1.0f, 100, "meteorite");
 
@@ -452,7 +474,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.METEORITE_INGOT.item(), 9)
                 .input(Blocks.METEORITE_BLOCK)
                 .criterion(hasItem(Blocks.METEORITE_BLOCK), conditionsFromItem(Blocks.METEORITE_BLOCK))
-                .offerTo(exporter, "meteorite_ingot_from_block");
+                .offerTo(exporter, id("meteorite_ingot_from_block"));
 
         // ===== METEORITE SILVER =====
         // Meteorite Silver Ingot Crafting (Meteorite + Silver)
@@ -478,7 +500,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, WitcherMaterials.METEORITE_SILVER_INGOT.item(), 9)
                 .input(Blocks.METEORITE_SILVER_BLOCK)
                 .criterion(hasItem(Blocks.METEORITE_SILVER_BLOCK), conditionsFromItem(Blocks.METEORITE_SILVER_BLOCK))
-                .offerTo(exporter, "meteorite_silver_ingot_from_block");
+                .offerTo(exporter, id("meteorite_silver_ingot_from_block"));
     }
 
     private void generateTrinketRecipes(RecipeExporter exporter) {
@@ -582,7 +604,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
     }
 
     private static void disassembleArmor(RecipeExporter exporter, Armor.Set armorSet, Item output) {
-        offerSmelting(exporter,
+        offerWitcherSmelting(exporter,
                 armorSet.pieces(),
                 RecipeCategory.MISC,
                 output,
@@ -590,7 +612,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 UNSMELT_TIME,
                 "disassemble"
         );
-        offerBlasting(exporter,
+        offerWitcherBlasting(exporter,
                 armorSet.pieces(),
                 RecipeCategory.MISC,
                 output,
@@ -601,7 +623,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
     }
 
     private static void disassemble(RecipeExporter exporter, List<ItemConvertible> items, Item output) {
-        offerSmelting(exporter,
+        offerWitcherSmelting(exporter,
                 items,
                 RecipeCategory.MISC,
                 output,
@@ -609,7 +631,7 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
                 UNSMELT_TIME,
                 "disassemble"
         );
-        offerBlasting(exporter,
+        offerWitcherBlasting(exporter,
                 items,
                 RecipeCategory.MISC,
                 output,
@@ -624,37 +646,37 @@ public class WitcherRecipeProvider extends FabricRecipeProvider {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
                 .input(Ingredient.fromTag(WitcherItemTags.GLYPHS_0))
                 .criterion("has_lesser_glyph", conditionsFromTag(WitcherItemTags.GLYPHS_0))
-                .offerTo(exporter, "uncraft_lesser_glyph");
+                .offerTo(exporter, id("uncraft_lesser_glyph"));
 
         // Uncraft Glyphs (glyphs_1) back to stone
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
                 .input(Ingredient.fromTag(WitcherItemTags.GLYPHS_1))
                 .criterion("has_glyph", conditionsFromTag(WitcherItemTags.GLYPHS_1))
-                .offerTo(exporter, "uncraft_glyph");
+                .offerTo(exporter, id("uncraft_glyph"));
 
         // Uncraft Greater Glyphs (glyphs_2) back to stone
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
                 .input(Ingredient.fromTag(WitcherItemTags.GLYPHS_2))
                 .criterion("has_greater_glyph", conditionsFromTag(WitcherItemTags.GLYPHS_2))
-                .offerTo(exporter, "uncraft_greater_glyph");
+                .offerTo(exporter, id("uncraft_greater_glyph"));
 
         // Uncraft Lesser Runestones (runestones_0) back to stone
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
                 .input(Ingredient.fromTag(WitcherItemTags.RUNESTONES_0))
                 .criterion("has_lesser_runestone", conditionsFromTag(WitcherItemTags.RUNESTONES_0))
-                .offerTo(exporter, "uncraft_lesser_runestone");
+                .offerTo(exporter, id("uncraft_lesser_runestone"));
 
         // Uncraft Runestones (runestones_1) back to stone
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
                 .input(Ingredient.fromTag(WitcherItemTags.RUNESTONES_1))
                 .criterion("has_runestone", conditionsFromTag(WitcherItemTags.RUNESTONES_1))
-                .offerTo(exporter, "uncraft_runestone");
+                .offerTo(exporter, id("uncraft_runestone"));
 
         // Uncraft Greater Runestones (runestones_2) back to stone
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STONE)
                 .input(Ingredient.fromTag(WitcherItemTags.RUNESTONES_2))
                 .criterion("has_greater_runestone", conditionsFromTag(WitcherItemTags.RUNESTONES_2))
-                .offerTo(exporter, "uncraft_greater_runestone");
+                .offerTo(exporter, id("uncraft_greater_runestone"));
     }
 
     // Helper class for block item references

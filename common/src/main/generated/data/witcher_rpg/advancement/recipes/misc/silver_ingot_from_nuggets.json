@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:silver_ingot_from_nuggets"
+        "recipe": "witcher_rpg:silver_ingot_from_nuggets"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:silver_ingot_from_nuggets"
+      "witcher_rpg:silver_ingot_from_nuggets"
     ]
   }
 }

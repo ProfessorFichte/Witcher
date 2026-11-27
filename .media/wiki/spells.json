@@ -1,0 +1,41 @@
+{
+  "namespace": "witcher_rpg",
+  "groups": {
+    "signs": {
+      "tag": "spell_book/signs",
+      "label": "Sign"
+    },
+    "fencing": {
+      "tag": "spell_book/fencing",
+      "label": "Technique"
+    },
+    "swords": {
+      "spells": [
+        "witcher_rpg:defensive_witcher_mechanics"
+      ],
+      "label": "Skill",
+      "foundOn": {
+        "*": "Witcher Swords"
+      }
+    }
+  },
+  "descriptions": {
+    "witcher_rpg:aard": "Telekinetic thrust that damages enemies and knocks them back.",
+    "witcher_rpg:igni": "Unleashes a stream of fire that damages and ignites enemies.",
+    "witcher_rpg:yrden": "Places a magic circle that slows enemies inside it.",
+    "witcher_rpg:axii": "Charms the target, so it stops attacking and takes more damage.",
+    "witcher_rpg:quen": "Creates a protective shield that absorbs damage.",
+    "witcher_rpg:igni_firestream": "A concentrated stream of fire that damages and ignites enemies.",
+    "witcher_rpg:aard_sweep": "A 360 degree telekinetic blast that damages and knocks back all nearby enemies.",
+    "witcher_rpg:yrden_magic_trap": "Places a magical trap that damages and slows enemies that enter it.",
+    "witcher_rpg:axii_puppet": "Dominates the target and turns it into an ally with more attack damage.",
+    "witcher_rpg:quen_active_shield": "An active shield that absorbs damage and heals you.",
+    "witcher_rpg:fast_attack": "A series of fast attacks with a small forward dash.",
+    "witcher_rpg:witcher_senses": "Reveals nearby enemies and exposes them: critical hits against them are stronger and more likely.",
+    "witcher_rpg:strong_attack": "Two heavy blows.",
+    "witcher_rpg:battle_trance": "Enter a battle trance that increases your attack damage.",
+    "witcher_rpg:rend": "A charged overhead strike that deals heavy damage and disables shields.",
+    "witcher_rpg:whirl": "A spinning attack that damages all nearby enemies and blocks arrows.",
+    "witcher_rpg:defensive_witcher_mechanics": "Sharpens your reflexes to block the next attack or arrow."
+  }
+}

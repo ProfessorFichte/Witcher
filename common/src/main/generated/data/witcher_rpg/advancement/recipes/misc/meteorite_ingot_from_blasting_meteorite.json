@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:meteorite_ingot_from_blasting_meteorite"
+        "recipe": "witcher_rpg:meteorite_ingot_from_blasting_meteorite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:meteorite_ingot_from_blasting_meteorite"
+      "witcher_rpg:meteorite_ingot_from_blasting_meteorite"
     ]
   }
 }

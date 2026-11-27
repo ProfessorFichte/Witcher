@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:witcher_head"
+        "recipe": "witcher_rpg:witcher_head"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:witcher_head"
+      "witcher_rpg:witcher_head"
     ]
   }
 }

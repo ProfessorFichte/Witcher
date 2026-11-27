@@ -72,7 +72,7 @@
       ]
     },
     "sound": {
-      "id": "entity.lightning_bolt.thunder"
+      "id": "minecraft:entity.lightning_bolt.thunder"
     }
   },
   "target": {

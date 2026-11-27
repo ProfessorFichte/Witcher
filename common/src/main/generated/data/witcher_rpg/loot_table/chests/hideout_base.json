@@ -1,0 +1,117 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:chain",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "witcher_rpg:meteorite_ingot",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 2.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "witcher_rpg:dark_iron_ingot",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 2.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "mrpg_lib:hardened_leather",
+          "weight": 7
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "blacklist_spells": [],
+              "count": 1.0,
+              "function": "mrpg_lib:specific_spell_scroll_pool",
+              "spell_pools": [
+                "#witcher_rpg:spell_scroll/signs",
+                "#witcher_rpg:spell_scroll/fencing"
+              ],
+              "spell_tier_max": 4.0,
+              "spell_tier_min": 2.0
+            }
+          ],
+          "name": "spell_engine:spell_scroll",
+          "weight": 7
+        },
+        {
+          "type": "minecraft:item",
+          "name": "witcher_rpg:meteorite_witcher_sword",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "witcher_rpg:diamond_witcher_sword",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "witcher_rpg:dark_iron_witcher_sword",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "witcher_rpg:dimeritium_ingot",
+          "weight": 2
+        }
+      ],
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 4.0,
+        "min": 2.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "witcher_rpg:raw_silver",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:raw_dark_iron",
+      "required": false
+    },
+    {
+      "id": "witcher_rpg:meteorite",
+      "required": false
+    }
+  ]
+}

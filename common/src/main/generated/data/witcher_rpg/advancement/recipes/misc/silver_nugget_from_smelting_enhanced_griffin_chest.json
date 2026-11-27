@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:silver_nugget_from_smelting_enhanced_griffin_chest"
+        "recipe": "witcher_rpg:silver_nugget_from_smelting_enhanced_griffin_chest"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:silver_nugget_from_smelting_enhanced_griffin_chest"
+      "witcher_rpg:silver_nugget_from_smelting_enhanced_griffin_chest"
     ]
   }
 }

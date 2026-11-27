@@ -1,5 +1,6 @@
 package net.witcher_rpg.spell;
 
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.spell_engine.api.datagen.SpellBuilder;
@@ -150,11 +151,11 @@ public class WitcherSpells {
         impact.target_modifiers = List.of(modifier);
     }
     static final SpellEntityPredicates.Entry HAS_YRDEN =
-            SpellEntityPredicates.hasEffectOptimized(Identifier.of("witcher_rpg", "yrden_circle"));
+            SpellEntityPredicates.hasEffectOptimized(WitcherStatusEffects.YRDEN_CIRCLE.id);
     public static final SpellEntityPredicates.Entry HAS_WITCHER_SENSES_EXPOSED =
-            SpellEntityPredicates.hasEffectOptimized(Identifier.of(MOD_ID, "witcher_senses_exposed"));
+            SpellEntityPredicates.hasEffectOptimized(WitcherStatusEffects.WITCHER_SENSES_EXPOSED.id);
     public static final SpellEntityPredicates.Entry HAS_BATTLE_TRANCE =
-            SpellEntityPredicates.hasEffectOptimized(Identifier.of(MOD_ID, "battle_trance"));
+            SpellEntityPredicates.hasEffectOptimized(WitcherStatusEffects.BATTLE_TRANCE.id);
     static final float BATTLE_TRANCE_DURATION_SECONDS = 5F;
 
     public static class TargetConditions {
@@ -268,7 +269,7 @@ public class WitcherSpells {
         spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
         spell.active.cast.movement_speed = 0.75F;
         spell.active.cast.duration = 2.0F;
-        spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:igni_sign"), 0.2F);
+        spell.active.cast.sound = Sound.withRandomness(Sounds.IGNI_SIGN.id(), 0.2F);
         spell.active.cast.particles = List.of(
                 ParticleGroupBuilder.of(SpellEngineParticles.flame_spark)
                         .batch(b -> b.shape(ParticleGroup.Shape.CONE)
@@ -300,7 +301,7 @@ public class WitcherSpells {
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.8F;
         damage.action.damage.knockback = 0.2F;
-        damage.sound = new Sound("block.blastfurnace.fire_crackle");
+        damage.sound = new Sound(SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE.getId());
         damage.visuals = Fx.Visuals.of(
                 ParticleGroupBuilder.of(SpellEngineParticles.flame_medium_a)
                         .batch(b -> b.shape(ParticleGroup.Shape.CONE)
@@ -318,7 +319,7 @@ public class WitcherSpells {
         fire.action.type = Spell.Impact.Action.Type.FIRE;
         fire.action.fire = new Spell.Impact.Action.Fire();
         fire.action.fire.duration = 2;
-        fire.sound = new Sound("block.blastfurnace.fire_crackle");
+        fire.sound = new Sound(SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE.getId());
 
         spell.impacts = List.of(damage, fire);
 
@@ -342,7 +343,7 @@ public class WitcherSpells {
         spell.group = SIGNS;
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
-        spell.release.sound = new Sound("witcher_rpg:yrden_sign");
+        spell.release.sound = new Sound(Sounds.YRDEN_SIGN.id());
         spell.release.visuals = Fx.Visuals.of(
                 ParticleGroupBuilder.of("witcher_rpg:yrden_sign_cast")
                         .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
@@ -390,7 +391,7 @@ public class WitcherSpells {
                         .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
                                 .count(2F).speed(0.05F, 0.2F)));
         debuff.action.status_effect.amplifier_power_multiplier = 0.3F;
-        debuff.sound = Sound.withRandomness(Identifier.of("witcher_rpg:yrden_sign"),0.2F);
+        debuff.sound = Sound.withRandomness(Sounds.YRDEN_SIGN.id(),0.2F);
 
         spell.impacts = List.of(debuff);
 
@@ -427,7 +428,7 @@ public class WitcherSpells {
         spell.target.aim.required = true;
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
-        spell.release.sound = new Sound("witcher_rpg:axii_sign");
+        spell.release.sound = new Sound(Sounds.AXII_SIGN.id());
         spell.release.visuals = Fx.Visuals.of(
                 ParticleGroupBuilder.of("witcher_rpg:axii_sign_cast")
                         .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
@@ -474,7 +475,7 @@ public class WitcherSpells {
         spell.target.type = Spell.Target.Type.CASTER;
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
-        spell.release.sound = new Sound("witcher_rpg:quen_sign");
+        spell.release.sound = new Sound(Sounds.QUEN_SIGN.id());
         spell.release.visuals = Fx.Visuals.of(
                 ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_A)
                         .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
@@ -527,7 +528,7 @@ public class WitcherSpells {
         spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
         spell.active.cast.movement_speed = 0.5F;
         spell.active.cast.duration = 7.0F;
-        spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:igni_sign"), 0.4F);
+        spell.active.cast.sound = Sound.withRandomness(Sounds.IGNI_SIGN.id(), 0.4F);
         spell.active.cast.particles = List.of(
                 ParticleGroupBuilder.of(SpellEngineParticles.flame_medium_a)
                         .batch(b -> b.shape(ParticleGroup.Shape.CONE)
@@ -546,7 +547,7 @@ public class WitcherSpells {
         spell.target.area = new Spell.Target.Area();
         spell.target.area.angle_degrees = 20;
 
-        spell.release.sound = new Sound("block.blastfurnace.fire_crackle");
+        spell.release.sound = new Sound(SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE.getId());
 
         var damage = new Spell.Impact();
         damage.action = new Spell.Impact.Action();
@@ -554,7 +555,7 @@ public class WitcherSpells {
         damage.action.damage = new Spell.Impact.Action.Damage();
         damage.action.damage.spell_power_coefficient = 0.9F;
         damage.action.damage.knockback = 0.2F;
-        damage.sound = new Sound("block.blastfurnace.fire_crackle");
+        damage.sound = new Sound(SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE.getId());
         damage.visuals = Fx.Visuals.of(
                 ParticleGroupBuilder.of("lava")
                         .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
@@ -668,7 +669,7 @@ public class WitcherSpells {
                                 .count(1F).speed(0.01F, 0.06F)));
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_ground");
-        spell.release.sound = new Sound("witcher_rpg:yrden_sign");
+        spell.release.sound = new Sound(Sounds.YRDEN_SIGN.id());
 
         var spawn = new Spell.Impact();
         spawn.action = new Spell.Impact.Action();
@@ -713,7 +714,7 @@ public class WitcherSpells {
         spell.target.aim.required = true;
 
         spell.release.animation = PlayerAnimation.of("witcher_rpg:sign_cast_short");
-        spell.release.sound = new Sound("witcher_rpg:axii_sign");
+        spell.release.sound = new Sound(Sounds.AXII_SIGN.id());
         spell.release.visuals = Fx.Visuals.of(
                 ParticleGroupBuilder.of("witcher_rpg:axii_sign_cast")
                         .batch(b -> b.shape(ParticleGroup.Shape.PIPE)
@@ -756,7 +757,7 @@ public class WitcherSpells {
         spell.active.cast.animation = PlayerAnimation.of("witcher_rpg:sign_cast_long");
         spell.active.cast.movement_speed = 0.1F;
         spell.active.cast.duration = 5.0F;
-        spell.active.cast.sound = Sound.withRandomness(Identifier.of("witcher_rpg:quen_sign"), 0.4F);
+        spell.active.cast.sound = Sound.withRandomness(Sounds.QUEN_SIGN.id(), 0.4F);
         spell.active.cast.particles = List.of(
                 ParticleGroupBuilder.of("witcher_rpg:quen_sign_cast")
                         .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
@@ -992,7 +993,7 @@ public class WitcherSpells {
 
         SpellBuilder.Target.none(spell);
 
-        spell.release.sound = Sound.withRandomness(Identifier.of("witcher_rpg:rend_spell"),1.2F);
+        spell.release.sound = Sound.withRandomness(Sounds.REND_SPELL.id(),1.2F);
         spell.release.visuals = Fx.Visuals.of(
                 ParticleGroupBuilder.of("crimson_spore")
                         .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
@@ -1133,7 +1134,7 @@ public class WitcherSpells {
                         .color(Color.ELECTRIC)
                         .batch(ParticleGroupBuilder.Batches.ground(1))
         );
-        spell.release.sound = new Sound("entity.lightning_bolt.thunder");
+        spell.release.sound = new Sound(SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER.getId());
 
         spell.tier = 0;
         spell.school = WitcherSpellSchools.QUEN;

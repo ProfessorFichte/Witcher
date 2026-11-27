@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:ursine_head"
+        "recipe": "witcher_rpg:ursine_head"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:ursine_head"
+      "witcher_rpg:ursine_head"
     ]
   }
 }

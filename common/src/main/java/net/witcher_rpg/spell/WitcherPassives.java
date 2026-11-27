@@ -1,5 +1,6 @@
 package net.witcher_rpg.spell;
 
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -742,7 +743,7 @@ public class WitcherPassives {
                         .batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
                                 .count(2F).speed(0.05F, 0.2F)));
         debuff.action.status_effect.amplifier_power_multiplier = 0.3F;
-        debuff.sound = Sound.withRandomness(Identifier.of("witcher_rpg:yrden_sign"),0.2F);
+        debuff.sound = Sound.withRandomness(Sounds.YRDEN_SIGN.id(),0.2F);
         var damage = SpellBuilder.Impacts.damage(0.1F,0);
         yrdenAllow(damage);
         damage.visuals = Fx.Visuals.of(
@@ -775,7 +776,7 @@ public class WitcherPassives {
         spell.deliver.stash_effect.consume = 0;
 
         var damage = SpellBuilder.Impacts.damage(0.4F, 0F);
-        damage.sound = new Sound("block.blastfurnace.fire_crackle");
+        damage.sound = new Sound(SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE.getId());
         damage.visuals = Fx.Visuals.of(
                 ParticleGroupBuilder.of("lava")
                         .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE)
